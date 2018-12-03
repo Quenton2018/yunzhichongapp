@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>主页</title>
+	<link rel="stylesheet" href="css/iconfont.css">
+	<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="plugins/layer/layer.js"></script>
+	<script src="js/hammer.min.js"></script>
+	<script src="js/jquery.hammer.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/base.js"></script>
+    <style type="text/css">
+		body{
+			background: #fff;
+		}
+		.minContentBox{
+			background-image: url("img/app_11.png");
+			background-size: cover;
+			padding-top: 30px;
+			padding-bottom: 110px;
+		}
+		
+		#footer{
+			width: 100%;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			background: #fff;
+			box-shadow: -2px -2px 2px 2px RGBA(116, 116, 116, .1);
+			border-radius: 30px 30px 0 0;
+			border-top: #FAFAFA solid 5px;
+		}
+		
+		.footBtnBox{
+			width: 80%;
+			margin: 0 auto;
+			padding: 20px 0;
+		}
+		
+		.footBtnBox .left{
+			float: left;
+			width: 54%;
+		}
+		.footBtnBox .right{
+			float: left;
+			width: 43%;
+		}
+		.footBtnBox img{
+			display: block;
+			width: 100%;
+		}
+		
+		/*版本升级*/
+		.upgrade_wrap {
+			width: 285px;
+			height: 330px;
+			background: url(img/upgrade.png) center center no-repeat;
+			background-size: 100% 100%;
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			margin: auto;
+			z-index: 999;
+			margin-top: 45%;
+		}
+		.masking {
+			width:100%;
+			height:100%;
+			position:absolute;
+			z-index: 999;
+			opacity: 0.6;
+			background-color: #000 !important;
+			display: none;
+		}
+		#header {
+			position: relative;
+		}
+		.header_masking {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: 999;
+			opacity: 0.6;
+			background-color: #000 !important;
+			display: none;
+		}
+		.context_upgrade {
+			width: 400px;
+			margin:138px auto;
+			margin-bottom: 0;
+			padding-left: 30px;
+		}
+		.context_upgrade h6 {
+			margin-top: 10px;
+			margin-bottom: 18px;
+			font-weight: bold;
+			font-size: 14px;
+		}
+		.context_upgrade p {
+			margin: 0;
+			font-size: 12px;
+			color: rgb(51,51,51);
+			margin-bottom: 4px;
+			color: #636363;
+		}
+		.btn_upgrade {
+			margin-top: 25px;
+			position: relative;
+		}
+		.btn_upgrade button {
+			background: none;
+			border: 0;
+			font-size: 14px;
+			color: #636363;
+			cursor: pointer;
+			position: relative;
+			bottom: 7px;
+		}
+		.btn_upgrade div:first-child {
+			float: left;
+			width: 50%;
+			text-align: center;
+		}
+		.btn_upgrade div:last-child {
+			float: right;
+			width: 50%;
+			text-align: center;
+		}
+		.btn_upgrade div .btn_right {
+			color: #ff803e;
+		}
+		#content {
+			padding-top: 0;
+		}
+		
+		
+		.position-tips {
+			width: 260px;
+			height: 300px;
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			margin: auto;
+			z-index: 999;
+			background-color: #fff;
+			padding: 10px 0 0 0;
+			border-radius: 5%;
+		}
+		.position-tips img {
+			margin-bottom: 20px;
+		}
+		.position-tips p {
+			margin: 0 2%;
+			padding: 0;
+			width: 96%; 
+			vertical-align: middle; 
+			text-align: center;
+			display: inline-block;
+			color: #666666;
+		}
+		.position-tips .position-enable {
+			font-size: 18px; 
+			line-height: 36px; 
+			color: #FF7F3E;
+			margin-top: -4px;
+		}
+		.position-tips span{
+			font-size: 28px;
+			position: absolute;
+			top: 0;
+			right:10px;
+			color: #999999;
+		}
+    </style>
+
+</head>
+<body>
+	
+	<div class="masking" >	
+	</div>
+	<header id="header">
+		<div class="header_masking"></div>
+		<div class="nvbt"  id="page/menu.html" onclick="clicked(this.id)" style="padding-right: 30px;">
+			<img src="img/app_06.png" style="height: 30px; margin: 10px;" />
+		</div>
+		<div class="nvtt">&nbsp;</div>
+		<div class="nvbt" id="page/messageList.html" onclick="clicked(this.id)"><img src="img/app_03.png" style="height: 30px" /></div>
+	</header>
+	
+	<div id="content" class="content">	
+		<div class="minContentBox">
+			<img src="img/app_focus_04.png" class="midBigPic"
+				 style="display: block;width: 80%;margin: 0 auto" id="page/recharge.html" onclick="clicked(this.id)">
+		</div>
+	</div><!-- /.content -->
+
+	<footer id="footer" style="text-align: center">
+		<div class="footBtnBox">
+			<div class="left">
+				<img src="img/app_15.png" id="page/selectChargeMethod.html" onclick="clicked(this.id)" >
+			</div>
+			<div class="right">
+				<img src="img/app_16.png" id="page/shoppingMall.html" onclick="clicked(this.id)"  >
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</footer>
+	<!--版本升级-->
+	<div class="upgrade_wrap" style="display: none;">
+		<div class="context_upgrade">
+			<h6>发现新版本&nbsp;&nbsp; (v.1.1)</h6>
+			<p>1.优化了充电界面详情；</p>
+			<p>2.优化了好友分享流程；</p>
+			<p>3.增加了充电退款的功能；</p>
+			<p>4.增加了IC卡界面；</p>
+			<p>5.修复了部分已知的bug。</p>
+		</div>
+		<div class="btn_upgrade">
+			<div>
+				<button id="btn_left">残忍拒绝</button>
+			</div>
+			<div>
+				<button class="btn_right" id="btn_right">立即更新</button>
+			</div>
+		</div>
+	</div>
+	
+	<div class="position-tips" style="display: none;background-color: #F6F6F6;">
+			<p><img src="img/position.png" width="60%"></p>
+			<p style="margin-top: -30px; color: #454545; font-size: 18px; font-weight: bold; text-align: center;">开启定位服务</p>
+			<p style="margin-top: -10px; font-size: 12px;">允许云智充获取位置权限，查找附近的充电桩。我们将按云智充隐私政策保护您的信息。不开启将影响使用云智充服务</p>
+			<p class="line" style="margin: 0 auto 0; width: 100%; height: 1px; color: whitesmoke; background: radial-gradient(#C0C0C0, #E0E0E0, #FFFFFF);"></p>
+			<p id="position-enable" class="position-enable">去开启</p>
+			<span id="cha">×</span>
+	</div>
+	
+	
+	
+	
+	<script type="text/javascript">
+		// 打开手机设置 -> 隐私 -> 定位
+		function openSystemPositionServer() {
+			/*layer.open({
+				type: 1,
+				title: false,
+//				area: ['260px', '270px'],
+				content: $('.position-tips')
+				
+//				$(".masking").hide();
+//				$(".header_masking").hide();
+			});	*/
+			$(".position-tips").show();
+			$(".masking").show();
+//			$(".upgrade_wrap").hide();
+			$(".header_masking").show();
+		}
+		
+		$("#cha").click(function(){
+			closeSystemPositionServer();
+		})
+		
+		function closeSystemPositionServer() {
+			$(".position-tips").hide();
+			$(".masking").hide();
+//			$(".upgrade_wrap").hide();
+			$(".header_masking").hide();
+		}
+		
+		
+//		layer.msg('xxxss');
+	</script>
+
+
+
+
+	<script type="text/html" id="carouselImgTmpl">
+		<div class="carousel-item {{activeClass}}">
+	      	<img class="d-block w-100" src="{{img}}" alt="First slide">
+	    </div>
+	</script>
+	<style>
+		
+		/*.layui-layer {
+			background-color: #F6F6F6;
+			border-radius: 8px;
+			box-shadow: 1px 1px 3px #888888;
+		}
+		.layui-layer-setwin .layui-layer-close2 {
+			position: relative;
+			right: 0px;
+			top: 0px;
+			width: 16px;
+			height: 16px;
+			margin-left: 10px;
+			font-size: 12px;
+			background-position: 1px -40px;
+			cursor: pointer;
+		}
+		.layui-layer-setwin .layui-layer-close2:hover {
+			background-position: 1px -40px;
+			opacity: .7;
+		}*/
+	</style>
+<!--	<script type="text/html" id="position-tips">-->
+		
+		
+<!--	</script>-->
+
+<!--<script type="text/javascript"> // H5 plus事件处理 
+function plusReady(){ } if(window.plus){ plusReady(); }else{ document.addEventListener("plusready",plusReady,false); } // 检查定位权限 
+function checkPermissionPos(){ 
+	var pp = plus.navigator.checkPermission("LOCATION"); 
+	switch(pp){ 
+	case "authorized": plus.nativeUI.alert("已开启定位权限"); break;
+	case "denied": plus.nativeUI.alert("已关闭定位权限"); break;
+	case "undetermined": plus.nativeUI.alert("未确定定位权限"); break;
+	case "unknown": plus.nativeUI.alert("无法查询定位权限"); break;
+	default: plus.nativeUI.alert("不支持定位权限"); break; 
+	} 
+}
+plus.runtime.launchApplication({action:'App-Prefs:root=NOTIFICATIONS_ID'}, function(e){
+	console.log(JSON.stringify(e));
+});
+function networkType(){
+var types = {};
+types[plus.networkinfo.CONNECTION_UNKNOW] = "Unknown connection";
+types[plus.networkinfo.CONNECTION_NONE] = "No connection";
+types[plus.networkinfo.CONNECTION_ETHERNET] = "Ethernet connection";
+types[plus.networkinfo.CONNECTION_WIFI] = "WiFi connection";
+types[plus.networkinfo.CONNECTION_CELL2G] = "Cellular 2G connection";
+types[plus.networkinfo.CONNECTION_CELL3G] = "Cellular 3G connection";
+types[plus.networkinfo.CONNECTION_CELL4G] = "Cellular 4G connection";
+
+if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE || plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_UNKNOW) {
+mui.toast("当前暂无网络连接，请打开数据服务!", "提示");
+mui.confirm('网络出错，请检查网络配置', '温馨提示', ['退出', '设置'], function(e){
+if(e.index == 0){
+} else {
+if(mui.os.ios){
+plus.runtime.launchApplication({action:'App-Prefs:root=WIFI'}, function(e){
+console.log(JSON.stringify(e));
+}); //WIFI
+} else {
+var main = plus.android.runtimeMainActivity();
+var Intent = plus.android.importClass("android.content.Intent");
+var mIntent = new Intent('android.settings.WIFI_SETTINGS');
+main.startActivity(mIntent);
+}
+}
+});
+}
+else {
+console.log(types[plus.networkinfo.getCurrentType()]);
+}
+}
+
+</script>-->
+    <script type="text/javascript">
+
+		var ws=null;
+		// 处理沉浸式状态栏
+		var topoffset=0;
+		var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+		if(ms&&ms.length>=3){
+			topoffset=parseFloat(ms[2]);
+		}
+
+   		if(window.plus){
+			pagePlusReady();
+		}else{
+			document.addEventListener('plusready',pagePlusReady,false);
+		}
+
+		function pagePlusReady(){
+			checkLogin('page/login.html');
+
+            var uuid = plus.storage.getItem("uuid");
+            if(!vaildeParam(uuid)){
+                return;
+			}
+
+            checkPermissionPos();
+
+            checkVersion();
+        
+        	// 热更新
+        	heatUpdate(plus.os.name);
+
+            getCurrentPosition();
+
+            uploadLoginInfo('page/login.html');
+
+            getUserInfo(); //获取用户信息
+
+            getMidBigPic();
+
+            plus.push.addEventListener( "receive", function( msg ) {
+                layer.msg(msg);
+            }, false );
+
+			ws=plus.webview.currentWebview();
+			if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+				topoffset=Math.round(plus.navigator.getStatusbarHeight());
+			}
+			ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+		}
+
+        /**
+         * 获取附近的充电桩
+         */
+        function getCurrentPosition() {
+            plus.geolocation.getCurrentPosition( geoInf, function ( e ) {
+                // layer.msg("获取定位位置信息失败:"+e.message)
+            },{provider:'baidu'});
+        }
+
+        /**
+         * 获取位置具体信息
+         * @param position
+         */
+        function geoInf( position ) {
+
+            var addresses = position.addresses;
+            var longitude = position.coords.longitude;
+            var latitude = position.coords.latitude;
+            var province = '', city = '';
+            try{
+            	province = position.address.province;
+            	city = position.address.city;
+            }catch(e){
+            	
+            }
+
+            console.log("addresses:"+addresses)
+            console.log("province:"+province)
+            console.log("city:"+city)
+            console.log("longitude:"+longitude)
+            console.log("latitude:"+latitude)
+
+            plus.storage.setItem( "addresses", addresses+"");
+            plus.storage.setItem( "longitude", longitude+"");
+            plus.storage.setItem( "latitude", latitude+"");
+            plus.storage.setItem( "province", province+"");
+            plus.storage.setItem( "city", city+"");
+        }
+
+
+        // 刷新页面
+        function onRefresh(){
+            getCurrentPosition();
+            ws.endPullToRefresh();
+        }
+
+        /**
+         * 获取用户信息
+         */
+        function getUserInfo(){
+            var uuid = plus.storage.getItem("uuid");
+            if(vaildeParam(uuid)){
+                postJSONNoIcon(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+                    if("0" == res.code){
+                        var mobile = res.data.mobile;
+                        var headImage = res.data.headImage;
+                        var nickname = res.data.nickname;
+                        var gender = res.data.gender;
+                        var homeAddress = res.data.homeAddress;
+                        var totalMoney = res.data.totalMoney;
+                        var points = res.data.points;  //云钻
+                        plus.storage.setItem( "mobile", mobile);
+                        plus.storage.setItem( "headImage", headImage);
+                        plus.storage.setItem( "nickname", nickname);
+                        plus.storage.setItem( "gender", gender);
+                        plus.storage.setItem( "homeAddress", homeAddress);
+                        plus.storage.setItem( "totalMoney", totalMoney);
+                        plus.storage.setItem( "points", points);
+                        $(".money-text").html(totalMoney+"元");
+                    }else{
+                        //layer.msg(res.msg);
+                        clearLogin();
+                        clicked("page/login.html");
+                    }
+                })
+            }
+        }
+
+
+        /**
+         * 检查版本
+         */
+        function checkVersion() {
+            var osName = plus.os.name;
+			postJSON(API_URL.AppVersionGetNewest,
+				{ "appType" : osName },
+				function (res) {
+					if (res.code == '0' && vaildeParam(res.data)) {
+						if (compareVersion(res.data.version)) {
+		        			clicked('page/edition.html');
+		        		}
+					}
+            });
+        }
+
+        function getMidBigPic() {
+            postJSON(API_URL.ApiCarouselImageGetCarouselImage,{},function(res){
+                if("0" == res.code){
+                    var data = res.data;
+                    if(0 == data.length){
+                        return;
+                    }
+                    var imgUrl = '';
+                    $.each(data, function(index,item) {
+                        if(0 == index){
+                            imgUrl = item.pic;
+                        }
+                    });
+                    loadImage(imgUrl,function () {
+                        $(".midBigPic").attr("src",imgUrl);
+                    })
+                }else{
+                    layer.msg(res.msg);
+                }
+            })
+        }
+
+ 		function checkPermissionNet() {
+            var pp = plus.navigator.checkPermission('LOCATION');
+            console.log("## checkPermissionPos ##: "+pp)           
+            switch(pp){
+                case 'authorized':
+//                     plus.nativeUI.alert('已开启定位权限');
+                    break;
+                case 'denied':
+//                     plus.nativeUI.alert('已关闭定位权限');
+                    break;
+                case 'undetermined':
+                    plus.nativeUI.alert('未确定定位权限');
+                    break;
+                case 'unknown':
+                    plus.nativeUI.alert('无法查询定位权限');
+                    break;
+                default:
+//                  plus.nativeUI.alert('不支持定位权限');
+                    break;
+            }
+       }      
+        function checkPermissionPos() {
+            var pp = plus.navigator.checkPermission('LOCATION');
+            console.log("## checkPermissionPos ##: "+pp)            
+            switch(pp){
+                case 'authorized':
+//                     plus.nativeUI.alert('已开启定位权限');
+                    break;
+                case 'denied':
+//                     plus.nativeUI.alert('已关闭定位权限');
+                    openSystemPositionServer();
+                    break;
+                case 'undetermined':
+                    plus.nativeUI.alert('未确定定位权限');
+                    break;
+                case 'unknown':
+                    plus.nativeUI.alert('无法查询定位权限');
+                    break;
+                default:
+//                  plus.nativeUI.alert('不支持定位权限');
+                    break;
+            }
+        }
+        
+
+
+		
+
+
+		
+	$(function() {
+		$('#position-enable').click(function() {
+			plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
+			if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+				plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
+			} else if (/android/i.test(navigator.userAgent)) {
+				var main = plus.android.runtimeMainActivity();
+				var Intent = plus.android.importClass("android.content.Intent");
+				var mIntent = new Intent('android.settings.LOCATION_SOURCE_SETTINGS');
+				main.startActivity(mIntent);
+			}
+			layer.closeAll();
+			$(".position-tips").hide();
+			$(".masking").hide();
+			$(".header_masking").hide();
+		});
+	});
+			
+		
+</script>
+
+</body>
+</html>

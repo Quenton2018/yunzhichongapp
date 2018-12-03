@@ -1,0 +1,30 @@
+
+
+.header-search {
+	width: 100%;
+	background-color: #ffffff;
+	padding: 20px;
+	margin-top: 50px;
+	border-bottom: 2px solid #e3e4e9;
+}
+
+
+.header-btn {
+	text-align: center;
+}
+
+.header-btn>button {
+	padding: 5px 20px;
+	background-color: #50c1e9;
+	border: none;
+}
+
+.content {
+	background-color: #ffffff;
+	margin-top: 10px;
+	border-bottom: 2px solid #e3e4e9;
+}
+
+
+
+

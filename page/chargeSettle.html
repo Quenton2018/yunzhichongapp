@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>充电结算</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/hammer.min.js"></script>
+		<script src="../js/jquery.hammer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		
+		<style type="text/css">
+
+            .dataList{
+                padding-top: 15px;
+            }
+            .itemActive{
+
+            }
+            .itemActive .itemActiveInner{
+                background: #C7C7C7;
+                border: #EDEDED solid 5px;
+                border-radius: 30px;
+                text-align: center;
+                height: 50px;
+                position: relative;
+                color: #fff;
+                overflow: hidden;
+            }
+            .itemActive .itemActiveInner .textBox{
+                position: absolute;
+                top: 0;
+                height: 40px;
+                z-index: 1;
+                width: 100%;
+                line-height: 40px;
+            }
+            .itemActive .itemActiveInner .progressBox{
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 40px;
+                background: #F26F47;
+                z-index: 0;
+            }
+            .itemActive .bottomText{
+                text-align: center;
+                font-size: .8rem;
+                padding: 10px;
+            }
+
+            .dataNormal{
+                padding: 10px;
+                border-bottom:#ECECEC dashed 1px;
+            }
+            .dataNormal .left{
+                float: left;
+            }
+            .dataNormal .left .date{
+                color: #eaeaea;
+                font-size: .9rem;
+                padding-bottom: 5px;
+            }
+            .dataNormal .left span{
+                display: inline-block;
+                margin-right: 10px;
+            }
+            .dataNormal .right{
+                float: right;
+                line-height: 55px;
+            }
+            .dataNormal .left .date{
+                color: #333;
+            }
+			#loadMore{
+				background: #eaeaea;
+				margin-top: 10px;
+				padding: 10px;
+                text-align: center;
+                margin-top: 10px;
+                font-size: .8rem;
+                display: none;
+			}
+			.noMore{
+				margin-top: 10px;
+				padding: 10px;
+				text-align: center;
+				margin-top: 10px;
+				font-size: .8rem;
+				display: none;
+			}
+
+			.myTabWrap{
+				box-shadow: 0px 10px 10px RGBA(116, 116, 116, .1);
+			}
+			.nav-tabs{
+				border: none;
+				display: block;
+				margin: 0 2rem;
+			}
+			.nav-tabs a{
+				font-size: 1.2rem;
+				color:#000000;
+				display: block;
+				float: left;
+				border-bottom: #fff solid 5px;
+				text-align: center;
+				padding: 10px;
+				text-decoration: none;
+			}
+			.nav-tabs a.active{
+				border-bottom-color: #EA6F1F;
+			}
+			.nav-tabs a:first-child{
+				margin-right: 30px;
+			}
+			
+			.dataItem{
+				position: relative;
+			}
+			.redundInfo{
+				position: absolute;
+				right: 10px;
+				bottom: -10px;
+				font-size: .7rem;
+				color: red;
+			}
+			.cs-location {
+				margin: 10% 0 0;
+				width: 100%;
+				text-align: center;
+				line-height: 24px;
+			}
+			.separate {
+				width: 100%;
+				height: 40px;
+			}
+			.separate .left, .separate .right {
+				position: absolute; 
+				width: 40px; 
+				height: inherit; 
+				border-radius: 40px; 
+				background: #F7F7F7;
+			}
+			.separate .line {
+				margin: 20px 5% 0; 
+				width: 90%; 
+				float: left;
+				height: 1px; 
+				border-top: 1px dashed #E0E0E0;
+			}
+			.cs-info {
+				text-align: center;
+				background-color: #FFFFFF;
+				border-radius: 5px;
+				letter-spacing: 1px;
+				width: 100%;
+			}
+			.cs-info .top {
+				padding-top: 1%;
+			}
+			.cs-info .bottom {
+				padding-bottom: 5%;
+			}
+			.cs-info .face {
+				width: 20%;
+				margin: 0 auto;
+			}
+			.cs-info .face img {
+				border-radius: 50px;
+	            width: 80px;
+	            height: 80px;
+			}
+			.cs-info .mobile {
+				margin-top: 3%;
+				font-size: 14px;
+				line-height: 16px;
+				font-weight: 600;
+			}
+			.cs-info .money {
+				font-size: 24px;
+				line-height: 32px;
+				font-weight: 600;
+			}
+			.cs-info .unit {
+				font-size: 14px;
+				line-height: 16px;
+			}
+			.cs-info table {
+				margin: 0 5%;
+				width: 90%;
+				font-size: 16px;
+				font-weight: 600;
+			}
+			.cs-info table tr {
+				width: 100%;
+				height: 24px;
+				line-height: 24px;
+			}
+			.cs-info table tr th {
+				width: 30%;
+				font-weight: normal;
+				text-align: left;
+			}
+			.cs-info table tr td {
+				width: 50%;
+				text-align: right;
+			}
+			footer {
+				margin: 0 5%;
+				width: 90%;
+				height: 63px;
+				position: absolute;
+				bottom: 0;
+			}
+			footer .left {
+				width: 44%;
+				overflow: hidden;
+				float: left;
+			}
+			footer .right {
+				width: 55%;
+				float: right;
+				text-align: right;
+				line-height: 55px;
+				font-size: 16px;
+				color: #666666;
+				font-weight: 900;
+			}
+		</style>
+	</head>
+	<body style="background-color: #F7F7F7;">
+
+		<header id="header2" style="background-color: transparent;">
+			<div class="headInner">
+				<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+				<div class="right">&nbsp;</div>
+				<div style="clear: both"></div>
+			</div>
+		</header>
+
+		<div class="myContent" style="padding-top: 70px;padding-bottom: 10px;width: 90%;margin: 0 5%;">
+
+			<h1 class="pageBigTitle">
+				充电结算
+			</h1>
+			
+			<div class="cs-location">
+				<p style="font-size: 20px; line-height: 24px; width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 auto;">
+					<img src="../img/charge/location.png" ><span id="order-addr"></span>
+				</p>
+				<p style="line-height: 16px;">桩号<span id="order-zh"></span>-插座号<span id="order-cz"></span></p>
+			</div>
+			
+			<div class="cs-info">
+				<div class="top">
+					<div class="face"><img id="userAvator" src="../img/app_06.png" ></div>
+					<div class="mobile" id="order-mobile">&nbsp;</div>
+					<div class="money" id="order-money">&nbsp;</div>
+					<div class="unit">实际付款(元)</div>
+				</div>
+				
+				<div class="separate">
+					<div class="left" style="left: 0px;"></div>
+					<div class="line"></div>
+					<div class="right" style="right: 0px;"></div>
+				</div>
+				
+				<div class="bottom">
+					<table>
+						<tr><th>充电桩编号</th><td id="order-number">&nbsp;</td></tr>
+						<tr><th>充电时长</th><td id="order-time">&nbsp;</td></tr>
+						<tr><th>充电功率</th><td id="order-power">&nbsp;</td></tr>
+					</table>
+				</div>
+			</div>
+			
+		</div>
+		
+		<footer>
+			<div class="left">
+				<img src="../img/logo_footer.gif" width="140px" />
+			</div>
+			<div class="right">充电安全，省钱省力</div>
+		</footer>
+		
+
+		
+		<script type="application/javascript" charset="utf-8">
+			
+			var ws=null;
+			// 处理沉浸式状态栏
+			var topoffset=0;
+			var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+			if(ms&&ms.length>=3){
+				topoffset=parseFloat(ms[2]);
+			}
+		
+			var pageNumber = 1;
+			var pageSize = 10;
+			
+			if(window.plus){
+				pagePlusReady();
+			}else{
+				document.addEventListener('plusready',pagePlusReady,false);
+			}
+			
+			function pagePlusReady(){
+                getList();
+				setHeadImage();
+				
+				ws=plus.webview.currentWebview();
+				if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+					topoffset=Math.round(plus.navigator.getStatusbarHeight());
+				}
+				ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+			}
+			
+			// 刷新页面
+			function onRefresh(){
+				$(".dataList").html("")
+				getList();
+				ws.endPullToRefresh();
+			}
+			
+			function getList(){
+				var uuid = plus.storage.getItem("uuid");
+				var sn = location.href;
+		        sn = sn.substring(sn.lastIndexOf('#') + 1);
+				if(vaildeParam(uuid) && vaildeParam(sn)) {
+			        postJSON(API_URL.ApiUserChargingDetailGetChargeOrder, {
+			        	"uuid": uuid,
+			        	"charge_order_number": sn
+			        }, function(res) {
+			        	if ("0" == res.code) {
+			        		if (res.data.charging.groupId) {
+			        			$('#order-addr').text(res.data.charging.groupId.name);
+			        		}
+			        		$('#order-zh').text(res.data.charging.shellId.substr(0, 1));
+			        		if (res.data.czId) {
+			        			$('#order-cz').text(parseInt(res.data.czId.code) + 1);
+			        		}
+			        		if (res.data.member) {
+			        			$('#order-mobile').text(res.data.member.mobile);
+			        		}
+			        		$('#order-money').text(res.data.amount);
+		        			$('#order-number').text(res.data.charging.shellId);
+			        		var t = parseInt(res.data.chargingTime);
+			        		var hour = parseInt(t / 60);
+			        		var chargingTime = hour > 0 ? hour + ' 小时' : t + ' 分钟';
+			        		$('#order-time').text(chargingTime);
+			        		var powerConsumption = res.data.powerConsumption == null ? 0 : res.data.powerConsumption;
+			        		var chargingPower = parseInt((powerConsumption / 2.7778E-7) / (res.data.chargingTime * 60)) + " W";
+			        		$('#order-power').text(chargingPower);
+			        	} else {
+			        		plus.nativeUI.alert(res.msg);
+			        	}
+			        });
+				}
+			}
+			
+            function setHeadImage() {
+            	var headImage = plus.storage.getItem("headImage");
+	            if(vaildeParam(headImage)){
+	                console.log("## headImage ## : "+headImage)
+	                document.getElementById('userAvator').src = headImage;
+	            }
+            }
+			
+		</script>
+		
+	</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>设置</title>
+
+	<link rel="stylesheet" href="../css/iconfont.css">
+	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../plugins/layer/layer.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/base.js"></script>
+
+	<style type="text/css">
+
+
+
+	</style>
+</head>
+<body style="background: #EFEFF4;">
+	
+
+	<header id="header2">
+		<div class="headInner">
+			<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+			<div class="right">&nbsp;</div>
+			<div style="clear: both"></div>
+		</div>
+	</header>
+
+	<div style="background: #fff">
+		<div class="myContent" style="padding-top: 70px;padding-bottom: 15px">
+			<h1 class="pageBigTitle">设置</h1>
+		</div>
+	</div>
+
+	<div style="background: #fff;margin-top: 20px">
+		<div class="myContent">
+			<div class="myList" style="margin-top: 30px">
+				<div class="listItem"  onclick="clicked('../page/commonAddress.html')" >
+					<div class="left">家庭地址</div>
+					<div class="right">
+						<i class="iconfont icon-youjiantou1"></i>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="listItem" onclick="clicked('../page/edition.html')">
+					<div class="left">检查新版本</div>
+					<div class="right"><span class="text-muted"></span> <i class="iconfont icon-youjiantou1"></i></div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="listItem" onclick="clicked('../page/AboutUs.html')">
+					<div class="left">关于我们</div>
+					<div class="right"><span class="text-muted"></span> <i class="iconfont icon-youjiantou1"></i></div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="listItem"  onclick="clicked('../page/maintenance.html')">
+					<div class="left">故障报修</div>
+					<div class="right"><span class="text-muted"></span> <i class="iconfont icon-youjiantou1"></i></div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="listItem" onclick="clicked('../page/feedback.html')">
+					<div class="left">意见反馈</div>
+					<div class="right"><span class="text-muted"></span> <i class="iconfont icon-youjiantou1"></i></div>
+					<div class="clearfix"></div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+    <script type="text/javascript">
+
+   		if(window.plus){
+			pagePlusReady();
+		}else{
+			document.addEventListener('plusready',pagePlusReady,false);
+		}
+		
+
+		function pagePlusReady(){
+
+            uploadLoginInfo();
+
+        }
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>充电记录</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/hammer.min.js"></script>
+		<script src="../js/jquery.hammer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		
+		<style type="text/css">
+
+            .dataList{
+                padding-top: 15px;
+            }
+            .itemActive{
+
+            }
+            .itemActive .itemActiveInner{
+                background: #C7C7C7;
+                border: #EDEDED solid 5px;
+                border-radius: 30px;
+                text-align: center;
+                height: 50px;
+                position: relative;
+                color: #fff;
+                overflow: hidden;
+            }
+            .itemActive .itemActiveInner .textBox{
+                position: absolute;
+                top: 0;
+                height: 40px;
+                z-index: 1;
+                width: 100%;
+                line-height: 40px;
+            }
+            .itemActive .itemActiveInner .progressBox{
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 40px;
+                background: #F26F47;
+                z-index: 0;
+            }
+            .itemActive .bottomText{
+                text-align: center;
+                font-size: .8rem;
+                padding: 10px;
+            }
+
+            .dataNormal{
+                padding: 10px;
+                border-bottom:#ECECEC dashed 1px;
+            }
+            .dataNormal .left{
+                float: left;
+            }
+            .dataNormal .left .date{
+                color: #eaeaea;
+                font-size: .9rem;
+                padding-bottom: 5px;
+            }
+            .dataNormal .left span{
+                display: inline-block;
+                margin-right: 10px;
+            }
+            .dataNormal .right{
+                float: right;
+                line-height: 55px;
+            }
+            .dataNormal .left .date{
+                color: #333;
+            }
+			#loadMore{
+				background: #eaeaea;
+				margin-top: 10px;
+				padding: 10px;
+                text-align: center;
+                margin-top: 10px;
+                font-size: .8rem;
+                display: none;
+			}
+			.noMore{
+				margin-top: 10px;
+				padding: 10px;
+				text-align: center;
+				margin-top: 10px;
+				font-size: .8rem;
+				display: none;
+			}
+
+			.myTabWrap{
+				box-shadow: 0px 10px 10px RGBA(116, 116, 116, .1);
+			}
+			.nav-tabs{
+				border: none;
+				display: block;
+				margin: 0 2rem;
+			}
+			.nav-tabs a{
+				font-size: 1.2rem;
+				color:#000000;
+				display: block;
+				float: left;
+				border-bottom: #fff solid 5px;
+				text-align: center;
+				padding: 10px;
+				text-decoration: none;
+			}
+			.nav-tabs a.active{
+				border-bottom-color: #EA6F1F;
+			}
+			.nav-tabs a:first-child{
+				margin-right: 30px;
+			}
+			
+			.dataItem{
+				position: relative;
+			}
+			.redundInfo{
+				position: absolute;
+				right: 10px;
+				bottom: -10px;
+				font-size: .7rem;
+				color: red;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<header id="header2">
+			<div class="headInner">
+				<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+				<div class="right">&nbsp;</div>
+				<div style="clear: both"></div>
+			</div>
+		</header>
+
+		<div class="myContent" style="padding-top: 70px;padding-bottom: 10px">
+
+			<h1 class="pageBigTitle">我的充电</h1>
+
+			<div class="myTabWrap" style="margin: 0 -2rem">
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="login-li ">
+						<a href="#login" id="xiaofei" class="active" data-toggle="tab">充电状态</a>
+					</li>
+				</ul>
+				<div style="clear: both"></div>
+			</div>
+
+			<div class="dataList">
+
+
+
+			</div>
+			
+			<div id="loadMore">加载更多</div>
+			<div id="noMore" class="noMore">没有更多了</div>
+		</div>
+
+		<script type="text/html" id="dataTmpl1">
+            <div class="dataItem itemActive" onclick="clicked('{{url}}.html#{{sn}}')">
+                <div class="itemActiveInner">
+                    <div class="textBox">剩余时间 : {{timeDiffString}}</div>
+                    <div class="progressBox" style="width: {{percent}}%"></div>
+                </div>
+                <div class="bottomText"> <i class="iconfont icon-location"></i> {{address}}  <span style="color: red">{{cdzcz}}</span></div>
+            </div>
+		</script>
+        <script type="text/html" id="dataTmpl2">
+            <div class="dataItem dataNormal" onclick="clicked('{{url}}.html#{{sn}}')">
+                <div class="left">
+                    <div class="date">{{createDate}}</div>
+                    <div class="detialInfo">
+                        <span class="span1">充电</span> <span class="span2">{{time}}</span>
+                    </div>
+                </div>
+                <div class="right">
+                    {{amount}}元
+                    
+                    {{redundInfo}}
+        				
+					<i class="iconfont icon-youjiantou1"></i>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+        </script>
+
+		
+		<script type="application/javascript" charset="utf-8">
+			
+			var ws=null;
+			// 处理沉浸式状态栏
+			var topoffset=0;
+			var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+			if(ms&&ms.length>=3){
+				topoffset=parseFloat(ms[2]);
+			}
+		
+			var pageNumber = 1;
+			var pageSize = 10;
+			
+			if(window.plus){
+				pagePlusReady();
+			}else{
+				document.addEventListener('plusready',pagePlusReady,false);
+			}
+			
+			function pagePlusReady(){
+
+                uploadLoginInfo();
+
+                getList();
+				
+				ws=plus.webview.currentWebview();
+				if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+					topoffset=Math.round(plus.navigator.getStatusbarHeight());
+				}
+				ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+
+				//父窗口
+                var wo = ws.opener();
+				var parentUrl = wo.getURL();
+                if(vaildeParam(parentUrl) && -1 != parentUrl.indexOf('selectChargeMethod.html')){
+                    wo.evalJS('changeSelectCdz()');
+                }
+
+			}
+			
+			// 刷新页面
+			function onRefresh(){
+                $("#loadMore").css({"display":"none"});
+                $("#noMore").css({"display":"none"});
+				pageNumber = 1;
+				$(".dataList").html("")
+				getList();
+				ws.endPullToRefresh();
+			}
+			
+			function getList(){
+				var uuid = plus.storage.getItem("uuid");
+				if(vaildeParam(uuid)){
+					
+					var dataParam = {
+						"uuid":uuid,
+						"pageSize":pageSize,
+						"pageNumber":pageNumber
+					}
+					
+					postJSON(API_URL.ApiUserChargingDetailGetUserList,dataParam,function(res){
+						if("0" == res.code){
+							var data = res.data.pagedata.content;
+							var html = '';
+							$.each(data, function(index,item) {
+								var url = 'chargeSettle';
+                                var tmpl = $("#dataTmpl1").html();
+                                if(item.status == 2){
+                                    tmpl = $("#dataTmpl2").html();
+                                }
+                                var code = parseInt(item.czId.code) + 1 ; //插口
+                                var shellId = item.charging.shellId.substr(0, 1);	//充电桩编号
+
+								var createDate = new Date(item.createDate).format("yyyy-MM-dd hh:mm:ss");
+
+                                var timeDiffString = '';
+                                var percent = 0;
+                                var address = ''
+                                if(1 == item.status){
+                                	url = 'charging';
+                                    try {
+                                        address = item.charging.groupId.name;
+                                        console.log("## endDate ##"+item.endDate)
+                                        var timeFiff = item.endDate - new Date().getTime();
+                                        if(timeFiff <= 0){
+                                            timeDiffString = "0秒";
+                                        }else{
+                                            timeDiffString= getTimeDiffString(timeFiff);
+                                        }
+
+                                        var timeTotal = item.timeTotal * 60 * 1000; //下发多少毫秒
+
+                                        var percent = timeFiff/timeTotal;
+
+                                        console.log("## percent ##: "+percent)
+                                        if(percent < 0){
+                                            percent = 0;
+                                        }
+                                        percent = percent * 100;
+                                    }catch (e) {
+
+                                    }
+                                }
+                                
+                                var isRefund = false;
+                                var redundInfo = '';
+                                if(2 == item.status && !item.successFlag/* && item.amount > 0*/){
+                                		redundInfo = '<div class="redundInfo">已退款</div>';
+                                		isRefund = true;
+                                		url = 'chargeRefund'
+                                }
+                                var sn = item.sn;
+                                
+                                
+								html += tmpl.replace(/{{cdzcz}}/g,shellId+code)
+										.replace(/{{createDate}}/g,createDate)
+										.replace(/{{timeDiffString}}/g,timeDiffString)
+										.replace(/{{amount}}/g,item.amount)
+										.replace(/{{percent}}/g,percent)
+										.replace(/{{redundInfo}}/g,redundInfo)
+										.replace(/{{time}}/g,item.chargingTime + "分钟")
+										.replace(/{{address}}/g,address)
+										.replace(/{{sn}}/g,sn)
+										.replace(/{{url}}/g, url);
+
+							});
+							if(1 == pageSize){
+								$(".dataList").html("");
+							}
+							$(".dataList").append(html);
+
+                            if(true == res.data.pagedata.last){
+                                $("#loadMore").css({"display":"none"});
+                                $("#noMore").css({"display":"block"});
+                            }else{
+                                $("#loadMore").css({"display":"block"});
+                                $("#noMore").css({"display":"none"});
+                            }
+						}else{
+							layer.msg(res.msg);
+						}
+					})
+				}
+			}
+			
+			
+			// setInterval(function(){
+			// 	var $timeRows = $(".timeRow");
+			// 	$.each($timeRows, function(index,item) {
+			// 		var createDate = $(item).attr("data-create");
+			// 		$(this).find("b").html(getTimeDiff(createDate))
+			// 	});
+			// },1000)
+			
+			$("#loadMore").click(function(){
+				pageNumber++;
+				getList();
+			})
+			
+		</script>
+		
+	</body>
+
+</html>

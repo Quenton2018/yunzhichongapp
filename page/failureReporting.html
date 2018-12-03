@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>故障报修</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+        <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<!--引入公用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/public.css" />
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+
+		<style type="text/css">
+			.submitBtn{
+				background: #fff;
+				display: block;
+				margin: 2rem;
+				padding: 0;
+				line-height: 40px;
+				border: #F88E36 solid 1px;
+				color: #F88E36;
+				border-radius: 5px;
+			}
+			
+			.content{
+				border-bottom:none;
+			}
+		</style>
+	</head>
+	<body style="background: #fff;">
+		<header id="header">
+			<div class="nvbt" onclick="back()"><i class="iconfont icon-fanhui"></i></div>
+			<div class="nvtt">故障报修</div>
+			<!--<span style="color: #fff;">提交</span>-->
+		</header>
+		<div id="content" class="content" >
+			<!--头部搜索框-->
+			<div class="textBox" style="margin: 1rem;margin-bottom: 5rem;">
+				<textarea id="textarea" name="content" rows="8" maxlength="300"  placeholder="请留下您遇到的故障现象，我们将努力改进（不少于5个字，最多不超过200字）"></textarea>
+				<!--确认按键-->
+				<div class="submitBtn">提交</div>
+			</div>
+		</div>
+			
+    </body>
+
+    <script type="text/javascript" charset="utf-8">
+
+
+        if(window.plus){
+            pagePlusReady();
+        }else{
+            document.addEventListener('plusready',pagePlusReady,false);
+        }
+
+        function pagePlusReady(){
+            uploadLoginInfo();
+        }
+
+        mui.init();
+        	$(".submitBtn").click(function(){
+        		var uuid = plus.storage.getItem("uuid");
+        		var content = $('#textarea').val();
+        		if(!vaildeParam(content)){
+					layer.msg("内容不能为空");
+					return;
+				}
+				var data = {
+					"uuid":uuid,
+					"content":content,
+					"type":1
+				}
+        	postJSON(API_URL.APIFeedbackSaveFeedback,data,function(res){
+					if("0" == res.code){
+						layer.msg("您提交故障报修，我们已经收到");
+						setTimeout(function(){
+							back();
+						},1000);
+					}else{
+						layer.msg(res.msg);
+					}
+				});
+			});
+    </script>
+
+</html>

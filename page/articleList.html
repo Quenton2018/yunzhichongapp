@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>客服中心</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+        <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		<!--引入公用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/public.css" />
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+
+
+		<style type="text/css">
+
+
+		</style>
+	</head>
+	<body style="background: #EDEDED;">
+		<header id="header2">
+			<div class="headInner">
+				<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+				<div class="right">&nbsp;</div>
+				<div style="clear: both"></div>
+			</div>
+		</header>
+
+		<div style="background: #fff">
+			<div class="myContent" style="padding-top: 70px;padding-bottom: 15px">
+				<h1 class="pageBigTitle">客服中心</h1>
+			</div>
+		</div>
+
+		<div style="background: #fff;margin-top: 20px">
+			<div class="myContent">
+				<div class="myList dataList" style="margin-top: 30px">
+				</div>
+			</div>
+		</div>
+
+		<script type="text/html" id="dataTmpl">
+			<div class="listItem " data-id="{{id}}">
+				<div class="left">{{articleName}}</div>
+				<div class="right"><span class="text-muted"></span> <i class="iconfont icon-youjiantou1"></i></div>
+				<div class="clearfix"></div>
+			</div>
+		</script>
+    </body>
+
+    <script type="text/javascript" charset="utf-8">
+			var ws=null;
+	        	// 处理沉浸式状态栏
+			var topoffset=0;
+			var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+			if(ms&&ms.length>=3){
+				topoffset=parseFloat(ms[2]);
+			}
+		
+			var pageNumber = 1;
+			var pageSize = 10;
+			if(window.plus){
+				pagePlusReady();
+			}else{
+				document.addEventListener('plusready',pagePlusReady,false);
+			}
+			
+			/**
+			 * 绑定的点击事件
+			 * @param {Object} item 跳转路径 ， 以及存好文章id 
+			 * @param {Object} dataId
+			 */
+			function clickedTwo(item,dataId){
+				console.log(item+":"+dataId);
+				plus.storage.setItem( "articleId", dataId);
+				clicked(item);
+			}
+			
+			function pagePlusReady(){
+
+                uploadLoginInfo();
+
+                getList();
+				ws=plus.webview.currentWebview();
+				if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+					topoffset=Math.round(plus.navigator.getStatusbarHeight());
+				}
+				ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+			}
+			
+			// 刷新页面
+			function onRefresh(){
+				pageNumber = 1;
+				$(".dataList").html("")
+				getList();
+				ws.endPullToRefresh();
+			}
+			
+        function getList(){
+
+				var uuid = plus.storage.getItem("uuid");
+				if(vaildeParam(uuid)){
+					var dataParam = {
+						"uuid":uuid,
+						"pageSize":pageSize,
+						"pageNumber":pageNumber,
+						"categoryName":'客服中心'
+					}
+					
+					postJSON(API_URL.ApiArticleCategoryList,dataParam,function(res){
+						if("0" == res.code){
+							if(true == res.data.pagedata.last){
+								$("#loadMore").css({"display":"none"})
+							}else{
+								$("#loadMore").css({"display":"block"})
+							}
+							var data = res.data.pagedata.content;
+							var tmpl = $("#dataTmpl").html();
+							var html = '';
+							$.each(data, function(index,item) {
+								var articleName = item.name;
+								var id = item.id;
+								html += tmpl.replace(/{{articleName}}/g,articleName)
+								.replace(/{{id}}/g,id);
+							});
+							if(1 == pageSize){
+								$(".dataList").html("");
+							}
+							$(".dataList").append(html);
+							bindItemClick()
+						}else{
+							layer.msg(res.msg);
+						}
+					})
+				}
+			}
+			
+			$("#loadMore").click(function(){
+				pageNumber++;
+				getList();
+			})
+
+			function bindItemClick(){
+				$(".listItem").bind('click',function(){
+					var id = $(this).attr("data-id")
+					clickedTwo("../page/articleContent.html",id);
+				});
+			}
+
+    </script>
+
+</html>

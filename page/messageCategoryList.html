@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/>
+    <title>消息</title>
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+    <!--引入公用样式-->
+    <link rel="stylesheet" type="text/css" href="../css/public.css" />
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/mui.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>
+</head>
+<style>
+    .mui-bar-nav{
+        background: #FA8F25;
+    }
+    .mui-bar{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .mui-pull-left{
+        color: #FFFFFF;
+        width: 15%;
+        height: 100%;
+    }
+    .mui-title{
+        color: #FFFFFF;
+    }
+    .mui-media .mui-media-body{
+        margin-top: 0.5rem;
+        text-align: left;
+    }
+    .mui-ellipsis{
+        margin-top: 0.3rem;
+    }
+    .content{
+        margin-top: 0;
+    }
+</style>
+<body>
+
+<header id="header">
+    <div class="nvbt" onclick="back()"><i class="iconfont icon-fanhui"></i></div>
+    <div class="nvtt">消息</div>
+</header>
+<div id="content" class="content">
+    <!--数据列表-->
+    <ul class="mui-table-view mui-table-view-chevron">
+        <li class="mui-table-view-cell mui-media">
+            <a class="mui-navigate-right"  onclick="clickedTwo('common')">
+                <img class="mui-media-object mui-pull-left" src="../img/listmessage_community.png">
+                <div class="mui-media-body">
+                    用户消息
+                    <p class="mui-ellipsis common-message"></p>
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <a class="mui-navigate-right" onclick="clickedTwo('systems')">
+                <img class="mui-media-object mui-pull-left" src="../img/listmessage_system.png">
+                <div class="mui-media-body">
+                    系统信息
+                    <p class="mui-ellipsis systems-message"></p>
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <a class="mui-navigate-right" onclick="clickedTwo('notice')">
+                <img class="mui-media-object mui-pull-left" src="../img/listmessage_remind.png">
+                <div class="mui-media-body">
+                    通知公告
+                    <p class="mui-ellipsis notice-message" ></p>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+</div>
+
+<script>
+
+
+    var ws=null;
+    // 处理沉浸式状态栏
+    var topoffset=0;
+    var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+    if(ms&&ms.length>=3){
+        topoffset=parseFloat(ms[2]);
+    }
+
+
+    if(window.plus){
+        pagePlusReady();
+    }else{
+        document.addEventListener('plusready',pagePlusReady,false);
+    }
+
+    /**
+     * 绑定的点击事件
+     * @param {Object} type
+     */
+    function clickedTwo(type){
+        console.log("type:"+type);
+        plus.storage.setItem("stype", type);
+        clicked("../page/messageList.html");
+
+    }
+
+    /**
+     * 下拉数据
+     * @param {Object} callback
+     * @param {Object} isClear
+     */
+    function loadData(callback,isClear) {
+        var uuid = plus.storage.getItem("uuid");
+        var api = API_URL.ApiMessageGetMessageText;
+        var data = {
+            'uuid':uuid
+        }
+
+        postJSON(api,data,function (res) {
+
+            if("0" == res.code){
+                $.each(res.data, function(index,item) {
+                    if(0==index){
+                        $(".common-message").text(item.content);
+                    }
+                    if(1==index){
+                        $(".systems-message").text(item.content);
+                    }
+                    if(2==index){
+                        $(".notice-message").text(item.content);
+                    }
+                });
+            }else{
+                layer.msg(res.msg);
+            }
+
+        })
+
+    }
+
+    function pagePlusReady(){
+
+        uploadLoginInfo();
+
+        loadData();
+
+        ws=plus.webview.currentWebview();
+        if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+            topoffset=Math.round(plus.navigator.getStatusbarHeight());
+        }
+        ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+    }
+
+    // 刷新页面
+    function onRefresh(){
+        loadData();
+        ws.endPullToRefresh();
+    }
+
+
+
+
+</script>
+</body>
+
+</html>

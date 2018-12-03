@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>选择插座</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/hammer.min.js"></script>
+		<script src="../js/jquery.hammer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		
+		<style type="text/css">
+			
+			.chargingSocket{
+				width: 100%!important;
+				background: #fff;
+				bottom: 0!important;
+				border-top:#CECECE solid 1px ;
+			}
+			.chargingSocket span{
+				display: block;
+				float: left;
+				width: 16.66%;
+				text-align: center;
+				padding: 10px 0;
+				z-index: 10000;
+				background: #fff;
+			}
+			.chargingSocket span.danger{
+				color: red;
+			}
+			.chargingSocket span.selected{
+				color: #009966;
+				font-weight: bold;
+			}
+			.chargingSocket span i{
+				display: block;
+				font-size: 2.3rem;
+				margin: 0 auto;
+			}
+			.list-group-item{
+				padding: 0 10px;
+				line-height: 3rem;
+				position: relative;
+				padding-left: 40px;
+			}
+			.list-group span{
+				float: right;
+				font-size: 1rem;
+				font-weight: 400;
+				line-height: 3rem;
+			}
+			.list-group .iconfont{
+				font-size: 1.5rem;
+				position: absolute;
+				left: 10px;
+				color: #009966;
+				display: none;
+			}
+			.list-group li.selected .iconfont{
+				display: block;
+			}
+			.chargingBtn{
+				margin: 2rem;
+				background: #54C3FF;
+				color: #fff;
+				line-height: 3rem;
+				border-radius:5px;
+				margin-bottom: 1rem;
+				margin-top: 1rem;
+			}
+			.alertInfo{
+				background: #fafafa;
+				padding: 10px;
+				font-size: .8rem;
+				
+			}
+		</style>
+	</head>
+	<body style="background: #EFEFF4;">
+		<header id="header">
+			<div class="nvbt" onclick="back()"><i class="iconfont icon-fanhui"></i></div>
+			<div class="nvtt">选择插座</div>
+		</header>
+		<div id="content" class="content">
+			
+			<div class="alertInfo">提示:您正在使用一代充电桩进行充电，订单信息将不会保留!</div>
+			
+			
+			<div class="chargingSocket" id="chargingSocketBox">
+				<p style="padding: 10px;">加载中...</p>
+			</div>
+			<div style="clear: both;"></div>
+			<div class="priceBox" style="margin-top: 10px;">
+				<ul class="list-group" style="text-align: left;border-radius: 0;">
+				</ul>
+			</div>
+			
+			<div class="chargingBtn">开始充电</div>
+			
+			
+		</div>
+	
+	<script type="application/javascript">
+		
+		var ws=null;
+		// 处理沉浸式状态栏
+		var topoffset=0;
+		var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+		if(ms&&ms.length>=3){
+			topoffset=parseFloat(ms[2]);
+		}
+		
+		if(window.plus){
+			pagePlusReady();
+		}else{
+			document.addEventListener('plusready',pagePlusReady,false);
+		}
+		
+		function pagePlusReady(){
+			getChargingSocketList();
+			
+			ws=plus.webview.currentWebview();
+			if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+				topoffset=Math.round(plus.navigator.getStatusbarHeight());
+			}
+			ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+		}
+		
+		function onRefresh(){
+			getChargingSocketList();
+			ws.endPullToRefresh();
+		}
+		
+		function compare(property){
+		    return function(a,b){
+		        var value1 = parseFloat(a[property]);
+		        var value2 = parseFloat(b[property]);
+		        return value1 - value2;
+		    }
+		}
+		
+		/**
+		 * 获取所有插座
+		 */
+		function getChargingSocketList(){
+			var currentChargingCode = plus.storage.getItem( "currentChargingCode");
+			
+			console.log(" ## getChargingSocketList ## currentChargingCode : " + currentChargingCode)
+			
+			if(!vaildeParam(currentChargingCode)){
+				clicked("./selectChargeMethod.html");
+				return;
+			}
+			
+			postJSON(API_URL.PSMSMFMiddlewareGetlist,{"pqbh":currentChargingCode},function(res){
+				
+				if('0' == res.code){
+					if(200 == res.data.code){
+						var tmpl = '<span class="item" data-id="{{id}}"><i class="iconfont icon-hekriconshebeizhuijiachazuoyuanxian"></i>{{code}}</span>';
+						var data = res.data.czbh;
+						data = data.sort(compare('czh'));
+						
+						var resCz = '';
+						$.each(data, function(inedx,item) {
+							resCz += tmpl.replace(/{{id}}/g,item.czh).replace(/{{code}}/g,parseInt(item.czh));
+						});
+						$("#chargingSocketBox").html(resCz);
+						bindSelectChargingSocket();
+						
+						var priceData = res.data.price;
+						var tmpl2 = '<li class="list-group-item" data-price="{{money}}" data-time="{{time}}" ><i class="iconfont icon-quangou"></i> {{hour}}小时 ';
+						tmpl2 += '<span class="badge">{{money}}元</span></li>';
+						var resPrice = '';
+						$.each(priceData, function(inedx,item) {
+							var minute = item.TMAX;
+							var hours = minute/60;
+							hours = parseFloat(hours.toFixed(2)); 
+							resPrice += tmpl2.replace(/{{id}}/g,'')
+									.replace(/{{money}}/g,item.PRICE)
+									.replace(/{{time}}/g,minute)
+									.replace(/{{hour}}/g,hours);
+						});
+						
+						console.log(resPrice)
+						
+						$(".priceBox ul").html(resPrice);
+						bindSelectPrice();
+					}else{
+						layer.msg(res.data.msg);
+					}
+				}else{
+					layer.msg(res.msg)
+				}
+
+			
+			})
+				
+			
+		}
+		
+		function bindSelectChargingSocket(){
+			$("#chargingSocketBox .item").bind('click',function(){
+				$("#chargingSocketBox .item").removeClass('selected');
+				$(this).addClass('selected');
+			})
+		}
+	
+		function bindSelectPrice(){
+			$(".priceBox li").bind('click',function(){
+				$(".priceBox li").removeClass('selected');
+				$(this).addClass('selected');
+			})
+		}
+		
+		
+		$(".chargingBtn").click(function(){
+			var $socket = $("#chargingSocketBox .selected");
+			if($socket.length == 0){
+				layer.msg("请选择一个插头");
+				return;
+			}
+			var czbh = $socket.attr("data-id");
+			
+			var $price = $(".priceBox li.selected");
+			if($price.length == 0){
+				layer.msg("请选择充电时长");
+				return;
+			}
+			var uuid = plus.storage.getItem( "uuid");
+			var data = {
+				"uuid":plus.storage.getItem("uuid"),
+				"czbh":czbh,
+				"pqbh":plus.storage.getItem( "currentChargingCode"),
+				"price":$price.attr("data-price"),
+				"totalTime":$price.attr("data-time")
+			}
+			postJSON(API_URL.PSMSMFMiddlewareCharging,data,function(res){
+				if("0" == res.code){
+					if(200 == res.data.code){
+						layer.msg("充电成功");
+						setTimeout(function(){
+							clicked("../index.html");
+						},500)
+					}else{
+						layer.msg(res.data.msg);
+					}
+				}else{
+					layer.msg(res.msg);
+				}
+			})
+		})
+		
+	</script>
+		
+	</body>
+
+</html>

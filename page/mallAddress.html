@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/>
+    <title>商城地址</title>
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/mui.min.js"></script>
+
+    <style type="text/css">
+
+        .inputBox{
+            border-bottom: #fafafa solid 1px;
+            position: relative;
+        }
+        .inputBox input{
+            -webkit-user-select:text;
+            text-align:left;
+            border: 0px;
+            border-radius: 0;
+            width:100%;
+            outline:none;
+            line-height: 3rem;
+            padding-left: 70px;
+            border-bottom: #D8D8D8 solid 1px;
+            font-size: 1.2rem;
+        }
+        .inputBox input:focus{
+            outline: none;
+        }
+        .inputBox label{
+            display: inline-block;
+            left: 0px;
+            top: 12px;
+            position: absolute;
+        }
+        .inputBox textarea{
+            display: block;
+            background: #fafafa;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 10px;
+            -webkit-user-select:text;
+            text-align:left;
+            border: 0px;
+            border-radius: 0;
+            width:100%;
+            outline:none;
+            line-height: 3rem;
+            font-size: 1.2rem;
+
+
+        }
+        .inputBox textarea:focus{
+            outline: none;
+        }
+        .inputBox2 label{
+            position: relative;
+        }
+        #confirmBtn{
+            background: #F77954;
+            text-align: center;
+            margin-top: 1.5rem;
+            line-height: 50px;
+            border-radius: 5px;
+            color: #fff;
+        }
+        .inputBoxWrap{
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header id="header2">
+    <div class="headInner">
+        <div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+        <div class="right">&nbsp;</div>
+        <div style="clear: both"></div>
+    </div>
+</header>
+
+<div class="myContent" style="padding-top: 70px">
+    <h1 class="pageBigTitle">收货地址</h1>
+
+    <div class="inputBoxWrap">
+
+        <div class="inputBox">
+            <label>收货人</label>
+            <input type="text" placeholder="请输入收货人名字" name="name">
+        </div>
+        <div class="inputBox">
+            <label>手机号</label>
+            <input type="text" placeholder="收货人的电话，方便联系" name="mobile">
+        </div>
+        <div class="inputBox inputBox2">
+            <label>详细地址</label>
+            <textarea name="address" placeholder="请输入省市区(县)街道门牌等详细地址信息" ></textarea>
+        </div>
+
+        <div id="confirmBtn">提交</div>
+
+    </div>
+
+</div>
+
+<script type="application/javascript">
+    mui.init();
+    if(window.plus){
+        pagePlusReady();
+    }else{
+        document.addEventListener('plusready',pagePlusReady,false);
+    }
+
+    function pagePlusReady(){
+
+    }
+
+
+    $("#confirmBtn").click(function () {
+
+        var btnArray = ['否', '是'];
+        mui.confirm('确认要兑换么?', '兑换', btnArray, function(e) {
+            if (e.index == 1) {
+                var productId = plus.storage.getItem("productId");
+                var uuid = plus.storage.getItem("uuid");
+                var name = $("input[name='name']").val();
+                var mobile = $("input[name='mobile']").val();
+                var address = $("textarea[name='address']").val();
+
+                if(!vaildeParam(name)){
+                    layer.msg('收件人不能为空');
+                    return;
+                }
+                if(!vaildeParam(mobile)){
+                    layer.msg('手机不能为空');
+                    return;
+                }
+                if(!vaildeParam(address)){
+                    layer.msg('收货地址不能为空');
+                    return;
+                }
+
+                var data = {
+                    "prid":productId,
+                    "uuid":uuid,
+                    "consignee":name,
+                    "phone":mobile,
+                    "detailedaddress":address,
+
+                }
+
+                postJSON( API_URL.ApiProductOrdersAddProductOrders,data,function (res) {
+                    if("0" == res.code){
+                        layer.msg('兑换成功');
+                        setTimeout(function(){
+                            clicked('../page/recordOfExchange.html');
+                        },2000);
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                })
+
+            } else {
+
+            }
+        });
+
+
+
+    })
+
+
+</script>
+
+
+</body>
+
+</html>

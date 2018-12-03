@@ -1,0 +1,229 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>注册</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		
+		<style type="text/css">
+			.loginBox{
+				background: #fff;
+				border-radius: 5px;
+				overflow: hidden;
+			}
+			.loginBox .inputBox{
+				position: relative;
+			}
+			.loginBox .inputBox i{
+				position: absolute;
+				left: 7px;
+				top: .7rem;
+				font-size: 1.2rem;
+			}
+			.loginBox input{
+				-webkit-user-select:text;
+				text-align:left;
+				border: 0px;
+				border-radius: 0;
+				font-size:16px;
+				width:100%;
+				outline:none;
+				line-height: 3rem;
+				padding-left: 30px;
+			}
+			.loginBox input:focus{
+				outline: none;
+			}
+			.loginBtn{
+				margin: 2rem;
+				background: #54C3FF;
+				color: #fff;
+				line-height: 3rem;
+				border-radius:5px;
+				margin-bottom: 1rem;
+				margin-top: 1rem;
+			}
+			.registerBtn{
+				margin: 2rem;
+				background: #E7621E;
+				color: #fff;
+				line-height: 3rem;
+				border-radius:5px;
+				margin-top: 0rem;
+			}
+			
+			.getCode{
+				position: absolute;
+				right: 10px;
+				top: .7rem;
+				color: #F88E36;
+			}
+	
+		</style>
+	</head>
+	<body style="background: #FA8F25;">
+		<header id="header">
+			<div class="nvbt" onclick="back()"><i class="iconfont icon-fanhui"></i></div>
+			<div class="nvtt">注册</div>
+		</header>
+		<div id="content" class="content">
+
+			<img src="../img/ic_launcher.png" style="display:block;width:100px;margin:0 auto;border-radius: 50%; margin-top: 2rem;" />
+
+			<div class="loginBox" style="margin: 2rem;margin-bottom: 0;">
+				<div class="inputBox">
+					<i class="iconfont icon-shouji-tianchong"></i>
+					<input type="number" name="mobile" placeholder="请输入手机号" />
+				</div>
+				<div class="inputBox">
+					<i class="iconfont icon-yanzhengma2"></i>
+					<input type="text" name="code" placeholder="请输入验证码" />
+					<span class="getCode">获取验证码</span>
+				</div>
+				<div class="inputBox">
+					<i class="iconfont icon-mima"></i>
+					<input type="password" name="password" placeholder="请输入密码" />
+				</div>
+				<div class="inputBox">
+					<i class="iconfont icon-mima"></i>
+					<input type="password" name="password2" placeholder="请重复输入密码" />
+				</div>
+			</div>
+			<div class="loginBtn">注册并登录</div>
+
+		</div>
+	
+		
+		<script type="application/javascript">
+
+//防止登入返回
+//			(function(w){
+//				// 处理返回事件
+//				w.back=function(hide){
+//					if(w.plus){
+//						ws||(ws=plus.webview.currentWebview());
+//						if(hide||ws.preate){
+//							ws.hide('auto');
+//						}else{
+//							ws.close('auto');
+//						}
+//					}else{
+//						w.close();
+//					}
+//				};
+//			})(window);
+
+			var $getCodeBtn = $(".getCode");
+			
+			var isLock = false; //是否锁定
+			var time = 60; //倒计时
+			var timeInterval; //定时器
+			
+			function showTime(){
+				timeInterval = setInterval(function(){
+					time--;
+					if(time <= 0){
+						isLock = false;
+						time = 60;
+						clearInterval(timeInterval);
+						$getCodeBtn.text('获取验证码');
+						return;
+					}else{
+						$getCodeBtn.text(time);
+					}	
+				},1000)
+			}
+			
+			$(".getCode").click(function(){
+				var mobile = $("input[name='mobile']").val();
+				if(!vaildeParam(mobile)){
+					layer.msg("手机号不能为空");
+					return;
+				}
+				if(isLock){
+					return;
+				}
+				isLock = true;
+				$getCodeBtn.text(time);
+				showTime();
+				
+				postJSON(API_URL.ApiSmsSendCode,{"mobile":mobile},function(res){
+					if("0" == res.code){
+						layer.msg("发送成功");
+					}else{
+						layer.msg(res.msg);
+					}
+				})
+			})
+
+
+			if(window.plus){
+				pagePlusReady();
+			}else{
+				document.addEventListener('plusready',pagePlusReady,false);
+			}
+
+			function pagePlusReady() {
+                $(".loginBtn").click(function(){
+                    var mobile = $("input[name='mobile']").val();
+                    if(!vaildeParam(mobile)){
+                        layer.msg("手机号不能为空");
+                        return;
+                    }
+                    var code = $("input[name='code']").val();
+                    if(!vaildeParam(code)){
+                        layer.msg("验证码不能为空");
+                        return;
+                    }
+                    var password = $("input[name='password']").val();
+                    if(!vaildeParam(password)){
+                        layer.msg("密码不能为空");
+                        return;
+                    }
+                    var password2 = $("input[name='password2']").val();
+                    if(password != password2){
+                        layer.msg("两次密码输入不一致");
+                        return;
+                    }
+
+                    var clientInfo = plus.push.getClientInfo().clientid;
+
+                    var postData = {
+                        "clientInfo":clientInfo,
+                        "mobile":mobile,
+                        "password":password,
+                        "code":code
+                    }
+
+                    postJSON(API_URL.ApiMemberRegister,postData,function(res){
+                        if("0" == res.code){
+                            layer.msg("注册成功，正在跳转...");
+                            setLoginData(res.data.uuid,res.data.mobile);
+                            setTimeout(function(){
+                                clicked('../index.html')
+                            },2000);
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                    })
+
+                })
+			}
+
+		</script>
+		
+	</body>
+
+</html>

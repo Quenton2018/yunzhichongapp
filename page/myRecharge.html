@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="misapplication-tap-highlight" content="no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
+	<title>我的充值</title>
+
+	<link rel="stylesheet" href="../css/iconfont.css">
+	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../plugins/layer/layer.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/base.js"></script>
+
+	<style type="text/css">
+		body{
+			margin:0 ;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+		.my-content{
+			margin:0 auto;
+			margin-top: 0px;
+			padding-top: 0px;
+			height: 100%;
+
+		}
+
+		.myTabWrap{
+			box-shadow: 0px 10px 10px RGBA(116, 116, 116, .1);
+		}
+		.nav-tabs{
+			border: none;
+			display: block;
+			margin: 0 2rem;
+		}
+		.nav-tabs a{
+			font-size: 1.2rem;
+			color:#000000;
+			display: block;
+			float: left;
+			border-bottom: #fff solid 5px;
+			text-align: center;
+			padding: 10px;
+			text-decoration: none;
+		}
+		.nav-tabs a.active{
+			border-bottom-color: #EA6F1F;
+		}
+		.nav-tabs a:first-child{
+			margin-right: 15px;
+		}
+		.dataList{
+			padding-top: 15px;
+			margin: 0 2rem;
+		}
+		.dataList1{
+			padding-top: 15px;
+			margin: 0 2rem;
+		}
+		.itemActive .itemActiveInner{
+			background: #C7C7C7;
+			border: #EDEDED solid 5px;
+			border-radius: 30px;
+			text-align: center;
+			height: 50px;
+			position: relative;
+			color: #fff;
+			overflow: hidden;
+		}
+		.itemActive .itemActiveInner .textBox{
+			position: absolute;
+			top: 0;
+			height: 40px;
+			z-index: 1;
+			width: 100%;
+			line-height: 40px;
+		}
+		.itemActive .itemActiveInner .progressBox{
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: 40px;
+			background: #F26F47;
+			z-index: 0;
+		}
+		.itemActive .bottomText{
+			text-align: center;
+			font-size: .8rem;
+			padding: 10px;
+		}
+
+		.dataNormal{
+			padding: 10px;
+			border-bottom:#ECECEC dashed 1px;
+		}
+		.dataNormal .left{
+			float: left;
+		}
+		.dataNormal .left .date{
+			color: #eaeaea;
+			font-size: .9rem;
+			padding-bottom: 5px;
+		}
+		.dataNormal .left span{
+			display: inline-block;
+			margin-right: 10px;
+		}
+		.dataNormal .right{
+			float: right;
+			line-height: 55px;
+		}
+		.dataNormal .left .date{
+			color: #333;
+		}
+		.loadMore{
+			background: #eaeaea;
+			margin-top: 10px;
+			padding: 10px;
+			text-align: center;
+			margin-top: 10px;
+			font-size: .8rem;
+			display: none;
+		}
+
+		.noMore{
+			margin-top: 10px;
+			padding: 10px;
+			text-align: center;
+			margin-top: 10px;
+			font-size: .8rem;
+			display: none;
+		}
+
+		.title-img{
+			width: 70px;
+		}
+		.pageBigTitle{
+			display: initial;
+		}
+		.money-text, #freezing-amount span{
+			margin-left: 10px;
+			font-size: 24px;
+		}
+
+	</style>
+</head>
+
+<body style="background: #ffffff;">
+
+	<header id="header2">
+		<div class="headInner">
+			<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+			<div class="right">&nbsp;</div>
+			<div style="clear: both"></div>
+		</div>
+	</header>
+
+	<div>
+		<div class="myContent" style="padding-top: 70px;padding-bottom: 15px">
+
+			<img class="title-img" src="../img/app_money_icon.png" />
+				<span>账户余额</span><span class="money-text"></span>
+				<!--<p id="freezing-amount" style="margin-left: 75px; display: none;">充电冻结<span></span></p>-->
+		</div>
+	</div>
+
+	<div id="my-content" class="my-content">
+
+		<div class="myTabWrap">
+			<ul id="myTab" class="nav nav-tabs">
+				<li class="login-li ">
+					<a href="#login" id="xiaofei" class="active" data-toggle="tab">消费明细</a>
+				</li>
+				<li>
+					<a  href="#register" id="chongzhi" class="register-li" data-toggle="tab">充值明细</a>
+				</li>
+			</ul>
+			<div style="clear: both"></div>
+		</div>
+
+		<div id="item-content" class="tab-content">
+			<div class="tab-pane fade in active show" id="login">
+				<div class="dataList">
+
+				</div>
+				<div id="loadMore" class="loadMore">加载更多</div>
+				<div id="noMore" class="noMore">没有更多了</div>
+			</div>
+			<div class="tab-pane fade" id="register">
+				<div class="dataList1">
+
+				</div>
+				<div id="loadMore1" class="loadMore">加载更多</div>
+				<div id="noMore1" class="noMore">没有更多了</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/html" id="dataTmpl2">
+		<div class="dataItem dataNormal">
+			<div class="left">
+				<div class="detialInfo">
+					<span class="span1">{{title}}</span>
+				</div>
+				<div class="date">{{createDate}}</div>
+			</div>
+			<div class="right">
+				{{amount}}元
+			</div>
+			<div style="clear: both"></div>
+		</div>
+	</script>
+
+
+
+<script type="application/javascript">
+
+    var ws=null;
+    // 处理沉浸式状态栏
+    var topoffset=0;
+    var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+    if(ms&&ms.length>=3){
+        topoffset=parseFloat(ms[2]);
+    }
+    var pageNumber = 1;
+    var pageNumber1 = 1;
+    var pageSize = 10;
+
+	var consumptionType ="1";  //消费明细：1 充值明细：0
+
+    if(window.plus){
+        pagePlusReady();
+    }else{
+        document.addEventListener('plusready',pagePlusReady,false);
+    }
+
+    function pagePlusReady(){
+
+        uploadLoginInfo();
+
+        $(".money-text").html("0元");
+        getUserInfo(); //获取用户信息
+        getList();
+        ws=plus.webview.currentWebview();
+        if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+            topoffset=Math.round(plus.navigator.getStatusbarHeight());
+        }
+        ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+    }
+
+
+
+
+    // 刷新页面
+    function onRefresh(){
+
+        $("#loadMore").css({"display":"none"});
+        $("#loadMore1").css({"display":"none"});
+
+        $("#noMore").css({"display":"none"});
+        $("#noMore1").css({"display":"none"});
+
+        pageNumber = 1;
+        pageNumber1 = 1;
+        if("1"==consumptionType){
+            $(".dataList").html("");
+        }else {
+            $(".dataList1").html("");
+		}
+        getList();
+        ws.endPullToRefresh();
+    }
+
+    //点击触发消费事件
+    $("#xiaofei").click(function(){
+        $("#loadMore").css({"display":"none"});
+        $("#noMore").css({"display":"none"});
+        pageNumber = 1;
+        consumptionType = "1";
+        $(".dataList").html("");
+        getList();
+    });
+    //点击触发充值事件
+    $("#chongzhi").click(function(){
+        $("#loadMore1").css({"display":"none"});
+        $("#noMore1").css({"display":"none"});
+        pageNumber1 = 1;
+        consumptionType = "0";
+        $(".dataList1").html("");
+        getList();
+    });
+
+    /**
+    	抓取数据
+     */
+    function getList(){
+        var uuid = plus.storage.getItem("uuid");
+        if(vaildeParam(uuid)){
+            var nember = 1 ;
+            if("1"==consumptionType){
+                nember = pageNumber;
+            }else{
+                nember = pageNumber1;
+			}
+          var dataParam= {
+                "uuid":uuid,
+                "recordType":"0",
+                "consumptionType":consumptionType,
+                "pageSize":pageSize,
+                "pageNumber":nember
+            }
+            postJSON(API_URL.ApiDetailRecordGetDetailRecordList,dataParam,function(res){
+                if("0" == res.code){
+
+
+                    var data = res.data.pagedata.content;
+
+                    var html = '';
+                    $.each(data, function(index,item) {
+                        var  tmpl = $("#dataTmpl2").html();
+                        var createDate = new Date(item.createDate).format("yyyy-MM-dd hh:mm:ss");
+                       	var  title = item.title;
+                        var amount = item.amount;
+                        html += tmpl.replace(/{{createDate}}/g,createDate)
+                            .replace(/{{amount}}/g,item.amount)
+                            .replace(/{{title}}/g,title);
+                    });
+                    if(1 == pageSize){
+                        if("1"==consumptionType){
+                            $(".dataList").html("");
+                        }else{
+                            $(".dataList1").html("");
+						}
+                    }
+                    if("1"==consumptionType){
+                        $(".dataList").append(html);
+                    }else{
+                        $(".dataList1").append(html);
+                    }
+
+                    if(true == res.data.pagedata.last){
+                        if("1"==consumptionType){
+                            $("#loadMore").css({"display":"none"});
+                            $("#noMore").css({"display":"block"});
+                        }else{
+                            $("#loadMore1").css({"display":"none"});
+                            $("#noMore1").css({"display":"block"});
+                        }
+                    }else{
+                        if("1"==consumptionType){
+                            $("#loadMore").css({"display":"block"});
+                            $("#noMore").css({"display":"none"});
+                        }else{
+                            $("#loadMore1").css({"display":"block"})
+                            $("#noMore1").css({"display":"none"});
+                        }
+                    }
+
+                }else{
+                    layer.msg(res.msg);
+                }
+            })
+        }
+    }
+
+
+    $(".loadMore").click(function(){
+        if("1"==consumptionType){
+            pageNumber++;
+		}else{
+            pageNumber1++;
+		}
+        getList();
+    })
+
+
+    /**
+     * 获取用户信息
+     */
+    function getUserInfo(){
+        var uuid = plus.storage.getItem("uuid");
+        if(vaildeParam(uuid)){
+            postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+                if("0" == res.code){
+                    var mobile = res.data.mobile;
+                    var headImage = res.data.headImage;
+                    var nickname = res.data.nickname;
+                    var gender = res.data.gender;
+                    var homeAddress = res.data.homeAddress;
+                    var totalMoney = parseFloat(res.data.totalMoney) + parseFloat(res.data.elePayIce == null ? 0 : res.data.elePayIce);
+                    totalMoney = parseFloat(totalMoney.toFixed(2));
+                    
+                    var points = res.data.points;  //云钻
+                    plus.storage.setItem( "mobile", mobile);
+                    plus.storage.setItem( "headImage", headImage);
+                    plus.storage.setItem( "nickname", nickname);
+                    plus.storage.setItem( "gender", gender);
+                    plus.storage.setItem( "homeAddress", homeAddress);
+                    plus.storage.setItem( "totalMoney", totalMoney);
+                    plus.storage.setItem( "points", points);
+                    $(".money-text").html(totalMoney+"元");
+					// $("#freezing-amount").show().find('span').text(totalMoney+"元");
+                }else{
+                    layer.msg(res.msg);
+                    clearLogin();
+                    clicked("page/login.html");
+                }
+            })
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/>
+    <title>用户信息</title>
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/mui.min.js"></script>
+
+    <style type="text/css">
+        .adBox{
+            margin-top: 15px;
+        }
+        #chargeBtn{
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .mui-pull-left {
+            float: none;
+        }
+        .mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before {
+            color:#FF7546;
+        }
+    </style>
+</head>
+<body style="background: #EDEDED">
+
+<header id="header2">
+    <div class="headInner">
+        <div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+        <div class="right">&nbsp;</div>
+        <div style="clear: both"></div>
+    </div>
+</header>
+
+<div style="background: #fff">
+    <div class="myContent" style="padding-top: 70px;padding-bottom: 15px">
+        <h1 class="pageBigTitle">个人信息</h1>
+    </div>
+</div>
+
+<div style="background: #fff;margin-top: 20px">
+    <div class="myContent">
+        <div class="myList" style="margin-top: 30px">
+            <div class="listItem" id="head">
+                <div class="left">头像</div>
+                <div class="right" >
+                  <!--  <img src="../img/user_profile/app_10.png">-->
+                   <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../img/user_profile/app_10.png">
+                    <i class="iconfont icon-youjiantou1"></i>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="listItem" onclick="clicked('../page/nickName.html')">
+                <div class="left">姓名</div>
+                <div class="right"><span class="text-muted"  id="nicknameBox"></span> <i class="iconfont icon-youjiantou1"></i></div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="listItem">
+                <div class="left">手机号</div>
+                <div class="right"><span class="text-muted" id="mobileBox"></span></div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="listItem">
+                <div class="left">性别</div>
+                <div class="right">
+                    <div style="font-size: 15px;">
+                        <div class="mui-input-clear mui-radio mui-left" style="float: right;">
+                            <label>女</label>
+                            <input name="gender" type="radio" value="女">
+                        </div>
+                        <div class="mui-input-clear mui-radio mui-left" style="float: right;">
+                            <label>男</label>
+                            <input name="gender" type="radio" value="男">
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="listItem" onclick="clicked('../page/modifyPassword.html')">
+                <div class="left">修改密码</div>
+                <div class="right"><span class="text-muted">设置</span> <i class="iconfont icon-youjiantou1"></i></div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="myContent">
+    <img id="logOutBtn" src="../img/logout/app_03.png" style="width: 100%;margin-top: 20px">
+</div>
+
+<script type="text/javascript">
+    mui.init();
+
+    var ws=null;
+    // 处理沉浸式状态栏
+    var topoffset=0;
+    var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+    if(ms&&ms.length>=3){
+        topoffset=parseFloat(ms[2]);
+    }
+
+
+    if(window.plus){
+        pagePlusReady();
+    }else{
+        document.addEventListener('plusready',pagePlusReady,false);
+    }
+    function pagePlusReady(){
+
+        uploadLoginInfo();
+
+        checkLogin();
+        getUserInfo();
+        $("#logOutBtn").click(function(){
+            plus.storage.clear();
+            layer.msg("退出登录成功");
+            setTimeout(function(){
+                clicked('login.html');
+            },1000)
+        });
+        ws=plus.webview.currentWebview();
+        if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+            topoffset=Math.round(plus.navigator.getStatusbarHeight());
+        }
+        ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+    }
+
+
+
+    // 刷新页面
+    function onRefresh(){
+        getUserInfoDateBase();
+        ws.endPullToRefresh();
+    }
+
+
+    /**
+     * 获取用户信息
+     */
+    function getUserInfo(){
+        var uuid = plus.storage.getItem("uuid");
+        if(vaildeParam(uuid)){
+            var mobile = plus.storage.getItem("mobile");
+            var headImage = plus.storage.getItem("headImage");
+            var nickname = plus.storage.getItem("nickname");
+            var gender = plus.storage.getItem("gender");
+            $("#mobileBox").text(mobile);
+            if(vaildeParam(headImage)){
+                console.log("## headImage ## : "+headImage);
+                document.getElementById('head-img').src = headImage;
+            }
+            if(vaildeParam(nickname)){
+                $("#nicknameBox").text(nickname);
+            }
+            if(vaildeParam(gender)){  //性别置为选中
+                $(":radio[name='gender'][value='" + gender + "']").prop("checked", "checked");
+            }
+        }else{
+            layer.msg(res.msg);
+            clearLogin();
+            clicked("page/login.html");
+        }
+    }
+    /**
+     * 获取用户信息
+     */
+     function getUserInfoDateBase(){
+        var uuid = plus.storage.getItem("uuid");
+        console.log("## getUserInfoDateBase ## uuid:"+uuid);
+        if(vaildeParam(uuid)){
+            postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+                if("0" == res.code){
+                    var mobile = res.data.mobile;
+                    var headImage = res.data.headImage;
+                    var nickname = res.data.nickname;
+                    var gender = res.data.gender;
+                    var homeAddress = res.data.homeAddress;
+                    var totalMoney = res.data.totalMoney;
+                    var points = res.data.points;  //云钻
+                    plus.storage.setItem( "mobile", mobile);
+                    plus.storage.setItem( "headImage", headImage);
+                    plus.storage.setItem( "nickname", nickname);
+                    plus.storage.setItem( "gender", gender);
+                    plus.storage.setItem( "homeAddress", homeAddress);
+                    plus.storage.setItem( "totalMoney", totalMoney);
+                    plus.storage.setItem( "points", points);
+                    $("#mobileBox").text(mobile);
+                    if(vaildeParam(headImage)){
+                        console.log("## headImage ## : "+headImage);
+                        document.getElementById('head-img').src = headImage;
+                    }
+                    if(vaildeParam(nickname)){
+                        $("#nicknameBox").text(nickname);
+                    }
+                    if(vaildeParam(gender)){  //性别置为选中
+                        $(":radio[name='gender'][value='" + gender + "']").prop("checked", "checked");
+                    }
+
+                }else{
+                    layer.msg(res.msg);
+                    clearLogin();
+                    clicked("page/login.html");
+                }
+            })
+        }
+    }
+
+
+    /**
+     * 性别选中事件
+     */
+    $(function(){
+        var genderRadio=$('input[name="gender"]');
+       // $(":radio").click(function(){
+        genderRadio.change(function(){
+    	  var gender =  $(this).val();
+    	  var uuid = plus.storage.getItem("uuid");
+            var btnArray = ['否', '是'];
+            mui.confirm('确认要修改么？', '性别', btnArray, function(e) {
+                if (e.index == 1) {
+                        var data = {
+                            "uuid":uuid,
+                            "gender":gender,
+                            "nickname":'',
+                            "homeAddress":''
+                        }
+                        postJSON(API_URL.ApiUpdateMemberInfo,data,function(res){
+                            if("0" == res.code){
+                                layer.msg(res.msg);
+                                plus.storage.setItem( "gender", gender); //回写性别
+                            }else{
+                                layer.msg(res.msg);
+                                var storageGender = plus.storage.getItem("gender");
+                                $(":radio[name='gender'][value='" + storageGender + "']").prop("checked", "checked");
+                            }
+                        });
+                } else {
+                  /*  var storageGender = plus.storage.getItem("gender");
+                    $(":radio[name='gender'][value='" + storageGender + "']").prop("checked", "checked");*/
+                }
+            });
+        });
+    });
+
+
+    /*点击头像触发*/
+    document.getElementById('head').addEventListener('tap', function() {
+        if(mui.os.plus) {
+            var a = [{
+                title: "拍照"
+            }, {
+                title: "从手机相册选择"
+            }];
+            plus.nativeUI.actionSheet({
+                title: "修改用户头像",
+                cancel: "取消",
+                buttons: a
+            }, function(b) { /*actionSheet 按钮点击事件*/
+                switch(b.index) {
+                    case 0:
+                        break;
+                    case 1:
+                        getImage(); /*拍照*/
+                        break;
+                    case 2:
+                        galleryImg(); /*打开相册*/
+                        break;
+                    default:
+                        break;
+                }
+            })
+        }
+    }, false);
+
+    //拍照
+    function getImage() {
+        var cmr = plus.camera.getCamera();
+        var res = cmr.supportedImageResolutions[0];
+        var fmt = cmr.supportedImageFormats[0];
+        cmr.captureImage(function(path) {
+            //plus.io.resolveLocalFileSystemURL(path, function(entry) {
+            plus.io.resolveLocalFileSystemURL(path, function(entry) {
+                var localUrl = entry.toLocalURL();
+                uploadHead(localUrl + "?version=" + new Date().getTime());
+            }, function(err) {
+                console.error("拍照失败：" + err.message);
+            }, {
+                index: 1
+            });
+        });
+    }
+
+    //本地相册选择
+    function galleryImg() {
+        plus.gallery.pick(function(a) {
+            plus.io.resolveLocalFileSystemURL(a, function(entry) {
+                plus.io.resolveLocalFileSystemURL("_doc/", function(root) {
+                    root.getFile("head.png", {}, function(file) {
+                        //文件已存在
+                        file.remove(function() {
+                            console.log("file remove success");
+                            entry.copyTo(root, 'head.png', function(e) {
+                                var e = e.fullPath + "?version=" + new Date().getTime();
+                                uploadHead(e); /*上传图片*/
+                                //变更大图预览的src
+                                //目前仅有一张图片，暂时如此处理，后续需要通过标准组件实现
+                            },function(e) {
+                                console.log('copy image fail:' + e.message);
+                            });
+                        }, function() {
+                            console.log("delete image fail:" + e.message);
+                        });
+                    }, function() {
+                        //文件不存在
+                        entry.copyTo(root, 'head.png', function(e) {
+                            var path = e.fullPath + "?version=" + new Date().getTime();
+                            uploadHead(path); /*上传图片*/
+                        },function(e) {
+                            console.log('copy image fail:' + e.message);
+                        });
+                    });
+                }, function(e) {
+                    console.log("get _www folder fail");
+                })
+            }, function(e) {
+                console.log("读取拍照文件错误：" + e.message);
+            });
+        }, function(a) {}, {
+            filter: "image"
+        })
+    };
+
+    //上传头像图片
+    function uploadHead(imgPath) {
+        var uid = plus.storage.getItem("uuid");
+        var image = new Image();
+        console.log("dengwenwuimguid"+uid);
+        image.src = imgPath;
+        image.onload = function() {
+            var imgData = getBase64Image(image);
+            console.log("imgData"+imgData);
+            /*在这里调用上传接口*/
+            mui.ajax(API_URL.ApiUploadPicture, {
+                data: { img: imgData,uuid:uid },
+                dataType: 'json',
+                type: 'post',
+                timeout: 10000,
+                success: function(data) {
+                            /*mui.toast('上传成功',{
+                               duration:'long',
+                               type:'div'
+                            });
+                            console.log("dengwenwuimgPath"+imgPath);
+                            document.getElementById('head-img').src = imgPath;*/
+                            if("0" == data.code){
+                                var retUrl =   data.data;
+                                console.log("dengwenwuimgRetUrl"+retUrl);
+                                console.log("dengwenwuimgPath"+imgPath);
+                                document.getElementById('head-img').src = retUrl;
+
+                                plus.storage.setItem( "headImage", retUrl); //图片回写进对象
+                                layer.msg("上传成功");
+                                
+                                var ws=plus.webview.currentWebview();
+			                    var wo = ws.opener();
+			                    wo.evalJS('setHeadImage()');
+                            }else{
+                                layer.msg(data.msg);
+                            }
+
+                        },
+                 error: function(xhr, type, errorThrown) {
+                             mui.toast('网络异常，请稍后再试！');
+                        }
+            });
+        }
+    }
+    //将图片压缩转成base64
+    function getBase64Image(img) {
+        var canvas = document.createElement("canvas");
+        var width = img.width;
+        var height = img.height;
+        // calculate the width and height, constraining the proportions
+        if(width > height) {
+            if(width > 200) {
+                height = Math.round(height *= 200 / width);
+                width = 200;
+            }
+        } else {
+            if(height > 200) {
+                width = Math.round(width *= 200 / height);
+                height = 200;
+            }
+        }
+        canvas.width = width; /*设置新的图片的宽度*/
+        canvas.height = height; /*设置新的图片的长度*/
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height); /*绘图*/
+        var dataURL = canvas.toDataURL("image/png", 0.8);
+        return dataURL.replace("data:image/png;base64,", "");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

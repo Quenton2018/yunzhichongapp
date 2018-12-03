@@ -1,0 +1,1149 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone"
+	],
+	"id": "YunZhiChong",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "云智充",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "3.1.1",/*应用版本名称*/
+		"code": ""
+	},
+	"description": "云智充",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "江西云戈信息技术有限公司",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": "http://www.jxyunge.com"
+	},
+	"permissions": {
+
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"Maps": {
+			"description": "管理地图插件"
+		},
+		"OAuth": {},
+		"Payment": {},
+		"Share": {},
+		"Push": {}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true
+		},
+		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
+		"runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {
+				"push": {
+					"mipush": {
+						"appid_android": "2882303761517542346",
+						"appkey_android": "5771754257346",
+						"appid_ios": "2882303761517786047",
+						"appkey_ios": "5441778696047"
+					}
+				},
+				"maps": {
+					"baidu": {
+						"appkey_ios": "tnrUD5Gd9EaqKVDqllc2ACRBouFCV3Dv",
+						"appkey_android": "f5VvE7SxGGaXAi6QvHFxHs39Ecdd8qv5",
+						"appkey": "",
+						"description": ""
+					}
+				},
+				"share": {
+					"weixin": {
+						"appid": "wx55cdec5c462c13af",
+						"appsecret": "0d47df340f75baf8950db58bb39afa58",
+						"description": "可选，微信分享"
+					}
+				},
+				"payment": {
+					"alipay": {
+						"description": "支付宝支付",
+						"scheme": ""
+					},
+					"weixin": {
+						"description": "微信支付",
+						"appid": "wx55cdec5c462c13af"
+					}
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "iphone",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"frameworks": [],/*调用Native.js调用原生Objective-c API需要引用的FrameWork，如需调用GameCenter，则添加"GameKit.framework"*/
+				"plistcmds": [
+					"Set :NSContactsUsageDescription 说明读取用户通讯录的原因",
+					"Set :NSMicrophoneUsageDescription 说明使用麦克风的原因",
+					"Set :NSPhotoLibraryUsageDescription 读取用户相册用来上传用户头像",
+					"Set :NSCameraUsageDescription 使用用户相机来上传用户头像",
+					"Set :NSPhotoLibraryAddUsageDescription 说明向用户相册添加图片的原因",
+					"Set :NSLocationAlwaysUsageDescription 持续获取用户地理位置用于获取用户附近的充电桩片区",
+					"Set :NSLocationWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区",
+					"Set :NSLocationAlwaysAndWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区"
+				]
+			},
+			"google": {
+				"packagename": "com.dream.zncd.intelligentcharge",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "jiuniu",/*Android应用打包使用的密钥库文件*/
+				"password": "jiuniu2016",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "jiuniu",/*Android应用打包使用密钥库中证书的别名*/
+				"targetSdkVersion": 23,
+				"permissions": ["<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.GET_TASKS\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>","<uses-permission android:name=\"android.permission.GET_TOP_ACTIVITY_INFO\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-permission android:name=\"android.permission.INTERACT_ACROSS_USERS_FULL\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"]
+			},
+			"orientation": [
+				"portrait-primary"
+			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					/*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "", /*iPhone3/3GS程序图标，分辨率：57x57*/
+						"retina": "", /*iPhone4程序图标，分辨率：114x114*/
+						/*iPhone4S/5/6程序图标，分辨率：120x120*/
+						/*iPhone6 Plus程序图标，分辨率：180x180*/
+						"spotlight-normal": "", /*iPhone3/3GS Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "", /*iPhone4 Spotlight搜索程序图标，分辨率：58x58*/
+						/*iPhone4S/5/6 Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "", /*iPhone4设置页面程序图标，分辨率：29x29*/
+						/*iPhone4S/5/6设置页面程序图标，分辨率：58x58*/
+						"app@2x": "unpackage/res/icons/120x120.png",
+						"app@3x": "unpackage/res/icons/180x180.png",
+						"settings@3x": "unpackage/res/icons/87x87.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"spotlight@3x": "unpackage/res/icons/120x120.png",
+						"notification@3x": "unpackage/res/icons/60x60.png",
+						"notification@2x": "unpackage/res/icons/40x40.png"
+					},
+					"ipad": {
+						"normal": "", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "", /*iPad高分屏程序图标，分辨率：144x144*/
+						/*iPad iOS7程序图标，分辨率：76x76*/
+						/*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						/*iPad设置页面程序图标，分辨率：29x29*/
+						"app": "unpackage/res/icons/76x76.png",
+						"app@2x": "unpackage/res/icons/152x152.png",
+						"settings": "unpackage/res/icons/29x29.png",
+						"proapp@2x": "unpackage/res/icons/167x167.png",
+						"spotlight": "unpackage/res/icons/40x40.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"notification": "unpackage/res/icons/20x20.png",
+						"notification@2x": "unpackage/res/icons/40x40.png"
+					},
+					"appstore": "unpackage/res/icons/1024x1024.png"
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png",
+					"xxxhdpi": "unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
+						/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
+						/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
+						/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
+						"retina55l": "unpackage/splash/iphone678plus2.png",
+						"iphonex": "unpackage/splash/iphoneX.png",
+						"retina47": "unpackage/splash/iphone678.png",
+						"iphonexl": "unpackage/splash/iphoneX2.png",
+						"retina35": "unpackage/splash/iphone4s.png",
+						"retina40": "unpackage/splash/iphone5.png",
+						"retina55": "unpackage/splash/iphone678plus.png"
+					},
+					"ipad": {
+						"portrait": "unpackage/splash/iphoneX2.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "unpackage/splash/iphoneX2.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "unpackage/splash/iphoneX2.png", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "unpackage/splash/iphoneX2.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "unpackage/splash/iphoneX2.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "unpackage/splash/iphoneX2.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "unpackage/splash/iphoneX2.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": "unpackage/splash/iphoneX2.png"
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "",
+					"hdpi": "unpackage/splash/android1.png",
+					"xhdpi": "unpackage/splash/android2.png",
+					"xxhdpi": "unpackage/splash/android3.png"
+				}
+			}
+		},
+		"ads": {
+			"rp": false,
+			"splash": false,
+			"push": false
+		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"href": "index.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"js/hammer.min.js",
+					"js/jquery.hammer.js",
+					"img/index/focus1.png",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_11.png",
+					"img/app_06.png",
+					"img/app_03.png",
+					"img/app_focus_03.png",
+					"img/app_15.png",
+					"img/app_16.png"
+				],
+				"priority": 0,
+				"refer": [
+					"page/selectChargeMethod.html",
+					"page/login.html",
+					"page/setting.html",
+					"page/recharge.html",
+					"page/messageCategoryList.html",
+					"page/chargeList.html",
+					"page/chargingNowList.html",
+					"page/messageList.html",
+					"page/menu.html",
+					"page/shoppingMall.html",
+					"page/edition.html"
+				]
+			},
+			"page/login.html": {
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"js/mui.min.js",
+					"img/app_small_logo_03.png",
+					"img/app_close.png",
+					"img/logout/app_login_btn.png",
+					"img/app_reg_03.png"
+				],
+				"refer": [
+					"page/register.html",
+					"index.html",
+					"page/forgetPassword.html"
+				],
+				"priority": 0
+			},
+			"page/register.html": {
+				"resources": [],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
+			},
+			"page/selectChargeMethod.html": {
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"plugins/swiper-4.2.2/swiper-4.2.2.min.css",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"plugins/swiper-4.2.2/swiper-4.2.2.min.js",
+					"js/hammer.min.js",
+					"js/jquery.hammer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/charge/app_charge_bg.png",
+					"img/app_back.png",
+					"img/charge/app_charge_bg_2.png"
+				],
+				"refer": [
+					"page/selectChargingSocket.html",
+					"page/barcode_scan.html",
+					"page/chargeList.html",
+					"page/login.html"
+				],
+				"priority": 0
+			},
+			"page/selectChargingSocket.html": {
+				"resources": [],
+				"refer": [
+					"page/selectChargeMethod.html",
+					"page/chargingNowList.html"
+				],
+				"priority": 0
+			},
+			"page/setting.html": {
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png"
+				],
+				"refer": [
+					"page/articleList.html",
+					"page/modifyPassword.html",
+					"page/feedback.html",
+					"page/commonAddress.html",
+					"page/edition.html",
+					"page/AboutUs.html",
+					"page/maintenance.html"
+				],
+				"priority": 0
+			},
+			"page/messageCategoryList.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"page/pullrefresh_sub.html"
+				],
+				"refer": [
+					"page/messageList.html"
+				],
+				"priority": 0
+			},
+			"page/messageList.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"page/messageListSub.html",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png"
+				],
+				"refer": [
+					"page/messageListSub.html"
+				],
+				"priority": 0
+			},
+			"page/messageListSub.html": {
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js"
+				],
+				"refer": [
+					"page/messageContent.html"
+				],
+				"priority": 0
+			},
+			"page/menu.html": {
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/user_profile/app_03.png",
+					"img/user_profile/app_10.png",
+					"img/app_back.png",
+					"img/user_profile/app_33.png",
+					"img/user_profile/app_14.png",
+					"img/user_profile/app_19.png",
+					"img/user_profile/app_22.png",
+					"img/user_profile/app_25.png",
+					"img/user_profile/app_28.png",
+					"img/user_profile/app_30.png"
+				],
+				"refer": [
+					"page/articleList.html",
+					"page/applyCdz.html",
+					"page/myWallet.html",
+					"page/setting.html",
+					"page/recharge.html",
+					"page/userInfo.html",
+					"page/chargeList.html",
+					"page/invitation.html",
+					"page/iccard.html",
+					"page/login.html"
+				],
+				"priority": 0
+			},
+			"page/myWallet.html": {
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/chongzhi/app_09.png",
+					"img/app_charge.png",
+					"img/app_back.png"
+				],
+				"refer": [
+					"page/recharge.html",
+					"page/myRecharge.html",
+					"page/myCloudDrill.html"
+				],
+				"priority": 0
+			},
+			"page/forgetPassword.html": {
+				"href": "page/forgetPassword.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_yes_btn.png",
+					"img/app_back.png"
+				],
+				"refer": [
+					"index.html"
+				],
+				"priority": 1
+			},
+			"page/commonAddress.html": {
+				"href": "page/commonAddress.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png",
+					"img/app_yes_btn.png"
+				],
+				"priority": 1
+			},
+			"page/edition.html": {
+				"href": "page/edition.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/logo_big.png",
+					"img/app_back.png"
+				],
+				"priority": 2
+			},
+			"page/AboutUs.html": {
+				"href": "page/AboutUs.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png"
+				],
+				"priority": 3
+			},
+			"page/maintenance.html": {
+				"href": "page/maintenance.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png",
+					"img/app_yes_btn.png"
+				],
+				"priority": 4
+			},
+			"page/feedback.html": {
+				"href": "page/feedback.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png",
+					"img/app_yes_btn.png"
+				],
+				"priority": 5
+			},
+			"page/nickName.html": {
+				"href": "page/nickName.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/editPs/app_03.png",
+					"img/app_back.png"
+				],
+				"priority": 3
+			},
+			"page/modifyPassword.html": {
+				"href": "page/modifyPassword.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/editPs/app_03.png",
+					"img/app_back.png"
+				],
+				"refer": [
+					"index.html",
+					"page/forgetPassword.html"
+				],
+				"priority": 4
+			},
+			"page/userInfo.html": {
+				"href": "page/userInfo.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"js/mui.min.js",
+					"img/logout/app_03.png",
+					"img/app_back.png",
+					"img/user_profile/app_10.png"
+				],
+				"refer": [
+					"page/login.html",
+					"page/nickName.html",
+					"page/modifyPassword.html"
+				],
+				"priority": 2
+			},
+			"page/chargeList.html": {
+				"href": "page/chargeList.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/hammer.min.js",
+					"js/jquery.hammer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png"
+				],
+				"priority": 3
+			},
+			"page/recharge.html": {
+				"href": "page/recharge.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/hammer.min.js",
+					"js/jquery.hammer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/chongzhi/app_09.png",
+					"img/app_back.png"
+				],
+				"priority": 4,
+				"refer": [
+					"page/login.html",
+					"page/myWallet.html"
+				]
+			},
+			"page/myRecharge.html": {
+				"href": "page/myRecharge.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_money_icon.png",
+					"img/app_back.png"
+				],
+				"priority": 6
+			},
+			"page/myCloudDrill.html": {
+				"href": "page/myCloudDrill.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_yunzuang.png",
+					"img/app_back.png"
+				],
+				"priority": 7
+			},
+			"page/applyCdz.html": {
+				"href": "page/applyCdz.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"js/mui.min.js",
+					"img/app_back.png"
+				],
+				"priority": 6
+			},
+			"page/invitation.html": {
+				"href": "page/invitation.html",
+				"resources": [
+					"js/qrcode.min.js",
+					"img/logo_big.png",
+					"img/user_profile/app_10.png",
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/yaoqing/app_03.png",
+					"img/app_back.png",
+					"img/yaoqing/app_07.png",
+					"img/yaoqing/app_wx.png",
+					"img/yaoqing/app_wxpy.png",
+					"img/yaoqing/app_mdm.png"
+				],
+				"priority": 7
+			},
+			"page/articleContent.html": {
+				"href": "page/articleContent.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png"
+				],
+				"priority": 8
+			},
+			"page/articleList.html": {
+				"href": "page/articleList.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png"
+				],
+				"refer": [
+					"page/articleContent.html"
+				],
+				"priority": 8
+			},
+			"page/messageContent.html": {
+				"href": "page/messageContent.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js"
+				],
+				"priority": 2
+			},
+			"page/howToGet.html": {
+				"href": "page/howToGet.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"css/public.css",
+					"js/jquery-3.3.1.min.js",
+					"js/mui.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png"
+				],
+				"priority": 6
+			},
+			"page/shoppingMall.html": {
+				"href": "page/shoppingMall.html",
+				"resources": [
+					"css/iconfont.css",
+					"css/iconfont.eot",
+					"css/iconfont.ttf",
+					"css/iconfont.svg",
+					"css/common.css",
+					"css/bootstrap.min.css",
+					"plugins/layer/theme/default/layer.css",
+					"plugins/layer/theme/default/loading-1.gif",
+					"plugins/layer/theme/default/icon.png",
+					"plugins/layer/theme/default/loading-0.gif",
+					"plugins/layer/theme/default/loading-2.gif",
+					"plugins/layer/theme/default/icon-ext.png",
+					"js/jquery-3.3.1.min.js",
+					"js/bootstrap.min.js",
+					"plugins/layer/layer.js",
+					"js/common.js",
+					"js/base.js",
+					"img/app_back.png",
+					"img/user_profile/app_10.png",
+					"img/mall/goods1.png",
+					"img/mall/goods2.png"
+				],
+				"refer": [
+					"page/myCloudDrill.html",
+					"page/howToGet.html",
+					"page/recharge.html",
+					"page/productDetail.html",
+					"page/recordOfExchange.html"
+				],
+				"priority": 5
+			},
+			"page/productDetail.html": {
+				"resources": [],
+				"refer": [
+					"page/mallAddress.html"
+				],
+				"priority": 0
+			},
+			"page/mallAddress.html": {
+				"resources": [],
+				"refer": [
+					"page/recordOfExchange.html"
+				],
+				"priority": 0
+			},
+			"page/iccard.html": {
+				"resources": [],
+				"refer": [
+					"page/iccard_binding.html",
+					"page/barcode_scan.html"
+				],
+				"priority": 0
+			},
+			"page/iccard_binding.html": {
+				"resources": [],
+				"refer": [
+					"page/iccard.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/mui.pullToRefresh.js",
+				"jiuniu.keystore",
+				"js/mui.pullToRefresh.material.js",
+				"js/update.json",
+				"plugins/layer/mobile/need/layer.css",
+				"page/failureReporting.html",
+				"img/loading.gif",
+				"css/iconfont.js",
+				"img/shangcheng/app_shangcheng_11.png",
+				"img/yaoqing/app_qq.png",
+				"img/shangcheng/app_shangcheng_07.png",
+				"js/immersed.js",
+				"plugins/layer/mobile/layer.js",
+				"img/yaoqing/app_qqkj.png",
+				"img/chongzhi/app_07.png",
+				"YunZhiChongAPP.iml",
+				"page/selectChargingSocketOld.html",
+				"img/yaoqing/app_fulj.png",
+				"img/app_next_03.png",
+				"js/update.js",
+				"css/iconfont.woff",
+				"img/chongzhi/app_03.png",
+				"js/shortcut.js",
+				"README.md"
+			]
+		}
+	},
+	"fullscreen": false,
+	"unpackage":[
+	  "css/iconfont.js",
+	  "css/iconfont.woff",
+	  "img/chongzhi/app_03.png",
+	  "img/chongzhi/app_07.png",
+	  "img/shangcheng/app_shangcheng_07.png",
+	  "img/shangcheng/app_shangcheng_11.png",
+	  "img/yaoqing/app_fulj.png",
+	  "img/yaoqing/app_qq.png",
+	  "img/yaoqing/app_qqkj.png",
+	  "img/app_next_03.png",
+	  "img/loading.gif",
+	  "js/immersed.js",
+	  "js/mui.pullToRefresh.js",
+	  "js/mui.pullToRefresh.material.js",
+	  "js/shortcut.js",
+	  "js/update.js",
+	  "js/update.json",
+	  "page/failureReporting.html",
+	  "page/selectChargingSocketOld.html",
+	  "plugins/layer/mobile/layer.js",
+	  "plugins/layer/mobile/need/layer.css",
+	  "README.md",
+	  "jiuniu.keystore"
+	]
+}

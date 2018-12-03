@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/>
+    <title>菜单</title>
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>
+
+    <style type="text/css">
+        .topBox{
+            position: relative;
+        }
+        #userAvator {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            left: 15%;
+            bottom: -30px;
+        }
+        #mobileBox{
+            margin-left: 15%;
+            padding-top: 40px;
+            font-size: 1.1rem;
+        }
+
+        #navBox{
+            display: block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-left: 15%;
+            padding-top: 20px;
+        }
+        #navBox li{
+            display: block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            line-height:50px;
+        }
+        #navBox li img{
+            height: 30px;
+            vertical-align: middle;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        #settingBtn{
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+        #settingBtn img{
+            display: block;
+            width: 35px;
+        }
+
+        #backBtn{
+            position: fixed;
+            top: 20px;
+            left: 20px;
+        }
+        #backBtn img{
+            display: block;
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header id="header2" style="background:url('../img/user_profile/app_03.png');background-size: cover ">
+    <div class="headInner">
+        <div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+        <div class="right" onclick="clicked('setting.html')"><img src="../img/user_profile/app_33.png" style="width: 42px"></div>
+        <div style="clear: both"></div>
+    </div>
+</header>
+
+<div class="contentBox" >
+
+    <div class="topBox">
+        <img src="../img/user_profile/app_03.png" style="display: block;width: 100%">
+        <img src="../img/user_profile/app_10.png" id="userAvator" onclick="clicked('userInfo.html')">
+    </div>
+
+    <div id="mobileBox">
+
+    </div>
+    
+    <ul id="navBox">
+        <li id="chargeList.html" onclick="clicked(this.id)">
+            <img src="../img/user_profile/app_14.png"> 我的充电
+        </li>
+        <li id="recharge.html" onclick="clicked(this.id)">
+            <img src="../img/user_profile/app_19.png"> 我的充值
+        </li>
+        <li id="myWallet.html" onclick="clicked(this.id)">
+            <img src="../img/user_profile/app_22.png"> 我的钱包
+        </li>
+        <li id="iccard.html" onclick="clicked(this.id)">
+        	<img src="../img/user_profile/app_34.png"> 我的IC卡
+        </li>
+        <li id="applyCdz.html" onclick="clicked(this.id)">
+        	<img src="../img/user_profile/app_25.png"> 申请建桩
+        </li>
+        <li id="invitation.html" onclick="clicked(this.id)">
+            <img src="../img/user_profile/app_28.png"> 邀请好友
+        </li>
+        <li id="articleList.html" onclick="clicked(this.id)">
+            <img src="../img/user_profile/app_30.png"> 客服中心
+        </li>
+    </ul>
+
+</div>
+
+
+<script type="application/javascript">
+
+    if(window.plus){
+        getUserInfo();
+    }else{
+        document.addEventListener('plusready',pagePlusReady,false);
+    }
+    function pagePlusReady(){
+
+        uploadLoginInfo();
+
+        checkLogin();
+        getUserInfo();
+    }
+    /**
+     * 获取用户信息
+     */
+    function getUserInfo(){
+        var uuid = plus.storage.getItem("uuid");
+        if(vaildeParam(uuid)){
+            var mobile = plus.storage.getItem("mobile");
+            var nickname = plus.storage.getItem("nickname");
+            var gender = plus.storage.getItem("gender");
+
+            mobile  = mobile.substr(0, 3) + '****' + mobile.substr(7);
+            $("#mobileBox").text(mobile);
+            setHeadImage();
+            
+      /*      postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+                console.log("## res ## : "+res);
+                if("0" == res.code){
+                    var mobile = res.data.mobile;
+                    console.log("## mobile ## : "+mobile)
+                    $("#mobileBox").text(mobile);
+                    var headImage = res.data.headImage;
+                    console.log("## headImageURL ## : "+headImage)
+                    if(vaildeParam(headImage)){
+                        console.log("## headImage ## : "+headImage)
+                        document.getElementById('userAvator').src = headImage;
+                    }
+                }else{
+                    layer.msg(res.msg);
+                    clearLogin();
+                    clicked("page/login.html");
+                }
+            });*/
+        }else{
+            layer.msg(res.msg);
+            clearLogin();
+            clicked("page/login.html");
+        }
+    }
+    
+    function setHeadImage() {
+    	var headImage = plus.storage.getItem("headImage");
+        if(vaildeParam(headImage)){
+            console.log("## headImage ## : "+headImage)
+            document.getElementById('userAvator').src = headImage;
+        }
+    }
+
+</script>
+
+</body>
+
+</html>

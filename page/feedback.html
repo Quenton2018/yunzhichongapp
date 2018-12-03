@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>意见反馈</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+        <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+		
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<!--引入公用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/public.css" />
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+
+		<style type="text/css">
+
+			.content{
+				border-bottom:none;
+			}
+
+
+            #textarea{
+                background: #EDEDED;
+                border: none;
+            }
+
+			.submitBtn{
+				background: transparent;
+			}
+			.submitBtn:focus{
+				background: transparent;
+			}
+			.submitBtn:hover{
+				background: transparent;
+			}
+		</style>
+	</head>
+	<body style="background: #fff;">
+
+		<header id="header2">
+			<div class="headInner">
+				<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+				<div class="right">&nbsp;</div>
+				<div style="clear: both"></div>
+			</div>
+		</header>
+
+		<div class="myContent" style="padding-top: 70px" >
+
+			<h1 class="pageBigTitle">意见反馈</h1>
+
+			<!--头部搜索框-->
+			<div class="textBox" style="margin-top: 2rem;">
+				<textarea id="textarea" name="content" rows="8" maxlength="300"  placeholder="请留下您的宝贵建议，我们将努力改进（不少于5个字，最多不超过200字）"></textarea>
+				<!--确认按键-->
+				<div type='button' class="submitBtn" style="padding-top: 20px ;border: none;">
+                    <img src="../img/app_yes_btn.png" style="display: block;width: 100%">
+                </div>
+			</div>
+		</div>
+			
+			
+    </body>
+
+    <script type="text/javascript" charset="utf-8">
+
+        if(window.plus){
+            pagePlusReady();
+        }else{
+            document.addEventListener('plusready',pagePlusReady,false);
+        }
+        function pagePlusReady(){
+
+            uploadLoginInfo();
+
+        }
+
+
+        mui.init();
+        var canPostFlag = true;
+        	$(".submitBtn").click(function(){
+        		var uuid = plus.storage.getItem("uuid");
+				var content = $('#textarea').val();
+
+                if(!canPostFlag){
+                    layer.msg("已提交,不可重复提交！");
+                    return;
+                }
+
+                canPostFlag = false;
+
+				if(content.length<5){
+                    layer.msg("内容不能少于5个字");
+                    canPostFlag = true;
+                    return;
+				}
+				if( content.length>=200){
+                    layer.msg("内容不能大于200个字");
+                    canPostFlag = true;
+                    return;
+				}
+				if(!vaildeParam(content)){
+					layer.msg("内容不能为空");
+                    canPostFlag = true;
+					return;
+				}
+				var data = {
+					"uuid":uuid,
+					"content":content,
+					"type":0
+				}
+        	postJSON(API_URL.APIFeedbackSaveFeedback,data,function(res){
+					if("0" == res.code){
+						layer.msg("您提交的宝贵意见，我们已经收到");
+						setTimeout(function(){
+							back();
+						},3000);
+					}else{
+						layer.msg(res.msg);
+					}
+				});
+			});
+    </script>
+
+</html>

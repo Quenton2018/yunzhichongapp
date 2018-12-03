@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>消息</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+        <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<!--引入公用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/public.css" />
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+	</head>
+	<style>
+			.mui-bar-nav{
+			    background: #FA8F25;
+			}
+			.mui-bar{
+				 padding-left: 0px;
+				 padding-right: 0px;
+			}
+			.mui-pull-left{
+				color: #FFFFFF;
+				width: 15%;
+				height: 100%;
+			}
+			.mui-title{
+				color: #FFFFFF;
+			}
+			.mui-media-body{
+			    height: 12rem;
+			}
+			.common-message{
+				 margin-top: 0.3rem;
+			}
+			p {
+				font-size: 17px;
+				margin-top: 1rem;
+				color:#555555;
+			}
+	</style>
+	<body>
+		<header class=" mui-bar mui-bar-nav " >
+			<a class="mui-pull-left"  onclick="back()" ><i class="iconfont icon-fanhui"></i></a>
+			<h1 class="mui-title">消息详情</h1>
+		</header>
+		<div class="mui-content">
+		        <div class="mui-scroll">
+		            <!--数据列表-->
+					     <ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell mui-media">
+									<div class="mui-media-body">
+										<p class="common-message">
+											加载中...
+										</p>
+									</div>
+							</li>
+						</ul>
+		        </div>
+		</div>
+		<script>
+			
+			if(window.plus){
+				pagePlusReady();
+			}else{
+				document.addEventListener('plusready',pagePlusReady,false);
+			}
+			function pagePlusReady(){
+
+                uploadLoginInfo();
+
+				getMessageContent();
+			}
+			function getMessageContent(){
+        		var messageId = plus.storage.getItem("messageId");
+        		console.log("messageId:"+messageId);
+        		var dataParam = {
+				"messageId":messageId
+				}
+    		postJSON(API_URL.ApiMessageGetMessageByID,dataParam,function(res){
+				if("0" == res.code){
+					if(null!=res.data){
+						var data = res.data.content;
+						$(".common-message").html(data);
+					}
+				}else{
+					layer.msg(res.msg);
+				}
+			})	
+		}
+			
+		</script>
+	</body>
+
+</html>

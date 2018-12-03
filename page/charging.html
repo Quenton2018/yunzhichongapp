@@ -1,0 +1,599 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>开始充电</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/hammer.min.js"></script>
+		<script src="../js/jquery.hammer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		<script src="../js/circleChart.min.js"></script>
+		
+		<style type="text/css">
+
+            .dataList{
+                padding-top: 15px;
+            }
+            .itemActive{
+
+            }
+            .itemActive .itemActiveInner{
+                background: #C7C7C7;
+                border: #EDEDED solid 5px;
+                border-radius: 30px;
+                text-align: center;
+                height: 50px;
+                position: relative;
+                color: #fff;
+                overflow: hidden;
+            }
+            .itemActive .itemActiveInner .textBox{
+                position: absolute;
+                top: 0;
+                height: 40px;
+                z-index: 1;
+                width: 100%;
+                line-height: 40px;
+            }
+            .itemActive .itemActiveInner .progressBox{
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 40px;
+                background: #F26F47;
+                z-index: 0;
+            }
+            .itemActive .bottomText{
+                text-align: center;
+                font-size: .8rem;
+                padding: 10px;
+            }
+
+            .dataNormal{
+                padding: 10px;
+                border-bottom:#ECECEC dashed 1px;
+            }
+            .dataNormal .left{
+                float: left;
+            }
+            .dataNormal .left .date{
+                color: #eaeaea;
+                font-size: .9rem;
+                padding-bottom: 5px;
+            }
+            .dataNormal .left span{
+                display: inline-block;
+                margin-right: 10px;
+            }
+            .dataNormal .right{
+                float: right;
+                line-height: 55px;
+            }
+            .dataNormal .left .date{
+                color: #333;
+            }
+			#loadMore{
+				background: #eaeaea;
+				margin-top: 10px;
+				padding: 10px;
+                text-align: center;
+                margin-top: 10px;
+                font-size: .8rem;
+                display: none;
+			}
+			.noMore{
+				margin-top: 10px;
+				padding: 10px;
+				text-align: center;
+				margin-top: 10px;
+				font-size: .8rem;
+				display: none;
+			}
+
+			.myTabWrap{
+				box-shadow: 0px 10px 10px RGBA(116, 116, 116, .1);
+			}
+			.nav-tabs{
+				border: none;
+				display: block;
+				margin: 0 2rem;
+			}
+			.nav-tabs a{
+				font-size: 1.2rem;
+				color:#000000;
+				display: block;
+				float: left;
+				border-bottom: #fff solid 5px;
+				text-align: center;
+				padding: 10px;
+				text-decoration: none;
+			}
+			.nav-tabs a.active{
+				border-bottom-color: #EA6F1F;
+			}
+			.nav-tabs a:first-child{
+				margin-right: 30px;
+			}
+			
+			.dataItem{
+				position: relative;
+			}
+			.redundInfo{
+				position: absolute;
+				right: 10px;
+				bottom: -10px;
+				font-size: .7rem;
+				color: red;
+			}
+			.cs-location {
+				margin: 10% 0 0;
+				width: 100%;
+				text-align: center;
+				line-height: 24px;
+			}
+			.separate {
+				width: 100%;
+				height: 40px;
+			}
+			.separate .left, .separate .right {
+				position: absolute; 
+				width: 40px; 
+				height: inherit; 
+				border-radius: 40px; 
+				background: #F7F7F7;
+			}
+			.separate .line {
+				margin: 20px 5% 0; 
+				width: 90%; 
+				float: left;
+				height: 1px; 
+				border-top: 1px dashed #E0E0E0;
+			}
+			.cs-info {
+				text-align: center;
+				background-color: #FFFFFF;
+				border-radius: 5px;
+				letter-spacing: 1px;
+				width: 100%;
+			}
+			.cs-info .top {
+				padding-top: 5%;
+			}
+			.cs-info .bottom {
+				padding-bottom: 5%;
+			}
+			.cs-info .face {
+				width: 20%;
+				margin: 0 auto;
+			}
+			.cs-info .face img {
+				width: 100%;
+			}
+			.cs-info .mobile {
+				font-size: 14px;
+				line-height: 16px;
+				font-weight: 600;
+			}
+			.cs-info .money {
+				font-size: 24px;
+				line-height: 32px;
+				font-weight: 600;
+			}
+			.cs-info .unit {
+				font-size: 14px;
+				line-height: 16px;
+			}
+			.cs-info table {
+				margin: 0 5%;
+				width: 90%;
+				font-size: 16px;
+				font-weight: 600;
+			}
+			.cs-info table tr {
+				width: 100%;
+				height: 24px;
+				line-height: 24px;
+			}
+			.cs-info table tr th {
+				width: 30%;
+				font-weight: normal;
+				text-align: left;
+			}
+			.cs-info table tr td {
+				width: 50%;
+				text-align: right;
+			}
+			footer {
+				margin: 0 5%;
+				width: 90%;
+				height: 63px;
+				position: absolute;
+				bottom: 0;
+			}
+			footer .left {
+				width: 44%;
+				overflow: hidden;
+				float: left;
+			}
+			footer .right {
+				width: 55%;
+				float: right;
+				text-align: right;
+				line-height: 55px;
+				font-size: 16px;
+				color: #666666;
+				font-weight: 900;
+			}
+			#userAvator {
+				border-radius: 50px;
+			}
+			
+			.biggest {
+				width: 100%;
+				margin: 10px auto;
+				margin-bottom: 10px;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			.circleProgress_wrapper {
+				width: 90%;
+				min-height: 180px;
+				margin: 5% auto;
+				position: relative;
+				font-size: 0;
+			}
+			
+			.bottom {
+				display: -webkit-flex;
+				display: flex;
+				-webkit-justify-content: space-between;
+				justify-content: space-between;
+				overflow: hidden;
+			}
+			
+			.bottom .bottom_time {
+				margin-left: 40px;
+			}
+			
+			.bottom .bottom_rmb {
+				margin-right: 40px;
+			}
+			
+			.bottom_time div span:first-child {
+				font-size: 26px;
+				font-weight: bold;
+			}
+			
+			.bottom_time div span:last-child {
+				font-size: 14px;
+				/*font-weight: bold;*/
+			}
+			
+			.bottom_time div:last-child {
+				font-size: 14px;
+				color: rgb(161, 161, 161);
+			}
+			
+			.bottom_kw div span:first-child {
+				font-size: 26px;
+				font-weight: bold;
+			}
+			
+			.bottom_kw div span:last-child {
+				font-size: 14px;
+				/*font-weight: bold;*/
+			}
+			
+			.bottom_kw div:last-child {
+				font-size: 14px;
+				color: rgb(161, 161, 161);
+			}
+			
+			.bottom_rmb div span:first-child {
+				font-size: 26px;
+				font-weight: bold;
+			}
+			
+			.bottom_rmb div span:last-child {
+				font-size: 14px;
+				/*font-weight: bold;*/
+			}
+			
+			.bottom_rmb div:last-child {
+				font-size: 14px;
+				color: rgb(161, 161, 161);
+			}
+			
+			.small_time div span {
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+				width: 8px;
+				text-align: center;
+				vertical-align: middle;
+			}
+			
+			.small_time div .dian {
+				display: inline-block;
+				margin-left: 3px;
+				padding-left: 1px;
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body style="background-color: #F7F7F7;">
+
+		<header id="header2" style="background-color: transparent;">
+			<div class="headInner">
+				<!--<div class="left" id="back"  onclick="clicked('chargeList.html')" ><img src="../img/app_back.png" /></div>-->
+				<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+				<div class="right">&nbsp;</div>
+				<div style="clear: both"></div>
+			</div>
+		</header>
+
+		<div class="myContent" style="padding-top: 70px;padding-bottom: 10px;width: 90%;margin: 0 5%;">
+
+			<h1 class="pageBigTitle">
+				开始充电
+			</h1>
+			
+			<div class="cs-location">
+				<p style="font-size: 20px; line-height: 24px; width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 auto;">
+					<img src="../img/charge/location.png" ><span id="order-addr"></span>
+				</p>
+				<p style="line-height: 16px;">桩号<span id="order-zh" style="color: #FF6D22;"></span>-插座号<span id="order-cz" style="color: #FF6D22;"></span></p>
+			</div>
+			
+			<div class="cs-info">
+				<!--充电时长-->
+				<div class="biggest">
+					<div class="circleProgress_wrapper">
+						<div class="circleChart"></div>
+					</div>
+				</div>
+				
+				<div class="bottom" style="display: none;">
+					<div class="bottom_time">
+						<div>
+							<span id="remainingTime">0</span>
+							<span id="remainingTimeUnit">分钟</span>
+						</div>
+						<div>预计时间</div>
+					</div>
+					<div class="bottom_kw">
+						<div>
+							<span id="order-power">0</span>
+							<span>瓦</span>
+						</div>
+						<div>充电功率</div>
+					</div>
+					<div class="bottom_rmb">
+						<div>
+							<span id="order-money">0</span>
+							<span>元</span>
+						</div>
+						<div>预计金额</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<footer>
+			<div class="left">
+				<img src="../img/logo_footer.gif" width="140px" />
+			</div>
+			<div class="right">充电安全，省钱省力</div>
+		</footer>
+		
+
+		
+		<script type="application/javascript" charset="utf-8">
+			
+			var ws=null;
+			// 处理沉浸式状态栏
+			var topoffset=0;
+			var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+			if(ms&&ms.length>=3){
+				topoffset=parseFloat(ms[2]);
+			}
+		
+			var pageNumber = 1;
+			var pageSize = 10;
+			
+			if(window.plus){
+				pagePlusReady();
+			}else{
+				document.addEventListener('plusready',pagePlusReady,false);
+			}
+			
+			function pagePlusReady(){
+                getList();
+				
+				ws=plus.webview.currentWebview();
+				if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+					topoffset=Math.round(plus.navigator.getStatusbarHeight());
+				}
+				ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+			}
+			
+			// 刷新页面
+			function onRefresh(){
+				$(".dataList").html("")
+				getList();
+				ws.endPullToRefresh();
+			}
+			
+			/**
+			 * 倒计时
+			 * 
+			 * @param {Object} estimateSeconds 充电总时长
+			 * @param {Object} seconds 已充电时长
+			 */
+			var countDownTime = function(estimateSeconds, remainingSeconds, goon) {
+				var seconds = estimateSeconds - remainingSeconds;
+				$(".circleChart").circleChart({
+				    value: parseInt((seconds / estimateSeconds) * 100),
+				    startAngle: 175,
+				    speed: 1000,
+				    size: 200,
+				    text: '00:00:00',
+				    lineCap: 'butt',
+				    widthRatio: 0.3,
+				    color: '#E36C3E',
+				    backgroundColor: '#F7F7F7',
+				    animation: "easeInOutCubic"
+				});
+				
+				var estimateHours = parseInt(estimateSeconds / 3600);
+				var estimateMinutes = parseInt(estimateSeconds / 60) - estimateHours * 60;
+				if (estimateHours > 0) {
+					$('#remainingTime').html(estimateHours);
+					$('#remainingTimeUnit').html("小时");
+				} else if (estimateMinutes > 0) {
+					$('#remainingTime').html(estimateMinutes);
+					$('#remainingTimeUnit').html("分钟");
+				} else {
+					$('#remainingTime').html(estimateSeconds);
+					$('#remainingTimeUnit').html("秒");
+				}
+				
+				showTime(estimateSeconds, remainingSeconds);
+				
+				if (goon) {
+					var t = setInterval(function() {
+						remainingSeconds--;
+						if (remainingSeconds >= 0) {
+							showTime(estimateSeconds, remainingSeconds);
+						}
+						
+						var uuid = plus.storage.getItem("uuid");
+						var sn = location.href;
+				        sn = sn.substring(sn.lastIndexOf('#') + 1);
+						if(vaildeParam(uuid) && vaildeParam(sn)) {
+							// 每五分钟查询一次
+							if (remainingSeconds % 60 == 0 || remainingSeconds <= 0) {
+								postJSONNoIcon(API_URL.ApiUserChargingDetailGetChargeOrder, {
+						        	"uuid": uuid,
+						        	"charge_order_number": sn
+						        }, function(res) {
+						        	if ("0" == res.code) {
+						        		console.log('####' + res.data.status)
+						        		if (res.data.endReason != null) {
+						        			window.clearInterval(t);
+						        			plus.nativeUI.alert('充电结束');
+						        		}
+						        	}
+						        });
+							}
+						}
+						
+						/*if (remainingSeconds == 0) {
+							window.clearInterval(t);
+						}*/
+					}, 1000);
+				}
+				function showTime(estimateSeconds, remainingSeconds) {
+					var timestr;
+					if (remainingSeconds <= 0) {
+						remainingSeconds = 0;
+					}
+					
+					var seconds = estimateSeconds - remainingSeconds;
+					$(".circleChart").circleChart({
+					    value: parseInt((seconds / estimateSeconds) * 100)
+					});
+					var hours = parseInt(seconds / 3600);
+					var minutes = parseInt(seconds / 60) - hours * 60;
+					seconds = seconds % 60;
+					timestr = (hours < 10 ? '0' : '') + hours 
+						+ ":" + (minutes < 10 ? '0' : '') + minutes 
+						+ ":" + (seconds < 10 ? '0' : '') + seconds;
+					$('.circleChart_text').html(timestr);
+				}
+			}
+			
+			function getList(){
+				var uuid = plus.storage.getItem("uuid");
+				var sn = location.href;
+		        sn = sn.substring(sn.lastIndexOf('#') + 1);
+				if(vaildeParam(uuid) && vaildeParam(sn)) {
+			        postJSON(API_URL.ApiUserChargingDetailGetChargeOrder, {
+			        	"uuid": uuid,
+			        	"charge_order_number": sn
+			        }, function(res) {
+			        	if ("0" == res.code) {
+			        		var estimateSeconds = res.data.timeTotal * 60;
+			        		var seconds;
+			        		var goon = res.data.status == 1 && res.data.endReason == null;
+			        		if (goon) {
+			        			seconds = parseInt((res.data.endDate < new Date().getTime() 
+			        			? 0 : res.data.endDate - new Date().getTime()) / 1000);
+			        		} else {
+			        			seconds = estimateSeconds - parseInt(res.data.chargingTime) * 60;
+			        		}
+			        		countDownTime(estimateSeconds, seconds, goon);
+			        		
+			        		if (res.data.charging.groupId) {
+			        			$('#order-addr').text(res.data.charging.groupId.name);
+			        		}
+			        		$('#order-zh').text(res.data.charging.shellId.substr(0, 1));
+			        		if (res.data.czId) {
+			        			$('#order-cz').text(parseInt(res.data.czId.code) + 1);
+			        		}
+			        		/*if (res.data.member) {
+			        			$('#order-mobile').text(res.data.member.mobile);
+			        		}*/
+			        		$('#order-money').text(res.data.amount);
+		        			// $('#order-number').text(res.data.charging.code);
+			        		/*var t = parseInt(res.data.chargingTime);
+			        		var hour = parseInt(t / 60);
+			        		hour = (hour >= 10 ? '' : '0') + hour;
+			        		var second = (t % 60 >= 10 ? '' : '0') + (t % 60);*/
+			        		// $('#order-time').text(hour + ":" + second + ":00");
+			        		$('#order-power').text(200);
+			        	} else {
+			        		plus.nativeUI.alert(res.msg);
+			        	}
+			        });
+				}
+			}
+			
+			/*$(".circleChart").circleChart({
+			    value: 0,
+			    startAngle: 175,
+			    speed: 1000,
+			    size: 200,
+			    text: '00:00:00',
+			    lineCap: 'butt',
+			    widthRatio: 0.3,
+			    color: '#E36C3E',
+			    backgroundColor: '#F7F7F7',
+			    animation: "easeInOutCubic"
+			});*/
+			
+            /*var headImage = plus.storage.getItem("headImage");
+            if(vaildeParam(headImage)){
+                console.log("## headImage ## : "+headImage)
+                document.getElementById('userAvator').src = headImage;
+            }*/
+			
+		</script>
+		
+	</body>
+
+</html>

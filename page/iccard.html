@@ -1,0 +1,229 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>我的IC卡</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		
+		<link rel="stylesheet" href="../plugins/swiper-4.2.2/swiper-4.2.2.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" type="text/css" charset="utf-8"/>
+		
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/hammer.min.js"></script>
+		<script src="../js/jquery.hammer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		
+		<script src="../plugins/swiper-4.2.2/swiper-4.2.2.min.js"></script>
+		
+		<style type="text/css">
+			
+			.headInner .right {
+				padding-left: 10px;
+			}
+			
+            .dataList{
+                padding-top: 15px;
+            }
+			
+			.dataItem{
+				position: relative;
+			}
+			
+			.dataItem .iccard {
+				width: 100%;
+			}
+			
+			.dataItem .iccard_unenable {
+				width: 100%;
+				-webkit-filter: grayscale(1);
+		        filter: gray;
+		        filter: grayscale(1);
+			}
+			
+			.dataItem span {
+				position: absolute;
+				left: 15%;
+				bottom: 15%;
+				font-size: 14px;
+				font-family: courier;
+				color: #F0F0F0;
+			}
+			
+			.redundInfo{
+				position: absolute;
+				right: 10px;
+				bottom: -10px;
+				font-size: .7rem;
+				color: red;
+			}
+
+			.inputIcCardIdBtn {
+				margin-top:0;
+			}
+			
+			.layui-layer .layui-layer-btn .layui-layer-btn1 {
+				background: #FFFFFF; 
+				color: #666666;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<header id="header2">
+			<div class="headInner">
+				<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
+				<div class="right">
+                    <i class="iconfont icon-richscan_icon" onclick="clicked('barcode_scan.html')" style="color: #E36C3E;font-size: 1.2rem;font-weight: bold"></i>
+                    &nbsp;
+                </div>
+				<div style="clear: both"></div>
+			</div>
+		</header>
+		
+		<div class="myContent" style="padding-top: 70px;">
+
+			<h1 class="pageBigTitle">我的IC卡</h1>
+
+			<div class="dataList" style="min-height: 206px;">
+				<!--<div class="nodata">
+	        		<p style="width: 50%; margin: 10px auto;">
+	        			<img src="../img/iccard/noneIcCard.png" style="width: 100%;">
+	        		</p>
+	        		<p style="width: 100%; text-align: center;">您还没有IC卡，请扫码添加</p>
+	        	</div>-->
+			</div>
+		
+			<div class="inputIcCardIdBtn" onclick="clicked('iccard_binding.html')">
+				<img src="../img/iccard/input-iccard.png" style="display: block;width: 100%">
+			</div>
+		</div>
+		
+        <script type="text/html" id="dataTmp">
+        	<div class="dataItem dataNormal" onclick="clicked('iccard_unbinding.html#{{cardid}}')">
+				<img class="{{class}}" src="../img/iccard/iccard.png" />
+				<span>NO.{{cardid}}</span>
+                <div style="clear: both"></div>
+			</div>
+        </script>
+		<script type="text/html" id="nodataTmp">
+        	<div class="nodata">
+        		<p style="width: 50%; margin: 10px auto;">
+        			<img src="../img/iccard/noneIcCard.png" style="width: 100%;">
+        		</p>
+        		<p style="width: 100%; text-align: center;">您还没有IC卡，请扫码添加</p>
+        	</div>
+        </script>
+		
+		<script type="application/javascript" charset="utf-8">
+			
+			var ws=null;
+			// 处理沉浸式状态栏
+			var topoffset=0;
+			var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+			if(ms&&ms.length>=3){
+				topoffset=parseFloat(ms[2]);
+			}
+		
+			var pageNumber = 1;
+			var pageSize = 10;
+			
+			if(window.plus){
+				pagePlusReady();
+			}else{
+				document.addEventListener('plusready',pagePlusReady,false);
+			}
+			
+			function pagePlusReady(){
+                getList();
+				
+				ws=plus.webview.currentWebview();
+				if(plus.navigator.isImmersedStatusbar()){// 兼容沉浸式状态栏模式
+					topoffset=Math.round(plus.navigator.getStatusbarHeight());
+				}
+				ws.setPullToRefresh({support:true,style:'circle',offset:topoffset+45+'px'},onRefresh);
+			}
+			
+			// 刷新页面
+			function onRefresh(){
+                $("#loadMore").css({"display":"none"});
+                $("#noMore").css({"display":"none"});
+				pageNumber = 1;
+				$(".dataList").html("")
+				getList();
+				ws.endPullToRefresh();
+			}
+			
+			function getList(){
+				var uuid = plus.storage.getItem("uuid");
+				if (vaildeParam(uuid)) {
+					postJSON(API_URL.ApiMemberCardGetCardList, {"uuid" : uuid}, function (res) {
+						if("0" == res.code){
+							var data = res.data;
+							var html = '';
+							if (data.length > 0) {
+								var html = '';
+								$.each(data, function(index, item) {
+	                                var tmp = $("#dataTmp").html();
+									
+									var cardId = item.card_id;
+									var enable = item.enable;
+									html += tmp.replace(/{{cardid}}/g, item.card_id)
+											.replace(/{{class}}/g, item.enable ? 'iccard' : 'iccard_unenable');
+								});
+								
+							} else {
+								var tmp = $("#nodataTmp").html();
+								html += tmp;
+							}
+							$(".dataList").html(html);
+						} else {
+							layer.msg(res.msg);
+						}
+					})
+				}
+			}
+			
+			function scaned(type, result, file) {
+				var uuid = plus.storage.getItem("uuid");
+				if (vaildeParam(uuid)) {
+		        	layer.msg('确认绑定IC卡？', {
+		        		time: 0,
+		        		btn: ['确定', '取消'],
+		        		yes: function(index) {
+			    			layer.close(index);
+			    			
+			    			icCardbinding(uuid, result);
+			        	}
+		        	});
+				}
+	        }
+			
+			function icCardbinding(uuid, cardid) {
+				postJSON(API_URL.ApiMemberCardBindingCard, {
+					"uuid" : uuid,
+					"iccard" : cardid
+				}, function(res) {
+					if (res.code == '0') {
+						layer.msg('绑定成功');
+						onRefresh();
+					} else {
+						layer.msg(res.msg);
+					}
+				});
+			}
+		</script>
+		
+	</body>
+
+</html>

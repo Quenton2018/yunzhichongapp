@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
+		<title>关于我们</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+        <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<!--引入公用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/public.css" />
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+
+		<style type="text/css">
+			.pageBigTitle{
+				float: right;
+				line-height: inherit;
+				margin-left: 20px;
+			}
+
+			#invitation{
+				display: block;
+				width: 26%;
+				margin: 0 auto;
+				margin-top: 100px;
+			}
+			.bottom-content{
+				margin-top: 20px;
+				text-align: center;
+			}
+			.bottom-content p{
+				font-size: 18px;
+				color: #000000;
+			}
+			.myContent{
+				margin-bottom: 60px;
+			}
+			.middle-content{
+				background:#ffffff;
+			}
+			.dataList{
+				margin: 0 1rem;
+			}
+			.myList .listItem {
+				height: 40px;
+				line-height: 40px;
+				clear: both;
+
+			}
+			.border-item{
+				border-bottom: 1px solid  #EFEFF4;
+			}
+			.footer{
+				/* height: 100px; */
+				width: 100%;
+				/* background-color: #ddd; */
+				position: fixed;
+				bottom: 10px;
+				text-align: center;
+				color: #000000;
+			}
+
+			.myList .right {
+				float: right;
+				color: #FC7837;
+			}
+			.myList .listItem i {
+				 color: #000000;
+				margin-right: 10px;
+			}
+
+		</style>
+	</head>
+	<body style="background: #EFEFF4; position: fixed;">
+
+		<header id="header2">
+			<div class="headInner">
+				<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" />
+					<h1 class="pageBigTitle">关于我们</h1>
+				</div>
+				<div class="right">&nbsp;</div>
+				<div style="clear: both"></div>
+			</div>
+		</header>
+
+		<div class="bodyContent">
+			<div class="myContent">
+				<img id="invitation" src="../img/logo_big.png" >
+				<div class="bottom-content">
+					<P>云智充<span class="appVersion"></span></P>
+				</div>
+			</div>
+			<div class="middle-content">
+				<div class="myList dataList" id="dataList" >
+					<div class="listItem border-item">
+						<div class="left"><i class="iconfont icon-weixingongzhonghao"></i>微信公众号</div>
+						<div class="right"><span class="text-muted"></span>云智充</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="listItem border-item">
+						<div class="left"><i class="iconfont icon-101"></i>联系电话</div>
+						<div class="right"><span class="text-muted"></span>400-825-1068</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="listItem border-item">
+						<div class="left"><i class="iconfont icon-icon-mail"></i>电子邮箱</div>
+						<div class="right"><span class="text-muted"></span>yunzhichong@jx9n.com</div>
+						<div class="clearfix"></div>
+					</div>
+					<!--<div class="listItem border-item">
+						<div class="left"><i class="iconfont icon-zhengfu"></i>政府及公共事务</div>
+						<div class="right"><span class="text-muted"></span>pubilc@yunzhichong.com</div>
+						<div class="clearfix"></div>
+					</div>-->
+					<div class="listItem ">
+						<div class="left"><i class="iconfont icon-wangzhan"></i>官方网站</div>
+						<div class="right"><span class="text-muted"></span>yunzhichong.com</div>
+						<div class="clearfix"></div>
+					</div>
+					<!--<div class="listItem">
+						<div class="left"><i class="iconfont icon-hezuo"></i>广告合作</div>
+						<div class="right"><span class="text-muted"></span>busishansah@moyunzc.com</div>
+						<div class="clearfix"></div>
+					</div>-->
+				</div>
+			</div>
+
+			<div class="footer">
+				上海五纷物联技术有限公司
+			</div>
+
+		</div>
+
+
+
+
+
+   </body>
+   
+   
+   
+	<script type="text/javascript" charset="utf-8">
+
+        $(".appVersion").text(appVersion);
+    		
+    </script>
+
+</html>
