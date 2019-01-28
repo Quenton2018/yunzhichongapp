@@ -1,0 +1,421 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<title>登录</title>
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<style type="text/css">
+			body{
+				margin:0 ;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+			.my-content{
+				overflow: hidden;
+				margin:0 auto;
+				margin-top: 0px;
+				padding-top: 0px;
+				height: 100%;
+			}
+			.header{
+				margin-top: 2rem;
+			}
+			.logoImg{
+				width:60px;
+				margin:0 auto;
+				margin-left: 2rem;
+			}
+			.close-Img{
+				float: right;
+				width:48px;
+				margin-right: 2rem;
+			}
+			.header-content{
+				text-align: left;
+				margin-left: 2rem;
+				margin-top: 1rem;
+				margin-bottom: 1rem;
+			}
+
+			.myTabWrap{
+				box-shadow: 0px 10px 10px RGBA(116, 116, 116, .1);
+			}
+			.nav-tabs{
+				border: none;
+				display: block;
+				margin: 0 2rem;
+			}
+			.nav-tabs a{
+				font-size: 1.2rem;
+				color:#000000;
+				display: block;
+				float: left;
+				border-bottom: #fff solid 5px;
+				/*width: 70px;*/
+				text-align: center;
+				padding: 10px;
+				text-decoration: none;
+			}
+			.nav-tabs a.active{
+				border-bottom-color: #EA6F1F;
+			}
+			.nav-tabs a:first-child{
+				margin-right: 30px;
+			}
+			.loginBox{
+				overflow: hidden;
+				margin-bottom: 0;
+				margin: 2rem;
+			}
+			.loginBox .inputBox{
+				position: relative;
+				margin-bottom: 10px;
+			}
+			.loginBox .inputBox i{
+				font-size: 1.2rem;
+				position: absolute;
+				left: 0px;
+				line-height: 3rem;
+				color: #9B999B;
+			}
+			.loginBox input{
+				-webkit-user-select:text;
+				text-align:left;
+				border: 0px;
+				border-radius: 0;
+				width:100%;
+				outline:none;
+				line-height: 3rem;
+				/*padding-left: 70px;*/
+				border-bottom: #D8D8D8 solid 1px;
+				font-size: 1.2rem;
+			}
+			.loginBox input:focus{
+				outline: none;
+			}
+
+
+
+			.registerBox{
+				overflow: hidden;
+				margin-bottom: 0;
+				margin: 2rem;
+			}
+			.registerBox .inputBox{
+				position: relative;
+				margin-bottom: 10px;
+				font-size: 1.2rem;
+			}
+			.registerBox .inputBox i{
+				font-size: 1.2rem;
+				position: absolute;
+				left: 0px;
+				line-height: 3rem;
+				color: #9B999B;
+			}
+			.registerBox input{
+				-webkit-user-select:text;
+				text-align:left;
+				border: 0px;
+				border-radius: 0;
+				font-size:16px;
+				width:100%;
+				outline:none;
+				line-height: 3rem;
+				/*padding-left: 110px;*/
+				border-bottom: #D8D8D8 solid 1px;
+			}
+			.registerBox input:focus{
+				outline: none;
+			}
+			.getCode{
+				position: absolute;
+				right: 10px;
+				top: .7rem;
+				color: #F88E36;
+			}
+            .Button-Img{
+                width: 80%;
+                display: block;
+                margin: 0 auto;
+            }
+			.forgetPassword{
+				text-align: right;
+				margin: 2rem;
+				margin-top: 10px;
+				margin-bottom:20px;
+				color: #232124;
+			}
+		</style>
+	</head>
+	<body style="background: #ffffff;">
+		<div id="my-content" class="my-content">
+			<div class="header">
+				<div>
+					<img class="logoImg"  src="../img/app_small_logo_03.png" />
+					<!--<img class="close-Img"  src="../img/app_close.png" />-->
+				</div>
+				<div class="header-content">
+					<h2 style="font-weight: 400;letter-spacing: 5px">欢迎回来</h2>
+				</div>
+			</div>
+
+			<div class="myTabWrap">
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="login-li ">
+						<a href="#login" class="active" data-toggle="tab">登录</a>
+					</li>
+					<li>
+						<a  href="#register" class="register-li" data-toggle="tab">注册</a>
+					</li>
+				</ul>
+				<div style="clear: both"></div>
+			</div>
+
+			<div id="item-content" class="tab-content">
+
+				<div class="tab-pane fade in active show" id="login">
+					<div class="loginBox">
+						<div class="inputBox">
+							<!--<i class="iconfont">手机号</i>-->
+							<input type="number" name="mobile" placeholder="手机号" pattern="\d*" />
+						</div>
+						<div class="inputBox">
+							<!--<i class="iconfont">密码</i>-->
+							<input type="password" placeholder="密码" name="password" />
+						</div>
+						<!--<div class="inputBox">
+							<input type="text" name="code" placeholder="短信验证码" />
+							<span class="getCode">获取验证码</span>
+						</div>-->
+					</div>
+
+					<div>
+						<img class="Button-Img loginBtn"  src="../img/logout/app_login_btn.png" />
+					</div>
+					<div class="forgetPassword">
+						<span id="../page/forgetPassword.html" onclick="clicked(this.id)">忘记密码</span>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="register">
+
+					<div class="registerBox">
+						<div class="inputBox">
+							<!--<i class="iconfont">手机号</i>-->
+							<input type="number" name="regMobile" placeholder="手机号" pattern="\d*" />
+						</div>
+						<div class="inputBox">
+							<!--<i class="iconfont">短信验证码</i>-->
+							<input type="text" name="code" placeholder="短信验证码" pattern="\d*" />
+							<span class="getCode">获取验证码</span>
+						</div>
+						<div class="inputBox">
+							<!--<i class="iconfont">密码</i>-->
+							<input type="password" name="regPassword" placeholder="密码" />
+						</div>
+					</div>
+
+                    <div>
+                        <img class="Button-Img registerBtn"  src="../img/app_reg_03.png" />
+                    </div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<script type="application/javascript">
+
+
+            var $getCodeBtn = $(".getCode");
+            var isLock = false; //是否锁定
+            var time = 60; //倒计时
+            var timeInterval; //定时器
+            /**
+             * 定时器
+             */
+            function showTime(){
+                timeInterval = setInterval(function(){
+                    time--;
+                    if(time <= 0){
+                        isLock = false;
+                        time = 60;
+                        clearInterval(timeInterval);
+                        $getCodeBtn.text('获取验证码');
+                        return;
+                    }else{
+                        $getCodeBtn.text(time);
+                    }
+                },1000)
+            }
+
+            /**
+             * 获取
+             */
+            $(".getCode").click(function(){
+                var mobile = $("input[name='regMobile']").val();
+                if(!vaildeParam(mobile)){
+                    layer.msg("手机号不能为空");
+                    return;
+                }
+                if(!isPoneAvailable(mobile)){
+                    layer.msg("手机格式不正确");
+                    return;
+                }
+                if(isLock){
+                    return;
+                }
+                isLock = true;
+                $getCodeBtn.text(time);
+                showTime();
+                postJSON(API_URL.ApiSmsSendCode,{"mobile":mobile},function(res){
+                    if("0" == res.code){
+                        layer.msg("发送成功");
+                    }else{
+                        layer.msg(res.msg);
+                    }
+                })
+            })
+
+//          (function(w){
+//              plus.key.addEventListener('backbutton',function(){
+//                  w.close();
+//              },false);
+//          })(window);
+
+            if(window.plus){
+                pagePlusReady();
+            }else{
+                document.addEventListener('plusready',pagePlusReady,false);
+            }
+
+            function pagePlusReady() {
+
+                plus.key.addEventListener("backbutton",function(){
+					plus.runtime.quit();
+                });
+
+                /**
+                 * 注册
+                 */
+                $(".registerBtn").click(function(){
+                    var mobile = $("input[name='regMobile']").val();
+                    if(!vaildeParam(mobile)){
+                        layer.msg("手机号不能为空");
+                        return;
+                    }
+                    if(!isPoneAvailable(mobile)){
+                        layer.msg("手机格式不正确");
+                        return;
+                    }
+                    var code = $("input[name='code']").val();
+                    if(!vaildeParam(code)){
+                        layer.msg("验证码不能为空");
+                        return;
+                    }
+                    var password = $("input[name='regPassword']").val();
+                    if(!vaildeParam(password)){
+                        layer.msg("密码不能为空");
+                        return;
+                    }
+                    if(password.length < 6){
+                        layer.msg("密码长度不少于6位");
+                        return;
+                    }
+
+                    var clientInfo = plus.push.getClientInfo().clientid;
+
+                    var postData = {
+                        "clientInfo":clientInfo,
+                        "mobile":mobile,
+                        "password":password,
+                        "code":code
+                    }
+                    postJSON(API_URL.ApiMemberRegister,postData,function(res){
+                        if("0" == res.code){
+                            layer.msg("注册成功，正在跳转...");
+                            setLoginData(res.data.uuid,res.data.mobile);
+                            //setLoginDataNew(res);
+                            setTimeout(function(){
+                                clicked('../index.html')
+                            },2000);
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                    })
+
+                })
+
+                /**
+                 * 登入
+                 */
+                $(".loginBtn").click(function(){
+                    var mobile = $("input[name='mobile']").val();
+                    if(!vaildeParam(mobile)){
+                        layer.msg("手机号不能为空");
+                        return;
+                    }
+                    if(!isPoneAvailable(mobile)){
+                        layer.msg("手机格式不正确");
+                        return;
+                    }
+                    var password = $("input[name='password']").val();
+                    if(!vaildeParam(password)){
+                        layer.msg("密码不能为空");
+                        return;
+                    }
+
+                    var clientInfo = plus.push.getClientInfo().clientid;
+
+                    var postData = {
+                        "clientInfo":clientInfo,
+                        "mobile":mobile,
+                        "password":password,
+                    }
+                    postJSON(API_URL.ApiMemberLogin,postData,function(res){
+                        if("0" == res.code){
+                            layer.msg("登录成功，正在跳转...");
+                            setLoginData(res.data.uuid,res.data.mobile);
+                            //setLoginDataNew(res);
+                            setTimeout(function(){
+                                clicked('../index.html')
+                            },2000);
+                        }else{
+                            layer.msg(res.msg);
+                        }
+                    })
+                })
+
+            }
+
+			/**
+			 * 校验手机号码
+             * @param str
+             * @returns {boolean}
+             */
+            function isPoneAvailable(str) {
+                var myreg=/^[1][0-9]{10}$/;
+                if (!myreg.test(str)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+		</script>
+		
+	</body>
+</html>

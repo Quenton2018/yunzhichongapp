@@ -15,9 +15,9 @@
 	},
 	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
 	"developer": {
-		"name": "江西云戈信息技术有限公司",/*开发者名称*/
+		"name": "江西九牛科技有限公司技术部",/*开发者名称*/
 		"email": "",/*开发者邮箱地址*/
-		"url": "http://www.jxyunge.com"
+		"url": "http://www.jx9n.com"
 	},
 	"permissions": {
 
@@ -42,6 +42,10 @@
 		"Push": {}
 	},
 	"plus": {
+		"statusbar": {
+			"immersed": "supportedDevice", /* 沉浸式状态栏 */
+			"style": "dark"
+		},
 		"splashscreen": {
 			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
 			"waiting": true
@@ -178,21 +182,20 @@
 						/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
 						"retina55l": "unpackage/splash/iphone678plus2.png",
 						"iphonex": "unpackage/splash/iphoneX.png",
-						"retina47": "unpackage/splash/iphone678.png",
-						"iphonexl": "unpackage/splash/iphoneX2.png",
+						"retina47": "unpackage/splash/iphone678.png",				
 						"retina35": "unpackage/splash/iphone4s.png",
 						"retina40": "unpackage/splash/iphone5.png",
 						"retina55": "unpackage/splash/iphone678plus.png"
 					},
 					"ipad": {
 						"portrait": "unpackage/splash/iphoneX2.png", /*iPad竖屏启动图片，分辨率：768x1004*/
-						"portrait-retina": "unpackage/splash/iphoneX2.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
-						"landscape": "unpackage/splash/iphoneX2.png", /*iPad横屏启动图片，分辨率：1024x748*/
-						"landscape-retina": "unpackage/splash/iphoneX2.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
-						"portrait7": "unpackage/splash/iphoneX2.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
-						"portrait-retina7": "unpackage/splash/iphoneX2.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
-						"landscape7": "unpackage/splash/iphoneX2.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
-						"landscape-retina7": "unpackage/splash/iphoneX2.png"
+                        "portrait-retina": "unpackage/splash/iphoneX2.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+                        "landscape": "unpackage/splash/iphoneX2.png", /*iPad横屏启动图片，分辨率：1024x748*/
+                        "landscape-retina": "unpackage/splash/iphoneX2.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+                        "portrait7": "unpackage/splash/iphoneX2.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+                        "portrait-retina7": "unpackage/splash/iphoneX2.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+                        "landscape7": "unpackage/splash/iphoneX2.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+                        "landscape-retina7": "unpackage/splash/iphoneX2.png"/*iPad iOS7高分屏横屏启动图片，分辨率：2048x1536*/
 					}
 				},
 				"android": {
