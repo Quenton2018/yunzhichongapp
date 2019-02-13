@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>
+		
+    <style type="text/css">
+        .mui-content{padding-left: 8px;padding-right: 8px;}
+        .mui-table-view{background-color: #f2f2f2;}
+        .mui-table-view-cell{margin-bottom: 10px;background-color: #fff;border-radius: 5px;}
+        .mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after{display: none;}
+        .mui-media a:hover{text-decoration: none;}
+        .mui-media-body{color: black;font-weight: 700;}
+        .mui-media-body .mui-ellipsis{color: #999999;}
+        .mui-media span{position: absolute;right: 15px;top: 10px;font-size: 12px;color: #cccccc;}
+        .mui-table-view .mui-media-object{width: 50px;height: 50px;max-width: 50px;}
+        .mui-media-body{font-size: 18px;margin-top: 2px;}
+        .mui-table-view-cell p{margin-top: 6px;font-size: 14px;}
+        .mui-media .unread:before{content: "";width: 6px;height: 6px;background-color: red;border-radius: 50%;position: absolute;left: 55px;
+        	z-index: 999;border: 2px solid #fff;}
+    </style>
+</head>
+
+<body>
+	<header class="header header-immersed mui-bar mui-bar-nav">
+	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title">消息中心</h1>
+	</header>
+	<div class="mui-content">
+	    <ul class="mui-table-view">
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;" class="unread">
+					<img class="mui-media-object mui-pull-left" src="../img/views/list1.png">
+					<div class="mui-media-body">
+						公告栏
+						<p class='mui-ellipsis'>系统将于12.12日正式新升级上线</p>
+					</div>
+					<span>11月28日</span>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="messageListChage.html" class="unread">
+					<img class="mui-media-object mui-pull-left" src="../img/views/list2.png">
+					<div class="mui-media-body">
+						充电通知
+						<p class='mui-ellipsis'>充电时长:260.0分钟，消费金额:2.67元</p>
+					</div>
+					<span>11月28日</span>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="../img/views/list4.png">
+					<div class="mui-media-body">
+						签到通知
+						<p class='mui-ellipsis'>恭喜您签到成功，赠送您1枚云钻</p>
+					</div>
+					<span>11月28日</span>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;">
+					<img class="mui-media-object mui-pull-left" src="../img/views/list3.png">
+					<div class="mui-media-body">
+						充值消息
+						<p class='mui-ellipsis'>恭喜您成功充值20.00元</p>
+					</div>
+					<span>11月28日</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+//			plus.navigator.setStatusBarStyle("light");
+			$("body").on("tap",".unread",function(){
+				$(this).removeClass('unread') //调用接口 
+			})
+		})
+	</script>
+</body>
+
+</html>
