@@ -36,10 +36,16 @@
 		</div>
 		<script type="text/html" id="dataTmpl">
 			<div class="mui-table-view-cell mui-media" data-id="{{id}}" style="position: relative;">
-				<span style="position: absolute;right: 10px;font-size: .8rem;line-height: 60px;">{{date}}</span>
-				<div class="mui-media-body">
-					<h1 style="line-height: 25px;font-size: 1.0rem;color: #444">{{title}}</h1>
-					<p class="mui-ellipsis">{{messageContent}}</p>
+				<div class="mui-slider-handle">
+					<span style="position: absolute;right: -50px;font-size: .8rem;line-height: 60px;">{{date}}</span>
+					<div class="mui-media-body">
+						<h1 style="line-height: 25px;font-size: 1.0rem;color: #444">{{title}}</h1>
+						<p class="mui-ellipsis">{{messageContent}}</p>
+					</div>
+				</div>
+				<div class="mui-slider-right mui-disabled">
+<!--					<a class="mui-btn mui-btn-blue">标记已读</a>-->
+					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-trash"></a>
 				</div>
 				<div style="clear: both;"></div>
 			</div>
@@ -75,7 +81,6 @@
 
 		function loadData(page, callback, isClear) {
 			var uuid = plus.storage.getItem("uuid");
-
 			var api = API_URL.ApiMessageGetMessageList;
 			var data = {
 				'uuid': uuid,
@@ -86,7 +91,6 @@
 
 			postJSON(api, data, function(res) {
 				if("0" == res.code) {
-
 					if(isClear) {
 						$dataBox.html('');
 					}
@@ -120,7 +124,6 @@
 					layer.msg(res.msg);
 				}
 			})
-
 		}
 
 		/**
@@ -130,9 +133,8 @@
 			console.log("## pulldownRefresh ##")
 			g_page = 1;
 			loadData(1, null, true);
-			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+//			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 		}
-
 		/**
 		 * 上拉加载具体业务实现
 		 */
@@ -143,9 +145,7 @@
 		}
 
 		function itemClick(that) {
-
 			console.log("## itemClick ##")
-
 			var $this = $(that);
 			var id = $this.attr("data-id")
 			console.log("id:" + id);
@@ -156,42 +156,21 @@
 			console.log(item + ":" + dataId);
 			plus.storage.setItem("messageId", dataId + "");
 			clicked(item);
-		}
-		
-
-	</script>
-	<!--<script type="text/javascript">
-		if(window.plus) {
-			pagePlusReady();
-		} else {
-			document.addEventListener('plusready', pagePlusReady, false);
-		}
-		function pagePlusReady() {
-			uploadLoginInfo();
-			checkLogin();
-		}
-
-		//启用双击监听
-		mui.init({
-			gestureConfig: {
-				doubletap: true
-			},
-			subpages: [{
-				url: 'messageListSub.html',
-				id: 'messageListSub.html',
-				styles: {
-					top: '64px',
-					bottom: '0px',
+		} 
+		var btnArray = ['确认', '取消'];
+		$('body').on('click','.mui-btn-yellow',function() {
+			var elem = this;
+			var li = elem.parentNode.parentNode;
+			mui.confirm('确认删除该条记录？', btnArray, function(e) {
+				if (e.index == 0) {     //删除数据调用接口
+					li.parentNode.removeChild(li);
+				} else {
+					setTimeout(function() {
+						$.swipeoutClose(li);
+					}, 0);
 				}
-			}]
+			});
 		});
-		var contentWebview = null;
-		document.querySelector('header').addEventListener('doubletap', function() {
-			if(contentWebview == null) {
-				contentWebview = plus.webview.currentWebview().children()[0];
-			}
-			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
-		});
-	</script>-->
+	</script>
 
 </html>
