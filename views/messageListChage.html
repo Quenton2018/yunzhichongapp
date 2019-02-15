@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+
+		<style type="text/css">
+			body{background-color: #f2f2f2;}
+        	.mui-content .mui-scroll-wrapper{padding-top: 85px;width: 94%;left: 3%;overflow: hidden;}
+        	.mui-scrollbar {display: none !important;}  
+        	.mui-table-view{background-color: #f2f2f2;}
+        	.mui-table-view-cell{margin-bottom: 10px;background-color: #fff;border-radius: 5px;}
+        	.mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after{display: none;}
+		</style>
+	</head>
+	<body>
+		<header class="header header-immersed mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">消息中心</h1>
+		</header>
+		<div class="mui-content">
+		    <div id="pullrefresh" class="mui-scroll-wrapper">
+		    	<div class="mui-scroll">
+					<div class="mui-table-view mui-table-view-chevron" id="dataBox">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/html" id="dataTmpl">
+			<div class="mui-table-view-cell mui-media" data-id="{{id}}" style="position: relative;">
+				<div class="mui-slider-handle">
+					<span style="position: absolute;right: -50px;font-size: .8rem;line-height: 60px;">{{date}}</span>
+					<div class="mui-media-body">
+						<h1 style="line-height: 25px;font-size: 1.0rem;color: #444">{{title}}</h1>
+						<p class="mui-ellipsis">{{messageContent}}</p>
+					</div>
+				</div>
+				<div class="mui-slider-right mui-disabled">
+<!--					<a class="mui-btn mui-btn-blue">标记已读</a>-->
+					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-trash"></a>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+		</script>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		var g_page = 1;
+		var g_pageSize = 10;
+		var $dataBox = $("#dataBox");
+		if(window.plus) {
+			pagePlusReady();
+		} else {
+			document.addEventListener('plusready', pagePlusReady, false);
+		}
+
+		function pagePlusReady() {
+			uploadLoginInfo();
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						//callback: pulldownRefresh       //上拉刷新  因为android 样式问题 先去掉
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			pulldownRefresh();
+		}
+
+		function loadData(page, callback, isClear) {
+			var uuid = plus.storage.getItem("uuid");
+			var api = API_URL.ApiMessageGetMessageList;
+			var data = {
+				'uuid': uuid,
+				'type': 'common',
+				'pageNumber': page,
+				'pageSize': g_pageSize
+			}
+
+			postJSON(api, data, function(res) {
+				if("0" == res.code) {
+					if(isClear) {
+						$dataBox.html('');
+					}
+					if(res.data.pagedata.lastPage) {
+						//加载完毕
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					} else {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+					}
+					var html = '';
+					var dataTmpl = $("#dataTmpl").html();
+					$.each(res.data.pagedata.content, function(index, item) {
+						//var memberArray = eval(item.member);
+						var title = item.title;
+						if(null == title) {
+							title = '系统管理员'
+						}
+						var createDate = jsDateDiff(item.createDate / 1000);
+						var messageContent = item.content;
+
+						html += dataTmpl.replace(/{{title}}/g, title)
+							.replace(/{{id}}/g, item.id)
+							.replace(/{{messageContent}}/g, messageContent)
+							.replace(/{{date}}/g, createDate)
+					})
+					$dataBox.append(html);
+					if(null != callback) {
+						callback(res);
+					}
+				} else {
+					layer.msg(res.msg);
+				}
+			})
+		}
+
+		/**
+		 * 下拉刷新具体业务实现
+		 */
+		function pulldownRefresh() {
+			console.log("## pulldownRefresh ##")
+			g_page = 1;
+			loadData(1, null, true);
+//			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+		}
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pullupRefresh() {
+			console.log("## pullupRefresh ##")
+			g_page++;
+			loadData(g_page, null, false);
+		}
+
+		function itemClick(that) {
+			console.log("## itemClick ##")
+			var $this = $(that);
+			var id = $this.attr("data-id")
+			console.log("id:" + id);
+			clickedTwo("../page/messageContent.html", id + "");
+		}
+
+		function clickedTwo(item, dataId) {
+			console.log(item + ":" + dataId);
+			plus.storage.setItem("messageId", dataId + "");
+			clicked(item);
+		} 
+		var btnArray = ['确认', '取消'];
+		$('body').on('click','.mui-btn-yellow',function() {
+			var elem = this;
+			var li = elem.parentNode.parentNode;
+			mui.confirm('确认删除该条记录？', btnArray, function(e) {
+				if (e.index == 0) {     //删除数据调用接口
+					li.parentNode.removeChild(li);
+				} else {
+					setTimeout(function() {
+						$.swipeoutClose(li);
+					}, 0);
+				}
+			});
+		});
+	</script>
+
+</html>
