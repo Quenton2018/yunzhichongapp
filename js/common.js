@@ -80,7 +80,27 @@ w.clicked=function(id,wa,ns,ws){
 	return null;
 };
 
+/**
+ * 关闭当前窗口返回上个窗口并刷新
+ * @param {Object} page
+ */
+w.returnWindow = function(page){
+    var ws = plus.webview.currentWebview();
+    var wo = ws.opener();
+    do {
+    	if (wo.getURL().endsWith(page)) {
+    		break;
+    	}	
+    	var temp = wo.opener();
+    	wo.close("none");
+    	wo = temp;
+    } while (true);
 
+	setTimeout(function() {
+		wo.evalJS("dataRefresh()");
+		ws.close();
+	}, 300);
+}
 w.openDoc=function(t,c){
 	var d=plus.webview.getWebviewById('document');
 	if(d){
@@ -1028,3 +1048,145 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 }());
+$.plusReady = function(pageReady, pageRefresh, useRefresh) {
+	if (!pageReady) {
+		pageReady = function() {}
+	}
+	
+	var ws = null;
+    if (window.plus) {
+        pagePlusReady();
+    } else {
+        document.addEventListener('plusready', pagePlusReady, false);
+    }
+    function pagePlusReady() {
+        ws = plus.webview.currentWebview();
+    	// 处理沉浸式状态栏
+	    var topoffset = 0;
+	    var ms = (/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+	    if (ms && ms.length >= 3) {
+	        topoffset = parseFloat(ms[2]);
+	    }
+	    // 兼容沉浸式状态栏模式
+        if (plus.navigator.isImmersedStatusbar()) {
+            topoffset = Math.round(plus.navigator.getStatusbarHeight());
+        } else {
+            $('.header').removeClass('header-immersed');
+        }
+                
+        if (useRefresh || typeof useRefresh == "undefined") {
+	        ws.setPullToRefresh({
+	        	support: true,
+	        	style: 'circle',
+	        	offset: topoffset + 45 + 'px'
+	        }, onRefresh);
+        }
+        
+        pageReady();
+    }
+
+    // 刷新页面
+    function onRefresh(){
+        console.log("### onRefresh ###");
+        if (pageRefresh) {
+        	pageRefresh();
+        } else {
+        	pageReady();
+        }
+        ws.endPullToRefresh();
+    }
+}
+/**
+ * 上拉刷新下拉加载
+ * @param {Object} downCallback
+ * @param {Object} upCallback
+ */
+$.pullRefresh = function(downCallback,upCallback){
+	mui.init({
+    	pullRefresh: {
+			container: '#J_refresh',
+			down: {
+				style:'circle',
+				offset: '75px',
+				callback: function() {
+					mui('#J_refresh').pullRefresh().refresh(true);
+					mui('#J_refresh').pullRefresh().endPulldownToRefresh();
+					downCallback && downCallback();								
+				}
+			},
+    		up: {
+    			callback: function(){
+    				setTimeout(function() {
+    					upCallback && upCallback();	
+    				}, 300);
+    			}
+    		}
+    	}
+    });
+}
+/**
+ * 停止刷新数据
+ * @param {Object} length
+ * @param {Object} pageSize
+ */
+$.stopRefresh = function(length,pageSize){
+	if(length && pageSize){
+		mui('#J_refresh').pullRefresh().endPullupToRefresh(length < pageSize);
+	}else{
+		mui('#J_refresh').pullRefresh().endPullupToRefresh(true);
+	}	
+}
+/**
+ * 启用刷新
+ */
+$.enableRefresh = function(){
+	mui('#J_refresh').pullRefresh().refresh(true);
+}
+
+//通过定位模块获取位置信息
+function getCurrentPosition() {
+    plus.geolocation.getCurrentPosition(geoInf, function (e) {
+        console.log("获取定位位置信息失败:"+e.message)
+    },{provider:'amap'});
+}
+/**
+ * 获取位置具体信息
+ * @param position
+ */
+function geoInf(position) {
+    var addresses = position.addresses;
+    var longitude = position.coords.longitude;
+    var latitude = position.coords.latitude;
+    var province = '', city = '';
+    try{
+    	province = position.address.province;
+    	city = position.address.city;
+    }catch(e){
+    	
+    }
+    var geolocationGroup = {
+    	"province":province,
+    	"city":city,
+    	"addresses":addresses,
+    	"longitude":longitude,
+    	"latitude":latitude      	
+    }
+    log("##位置具体信息##"+geolocationGroup);
+    plus.storage.setItem("geolocationGroup", JSON.stringify(geolocationGroup));
+}
+function log(data) {
+	if(typeof(data) == "object") {
+		console.log(JSON.stringify(data)); //console.log(JSON.stringify(data, null, 4));
+	} else {
+		console.log(data);
+	}
+}
+//ui设置
+var appUI = {
+	showWaiting: function(msg) {
+		plus.nativeUI.showWaiting(msg);
+	},
+	closeWaiting: function() {
+		plus.nativeUI.closeWaiting()
+	}
+}

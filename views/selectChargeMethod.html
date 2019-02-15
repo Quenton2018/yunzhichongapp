@@ -1,0 +1,766 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+    	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>充电</title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />	
+		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../plugins/swiper-4.2.2/swiper-4.2.2.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" type="text/css" charset="utf-8" />
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../plugins/swiper-4.2.2/swiper-4.2.2.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<style type="text/css">
+			body{width:100%;overflow-x:hidden;}
+			.topBox{position:relative;}
+			.addressBox{margin-top:10px;margin-bottom:15px;}
+			.addressBox .addressBoxInner{margin:0 2rem;background:#FFFFFF;border-radius:15px;overflow:hidden;line-height:50px;height:50px;font-size:.8rem;color:#4C4C4C;}
+			.addressBox .addressBoxInner .left{float:left;padding-left:10px;}
+			.addressBox .addressBoxInner .right{float:right;position:relative;padding-right:10px;}
+			.addressBox .addressBoxInner .addressContent{position:relative;padding:0px 20px;}
+			.addressBox .addressBoxInner .addressContent .icon-location{position:absolute;left:0;color:#F17746;}
+			.addressBox .addressBoxInner .addressContent .icon-xialakongjian{position:absolute;right:-10px;padding:0 10px;color:#A6A6A6;}
+			.addressBox .addressBoxInner .addressContent .addressInfo{white-space:nowrap;display:inline-block;text-overflow:ellipsis;overflow:hidden;width:100%;}
+			.selectCzdBox{}
+			.selectCzdBox .myContent{}
+			.selectCzdBox .myContent .topInfo{background:#F17746;width:100px;margin:0 auto;text-align:center;color:#fff;border-radius:0 0 10px 10px;font-size:.8rem;}
+			.box1{background:#fff;border-radius:10px;}
+			.swiper-container{}
+			.swiper-slide{text-align:center;font-size:1.2rem;color:#C5C4C4;vertical-align:middle;line-height:50px;height:50px;font-weight:600;}
+			.swiper-slide-active{color:#F17746;font-size:2rem;}
+			.czhBox{padding:15px;padding-top:0;}
+			.czhBox span{display:block;float:left;width:25%;text-align:center;}
+			.czhBox span b{display:block;background:#EDEDED;margin:5px;line-height:2.5rem;font-size:1.8rem;font-weight:300;border-radius:5px;}
+			.czhBox span.active b{background:#F17746;color:#fff;}
+			.czhBox span.disabled b{background:#EDEDED;color:#fff;}
+			.timeBox{padding:15px;padding-top:0;}
+			.timeBox span{display:block;float:left;width:50%;text-align:center;}
+			.timeBox span b{}
+			.timeBox span.active b{background:#F17746;color:#fff;}
+			.timeBox span b{;display:block;margin:5px;background:#EDEDED;line-height:2.5rem;font-size:.9rem;font-weight:300;border-radius:5px;}
+			#selectAddressBox{position:absolute;top:0;z-index:99;background:#fff;left:2rem;right:2rem;border-radius:15px;display:none;box-shadow:0px 10px 10px RGBA(116,116,116,.1);}
+			.selectAddressBoxInner{padding:15px;position:relative;min-height:50px;max-height:360px;overflow-y:scroll;}
+			#closeSelectAddressBox{color:#A6A6A6;position:absolute;right:0px;z-index:99;padding:0 10px;}
+			.selectAddressBoxInner .addressItem{line-height:2rem;border-bottom:#A6A6A6 dashed 1px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
+			.selectAddressBoxInner .addressItem:last-child{border-bottom:none;}
+			.addressItemSelected{color:#FA9D5A;}
+		</style>
+
+		<style type="text/css">
+			.progressBoxWrap{position:fixed;top:0;width:100%;height:100%;bottom:0;background:rgba(0,0,0,.3);z-index:9999;overflow:hidden;display:none;}
+			.progressBox{background:#fff;width:80%;height:80%;margin:0 auto;margin-top:20%;border-radius:10px;overflow:hidden;}
+			.progressBoxTitle{text-align:center;background:#EF7F35;padding:10px;color:#fff;}
+			.stepBox{padding:20px;}
+			.stepBox .stepItem{width:160px;margin:0 auto;padding:10px 0;position:relative;color:#666666;font-size:.8rem;}
+			.stepBox .stepItem span{display:block;position:absolute;height:28px;width:2px;background:#666666;left:7px;top:28px;}
+			.stepBox .stepItem:last-child span{display:none;}
+			.stepBox .stepItem i{display:inline-block;margin-right:5px;font-size:20px;}
+			.fa-spin{-webkit-animation:fa-spin 2s infinite linear;animation:fa-spin 2s infinite linear;}
+			.stepBox .stepSuccess{color:#009966;}
+			.stepBox .stepSuccess span{background:#009966;}
+			.addressBox .addressBoxInner{height:45px;line-height:45px;				/*color: #FFFFFF;*/}
+			.addressBox .addressBoxInner .left{float:left;width:89%;color:#FFFFFF;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+			.addressBox .addressBoxInner .right{width:10%;float:right;color:#FFFFFF;}
+			.addressBox .addressBoxInner .addressContent .icon-xialakongjian{color:#FFFFFF;}
+			.swiper-button-next{right:0;float:left;width:10px;height:50px;background:transparent url(../img/charge/swiper-button-next.png) no-repeat right center;outline:none;}
+			.swiper-button-prev{left:0;float:left;width:10px;height:50px;background:transparent url(../img/charge/swiper-button-prev.png) no-repeat left center;outline:none;}
+			.myContent{margin:0 10px;padding-bottom:5px;}
+			.selectAddressBoxInner{padding:15px;position:relative;min-height:45px;max-height:360px;overflow-y:scroll;}
+			input{margin:0;padding:0;list-style:none;}
+			.select_adress,
+			.select_adress1{width:100%;font-size:14px;text-align:left;}
+			.select_adress{height:30px;overflow:hidden;margin-top:-6px;}
+			.select_adress1{height:150px;overflow:auto;}
+			.npt1{width:85%;height:30px;vertical-align:middle;overflow:hidden;font-size:.8rem;color:#4C4C4C;border:0;outline:0;font-size:16px;margin-top:-25px;}
+			.select_content{width:99%;height:30px;border-top:1px dashed #999;font-size:14px;text-align:left;line-height:30px;}
+			.swiper-slide span{text-align:center;font-size:1.2rem;color:#C5C4C4;vertical-align:middle;line-height:35px;height:35px;width:35px;display:inline-block;font-weight:600;background-color:#F0F0F0;border-radius:25px;box-shadow:1px 1px 2px #888888;}
+			.swiper-slide-active span{color:#FFFFFF;margin-top:-7px;font-size:1.6rem;height:42px;width:42px;line-height:42px;background-color:#F17746;}
+			.box-info{text-align:left;line-height:40px;font-weight:600;color:#454545;letter-spacing:1px;padding:0;text-indent:10px;margin:0;padding:0;}
+			.czhBox{padding:0;margin-left:4%;}
+			.czhBox span{display:block;float:left;width:16%;text-align:center;margin:0;padding:0;}
+			.czhBox span b{display:block;background:#F2F2F2;color:#666666;line-height:2.4rem;font-size:1.2rem;font-weight:500;border-radius:8px;box-shadow:1px 1px 2px #888888;}
+			.czhBox span.active b{background:#F17746;color:#fff;				/*box-shadow: none;*/}
+			.czhBox span.disabled b{background:#EDEDED;color:#fff;}
+			.timeBox span{display:block;float:left;width:33%;text-align:center;}
+			.timeBox span.active b{background:#F17746;color:#fff;}
+			.timeBox span b{display:block;margin:5px;background:#F2F2F2;line-height:2.4rem;font-size:12px;font-weight:500;border-radius:28px;color:#666666;box-shadow:1px 1px 2px #888888;letter-spacing:1px;}
+			.timeBox span i{margin-left:-40px;padding:0;width:24px;height:69px;position:absolute;}
+			.timeBox span.promotion b{text-indent:16px;}
+			.timeBox span.promotion i{background:transparent url(../img/promotion.png) no-repeat left top;word-wrap:break-word;text-align:center;vertical-align:middle;letter-spacing:5px;font-size:12px;line-height:16px;font-weight:bold;color:#FFFFFF;}
+			.timeBox span.promotion i em{margin-left:5px;margin-top:5px;width:12px;height:24px;float:left;font-style:normal;}
+			#footer{position:fixed;width:100%;left:0;bottom:0;color:#fff;line-height:70px;height:70px;vertical-align:middle;-webkit-transform:translateZ(0);background:#FF7546;background:-moz-linear-gradient(top,#FF7546 0%,#F08200 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#FF7546),color-stop(100%,#F08200));background:-webkit-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-o-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-ms-linear-gradient(right,#FF7546 0%,#F08200 100%);background:linear-gradient(to right,#FF7546 0%,#F08200 100%);}
+			.footer .left{float:left;padding-left:15px;}
+			.footer .left b{				/*font-size: 2rem;*/
+			vertical-align:middle;position:relative;font-weight:400;}
+			.footer .right{float:right;				/*background: #EC8231;*/text-align:center;width:40%;border-left:#D96236 solid 5px;border-radius:30px 0 0 30px;font-size:1.5rem;font-weight:400;}
+			.footer1 .left{float:left;padding-left:15px;position:absolute;color:rgb(229,229,229);opacity:0.8;display:none;}
+			.footer1 .left b{				/*				font-size: 1.4rem;*/
+			vertical-align:middle;position:relative;font-weight:400;}
+			.footer1 .right{float:left;background:none;text-align:center;width:100%;border-left:none;border-radius:0;font-size:1.4rem;font-weight:500;}
+			.guide-wrapper{display:none;}
+			.guide{position:absolute;left:0;top:0;width:100%;height:100%;float:left;background:#000000 no-repeat left top;background-size:contain;opacity:1;}
+			.guide .close{width:15%;height:10%;float:right;cursor:pointer;}
+			.guide1{background-image:url(../img/guide/1.png);z-index:100009;}
+			.guide2{background-image:url(../img/guide/2.png);z-index:100008;}
+			.guide3{background-image:url(../img/guide/3.png);z-index:100007;}
+			.guide4{background-image:url(../img/guide/4.png);z-index:100006;}
+			.guide5{background-image:url(../img/guide/5.png);z-index:100005;}
+			.icon-richscan{font-size:18px;color: #fff;font-weight: bold;padding: 12px;}
+		</style>
+	</head>
+<body>
+		<div style="position: absolute; z-index: -1; width: 100%; height: 240px; float: left; top: 0;left: 0; background-color: #FF7F3E;"></div>
+
+		<header class="header header-immersed mui-bar mui-bar-nav" style="background: none;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    		<h1 class="mui-title" onclick="clicked('selectChargeSearch.html')"><i class="iconfont icon-map"></i><span id="cd-title">加载中..</span></span></h1>
+    		<a class="iconfont icon-richscan mui-icon-right-nav mui-pull-right" onclick="clicked('barcode_scan.html')"></a>
+		</header>
+
+		<div class="contentBox" style="padding-top: 80px;">
+			<div class="topBox">
+				<!--<div class="addressBox">
+					<div class="addressBoxInner" style="background-color: #FF8D52;">
+						<div class="left">充电桩地址：<span id="addressInfo" class="addressInfo">加载中...</span></div>
+						<div class="right">
+							<i class="iconfont icon-xialakongjian" id="openSelectAddressBox" style="margin-left: -55px; padding: 15px 10px 15px 55px;"></i>
+						</div>
+						<div id="selectAddressBox">
+							<i class="iconfont icon-xialakongjian" id="closeSelectAddressBox" style="margin-left: -55px; padding: 0px 10px 0px 55px;"></i>
+							<div class="selectAddressBoxInner"></div>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+				</div>-->
+				<!-- /.addressBox -->
+				<div class="selectCzdBox">
+					<div class="myContent box1">
+						<div class="box-info">① 选择桩号</div>
+						<div class="selectZhuangHao" style="padding: 0;position: relative">
+							<div id="swiperBox">
+								<div class="swiper-container">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide"><span>A</span></div>
+										<div class="swiper-slide"><span>B</span></div>
+										<div class="swiper-slide"><span>C</span></div>
+										<div class="swiper-slide"><span>D</span></div>
+										<div class="swiper-slide"><span>E</span></div>
+										<div class="swiper-slide"><span>F</span></div>
+										<div class="swiper-slide"><span>G</span></div>
+										<div class="swiper-slide"><span>H</span></div>
+										<div class="swiper-slide"><span>I</span></div>
+										<div class="swiper-slide"><span>J</span></div>
+										<div class="swiper-slide"><span>K</span></div>
+										<div class="swiper-slide"><span>L</span></div>
+										<div class="swiper-slide"><span>M</span></div>
+										<div class="swiper-slide"><span>N</span></div>
+									</div>
+									<div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide"></div>
+									<div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide"></div>
+								</div>
+								<!-- /.swiper-container -->
+							</div>
+						</div>
+						<!-- /.selectZhuangHao -->
+
+						<div class="line" style="margin: 10px auto 0; width: 90%; height: 1px; color: whitesmoke; background: radial-gradient(#E0E0E0, #F0F0F0, #FFFFFF);"></div>
+
+						<div class="box-info">② 选择插座</div>
+						<div class="czhBox">
+							<span class="item"><b>1</b></span>
+							<span class="item"><b>2</b></span>
+							<span class="item"><b>3</b></span>
+							<span class="item"><b>4</b></span>
+							<span class="item"><b>5</b></span>
+							<span class="item"><b>6</b></span>
+							<span class="item"><b>7</b></span>
+							<span class="item"><b>8</b></span>
+							<span class="item"><b>9</b></span>
+							<span class="item"><b>10</b></span>
+							<span class="item"><b>11</b></span>
+							<span class="item"><b>12</b></span>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+
+					<div class="myContent box1" style="margin-top: 2.5%">
+						<div class="box-info">③ 选择充电时长</div>
+						<div class="timeBox">
+							<span><b>充满自停</b></span>
+							<span><b>0.5小时</b></span>
+							<span><b>4小时</b></span>
+							<span><b>6小时</b></span>
+							<span><b>8小时</b></span>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+
+					<div id="chargingSocketDesc" class="myContent box1" style="margin: 2% 2rem 0; height: 72px; background: none; color: #666666; font-size: 12px; visibility: hidden;">
+						<div class="left" style="float: left; width: 30%; text-align: right;">收费说明：</div>
+						<div class="right" style="float: left; width: 70%;">
+							<p style="margin: 0;">0.35元/小时（0
+								<功率≤200瓦）</p>
+									<p style="margin: 0;">0.45元/小时（200
+										<功率≤300瓦）</p>
+											<p style="margin: 0;">0.7元/小时（300
+												<功率≤500瓦）</p>
+						</div>
+						<div style="clear: both"></div>
+					</div>
+				</div>
+				<!-- /.selectCzdBox -->
+			</div>
+			<!-- /.topBox -->
+		</div>
+		<!-- /.contentBox -->
+		<footer id="footer" class="footer footer1">
+			<div class="left">
+				价格 : &yen; <b class="priceBox">0</b>
+			</div>
+			<div class="right" id="submitBtn">
+				开始充电
+			</div>
+			<div class="clearfix"></div>
+		</footer>
+		
+		<div class="progressBoxWrap">
+			<div class="progressBox">
+				<div class="progressBoxTitle">请求执行中</div>
+				<div class="stepBox">
+					<div class="stepItem stepSuccess">
+						<i class="fa fa-check-circle"></i>
+						<span class="line"></span> 开始下单
+					</div>
+					<div class="stepItem">
+						<i class="fa fa-refresh fa-spin"></i>
+						<span class="line"></span> 校验设备
+					</div>
+					<div class="stepItem">
+						<i class="fa fa-refresh fa-spin"></i>
+						<span class="line"></span> 发送命令给充电桩
+					</div>
+					<div class="stepItem">
+						<i class="fa fa-refresh fa-spin"></i>
+						<span class="line"></span> 等待充电桩回复
+					</div>
+					<div class="stepItem">
+						<i class="fa fa-refresh fa-spin"></i>
+						<span class="line"></span> 赠送云钻
+					</div>
+					<div class="stepItem">
+						<i class="fa fa-refresh fa-spin"></i>
+						<span class="line"></span> 开启充电桩成功
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="guide-wrapper">
+			<div class="guide guide1" onclick="guideNext(this)">
+				<div class="close" onclick="guideClose();stopEvt(event)"></div>
+			</div>
+			<div class="guide guide2" onclick="guideNext(this)">
+				<div class="close" onclick="guideClose();stopEvt(event)"></div>
+			</div>
+			<div class="guide guide3" onclick="guideNext(this)">
+				<div class="close" onclick="guideClose();stopEvt(event)"></div>
+			</div>
+			<div class="guide guide4" onclick="guideNext(this)">
+				<div class="close" onclick="guideClose();stopEvt(event)"></div>
+			</div>
+			<div class="guide guide5" onclick="guideClose()"></div>
+		</div>
+
+		<script type="application/javascript">
+			var swiper = null;
+			var $addressTitle = $("#cd-title");
+			//当前选择的片区
+			var currentChargeGroupID = null;
+			var addresses = null;
+			//扫一扫的片区
+			var scanGroup = null;
+			//扫一扫的充电桩ID
+			var scanCdzID = null;
+			//上次使用的充电桩ID
+			var lastUseCdzID = null;
+			//用户定位信息
+			var geolocationGroup = {};
+			//附近的片区
+			var nearChargingGroupList = null;
+			//上次使用的片区
+			var lastUseChargingGroup = null;
+			// 价格描述
+			var priceDesc = {
+				'1': '',
+				'2': ''
+			};
+			$.plusReady(function(){
+				checkLogin();
+				geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));				
+				getCharging();
+				getChargingGroupPrice();		
+			},dataRefresh);
+			// 刷新页面
+			function dataRefresh() {
+				getCharging();
+				getChargingGroupPrice();
+			}			
+			function getCharging() {
+				currentChargeGroupID = plus.storage.getItem("currentChargeGroupID");
+				addresses = plus.storage.getItem("addresses");
+				if(!addresses){			
+					if(!vaildeParam(geolocationGroup)){
+						getCurrentPosition();
+						geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
+					}
+					addresses = geolocationGroup.addresses;
+				}		
+				$addressTitle.text(addresses);		
+				console.log("## currentChargeGroupID ##"+currentChargeGroupID)
+				if(!vaildeParam(currentChargeGroupID)) {
+					layer.msg("没有获取到片区");
+					return;
+				}
+				postJSONNoIcon(API_URL.ApiGetChargingByGroupID, {"id": currentChargeGroupID}, function(res) {
+					if("0" == res.code) {
+						var data = res.data;
+						if(data.length == 0) {
+							layer.msg("暂无充电桩");
+							$(".swiper-wrapper").html('<div class="swiper-slide">无</div>');
+							swiper.update();
+						} else {
+							setCharging(data);
+							changeSelectCdz();
+						}
+					} else {
+						layer.msg(res.msg);
+					}
+				});
+
+			}
+			function setCharging(data) {
+				var html = '';
+				$.each(data, function(index, item) {
+					var code = item.code;
+					var shellId = item.shellId;
+					html += '<div data-code="' + code + '" data-id="' + item.id + '" class="swiper-slide"><span>' + shellId.substring(0, 1) + '</span></div>';
+				})
+				$(".swiper-wrapper").html(html);
+				swiper.update();
+				if(vaildeParam(scanCdzID)) {
+					var index = $(".swiper-slide[data-id='" + scanCdzID + "']").index();
+					swiper.slideToLoop(index, 1000, function() {
+						console.log("--- slideToLoop --- index:" + index)
+					})
+				} else {
+					if(vaildeParam(lastUseCdzID)) {
+						var index = $(".swiper-slide[data-id='" + lastUseCdzID + "']").index();
+						swiper.slideToLoop(index, 1000, function() {
+							console.log("--- slideToLoop --- index:" + index)
+						})
+					}
+				}
+			}
+
+			/**
+			 * 初始化选择桩号滑动效果
+			 */
+			function initSwiper() {
+				swiper = new Swiper('.swiper-container', {
+					slidesPerView: 6,
+					spaceBetween: 5,
+					centeredSlides: true,
+					slideToClickedSlide: true,
+					spaceBetween: '3%',
+					navigation: {
+						nextEl: '.swiper-button-next',
+						prevEl: '.swiper-button-prev'
+					},
+					on: {
+						transitionEnd: function() {
+							changeSelectCdz();
+						},
+					}
+				});
+			}
+			initSwiper();
+			/**
+			 * 选择充电桩事件
+			 */
+			function changeSelectCdz() {
+				console.log("## changeSelectCdz ##");
+				var $swiperSlideActive = $(".swiper-slide-active");
+				console.log($swiperSlideActive.text());
+				var cdzCode = $swiperSlideActive.attr("data-code");
+				console.log(cdzCode);
+				if(!vaildeParam(cdzCode)) {
+					return;
+				}
+				getChargingSocketList(cdzCode);
+				$('#chargingSocketDesc').css({
+					'height': '20px',
+					'visibility': 'hidden'
+				});
+			}
+			function compare(property) {
+				return function(a, b) {
+					var value1 = parseFloat(a[property]);
+					var value2 = parseFloat(b[property]);
+					return value1 - value2;
+				}
+			}
+			/**
+			 * 获取所有插座
+			 */
+			function getChargingSocketList(cdzCode) {
+				if(!vaildeParam(cdzCode)) {
+					return;
+				}
+				console.log(" ## getChargingSocketList ## cdzCode : " + cdzCode)
+				postJSONNoIcon(API_URL.ApiChargingSocketListByCode, {
+					"code": cdzCode
+				}, function(res) {
+					if("0" == res.code) {
+						setChargingSocket(res.data);
+					} else {
+						layer.msg(res.msg);
+					}
+				})
+			}
+
+			function setChargingSocket(data) {
+				var tmpl1 = '<span class="item" data-id="{{id}}"><b>{{code}}</b></span>';
+				var tmpl2 = '<span class="disabled" data-id="{{id}}"><b>{{code}}</b></span>';
+				data = data.sort(compare('code'));
+				var res = '';
+				$.each(data, function(inedx, item) {
+					var tmplTmp = tmpl2;
+					if(1 == item.status) {
+						tmplTmp = tmpl1;
+					}
+					res += tmplTmp.replace(/{{id}}/g, item.id)
+						.replace(/{{code}}/g, parseInt(item.code) + 1);
+				});
+				$(".czhBox").html(res);
+				bindSelectChargingSocket();
+			}
+
+			/**
+			 * 绑定插座选择事件
+			 */
+			function bindSelectChargingSocket() {
+				$(".czhBox .item").bind('click', function() {
+					$(".czhBox .item").removeClass('active');
+					$(this).addClass('active');
+				})
+			}
+
+			/**
+			 * 获取片区价格时间
+			 * @param cdzCode
+			 */
+			function getChargingGroupPrice() {
+				var uuid = plus.storage.getItem("uuid");
+				if(!vaildeParam(currentChargeGroupID) || !vaildeParam(uuid)) {
+					return;
+				}
+				var params = {
+					"groupID": currentChargeGroupID,
+					"uuid": uuid
+				}
+				postJSONNoIcon(API_URL.ApiCharginGetPriceListByGroupID,params, function(res) {
+					if("0" == res.code) {
+						setChargingPrice(res.data);
+					} else {
+						layer.msg(res.msg);
+					}
+				})
+			}
+
+			function setChargingPrice(data) {
+				var tmpl = '<span class="item {{promotion}}" data-id="{{id}}" data-time="{{time}}" data-state="{{state}}" data-money="{{money}}">{{promotionRemark}}<b>{{hour}}</b></span>';
+				var res = '';
+				$.each(data, function(inedx, item) {
+					var minute = item.defaultTime;
+					var hours;
+					if(item.state == 1) {
+						hours = "充满自停";
+					} else {
+						if(minute >= 60) {
+							hours = parseFloat((minute / 60).toFixed(1)) + "小时";
+						} else {
+							hours = minute + "分钟";
+						}
+					}
+					var itemTmp = tmpl.replace(/{{id}}/g, item.id)
+						.replace(/{{money}}/g, item.price)
+						.replace(/{{hour}}/g, hours)
+						.replace(/{{time}}/g, item.defaultTime);
+					if(item.state) {
+						itemTmp = itemTmp.replace(/{{state}}/g, item.state);
+					}
+					// 活动
+					if(item.promotion) {
+						itemTmp = itemTmp.replace(/{{promotion}}/g, 'promotion')
+							.replace(/{{promotionRemark}}/g, '<i><em>' + item.promotionRemark + '</em></i>');
+					} else {
+						itemTmp = itemTmp.replace(/{{promotion}}/g, '')
+							.replace(/{{promotionRemark}}/g, '<i></i>');
+					}
+					res += itemTmp;
+					// console.log(itemTmp)
+					if(inedx == 0) {
+						if(item.state == 1 || item.state == 2) {
+							$('#footer').find('.left').css('display', 'none');
+						} else {
+							$('#footer').find('.left').css('display', 'block')
+								.find('.priceBox').text('0');
+						}
+					}
+				});
+				$(".timeBox").html(res);
+				bindSelectPrice();
+			}
+
+			function bindSelectPrice() {
+				$(".timeBox span").bind('click', function() {
+					$(".timeBox span").removeClass('active');
+					$(this).addClass('active');
+					$(".priceBox").text($(this).attr("data-money"));
+
+					var state = $(this).attr('data-state');
+					if(state == '1' || state == '2') {
+						var priceId = $(this).attr("data-id");
+						if(priceDesc[priceId] == '') {
+							postJSONNoIcon(API_URL.ApiChargingPriceDesc, {
+								"chargingPriceId": $(this).attr("data-id")
+							}, function(res) {
+								if(res.code == '0') {
+									showPriceDesc(res.data);
+									priceDesc[priceId] = res.data;
+								}
+							});
+						} else {
+							showPriceDesc(priceDesc[priceId]);
+						}
+						$('#footer').find('.left').css('display', 'none');
+					} else {
+						// $('#footer').removeClass('footer1').find('.priceBox')/*.text('0')*/;
+						$('#footer').find('.left').css('display', 'block');
+						$('#chargingSocketDesc').css({
+							'height': '72px',
+							'visibility': 'hidden'
+						}).find('.right').css('display', 'none').html('');
+					}
+				});
+			}
+
+			function showPriceDesc(data) {
+				if(data && data.length > 0) {
+					var tmp = '<p style="margin: 0;">{{price}}元/小时（{{min}}<功率≤{{max}}瓦）</p>';
+					var html = '';
+					$.each(data, function(inedx, item) {
+						var itemTmp = tmp.replace(/{{price}}/g, item.price)
+							.replace(/{{min}}/g, item.minEle)
+							.replace(/{{max}}/g, item.maxEle);
+						if(inedx != 0 && inedx == data.length - 1) {
+							itemTmp = itemTmp.replace('<功率≤' + item.maxEle + '瓦', '以上');
+						}
+						html += itemTmp;
+					});
+					$('#chargingSocketDesc').css({
+						'height': (data.length * 32 + 40) + 'px',
+						'visibility': 'visible'
+					}).find('.right').css('display', 'block').html(html);
+				}
+			}
+
+			$("#submitBtn").click(function() {
+				if(!vaildeParam(currentChargeGroupID)) {
+					layer.msg("没有获取到片区");
+					return;
+				}
+				var $swiperSlideActive = $(".swiper-slide-active");
+				if($swiperSlideActive.length <= 0) {
+					layer.msg("还没选择桩号");
+					return;
+				}
+				var cdzCode = $swiperSlideActive.attr("data-code");
+				if(!vaildeParam(cdzCode)) {
+					layer.msg("还没选择桩号");
+					return;
+				}
+				var $cz = $(".czhBox .active");
+				if($cz.length == 0) {
+					layer.msg("你还没选择插座");
+					return;
+				}
+				var zcID = $cz.attr("data-id");
+				console.log("## zcID ## : " + zcID)
+				if(!vaildeParam(zcID)) {
+					layer.msg("你还没选择插座");
+					return;
+				}
+				var $time = $('.timeBox .active');
+				if($time.length == 0) {
+					layer.msg("你还没选择时间");
+					return;
+				}
+				var timeID = $time.attr("data-id");
+				console.log("## timeID ## : " + timeID)
+				var uuid = plus.storage.getItem("uuid");
+				showLoadingSuccess();
+				var data = {
+					"uuid": uuid,
+					"zcID": zcID,
+					"chargingGroupPriceId": timeID,
+					"minutes": $time.attr('data-time'),
+					"method": $time.attr('data-state')
+				}
+				var url = API_URL.ApiDeviceCommandSendChargeCommand;
+				postJSONNoIcon(url, data, shargeSubmitResponse);
+			})
+
+			function shargeSubmitResponse(res) {
+				if("0" == res.code) {
+					setLoadingSuccess();
+					var msg = '充电成功';
+					if(res.data > 0) {
+						// msg += " , 获得"+res.data+"云钻";
+						msg += " , 充电结束可获得云钻";
+					}
+					layer.msg(msg);
+					setTimeout(function() {
+						initLoadingSuccess();
+						postJSON(API_URL.ApiUserChargingDetailGetDoingList, {
+							uuid: plus.storage.getItem("uuid")
+						}, function(res) {
+							if('0' == res.code) {
+								var sn = res.data[res.data.length - 1].sn;
+								clicked('charging.html#' + sn);
+							} else {
+								clicked("chargeList.html");
+							}
+						})
+						// clicked("chargeList.html");
+					}, 3000)
+
+				} else {
+					initLoadingSuccess();
+					if('未知错误' == res.msg) {
+						layer.msg("请求超时");
+					} else {
+						layer.msg(res.msg);
+					}
+					getCharging();
+					getChargingGroupPrice()
+				}
+			}
+			var loadingInterval = null;
+			function showLoadingSuccess() {
+				$('.progressBoxWrap').css("display", 'block')
+				loadingInterval = setInterval(function() {
+					var hasChange = false;
+					var $stepItems = $(".progressBox .stepItem");
+					$.each($stepItems, function(index, item) {
+						if(index < $stepItems.length - 1) {
+							if(!$(item).hasClass('stepSuccess') && !hasChange) {
+								$(item).addClass('stepSuccess');
+								$(item).find("i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
+								hasChange = true;
+							}
+						}
+					})
+					if(!hasChange) {
+						clearLoadingInterval(loadingInterval);
+					}
+				}, 1000);
+			}
+
+			function clearLoadingInterval() {
+				if(vaildeParam(loadingInterval)) {
+					clearInterval(loadingInterval);
+				}
+			}
+
+			/**
+			 * 初始化充电进度框
+			 */
+			function initLoadingSuccess() {
+				clearLoadingInterval(loadingInterval);
+				$(".progressBoxWrap").css("display", 'none');
+				$(".progressBox .stepItem").removeClass('stepSuccess');
+				$(".progressBox .stepItem i").addClass('fa-refresh').addClass('fa-spin').removeClass('fa-check-circle');
+			}
+
+			/**
+			 * 设置充电进度框为成功
+			 */
+			function setLoadingSuccess() {
+				clearLoadingInterval(loadingInterval);
+				$(".progressBox .stepItem").addClass('stepSuccess');
+				$(".progressBox .stepItem i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
+			}
+
+			/**
+			 * 扫一扫接口
+			 * @param type
+			 * @param result
+			 * @param file
+			 */
+			function scaned(type, result, file) {
+				if(!vaildeParam(result)) {
+					return;
+				}
+				postJSON(API_URL.ApiChargingInfoByShellId, {'shellId': result}, function(res) {
+					if('0' == res.code) {
+						var cdzID = res.data.id;
+						scanGroup = res.data.groupId;
+						scanCdzID = cdzID;
+						//如果存在扫一扫的片区数据，默认显示扫一扫的数据
+						if(vaildeParam(scanGroup)) {
+							$addressTitle.text(scanGroup.name);
+							currentChargeGroupID = scanGroup.id;
+						}
+						getCurrentPosition();
+					} else {
+						layer.msg(res.msg)
+					}
+				})
+			}
+		</script>
+		<script>
+//			function guide() {
+//				/*var html = '';
+//				html += '<div class="guide guide1" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//				html += '<div class="guide guide2" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//				html += '<div class="guide guide3" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//				html += '<div class="guide guide4" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//				html += '<div class="guide guide5" onclick="guideClose();"><div class="close"></div></div>';
+//				$('body').append(html);*/
+//				$('.guide-wrapper').css('display', 'block');
+//			}
+//
+//			function guideNext(self) {
+//				var t = setTimeout(function() {
+//					$(self).css('display', 'none');
+//					window.clearTimeout(t);
+//				}, 200);
+//			}
+//
+//			function guideClose() {
+//				$('.guide-wrapper').css('display', 'none');
+//			}
+//
+//			function stopEvt(e) {
+//				e.stopPropagation(); //阻止点击事件向上冒泡
+//			}
+		</script>
+	</body>
+</html>

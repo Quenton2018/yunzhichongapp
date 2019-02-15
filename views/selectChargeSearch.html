@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/artTemplate.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+    	.yzc-main{margin: 0 20px;}
+		.yzc-search{margin: 20px auto 0px;}
+		.yzc-search input{height: 40px;font-size: 15px;text-align: left;}
+		.mui-search .mui-placeholder{line-height: 40px;font-size:15px;text-align: left;}
+		.mui-search .mui-placeholder .mui-icon{margin:10px 5px 0 5px;float:left;color:#a0a0a0;}	
+		.dw-relocation{float: right;font-size: 12px;color: #FF6D22;}
+		.dw-relocation i{padding-right: 5px;vertical-align: -1px;}
+		.yzc-dw-text{border-bottom: 1px solid #C4C4C4;padding-bottom: 10px;}
+		.near-cdz-title{font-size: 15px;font-weight: 400;padding-top: 10px;color: #AFAFAF;}
+		.mui-table-view:before,.mui-table-view:after{height: 0;}
+		.list-cdz{list-style: none;padding: 10px 0;border-bottom: 1px solid #F0F0F0;}
+		.list-cdz.active{color: #F97A1A;}
+		.icon-cdz{padding-right: 2px;}
+		.icon-map{padding-right: 2px;}
+    </style>
+</head>
+<body style="background: #fff;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">切换充电桩地址</h1>
+	</header>
+		
+	<div class="mui-content" style="background: #fff;">
+		<div class="yzc-main">
+			<div class="search-box">
+				<form id="searchForm">
+					<div class="mui-input-row mui-search yzc-search">
+						<input id="search" type="search" class="mui-input-clear" placeholder="请输入您要搜索的关键字">
+					</div>
+				</form>		
+			</div>
+			<div class="search-content">
+				
+			</div>
+			<div class="yzc-cdz">
+				<div class="yzc-dw-text">
+					<span class="dw-title">加载中..</span>
+					<span class="dw-relocation"><i class="iconfont icon-zhongxindingwei"></i>重新定位</span>
+				</div>
+				<!--<div class="nearcdz-box">
+					<h2 class="near-cdz-title"><i class="iconfont icon-cdz"></i>最近使用充电桩地址</h2>
+					<ul class="mui-table-view" id="lastList"></ul>
+				</div>-->
+				<div class="nearcdz-box">
+					<h2 class="near-cdz-title"><i class="iconfont icon-map"></i>附近充电桩地址</h2>
+					<ul class="mui-table-view" id="itemList"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--附近充电桩地址模板-->
+	<script type="text/html" id="listTmpl" >
+		{{each list as item index}}
+			<li class="list-cdz" data-id="{{item.id}}" onclick="selectChargingGroupAction(this)">{{item.name}}</li>
+		{{/each}}
+	</script>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		var $addressInfo = $("#addressInfo");
+		//当前选择的片区
+		var currentChargeGroupID = null;
+		var scanCdzID = null;
+		//上次使用的充电桩ID
+		var lastUseCdzID = null;
+		//用户定位信息
+		var geolocationGroup = {};
+		//附近的片区
+		var nearChargingGroupList = null;
+		//上次使用的片区
+		var lastUseChargingGroup = null;
+		
+		mui.init();
+		mui.plusReady(function(){
+			getAddress();
+			getChargingGroupNearList();
+		})
+		
+		//获取定位地址
+		function getAddress(){
+			geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
+			if(vaildeParam(geolocationGroup)){
+				var addresses = geolocationGroup.addresses;
+				setTimeout(function(){
+					$('.dw-title').text(addresses);				
+				},400);		
+			}
+		}
+		$('.dw-relocation').on('tap',function(){
+			$('.dw-title').text("定位中..");
+			getCurrentPosition();
+			getAddress();
+			getChargingGroupNearList();
+		});
+		
+		/**
+		 * 获取附近的片区
+		 */
+		function getChargingGroupNearList() {
+			var uuid = plus.storage.getItem("uuid");
+			if(!vaildeParam(geolocationGroup.longitude) || !vaildeParam(geolocationGroup.latitude)) {
+				layer.msg("定位失败，请重新定位");
+				return;
+			}
+			var param = {
+				"uuid": uuid,
+				"latitude": geolocationGroup.latitude,
+				"longitude": geolocationGroup.longitude,
+				"limit": 10
+			}
+			postJSON(API_URL.ApiChargingGroupGetNearList, param, function (res) {
+				if("0" == res.code) {
+//					if(res.data.needGuide) {
+//						guide();
+//					}
+					//附近的片区
+					nearChargingGroupList = res.data.nearChargingGroupList;
+					//上次使用的片区
+					lastUseChargingGroup = res.data.lastUseChargingGroup;
+					//上次使用的充电桩
+					charging = res.data.charging;				
+//					if(!vaildeParam(lastUseChargingGroup)) {
+//						if(nearChargingGroupList.length > 0) {
+//							lastUseChargingGroup = nearChargingGroupList[0];
+//						}
+//					}			
+					if(vaildeParam(lastUseChargingGroup)) {
+//						var data = {'list':objToArr(lastUseChargingGroup)};
+//						var lastHtml = template('listTmpl', data);
+//						$('#lastList').html(lastHtml);						
+//						$addressInfo.text(lastUseChargingGroup.name);
+//						currentChargeGroupID = lastUseChargingGroup.id;
+//						if(null != charging) {
+//							lastUseCdzID = charging.id;
+//						}
+					} else {
+						$('#lastList').text('暂无数据');
+						currentChargeGroupID = null;
+					}					
+					if(vaildeParam(nearChargingGroupList)) {
+						console.log(JSON.stringify(nearChargingGroupList))
+						var data = {'list':nearChargingGroupList};
+						var Html = template('listTmpl', data);
+						$('#itemList').html(Html);
+					} else {
+						$('#itemList').html('<p style="padding: 10px">暂无数据</p>');
+					}				
+				} else {
+					layer.msg(res.msg);
+				}
+			});
+		}	
+		/**
+		 * 选择片区
+		 * @param that
+		 */
+		function selectChargingGroupAction(that) {
+			var $this = $(that);
+			$this.addClass('active');
+			currentChargeGroupID = $this.attr("data-id");
+			var address = $this.text();
+			plus.storage.setItem("currentChargeGroupID",currentChargeGroupID);
+			plus.storage.setItem("addresses",address);
+			returnWindow("selectChargeMethod.html");
+		}
+		//搜索input监听
+		document.getElementById('search').addEventListener('search', function() {
+			doSearch();
+		});
+		document.getElementById("searchForm").onsubmit = function() {
+			doSearch();
+            //处理代码  
+	        return false  
+	    }
+		//搜索充电桩地址		
+		var doSearch = function() {
+			var kw = document.getElementById("search").value;
+			console.log(kw)
+//			var url = 'appHttpFullSearch/appClassiSearchResult.do';
+//			var param = 'keyWord=' + kw+ '&districtId=' +getCurrentDistrictId() ;
+//			utils.ajax(url, function(data) {
+//				var kws = localStorage.getItem(SYS_PARAM.KEY_KWS);
+//				if(!kws) {
+//					kws = [kw];
+//				} else {
+//					kws = kws.split(',');
+//					for(var i in kws) {
+//						if(kws[i] == kw.trim()) {
+//							kws.splice(i, 1);
+//							break;
+//						}
+//					}
+//					kws.push(kw);
+//				}
+//				if(kws.length > 6) {
+//					kws = kws.slice(kws.length - 6, kws.length);
+//				}
+//				localStorage.setItem(SYS_PARAM.KEY_KWS, kws.join(","));
+//
+//				var self = plus.webview.currentWebview();
+//				var sub = plus.webview.getWebviewById('search_result');
+//				if(!sub) {
+//					sub = plus.webview.create('_www/src/search/search_info.html', 'search_result', {
+//						top: (window.immersed ? window.immersed : 0) + 44 + 'px',
+//						bottom: '0px'
+//					});
+//					self.append(sub);
+//					setTimeout(function(){
+//						mui.fire(sub,'initData',{'result_json': data});
+//						sub.show("slide-in-left", 300);
+//					},300);
+//				}else{
+//					mui.fire(sub,'initData',{'result_json': data});
+//					sub.show("slide-in-left", 300);
+//				}
+//			}, param);
+		}
+	</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-//var apiHost = "http://api.jx9n.com";
-apiHost = "http://39.106.62.16:8181";
+var apiHost = "http://api.jx9n.com";
+//apiHost = "http://39.106.62.16:8181";
 //apiHost = "http://192.168.1.17:8181";
 var appVersion = "v3.1.1"; //app当前版本
 
@@ -137,7 +137,7 @@ function postJSON(url, data, callback) {
 	var load_index = layer.load();
 	var xhr = new plus.net.XMLHttpRequest();
 	xhr.onreadystatechange = function() {
-		console.log("## postJSON ## readyState : " + xhr.readyState)
+//		console.log("## postJSON ## readyState : " + xhr.readyState)
 		switch(xhr.readyState) {
 			case 4:
 				if(xhr.status == 200) {
@@ -166,14 +166,14 @@ function postJSONNoIcon(url, data, callback) {
 	console.log("## postJSONNoIcon ## url : " + url)
 	var xhr = new plus.net.XMLHttpRequest();
 	xhr.onreadystatechange = function() {
-		console.log("## postJSON ## readyState : " + xhr.readyState)
+//		console.log("## postJSON ## readyState : " + xhr.readyState)
 		switch(xhr.readyState) {
 			case 4:
 				if(xhr.status == 200) {
 					var responseText = xhr.responseText;
 					console.log("## postJSON ## responseText : " + responseText)
 					var json = eval("(" + responseText + ")");
-					console.log("## postJSON ## json : " + json)
+					//console.log("## postJSON ## json : " + json)
 					callback(json);
 				} else {
 					// layer.msg("请求失败");
