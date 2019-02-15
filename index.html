@@ -38,7 +38,7 @@
 			<img src="img/app_06.png" style="height: 30px;" />
 		</a>
 		<h1 class="mui-title"></h1>
-		<a class="mui-icon mui-icon-right-nav mui-pull-right" onclick="clicked('page/messageList.html')">
+		<a class="mui-icon mui-icon-right-nav mui-pull-right" onclick="clicked('views/messageList.html')">
 			<img src="img/app_03.png" style="height: 30px;" />
 		</a>	
 	</header>
@@ -164,10 +164,10 @@
                 openSystemPositionServer();
                 break;
             case 'undetermined':
-                mui.alert('未确定定位权限', '定位消息);
+                mui.alert('未确定定位权限', '定位消息');
                 break;
             case 'unknown':
-                mui.alert('无法查询定位权限', '定位消息);
+                mui.alert('无法查询定位权限', '定位消息');
                 break;
             default:
 				console.log('不支持定位权限');
