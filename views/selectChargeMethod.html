@@ -114,13 +114,13 @@
 			.icon-richscan{font-size:18px;color: #fff;font-weight: bold;padding: 12px;}
 		</style>
 	</head>
-<body>
+<body style="background: #F7F7F7;">
 		<div style="position: absolute; z-index: -1; width: 100%; height: 240px; float: left; top: 0;left: 0; background-color: #FF7F3E;"></div>
 
 		<header class="header header-immersed mui-bar mui-bar-nav" style="background: none;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    		<h1 class="mui-title" onclick="clicked('selectChargeSearch.html')"><i class="iconfont icon-map"></i><span id="cd-title">加载中..</span></span></h1>
-    		<a class="iconfont icon-richscan mui-icon-right-nav mui-pull-right" onclick="clicked('barcode_scan.html')"></a>
+    		<h1 class="mui-title" onclick="openWebview('selectChargeSearch.html')"><i class="iconfont icon-map"></i><span id="cd-title">加载中..</span><i class="mui-icon mui-icon-forward" style="font-size: 18px;"></i></h1>
+    		<a class="iconfont icon-richscan mui-icon-right-nav mui-pull-right" onclick="openScaned('scan_barcode.html','cdzno')"></a>
 		</header>
 
 		<div class="contentBox" style="padding-top: 80px;">
@@ -327,7 +327,7 @@
 					layer.msg("没有获取到片区");
 					return;
 				}
-				postJSONNoIcon(API_URL.ApiGetChargingByGroupID, {"id": currentChargeGroupID}, function(res) {
+				postJSON(API_URL.ApiGetChargingByGroupID, {"id": currentChargeGroupID}, function(res) {
 					if("0" == res.code) {
 						var data = res.data;
 						if(data.length == 0) {
@@ -341,7 +341,7 @@
 					} else {
 						layer.msg(res.msg);
 					}
-				});
+				},true);
 
 			}
 			function setCharging(data) {
@@ -423,7 +423,7 @@
 					return;
 				}
 				console.log(" ## getChargingSocketList ## cdzCode : " + cdzCode)
-				postJSONNoIcon(API_URL.ApiChargingSocketListByCode, {
+				postJSON(API_URL.ApiChargingSocketListByCode, {
 					"code": cdzCode
 				}, function(res) {
 					if("0" == res.code) {
@@ -431,7 +431,7 @@
 					} else {
 						layer.msg(res.msg);
 					}
-				})
+				},true)
 			}
 
 			function setChargingSocket(data) {
@@ -474,13 +474,13 @@
 					"groupID": currentChargeGroupID,
 					"uuid": uuid
 				}
-				postJSONNoIcon(API_URL.ApiCharginGetPriceListByGroupID,params, function(res) {
+				postJSON(API_URL.ApiCharginGetPriceListByGroupID,params, function(res) {
 					if("0" == res.code) {
 						setChargingPrice(res.data);
 					} else {
 						layer.msg(res.msg);
 					}
-				})
+				},true)
 			}
 
 			function setChargingPrice(data) {
@@ -538,14 +538,14 @@
 					if(state == '1' || state == '2') {
 						var priceId = $(this).attr("data-id");
 						if(priceDesc[priceId] == '') {
-							postJSONNoIcon(API_URL.ApiChargingPriceDesc, {
+							postJSON(API_URL.ApiChargingPriceDesc, {
 								"chargingPriceId": $(this).attr("data-id")
 							}, function(res) {
 								if(res.code == '0') {
 									showPriceDesc(res.data);
 									priceDesc[priceId] = res.data;
 								}
-							});
+							},true);
 						} else {
 							showPriceDesc(priceDesc[priceId]);
 						}
@@ -624,7 +624,7 @@
 					"method": $time.attr('data-state')
 				}
 				var url = API_URL.ApiDeviceCommandSendChargeCommand;
-				postJSONNoIcon(url, data, shargeSubmitResponse);
+				postJSON(url, data, shargeSubmitResponse,true);
 			})
 
 			function shargeSubmitResponse(res) {
@@ -643,12 +643,12 @@
 						}, function(res) {
 							if('0' == res.code) {
 								var sn = res.data[res.data.length - 1].sn;
-								clicked('charging.html#' + sn);
+								openWebview('charging.html#' + sn);
 							} else {
-								clicked("chargeList.html");
+								openWebview("chargeList.html");
 							}
 						})
-						// clicked("chargeList.html");
+						// openWebview("chargeList.html");
 					}, 3000)
 
 				} else {
@@ -732,6 +732,15 @@
 					} else {
 						layer.msg(res.msg)
 					}
+				})
+			}
+			function openScaned(href,formpage){
+				mui.openWindow({
+				    url:href,
+				    id:href,
+				    extras:{
+				     	formpage:formpage
+				    }
 				})
 			}
 		</script>

@@ -20,7 +20,8 @@
  */
 (function(w){
 var server="http://www.dcloud.io/helloh5/update.json",//获取升级描述文件服务器地址
-localDir="update",localFile="update.json",//本地保存升级描述目录和文件名
+localDir="update",
+localFile="update.json",//本地保存升级描述目录和文件名
 keyUpdate="updateCheck",//取消升级键名
 keyAbort="updateAbort",//忽略版本键名
 checkInterval=604800000,//升级检查间隔，单位为ms,7天为7*24*60*60*1000=604800000, 如果每次启动需要检查设置值为0

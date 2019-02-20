@@ -9,54 +9,39 @@
 	<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="plugins/layer/layer.js"></script>
+	<script src="js/plusUtils.js"></script>
 	<script src="js/common.js"></script>
 	<script src="js/base.js"></script>
 	<script src="js/mui.min.js"></script>
     <style type="text/css">
-		body{background:#fff;}
-		.minContentBox{background-image:url("img/app_11.png");background-size:cover;padding-top:30px;padding-bottom:110px;}
-		#footer{width:100%;position:fixed;bottom:0;left:0;background:#fff;box-shadow:-2px -2px 2px 2px RGBA(116,116,116,.1);border-radius:30px 30px 0 0;border-top:#FAFAFA solid 5px;}
-		.footBtnBox{width:80%;margin:0 auto;padding:20px 0;}
-		.footBtnBox .left{float:left;width:54%;}
-		.footBtnBox .right{float:left;width:43%;}
-		.footBtnBox img{display:block;width:100%;}
-		#header{position:relative;}
-		.header_masking{width:100%;height:100%;position:absolute;z-index:999;opacity:0.6;background-color:#000!important;display:none;}
-		.context_upgrade{width:400px;margin:138px auto;margin-bottom:0;padding-left:30px;}
-		.context_upgrade h6{margin-top:10px;margin-bottom:18px;font-weight:bold;font-size:14px;}
-		.context_upgrade p{margin:0;font-size:12px;color:rgb(51,51,51);margin-bottom:4px;color:#636363;}
-		.btn_upgrade{margin-top:25px;position:relative;}
-		.btn_upgrade button{background:none;border:0;font-size:14px;color:#636363;cursor:pointer;position:relative;bottom:7px;}
-		.btn_upgrade div:first-child{float:left;width:50%;text-align:center;}
-		.btn_upgrade div:last-child{float:right;width:50%;text-align:center;}
-		.btn_upgrade div .btn_right{color:#ff803e;}
+		.mui-content{background-image:url("img/app_11.png");background-size:cover;padding-bottom:110px;}
+		.banner{display: block;width: 80%;margin: 0 auto;}
+		.footer{width:100%;position:fixed;bottom:0;left:0;background:#fff;box-shadow:-2px -2px 2px 2px rgba(116,116,116,.1);border-radius:30px 30px 0 0;border-top:#FAFAFA solid 5px;}
+		.footer-btn{width:80%;margin:0 auto;padding:20px 0;}
+		.footer-btn .left{float:left;width:54%;}
+		.footer-btn .right{float:left;width:43%;}
+		.footer-btn img{display:block;width:100%;}
     </style>
 </head>
 <body>
-	<header class="header header-immersed mui-bar mui-bar-nav" style="background: #fff;">
-		<a class="mui-icon mui-pull-left" onclick="clicked('page/userInfo.html')" style="padding-right: 30px;">
-			<img src="img/app_06.png" style="height: 30px;" />
-		</a>
-		<h1 class="mui-title"></h1>
-		<a class="mui-icon mui-icon-right-nav mui-pull-right" onclick="clicked('views/messageList.html')">
-			<img src="img/app_03.png" style="height: 30px;" />
-		</a>	
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openWebview('views/menu.html')"></a>
+		<h1 class="mui-title">首页</h1>
+		<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openWebview('views/messageList.html')"></a>	
 	</header>
-	<div class="masking"></div>
-	<div id="content" class="content">	
-		<div class="minContentBox">
-			<img src="img/app_focus_04.png" class="midBigPic" style="display: block;width: 80%;margin: 0 auto" id="views/recharge.html" onclick="clicked(this.id)">
-		</div>
+	
+	<div class="mui-content" style="padding-top: 80px;">
+		<img src="img/app_focus_04.png" class="banner" onclick="openWebview('views/recharge.html')">
 	</div>
 
-	<footer id="footer" style="text-align: center">
+	<footer class="footer" style="text-align: center">
 		<!--<div class="button" onclick="getCurrentPosition()">获取定位信息</div>-->
-		<div class="footBtnBox">
+		<div class="footer-btn">
 			<div class="left">
-				<img src="img/app_15.png" id="views/selectChargeMethod.html" onclick="clicked(this.id)" >
+				<img src="img/app_15.png" id="views/selectChargeMethod.html" onclick="openWebview(this.id)" >
 			</div>
 			<div class="right">
-				<img src="img/app_16.png" id="views/shoppingMall.html" onclick="clicked(this.id)"  >
+				<img src="img/app_16.png" id="views/shoppingMall.html" onclick="openWebview(this.id)"  >
 			</div>
 			<div style="clear: both"></div>
 		</div>
@@ -64,88 +49,56 @@
 		
 <script type="text/javascript">	
 	$.plusReady(function() {
-//		plus.navigator.setStatusBarStyle('dark');
-		checkPermissionPos();	
-		checkVersion();      
+		checkPermissionPos();
+		
+		checkVersion(); 
+		
     	// 热更新
     	heatUpdate(plus.os.name);
 
 //		uploadLoginInfo('page/login.html');
-
-        getUserInfo(); //获取用户信息
+		//获取用户信息
+        getUserInfo(); 
         
         getMidBigPic();
         
 		plus.push.addEventListener("onActivityResult", function(msg) {
-            layer.msg(msg);
+            toast(msg);
         }, false );
-	},function(){
-		getUserInfo(); //获取用户信息
+	},function(){	
+		getUserInfo(); 
 		checkPermissionPos();
 	});
-    /**
-     * 获取用户信息
-     */
     function getUserInfo(){
-        var uuid = plus.storage.getItem("uuid");
         if(vaildeParam(uuid)){
-            postJSONNoIcon(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+            postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
                 if("0" == res.code){
-                    var mobile = res.data.mobile;
-                    var headImage = res.data.headImage;
-                    var nickname = res.data.nickname;
-                    var gender = res.data.gender;
-                    var homeAddress = res.data.homeAddress;
-                    var totalMoney = res.data.totalMoney;
-                    var points = res.data.points;  //云钻
-                    plus.storage.setItem( "mobile", mobile);
-                    plus.storage.setItem( "headImage", headImage);
-                    plus.storage.setItem( "nickname", nickname);
-                    plus.storage.setItem( "gender", gender);
-                    plus.storage.setItem( "homeAddress", homeAddress);
-                    plus.storage.setItem( "totalMoney", totalMoney);
-                    plus.storage.setItem( "points", points);
-                    $(".money-text").html(totalMoney+"元");
+                	setLoginData(res.data);
                 }else{
-                    //layer.msg(res.msg);
+                    toast(res.msg);
                     clearLogin();
-                    clicked("views/login.html");
+                    openWebview("views/login.html");
                 }
-            })
+            },true)
         }
-    }
-    /**
-     * 检查版本
-     */
-    function checkVersion() {
-        var osName = plus.os.name;
-		postJSON(API_URL.AppVersionGetNewest,{ "appType" : osName },function (res) {
-			if (res.code == '0' && vaildeParam(res.data)) {
-				if (compareVersion(res.data.version)) {
-        			clicked('page/edition.html');
-        		}
-			}
-        });
     }
 	//获取中间banner图片
     function getMidBigPic() {
         postJSON(API_URL.ApiCarouselImageGetCarouselImage,{},function(res){
             if("0" == res.code){
                 var data = res.data;
-                if(0 == data.length){
-                    return;
-                }
+                if(0 == data.length) return;
                 var imgUrl = '';
                 $.each(data, function(index,item) {
                     if(0 == index){
                         imgUrl = item.pic;
+		                loadImage(imgUrl,function () {
+		                    $(".banner").attr("src",imgUrl);
+		                })
                     }
                 });
-                loadImage(imgUrl,function () {
-                    $(".midBigPic").attr("src",imgUrl);
-                })
             }else{
-                layer.msg(res.msg);
+                toast(res.msg);
             }
         })
     }
@@ -173,8 +126,7 @@
 				console.log('不支持定位权限');
                 break;
         }
-    }
-        
+    }       
 	// 打开手机设置 -> 隐私 -> 定位
 	function openSystemPositionServer() {
 		mui.alert("允许云智充获取位置权限，查找附近的充电桩，我们将按云智充隐私政策保护您的信息。不开启将影响使用云智充服务","开启定位服务","去开启",function(){
@@ -190,7 +142,6 @@
 			}
 		})
 	}
-	
 </script>
 
 </body>

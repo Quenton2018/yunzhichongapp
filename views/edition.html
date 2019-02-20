@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>版本信息</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+		.logo{margin: 50px 0;}
+		.logo h2{color: #333;font-size: 18px;padding: 10px 0;}
+		.bottom-content{margin-top:20px;text-align:center;}
+		.bottom-content p{font-size:18px;color:#707070;line-height:20px;}
+		.btn-submit{display:none;margin: 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    </style>
+</head>
+<body  style="background: #EBECEE;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">版本信息</h1>
+	</header>
+	
+	<div class="mui-content" style="background: #EBECEE;">
+		<div class="logo">
+			<img src="../img/logo_big.png" width="140" height="140"/>
+			<h2>云智充</h2>
+		</div>
+		<div class="bottom-content" id="versionBox">
+			<p>当前版本 : <span class="appVersion1">加载中...</span></p>
+			<p>最新版本 : <span class="appVersion2">加载中...</span></p>
+			<div class="btn-submit" id="downloadBtn">
+				<span>点击下载</span>
+			</div>
+		</div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		$(".appVersion1").text(appVersion)
+		mui.init();
+		mui.plusReady(function(){		
+        	checkVersion();
+		});
+		/**
+     	* 检查版本
+     	*/
+	    function checkVersion() {
+	        var osName = plus.os.name;
+	        var version = appVersion;	
+	        postJSON(API_URL.AppVersionGetNewest,{"appType":osName},function (res) {
+				if (res.code == '0' && vaildeParam(res.data)) {
+					$(".appVersion2").text(res.data.version);
+	                if (compareVersion(res.data.version)) {
+						$("#downloadBtn").css("display",'block').click(function () {
+	                       	plus.runtime.openURL(res.data.url);
+	                    });
+	                }
+				}
+	        })
+	    }
+	</script>
+</body>
+</html>

@@ -16,149 +16,30 @@
 		<script src="../js/base.js"></script>
 		<script src="../js/mui.min.js"></script>
 		<style type="text/css">
-			body{
-				margin:0 ;
-				padding: 0;
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-			}
-			.my-content{
-				overflow: hidden;
-				margin:0 auto;
-				margin-top: 0px;
-				padding-top: 0px;
-				height: 100%;
-			}
-			.header{
-				margin-top: 2rem;
-			}
-			.logoImg{
-				width:60px;
-				margin:0 auto;
-				margin-left: 2rem;
-			}
-			.close-Img{
-				float: right;
-				width:48px;
-				margin-right: 2rem;
-			}
-			.header-content{
-				text-align: left;
-				margin-left: 2rem;
-				margin-top: 1rem;
-				margin-bottom: 1rem;
-			}
-
-			.myTabWrap{
-				box-shadow: 0px 10px 10px RGBA(116, 116, 116, .1);
-			}
-			.nav-tabs{
-				border: none;
-				display: block;
-				margin: 0 2rem;
-			}
-			.nav-tabs a{
-				font-size: 1.2rem;
-				color:#000000;
-				display: block;
-				float: left;
-				border-bottom: #fff solid 5px;
-				/*width: 70px;*/
-				text-align: center;
-				padding: 10px;
-				text-decoration: none;
-			}
-			.nav-tabs a.active{
-				border-bottom-color: #EA6F1F;
-			}
-			.nav-tabs a:first-child{
-				margin-right: 30px;
-			}
-			.loginBox{
-				overflow: hidden;
-				margin-bottom: 0;
-				margin: 2rem;
-			}
-			.loginBox .inputBox{
-				position: relative;
-				margin-bottom: 10px;
-			}
-			.loginBox .inputBox i{
-				font-size: 1.2rem;
-				position: absolute;
-				left: 0px;
-				line-height: 3rem;
-				color: #9B999B;
-			}
-			.loginBox input{
-				-webkit-user-select:text;
-				text-align:left;
-				border: 0px;
-				border-radius: 0;
-				width:100%;
-				outline:none;
-				line-height: 3rem;
-				/*padding-left: 70px;*/
-				border-bottom: #D8D8D8 solid 1px;
-				font-size: 1.2rem;
-			}
-			.loginBox input:focus{
-				outline: none;
-			}
-
-
-
-			.registerBox{
-				overflow: hidden;
-				margin-bottom: 0;
-				margin: 2rem;
-			}
-			.registerBox .inputBox{
-				position: relative;
-				margin-bottom: 10px;
-				font-size: 1.2rem;
-			}
-			.registerBox .inputBox i{
-				font-size: 1.2rem;
-				position: absolute;
-				left: 0px;
-				line-height: 3rem;
-				color: #9B999B;
-			}
-			.registerBox input{
-				-webkit-user-select:text;
-				text-align:left;
-				border: 0px;
-				border-radius: 0;
-				font-size:16px;
-				width:100%;
-				outline:none;
-				line-height: 3rem;
-				/*padding-left: 110px;*/
-				border-bottom: #D8D8D8 solid 1px;
-			}
-			.registerBox input:focus{
-				outline: none;
-			}
-			.getCode{
-				position: absolute;
-				right: 10px;
-				top: .7rem;
-				color: #F88E36;
-			}
-            .Button-Img{
-                width: 80%;
-                display: block;
-                margin: 0 auto;
-            }
-			.forgetPassword{
-				text-align: right;
-				margin: 2rem;
-				margin-top: 10px;
-				margin-bottom:20px;
-				color: #232124;
-			}
+			body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;}
+			.my-content{overflow:hidden;margin:0 auto;margin-top:0px;padding-top:0px;height:100%;}
+			.header{margin-top:2rem;}
+			.logoImg{width:60px;margin:0 auto;margin-left:2rem;}
+			.close-Img{float:right;width:48px;margin-right:2rem;}
+			.header-content{text-align:left;margin-left:2rem;margin-top:1rem;margin-bottom:1rem;}
+			.myTabWrap{box-shadow:0px 10px 10px RGBA(116,116,116,.1);}
+			.nav-tabs{border:none;display:block;margin:0 2rem;}
+			.nav-tabs a{font-size:1.2rem;color:#000000;display:block;float:left;border-bottom:#fff solid 5px;text-align:center;padding:10px;text-decoration:none;}
+			.nav-tabs a.active{border-bottom-color:#EA6F1F;}
+			.nav-tabs a:first-child{margin-right:30px;}
+			.loginBox{overflow:hidden;margin-bottom:0;margin:2rem;}
+			.loginBox .inputBox{position:relative;margin-bottom:10px;}
+			.loginBox .inputBox i{font-size:1.2rem;position:absolute;left:0px;line-height:3rem;color:#9B999B;}
+			.loginBox input{-webkit-user-select:text;text-align:left;border:0px;border-radius:0;width:100%;outline:none;line-height:3rem;border-bottom:#D8D8D8 solid 1px;font-size:1.2rem;}
+			.loginBox input:focus{outline:none;}
+			.registerBox{overflow:hidden;margin-bottom:0;margin:2rem;}
+			.registerBox .inputBox{position:relative;margin-bottom:10px;font-size:1.2rem;}
+			.registerBox .inputBox i{font-size:1.2rem;position:absolute;left:0px;line-height:3rem;color:#9B999B;}
+			.registerBox input{-webkit-user-select:text;text-align:left;border:0px;border-radius:0;font-size:16px;width:100%;outline:none;line-height:3rem;border-bottom:#D8D8D8 solid 1px;}
+			.registerBox input:focus{outline:none;}
+			.getCode{position:absolute;right:10px;top:.7rem;color:#F88E36;}
+			.Button-Img{width:80%;display:block;margin:0 auto;}
+			.forgetPassword{text-align:right;margin:2rem;margin-top:10px;margin-bottom:20px;color:#232124;}
 		</style>
 	</head>
 	<body style="background: #ffffff;">
@@ -166,7 +47,6 @@
 			<div class="header">
 				<div>
 					<img class="logoImg"  src="../img/app_small_logo_03.png" />
-					<!--<img class="close-Img"  src="../img/app_close.png" />-->
 				</div>
 				<div class="header-content">
 					<h2 style="font-weight: 400;letter-spacing: 5px">欢迎回来</h2>
@@ -207,7 +87,7 @@
 						<img class="Button-Img loginBtn"  src="../img/logout/app_login_btn.png" />
 					</div>
 					<div class="forgetPassword">
-						<span id="../page/forgetPassword.html" onclick="clicked(this.id)">忘记密码</span>
+						<span id="../page/forgetPassword.html" onclick="openWebview(this.id)">忘记密码</span>
 					</div>
 				</div>
 				<div class="tab-pane fade" id="register">
@@ -347,10 +227,9 @@
                     postJSON(API_URL.ApiMemberRegister,postData,function(res){
                         if("0" == res.code){
                             layer.msg("注册成功，正在跳转...");
-                            setLoginData(res.data.uuid,res.data.mobile);
-                            //setLoginDataNew(res);
+                            setLoginData(res.data);
                             setTimeout(function(){
-                                clicked('../index.html')
+                                openWebview('../index.html')
                             },2000);
                         }else{
                             layer.msg(res.msg);
@@ -388,10 +267,9 @@
                     postJSON(API_URL.ApiMemberLogin,postData,function(res){
                         if("0" == res.code){
                             layer.msg("登录成功，正在跳转...");
-                            setLoginData(res.data.uuid,res.data.mobile);
-                            //setLoginDataNew(res);
+                            setLoginData(res.data);
                             setTimeout(function(){
-                                clicked('../index.html')
+                                openWebview('../index.html')
                             },2000);
                         }else{
                             layer.msg(res.msg);

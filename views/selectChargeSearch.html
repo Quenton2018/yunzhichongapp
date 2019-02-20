@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>切换充电桩地址</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
@@ -32,14 +32,13 @@
 	<header class="header header-immersed mui-bar mui-bar-nav">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     	<h1 class="mui-title">切换充电桩地址</h1>
-	</header>
-		
+	</header>		
 	<div class="mui-content" style="background: #fff;">
 		<div class="yzc-main">
 			<div class="search-box">
 				<form id="searchForm">
 					<div class="mui-input-row mui-search yzc-search">
-						<input id="search" type="search" class="mui-input-clear" placeholder="请输入您要搜索的关键字">
+						<input id="text" type="search" class="mui-input-clear" placeholder="请输入您要搜索的关键字">
 					</div>
 				</form>		
 			</div>
@@ -51,10 +50,10 @@
 					<span class="dw-title">加载中..</span>
 					<span class="dw-relocation"><i class="iconfont icon-zhongxindingwei"></i>重新定位</span>
 				</div>
-				<!--<div class="nearcdz-box">
+				<div class="nearcdz-box">
 					<h2 class="near-cdz-title"><i class="iconfont icon-cdz"></i>最近使用充电桩地址</h2>
 					<ul class="mui-table-view" id="lastList"></ul>
-				</div>-->
+				</div>
 				<div class="nearcdz-box">
 					<h2 class="near-cdz-title"><i class="iconfont icon-map"></i>附近充电桩地址</h2>
 					<ul class="mui-table-view" id="itemList"></ul>
@@ -81,14 +80,12 @@
 		//附近的片区
 		var nearChargingGroupList = null;
 		//上次使用的片区
-		var lastUseChargingGroup = null;
-		
+		var lastUseChargingGroup = null;	
 		mui.init();
 		mui.plusReady(function(){
 			getAddress();
 			getChargingGroupNearList();
-		})
-		
+		})	
 		//获取定位地址
 		function getAddress(){
 			geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
@@ -137,19 +134,10 @@
 //							lastUseChargingGroup = nearChargingGroupList[0];
 //						}
 //					}			
-					if(vaildeParam(lastUseChargingGroup)) {
-//						var data = {'list':objToArr(lastUseChargingGroup)};
-//						var lastHtml = template('listTmpl', data);
-//						$('#lastList').html(lastHtml);						
-//						$addressInfo.text(lastUseChargingGroup.name);
-//						currentChargeGroupID = lastUseChargingGroup.id;
-//						if(null != charging) {
-//							lastUseCdzID = charging.id;
-//						}
-					} else {
-						$('#lastList').text('暂无数据');
-						currentChargeGroupID = null;
-					}					
+//					if(!vaildeParam(lastUseChargingGroup))
+//						$('#lastList').text('暂无数据');
+//						currentChargeGroupID = null;
+//					}					
 					if(vaildeParam(nearChargingGroupList)) {
 						console.log(JSON.stringify(nearChargingGroupList))
 						var data = {'list':nearChargingGroupList};
@@ -189,44 +177,6 @@
 		var doSearch = function() {
 			var kw = document.getElementById("search").value;
 			console.log(kw)
-//			var url = 'appHttpFullSearch/appClassiSearchResult.do';
-//			var param = 'keyWord=' + kw+ '&districtId=' +getCurrentDistrictId() ;
-//			utils.ajax(url, function(data) {
-//				var kws = localStorage.getItem(SYS_PARAM.KEY_KWS);
-//				if(!kws) {
-//					kws = [kw];
-//				} else {
-//					kws = kws.split(',');
-//					for(var i in kws) {
-//						if(kws[i] == kw.trim()) {
-//							kws.splice(i, 1);
-//							break;
-//						}
-//					}
-//					kws.push(kw);
-//				}
-//				if(kws.length > 6) {
-//					kws = kws.slice(kws.length - 6, kws.length);
-//				}
-//				localStorage.setItem(SYS_PARAM.KEY_KWS, kws.join(","));
-//
-//				var self = plus.webview.currentWebview();
-//				var sub = plus.webview.getWebviewById('search_result');
-//				if(!sub) {
-//					sub = plus.webview.create('_www/src/search/search_info.html', 'search_result', {
-//						top: (window.immersed ? window.immersed : 0) + 44 + 'px',
-//						bottom: '0px'
-//					});
-//					self.append(sub);
-//					setTimeout(function(){
-//						mui.fire(sub,'initData',{'result_json': data});
-//						sub.show("slide-in-left", 300);
-//					},300);
-//				}else{
-//					mui.fire(sub,'initData',{'result_json': data});
-//					sub.show("slide-in-left", 300);
-//				}
-//			}, param);
 		}
 	</script>
 </body>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>余额明细</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/artTemplate.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+    	.mui-tab{overflow: hidden;margin: 20px 50px;border: 1px solid #FF6D22;border-radius: 5px;}
+		.mui-tab-sub{color: #666666;font-size: 14px;float: left;padding: 6px 0;text-align: center;}
+		.mui-tab-sub.active{background: #FF6D22;color: #fff;}
+		.details-list{border-bottom: 1px solid #EBEBEB;padding: 15px 0;}
+		.list-amount{font-size: 16px;color: #333;font-weight: bold;}
+		.list-p{padding: 0 20px;margin: 0;}
+    </style>
+</head>
+<body>
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">余额明细</h1>
+	</header>
+		
+	<div id="J_refresh" class="mui-content mui-scroll-wrapper" style="background: #fff;">
+		<div class="mui-scroll">
+			<div class="mui-tab flex">
+				<div class="mui-tab-sub flex-item active" data-Type="1">消费明细</div>
+				<div class="mui-tab-sub flex-item" data-Type="0">充值明细</div>
+			</div>
+			<div class="nodata">
+				<img src="../img/views/null.png" width="154" style="margin: 30px auto 10px;"/>
+				<p>暂无记录</p>
+			</div>
+			<ul class="details-ul" id="itemList">
+					
+			</ul>
+		</div>
+	</div>
+	<script type="text/html" id="listTmpl">
+		{{each list as item}}
+		<li class="details-list">
+			<p class="list-p mui-clearfix" style="margin-bottom: 4px;">
+				{{if consumptionType == '0'}}
+					<span class="list-amount left">+{{item.amount}}元</span>
+				{{else}}
+					<span class="list-amount left">-{{item.amount}}元</span>
+				{{/if}}
+				<span class="right">成功</span>
+			</p>
+			<p class="list-p mui-clearfix">
+				<span class="left">{{item.title}}</span>
+				<span class="right">{{item.createDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</span>
+			</p>
+		</li>
+		{{/each}}
+	</script>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		var pageNumber = 1;
+    	var pageSize = 10;
+    	var consumptionType = "1";  //消费明细：1 充值明细：0
+		mui.init();
+		mui.plusReady(function(){
+			getList();
+		});
+		pullRefresh(dataRefresh,function() {	
+			pageNumber++;
+	        getList();
+		});
+		// 刷新页面
+	    function dataRefresh(){
+	        pageNumber=1;
+	        getList();
+	    }
+		function getList(){
+	        if(vaildeParam(uuid)){
+	            var dataParam= {
+	                "uuid":uuid,
+	                "recordType":"0",
+	                "consumptionType":consumptionType,
+	                "pageSize":pageSize,
+	                "pageNumber":pageNumber
+	            }
+	            postJSON(API_URL.ApiDetailRecordGetDetailRecordList,dataParam,function(res){
+	                if("0" == res.code){
+	                    var list = res.data.pagedata.content;
+	                    stopRefresh(list.length,pageSize);
+	                    if(1 == pageNumber){
+		                    $("#itemList").html('');
+		                } 
+		                if (list.length == 0 && pageNumber > 1) {
+	                    	return;
+	                    }              
+	                    if(!vaildeParam(list)){
+	                    	$(".nodata").show();                   	
+	                    }else{
+	                    	$(".nodata").hide();
+                    	}
+						var itemHtml = '';
+				    	var data = {'list':list};
+				    	data.consumptionType = consumptionType;
+				    	var itemHtml = template('listTmpl', data);
+				    	$("#itemList").append(itemHtml);				    	                   
+	                }else{
+	                    layer.msg(res.msg);
+	                }
+	            })
+	        }
+	    }
+		$(".mui-tab-sub").on('click',function(){
+			$(this).addClass('active').siblings().removeClass('active');
+			enableRefresh();
+			consumptionType = $(this).attr('data-Type');
+			pageNumber = 1;
+			getList();
+		});
+	</script>
+</body>
+</html>

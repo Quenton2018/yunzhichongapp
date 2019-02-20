@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>关于我们</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+		.logo{margin: 30px 0;}
+		.logo h2{color: #333;font-size: 15px;padding: 10px 0;}
+		.user-list{padding: 20px;border-bottom: 1px solid #eee;position: relative;}
+		.list-laber{font-size: 16px;color: #333;margin: 0;}
+    	.navigate{position: absolute;right: 24px;top: 20px;font-size: 15px;color: #999999;}
+    	.footer{color: #333;position: absolute;bottom: 40px;width: 100%;text-align: center;}
+    </style>
+</head>
+<body  style="background: #EBECEE;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">关于我们</h1>
+	</header>
+	
+	<div class="mui-content"  style="background: #EBECEE;">
+		<div class="logo">
+			<img src="../img/logo_big.png" width="75" height="75"/>
+			<h2>云智充<span class="appVersion"></span></h2>
+		</div>
+		<ul class="user-ul" style="background: #fff;">
+			<li class="user-list">
+				<p class="list-laber">微信公众号</p>
+				<span class="navigate">云智充</span>
+			</li>
+			<li class="user-list">
+				<p class="list-laber">联系电话</p>
+				<span class="navigate">400-825-1068</span>
+			</li>
+			<li class="user-list">
+				<p class="list-laber">电子邮箱</p>
+				<span class="navigate">yunzhichong@jx9n.com</span>
+			</li>
+			<li class="user-list">
+				<p class="list-laber">官方网站</p>
+				<span class="navigate">yunzhichong.com</span>
+			</li>
+		</ul>
+		<div class="footer">上海五纷物联技术有限公司</div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		$(".appVersion").text(appVersion);
+	</script>
+</body>
+</html>

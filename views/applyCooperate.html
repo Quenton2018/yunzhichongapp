@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>申请合作</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+		.yzc-banner{background: #E9E9E9;margin: 20px 10px 50px;padding: 15px 10px;border-radius: 6px;}
+		.yzc-banner p img {margin-right: 6px;}
+		.yzc-banner p span{color: #333;font-size: 12px;}
+		.yzc-banner .ling{font-size: 50px;color: #FF6D22;margin-left: 5px;position: relative;top: -10px;margin-bottom: 0;}
+		.yzc-banner p span.color{font-size: 14px;color: #FF6E21;padding: 0 4px;}
+		.yzc-banner .right {position: relative;left: -45px;}
+		.yzc-banner .right p{color: #333;font-size: 12px;margin-bottom: 0;}
+		.customer-tel{color: #5C5C5C;font-size: 16px;text-align: center;}
+		.btn-submit{margin: 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    	.btn2{background: none;color: #F57E18;border: 1px solid #A0A0A0;}
+    </style>
+</head>
+<body style="background: #F5F5F5;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">申请合作</h1>
+	</header>
+		
+	<div class="mui-content" style="background: #F5F5F5;">
+		<div class="yzc-banner">
+			<div class="mui-clearfix">
+				<h2 class="left ling">0</h2>
+				<div class="right">
+					<p>元投入,终身受益！</p>
+					<p>构建<span class="color">互联网+物联网+充电社群</span>新生态平台</p>
+				</div>
+			</div>
+			<p><img src="../img/views/hez1.png" width="35" height="35"><span>市场合伙人合作模式,无需资金投入,公司免费提供设备</span></p>
+			<p><img src="../img/views/hez2.png" width="35" height="35"><span>长期收益共享,每月结算收入分成</span></p>
+			<p style="margin-bottom: 0;"><img src="../img/views/hez3.png" width="35" height="35"><span>售后支持设备免费以旧换新，24小时客服热线</span></p>
+		</div>
+		<div class="customer-tel">服务热线:400-825-1068</div>
+		<div class="btn-submit" onclick="phoneCilck()">
+			<span>联系客服</span>
+		</div>
+		<div class="customer-tel">或</div>
+		<div class="btn-submit btn2" onclick="openNativeTitle('applyPartner.html')">
+			我要加入云智充 立即共享赚钱<i class="iconfont icon-you1"></i>
+		</div>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+			
+		});
+		function phoneCilck(){
+			plus.device.dial("400-825-1068", false);
+		}
+	</script>
+</body>
+</html>

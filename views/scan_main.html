@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	    <link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+	    <script src="../js/jquery-3.3.1.min.js"></script>
+	    <script src="../js/mui.min.js"></script>
+	    <script src="../js/common.js"></script>
+	    <script src="../js/base.js"></script>
+	    <style>
+			.scan{width: 100%;height: 100%;overflow: hidden;}
+			.mui-icon-closeempty{color: #fff;font-size: 42px;font-weight:bolder;position: absolute;top: 30px;left: 15px;}
+	    	.scan-p{text-align: center;color: #fff;position:absolute;bottom:160px;width: 100%;}
+	    	.footer{width:100%;height:110px;position:absolute;bottom:0px;text-align:center;color:#FFF;}
+			.fbt{width:100%;height:100%;background-color:#373737;overflow: hidden;}
+			.mui-col-xs-6{padding: 25px 0;}
+			.fbt img{margin: 0 auto;}
+			.fbt p{padding: 4px 0;}
+			.on{display: none;}
+	    </style>
+	</head>
+	<body style="background: transparent;">
+		<div class="scan">
+			<div class="scan-close">
+				<i class="mui-action-back mui-icon mui-icon-closeempty"></i>
+			</div>
+			<p class="scan-p">放入框内，自动扫描</p>
+			<div class="footer">
+				<div class="fbt mui-row">
+					<div class="mui-col-xs-6">
+						<div class="cdzno" onclick="openNativeTitle('modifyCdzNo.html')">
+							<img class="icon" src="../img/views/srbh.png" width="34" height="34" />
+							<div class="mui-text">
+								<p class="text">输入桩号编码</p>	
+							</div>				
+						</div>
+						<div class="iccard on" onclick="openNativeTitle('myIcCard_binding.html')">
+							<img class="icon" src="../img/views/srbh.png" width="34" height="34" />
+							<div class="mui-text">
+								<p class="text ">输入IC卡编号</p>	
+							</div>				
+						</div>
+					</div>
+					<div class="mui-col-xs-6" onclick="openFlash(this)">
+						<img class="icon off" src="../img/views/sdt.png" width="34" height="34" />
+						<img class="icon on" src="../img/views/sdton.png" width="34" height="34" />
+						<p class="text">打开手电筒</p>						
+					</div>
+				</div>
+			</div>		
+		</div>
+	</body>
+	<script>
+		var scan = null;
+		var scan_win = null;  
+		mui.plusReady(function() {
+			ws = plus.webview.currentWebview();
+			$('.'+ws.formpage).show().siblings().hide();
+			scan = new plus.barcode.Barcode('bcid');
+		})
+		var flashFlag = false;
+		//开启手电筒
+		function openFlash(that){	 
+			if(flashFlag){
+				scan.setFlash(false);
+				flashFlag= false;
+				$(that).find('.text').html('打开手电筒');
+				$(that).find('.on').hide();
+				$(that).find('.off').show();
+			}else{
+				scan.setFlash(true);
+				flashFlag = true;
+				$(that).find('.text').html('关闭手电筒');
+				$(that).find('.on').show();
+				$(that).find('.off').hide();
+			}			
+		}		
+	</script>
+</html>

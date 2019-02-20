@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>我的充值</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
@@ -12,98 +12,25 @@
     <script src="../js/common.js"></script>
     <script src="../js/base.js"></script>    
     <style type="text/css">
-		.list-group-item{
-			text-align: left;
-		}
-		.list-group-item span{
-			display: inline-block;
-			width: 70px;
-		}
-		.list-group-item:last-child{
-			border-bottom-right-radius: 0rem;
-			border-bottom-left-radius: 0rem;
-		}	
-		.moneyBox{
-			width: 90%;
-			margin: 0 auto;
-			margin-top: 2rem;		
-		}
-		.moneyBox .item{
-			float: left;
-			width: 50%;
-			text-align: center;
-		}
-		.moneyBox .item .itemInner{
-			background: #EDEDED;
-			border-radius: 5px;
-			overflow: hidden;
-			margin:5px;
-			padding: 10px 0;
-		}
-		.moneyBox .item.selected .itemInner{
-			background: #F88E36;
-			color: #fff;
-		}
-		.moneyBox .item .itemInner b{
-			display: block;
-			font-weight: 400;
-		}
-		.moneyBox .item .itemInner b.b2{
-			font-size:.7rem;
-			font-weight: 400;
-		}
-		.payType{
-			margin-top: 2rem;
-		}
-		.payType .iconfont{
-			font-size: 1.2rem;
-			vertical-align: middle;
-			display: inline-block;
-			margin-right: 5px;
-		}
-		.payType .list-group-item{
-			position: relative;
-		}		
-		.payType .icon-xuanze-moren{
-			display: inline-block;
-		}
-		.payType .icon-xuanze{
-			display: none;
-		}
-		.payType .selected .icon-xuanze-moren{
-			display: none;
-		}
-		.payType .selected .icon-xuanze{
-			display: inline-block;
-		}
-		.payType .selectedIcon{
-			position: absolute;
-			right: 10px;
-			color: #F68D41;
-		}
-		.rechargeSubmitBtn{
-			margin-top:3rem ;
-		}
-		.list-group {
-		    display: -webkit-box;
-		    display: -ms-flexbox;
-		    display: flex;
-		    -webkit-box-orient: vertical;
-		    -webkit-box-direction: normal;
-		    -ms-flex-direction: column;
-		    flex-direction: column;
-		    padding-left: 0;
-		    margin-bottom: 0;
-		}
-		.list-group-item{
-			border: none;
-			position: relative;
-		    display: block;
-		    text-align: left;
-		    padding: .75rem 1.25rem;
-		    margin-bottom: -1px;
-		    background-color: #fff;
-		}	
+    	.h2{font-size: 16px;padding-left: 22px;color: #333;}
+		.list-group-item{text-align:left;}
+		.list-group-item span{display:inline-block;width:70px;}
+		.list-group-item:last-child{border-bottom-right-radius:0rem;border-bottom-left-radius:0rem;}
+		.moneyBox{width:90%;margin:0 auto;margin-bottom:2rem;}
+		.moneyBox .item{float:left;width:50%;text-align:center;}
+		.moneyBox .item .itemInner{background:#EDEDED;border-radius:5px;overflow:hidden;margin:5px;padding:10px 0;}
+		.moneyBox .item.selected .itemInner{background:#F88E36;color:#fff;}
+		.moneyBox .item .itemInner b{display:block;font-weight:400;font-size: 18px;}
+		.moneyBox .item .itemInner b.b2{font-size:.7rem;font-weight:400;}
+		.payType .iconfont{font-size:1.2rem;vertical-align:middle;display:inline-block;margin-right:5px;}
+		.payType .list-group-item{position:relative;}
+		.payType .icon-xuanze-moren{display:inline-block;}
+		.payType .icon-xuanze{display:none;}
+		.payType .selected .icon-xuanze-moren{display:none;}
+		.payType .selected .icon-xuanze{display:inline-block;}
+		.payType .selectedIcon{position:absolute;right:10px;color:#F68D41;}
+		.list-group{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;}
+		.list-group-item{border:none;position:relative;display:block;text-align:left;padding:.75rem 1.25rem;margin-bottom:-1px;background-color:#fff;}
 	</style>
 </head>
 <body>
@@ -116,35 +43,30 @@
 		<span>充值</span>
 	</footer>
 	<div class="mui-content" style="background: #fff;">
-		<div class="yzc-main">
-			<div class="myContent" style="padding-top: 70px">
-				<!--<h1 class="pageBigTitle">充值</h1>-->
-				<div class="moneyBox" id="moneyBox">
-					<div class="item selected" data-money="10">
-						<div class="itemInner">
-							<b class="b1">10 <small>元</small></b>
-							<b class="b2">暂无活动</b>
-						</div>
+		<div class="myContent" style="padding-top: 70px">
+			<h2 class="h2">充值金额</h2>
+			<div class="moneyBox mui-clearfix" id="moneyBox">
+				<div class="item selected" data-money="10">
+					<div class="itemInner">
+						<b class="b1">10 <small>元</small></b>
+						<b class="b2">暂无活动</b>
 					</div>
-				</div>			
-				<div style="clear: both;"></div>			
-				<div class="payType">
-					<ul class="list-group">
-					  <li class="list-group-item selected" data-type='wxpay'>
-					  	<i class="iconfont icon-gongzhonghao" style="font-size: 1.5rem;color: #52B547;"></i> 微信
-					  	<i class="iconfont icon-xuanze selectedIcon"></i>
-					  	<i class="iconfont icon-xuanze-moren selectedIcon"></i>
-					  </li>
-					  <li class="list-group-item" data-type='alipay'>
-					  	<i class="iconfont icon-zhifubao" style="color: #1DA4E6;"></i> 支付宝
-					  	<i class="iconfont icon-xuanze selectedIcon"></i>
-					  	<i class="iconfont icon-xuanze-moren selectedIcon"></i>
-					  </li>
-					</ul>
 				</div>
-				<!--<div class="rechargeSubmitBtn">
-					<img src="../img/chongzhi/app_09.png" style="display: block;width: 100%">
-				</div>-->
+			</div>						
+			<h2 class="h2">选择支付方式</h2>
+			<div class="payType">
+				<ul class="list-group">
+				  <li class="list-group-item selected" data-type='wxpay'>
+				  	<i class="iconfont icon-gongzhonghao" style="font-size: 1.5rem;color: #52B547;"></i> 微信
+				  	<i class="iconfont icon-xuanze selectedIcon"></i>
+				  	<i class="iconfont icon-xuanze-moren selectedIcon"></i>
+				  </li>
+				  <li class="list-group-item" data-type='alipay'>
+				  	<i class="iconfont icon-zhifubao" style="color: #1DA4E6;"></i> 支付宝
+				  	<i class="iconfont icon-xuanze selectedIcon"></i>
+				  	<i class="iconfont icon-xuanze-moren selectedIcon"></i>
+				  </li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -156,33 +78,21 @@
         
         var ALIPAYSERVER = API_URL.ApiPayAlipay;
         var WXPAYSERVER= API_URL.ApiPayWx;
-
         if(window.plus){
 			pagePlusReady();
 		}else{
 			document.addEventListener('plusready',pagePlusReady,false);
-		}
-		
+		}	
 		function pagePlusReady(){
-
-            uploadLoginInfo();
-
-            getMoneyList();
-			
+            getMoneyList();	
             // 获取支付通道
             plus.payment.getChannels(function(channels){
                 aliChannel = channels[0];
                 wxChannel = channels[1];
-
-               /* writeObj(channels);*/
-
             },function(e){
                 console.log("获取支付通道失败："+e.message);
             });
-
 		}
-
-
 		/**
 		 * 获取充钱配置
 		 */
@@ -194,11 +104,9 @@
 					var html = '';
 					$.each(data, function(idnex,item) {
 						var showText = item.showText;
-
 						if(!vaildeParam(showText)){
                             showText = '暂无活动';
 						}
-
 						var money = item.money;
 						var selectClass = '';
 						if(0 == idnex){
@@ -206,8 +114,8 @@
 							$("#rechargeMoneyContentBox").text(showText);
 						}
 						html += tmpl.replace(/{showText}/g,showText)
-								.replace(/{money}/g,money)
-								.replace(/{selectClass}/g,selectClass);
+									.replace(/{money}/g,money)
+									.replace(/{selectClass}/g,selectClass);
 					});
 					
 					$("#moneyBox").html(html)
@@ -217,8 +125,7 @@
 				}
 			})
 			
-		}
-		
+		}		
 		/**
 		 * 选择钱点击按钮
 		 */
@@ -227,17 +134,14 @@
 				$("#moneyBox .item").removeClass('selected');
 				$(this).addClass('selected');
 			})
-		}
-		
+		}		
 		/**
 		 * 选择支付方式事件
 		 */
 		$(".payType .list-group-item").click(function(){
 			$(".payType .list-group-item").removeClass("selected");
 			$(this).addClass("selected");
-		})
-		
-		
+		})		
 		$(".rechargeSubmitBtn").click(function(){	
 			var uuid = plus.storage.getItem("uuid");
 			var money = $(".moneyBox .item.selected").attr("data-money");
@@ -262,7 +166,7 @@
                 PAYSERVER=WXPAYSERVER;
                 channel = wxChannel;
             }else{
-                plus.nativeUI.console.log("不支持此支付通道！",null,"捐赠");
+                plus.nativeUI.alert("不支持此支付通道！",null,"捐赠");
                 return;
             }
             console.log(PAYSERVER)
@@ -280,19 +184,12 @@
                             console.log("responseText:")
                             console.log(xhr.responseText)
                             console.log(" responseText :"+xhr.responseText)
-
                             plus.payment.request(channel,xhr.responseText,function(result){
                                 layer.msg('支付成功');
-
-                                clicked('myWallet.html')
-
+                                openWebview('myWallet.html');
                             },function(error){
-							//	writeObj(error)
                                 var message = error.message;
                                 var code = error.code;
-                               	// layer.msg("code:"+code)
-                                // layer.msg("message:"+message)
-
                                 if(-8 == code){
                                     layer.msg("您的手机没有微信，请下载安装")
                                 }else if(-100 == code){
@@ -301,7 +198,6 @@
                                     layer.msg(message)
                                 }
 								console.log('## recharge ' + code + ' ## ' + message);
-
                             });
                         }else{
                             plus.nativeUI.alert("获取订单信息失败！");

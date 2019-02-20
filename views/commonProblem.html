@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>热点问题</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+		.mui-plus .header-immersed{display:none;}
+		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
+		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
+		.article{padding: 20px;}
+		.article img{width: 100%;margin: 0 auto;}
+		.article h2{text-align: center;color: #333;font-weight: 500;}
+		.article p{line-height: 30px;color: #333;}
+    </style>
+</head>
+<body>
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">热点问题</h1>
+	</header>
+	
+	<div class="mui-content" style="background: #fff;">
+		<div class="yzc-main">
+			<div class="article"></div>
+		</div>
+	</div>
+	<script type="text/html" id="dataTmpl">
+		<div class="article-content">{{content}}</div>
+	</script>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+			getArticleContent();
+		});
+		function getArticleContent(){
+        	var ws = plus.webview.currentWebview();  
+        	var params = {
+				"categoryId":ws.categoryId
+			}
+        	postJSON(API_URL.ApiArticleContentBYID,params,function(res){
+				if("0" == res.code){
+					if(null!=res.data){
+						var content = res.data.content;
+						var title = res.data.title;
+						var tmpl = $("#dataTmpl").html();
+						var html = tmpl.replace(/{{content}}/g,content);
+						$(".article").html(html);
+					}
+				}else{
+					layer.msg(res.msg);
+				}
+			})
+       }
+	</script>
+</body>
+</html>

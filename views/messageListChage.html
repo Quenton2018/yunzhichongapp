@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title></title>
+		<title>消息中心</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
@@ -10,7 +10,6 @@
 		<script src="../plugins/layer/layer.js"></script>
 		<script src="../js/common.js"></script>
 		<script src="../js/base.js"></script>
-
 		<style type="text/css">
 			body{background-color: #f2f2f2;}
         	.mui-content .mui-scroll-wrapper{padding-top: 85px;width: 94%;left: 3%;overflow: hidden;}
@@ -44,7 +43,7 @@
 					</div>
 				</div>
 				<div class="mui-slider-right mui-disabled">
-<!--					<a class="mui-btn mui-btn-blue">标记已读</a>-->
+					<!--<a class="mui-btn mui-btn-blue">标记已读</a>-->
 					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-trash"></a>
 				</div>
 				<div style="clear: both;"></div>
@@ -63,12 +62,11 @@
 		}
 
 		function pagePlusReady() {
-			uploadLoginInfo();
 			mui.init({
 				pullRefresh: {
 					container: '#pullrefresh',
 					down: {
-						//callback: pulldownRefresh       //上拉刷新  因为android 样式问题 先去掉
+						//callback: pulldownRefresh
 					},
 					up: {
 						contentrefresh: '正在加载...',
@@ -149,13 +147,13 @@
 			var $this = $(that);
 			var id = $this.attr("data-id")
 			console.log("id:" + id);
-			clickedTwo("../page/messageContent.html", id + "");
+			openWebviewTwo("../page/messageContent.html", id + "");
 		}
 
-		function clickedTwo(item, dataId) {
+		function openWebviewTwo(item, dataId) {
 			console.log(item + ":" + dataId);
 			plus.storage.setItem("messageId", dataId + "");
-			clicked(item);
+			openWebview(item);
 		} 
 		var btnArray = ['确认', '取消'];
 		$('body').on('click','.mui-btn-yellow',function() {

@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>正在充电</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+		.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    	.charging-img{
+    		background: url(../img/views/charging.png);
+    		width: 230px;
+    		height: 230px;
+    		background-size: 100%;
+    		margin: 40px auto;
+    		text-align: center;  		
+    	}
+    	.charging-time{color: #fff;font-weight: bold;}
+    	.charging-img p{color: #fff;padding-top: 80px;font-size: 16px;}
+    	.charging h2{font-size: 16px;color: #333;text-align: center;}
+    </style>
+</head>
+<body>
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">正在充电</h1>
+	</header>
+	
+	<div class="mui-content" style="background: #fff;">
+		<div class="charging">
+			<div class="charging-img">
+				<p>充电时长</p>
+				<h3 class="charging-time">00:00:00</h3>
+			</div>
+			<h2><span id="order-addr"></span>-桩号<span id="order-zh"></span>-插座号<span id="order-cz"></span></h2>
+			<div class="btn-submit" id="inviteBtn">
+				<span>结束充电</span>
+			</div>
+		</div>	
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+			loadData();
+		});	
+		/**
+		 * 倒计时
+		 * 
+		 * @param {Object} estimateSeconds 充电总时长
+		 * @param {Object} seconds 已充电时长
+		 */
+		var countDownTime = function(estimateSeconds, remainingSeconds, goon) {
+			var seconds = estimateSeconds - remainingSeconds;		
+			var estimateHours = parseInt(estimateSeconds / 3600);
+			var estimateMinutes = parseInt(estimateSeconds / 60) - estimateHours * 60;
+//			if (estimateHours > 0) {
+//				$('#remainingTime').html(estimateHours);
+//				$('#remainingTimeUnit').html("小时");
+//			} else if (estimateMinutes > 0) {
+//				$('#remainingTime').html(estimateMinutes);
+//				$('#remainingTimeUnit').html("分钟");
+//			} else {
+//				$('#remainingTime').html(estimateSeconds);
+//				$('#remainingTimeUnit').html("秒");
+//			}			
+			showTime(estimateSeconds, remainingSeconds);		
+			if (goon) {
+				var t = setInterval(function() {
+					remainingSeconds--;
+					if (remainingSeconds >= 0) {
+						showTime(estimateSeconds, remainingSeconds);
+					}				
+					var uuid = plus.storage.getItem("uuid");
+					var orderNo = getQueryString("orderNo");
+					if(vaildeParam(uuid) && vaildeParam(orderNo)) {
+						// 每五分钟查询一次
+						if (remainingSeconds % 60 == 0 || remainingSeconds <= 0) {
+							postJSONNoIcon(API_URL.ApiUserChargingDetailGetChargeOrder, {
+					        	"uuid": uuid,
+					        	"charge_order_number": orderNo
+					        }, function(res) {
+					        	if ("0" == res.code) {
+					        		console.log('####' + res.data.status)
+					        		if (res.data.endReason != null) {
+					        			window.clearInterval(t);
+					        			plus.nativeUI.alert('充电结束');
+					        		}
+					        	}
+					        });
+						}
+					}
+				}, 1000);
+			}
+			function showTime(estimateSeconds, remainingSeconds) {
+				var timestr;
+				if (remainingSeconds <= 0) {
+					remainingSeconds = 0;
+				}			
+				var seconds = estimateSeconds - remainingSeconds;
+				var hours = parseInt(seconds / 3600);
+				var minutes = parseInt(seconds / 60) - hours * 60;
+				seconds = seconds % 60;
+				timestr = (hours < 10 ? '0' : '') + hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+				$('.charging-time').html(timestr);
+			}
+		}
+		
+		function loadData(){
+			var orderNo = getQueryString("orderNo");
+			if(vaildeParam(uuid) && vaildeParam(orderNo)) {
+		        postJSON(API_URL.ApiUserChargingDetailGetChargeOrder, {"uuid": uuid,"charge_order_number": orderNo}, function(res) {
+		        	if ("0" == res.code) {
+		        		var estimateSeconds = res.data.timeTotal * 60;
+		        		var seconds;
+		        		var goon = res.data.status == 1 && res.data.endReason == null;
+		        		if (goon) {
+		        			seconds = parseInt((res.data.endDate < new Date().getTime() ? 0 : res.data.endDate - new Date().getTime()) / 1000);
+		        		} else {
+		        			seconds = estimateSeconds - parseInt(res.data.chargingTime) * 60;
+		        		}
+		        		countDownTime(estimateSeconds, seconds, goon);        		
+		        		if (res.data.charging.groupId) {
+		        			$('#order-addr').text(res.data.charging.groupId.name);
+		        		}
+		        		$('#order-zh').text(res.data.charging.shellId.substr(0, 1));
+		        		if (res.data.czId) {
+		        			$('#order-cz').text(parseInt(res.data.czId.code) + 1);
+		        		}
+		        		$('#order-money').text(res.data.amount);
+		        		$('#order-power').text(200);
+		        	} else {
+		        		layer.msg(res.msg);
+		        	}
+		        });
+			}
+		}
+	</script>
+</body>
+</html>

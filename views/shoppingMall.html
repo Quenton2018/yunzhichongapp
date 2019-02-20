@@ -4,232 +4,109 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>趣商城</title>
-
-	<link rel="stylesheet" href="../css/iconfont.css">
-	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
-	<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" charset="utf-8"/>
-	<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../css/iconfont.css">
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
 	<script src="../js/jquery-3.3.1.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../plugins/layer/layer.js"></script>
 	<script src="../js/common.js"></script>
 	<script src="../js/base.js"></script>
-
 	<style type="text/css">
-        .headInner .right{
-            font-size: .8rem;
-        }
-        .headInner .right img{
-            display: inline-block;
-            vertical-align: middle;
-            width: 40px!important;
-            height: 40px!important;
-            margin-left: 5px;
-            border-radius: 50%;
-        }
-
-        .pageBigTitle{
-            position: relative;
-        }
-        .pageBigTitle a{
-            font-size: .8rem;
-        }
-        .pageBigTitle a i{
-            font-size: .8rem;
-            color: #E4C133;
-        }
-        .pageBigTitle a:first-child{
-            position: absolute;
-            right: 80px;
-            top: 10px;
-        }
-        .pageBigTitle a:last-child{
-            position: absolute;
-            right: 0px;
-            top: 10px;
-        }
-
-        .consoleBox{
-            padding-top: 10px;
-        }
-        .consoleBox > div{
-            color: #fff;
-            float: left;
-            width: 100%;
-        }
-
-        .consoleBox .btnInner{
-            margin: 5px;
-            background: #F17746;
-            text-align: center;
-            font-size: .8rem;
-            line-height: 45px;
-            border-radius: 5px;
-        }
-        .consoleBox .btnInner span{
-            display: inline-block;
-            background: #fff;
-            line-height: normal;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            color: #F17746;
-            line-height: 25px;
-            font-size: .6rem;
-            margin-right: 10px;
-        }
-
-        .bigTitle{
-            color: #F16E31;
-            text-align: center;
-            padding: 15px;
-        }
-        .productBox{
-            padding: 5px;
-            padding-top: 0;
-        }
-        .productBox .productItem{
-            float: left;
-            width: 50%;
-        }
-        .productBox .productItem .productItemInner{
-            margin: 5px;
-            background: #fff;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .productBox .productItem .productItemInner img{
-            display: block;
-            width: 100%;
-            height: 200px;
-        }
-        .productBox .productItem .productItemInner .title{
-            padding: 10px;
-            padding-bottom: 5px;
-        }
-        .productBox .productItem .productItemInner .price{
-            color: #A7A7A7;
-            font-size: .6rem;
-            padding-left: 10px;
-        }
-        .productBox .productItem .productItemInner .points{
-            font-size: .8rem;
-            padding-left: 10px;
-            padding-top: 5px;
-            padding-bottom: 10px;
-        }
-        .productBox .productItem .productItemInner .points i{
-            color: #E3BF2A;
-            vertical-align: middle;
-            font-size: .8rem;
-        }
-
-        #loadMore{
-            background: #eaeaea;
-            margin-top: 10px;
-            padding: 10px;
-            text-align: center;
-            margin-top: 10px;
-            font-size: .8rem;
-            display: none;
-        }
-        .noMore{
-            margin-top: 10px;
-            padding: 10px;
-            text-align: center;
-            margin-top: 10px;
-            font-size: .8rem;
-            display: none;
-        }
-
+		.myContent{padding: 0 2rem;background: #fff;}
+        .headInner{font-size:.8rem;margin-top: 7px;color: #fff;}
+        .headInner img{display:inline-block;vertical-align:middle;width:30px;height:30px;margin-left:5px;border-radius:50%;}
+        .pageBigTitle{position:relative;}
+        .pageBigTitle a{font-size:.8rem;color: #333;}
+        .pageBigTitle a i{font-size:.8rem;color:#E4C133;}
+        .pageBigTitle a:first-child{position:absolute;right:80px;top:10px;}
+        .pageBigTitle a:last-child{position:absolute;right:0px;top:10px;}
+        .consoleBox{padding-top:10px;}
+        .consoleBox > div{color:#fff;float:left;width:100%;}
+        .consoleBox .btnInner{margin:5px;background:#F17746;text-align:center;font-size:.8rem;line-height:45px;border-radius:5px;}
+        .consoleBox .btnInner span{display:inline-block;background:#fff;line-height:normal;width:25px;height:25px;border-radius:50%;color:#F17746;line-height:25px;font-size:.6rem;margin-right:10px;}
+        .bigTitle{color:#F16E31;text-align:center;padding:15px;}
+        .productBox{padding:5px;padding-top:0;}
+        .productBox .productItem{float:left;width:50%;}
+        .productBox .productItem .productItemInner{margin:5px;background:#fff;border-radius:5px;overflow:hidden;}
+        .productBox .productItem .productItemInner img{display:block;width:100%;height:200px;}
+        .productBox .productItem .productItemInner .title{padding:10px;padding-bottom:5px;}
+        .productBox .productItem .productItemInner .price{color:#A7A7A7;font-size:.6rem;padding-left:10px;}
+        .productBox .productItem .productItemInner .points{font-size:.8rem;padding-left:10px;padding-top:5px;padding-bottom:10px;}
+        .productBox .productItem .productItemInner .points i{color:#E3BF2A;vertical-align:middle;font-size:.8rem;}
+       
 	</style>
 </head>
-<body style="background: #EFEFF4;">
-
-	<header id="header2" class="header header-immersed mui-bar mui-bar-nav">
-		<div class="headInner">
-			<div class="left" id="back"  onclick="back()" ><img src="../img/app_back.png" /></div>
-			<div class="right">
-	            <span id="mobileBox">加载中...</span>
-	            <img src="../img/user_profile/app_10.png" id="avatorBox">
-	        </div>
-			<div style="clear: both"></div>
-		</div>
-	</header>
-
-	<div style="background: #fff">
-		<div class="myContent" style="padding-top: 70px;padding-bottom: 15px">
-			<h1 class="pageBigTitle">
-	            趣商城
-	            <a onclick="clicked('../page/myCloudDrill.html')" ><i class="iconfont icon-zuanshi"></i> <span id="pointsBox">0</span> 云钻 > </a>
-	            <!--<a onclick="clicked('../page/howToGet.html')">如何获取> </a>-->
-	            <a onclick="clicked('../page/recordOfExchange.html')">兑换记录> </a>
-	        </h1>
+<body>
 	
+<header class="header header-immersed mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">趣商城</h1>
+    <div class="mui-icon-right-nav mui-pull-right headInner">
+        <span id="mobileBox">加载中...</span>
+        <img src="../img/user_profile/app_10.png" id="avatorBox">
+    </div>
+</header>
+
+<div id="J_refresh" class="mui-content mui-scroll-wrapper">
+	<div class="mui-scroll">
+		<div class="myContent" style="padding-top: 40px;padding-bottom: 15px">
+			<h1 class="pageBigTitle">趣商城
+	            <a onclick="openWebview('detailsCloudDrill.html')"><i class="iconfont icon-zuanshi"></i> <span id="pointsBox">0</span> 云钻 > </a>
+	            <a onclick="openWebview('recordOfExchange.html')">兑换记录> </a>
+	        </h1>
 	        <div class="consoleBox">
 	            <div id="qianDao">
 	                <div class="btnInner">
 	                    <span><i class="iconfont icon-rili"></i></span> 签到领云钻
 	                </div>
 	            </div>
-	            <!--<div id="recharge.html" onclick="clicked(this.id)">
-	                <div class="btnInner">
-	                    <span><i class="iconfont icon-msnui-rmb"></i></span> 充值领云钻
-	                </div>
-	            </div>-->
-	        </div><!-- /.consoleBox -->
+	        </div>
 	        <div style="clear: both"></div>
-	
 		</div>
+		<div class="bigTitle">
+		    福利兑换专区
+		</div>
+	    <div class="productBox">
+	        <div class="dataList mui-clearfix"></div>
+	    </div>
 	</div>
-	
-	<div class="bigTitle">
-	    福利兑换专区
-	</div>
-
-
-    <div class="productBox">
-        <div class="dataList">
-
-        </div>
-        <div class="clearfix"></div>
-    </div><!-- /.productBox -->
-    <div id="loadMore">加载更多</div>
-    <div id="noMore" class="noMore">没有更多了</div>
-
-
-    <script type="text/html" id="dataTmpl">
-        <div class="productItem" data-id="{{id}}">
-            <div class="productItemInner">
-                <div class="imgBox" style="background: url({{image}});height: 190px;background-position: center;background-size: cover">
-                </div>
-                <div class="title">{{name}}</div>
-                <div class="price">市场价 &yen; {{price}}</div>
-                <div class="points">
-                    <i class="iconfont icon-zuanshi"></i> {{points}} 云钻 + {{money}} 元
-                </div>
+</div>
+	  
+<script type="text/html" id="dataTmpl">
+    <div class="productItem" data-id="{{id}}" onclick="bindItemClick(this)">
+        <div class="productItemInner">
+            <div class="imgBox" style="background: url({{image}});height: 190px;background-position: center;background-size: cover">
             </div>
-        </div><!-- /.productItem -->
-    </script>
+            <div class="title">{{name}}</div>
+            <div class="price">市场价 &yen; {{price}}</div>
+            <div class="points">
+                <i class="iconfont icon-zuanshi"></i> {{points}} 云钻 + {{money}} 元
+            </div>
+        </div>
+    </div>
+</script>
 
-
+<script src="../js/mui.min.js"></script>
 <script type="text/javascript">
-
     var pageNumber = 1;
     var pageSize = 4;
-
-    if(window.plus){
-        pagePlusReady();
-    }else{
-        document.addEventListener('plusready',pagePlusReady,false);
-    }
-
-    function pagePlusReady(){
-        getUserInfo();
+    
+    pullRefresh(dataRefresh,function() {	
+		pageNumber++;
+		getList();	
+	});	
+	
+	mui.plusReady(function() {
+		getUserInfo();
+        getList();
+    });
+	// 刷新页面
+    function dataRefresh(){
+        pageNumber = 1;
         getList();
     }
-
     /**
      * 获取用户信息
      */
@@ -238,16 +115,15 @@
         if(vaildeParam(uuid)){
             postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
                 if("0" == res.code){
-                  var  mobile =  res.data.mobile;
+                  	var mobile =  res.data.mobile;
                     mobile  = mobile.substr(0, 3) + '****' + mobile.substr(7);
                     $("#mobileBox").text(mobile);
                     $("#pointsBox").text(res.data.points);
                     $("#avatorBox").attr("src",getHeadImg(res.data.headImage));
-
                 }else{
                     layer.msg(res.msg);
                     clearLogin();
-                    clicked("page/login.html");
+                    openWebview("login.html");
                 }
             })
         }
@@ -267,8 +143,6 @@
             if("0" == res.code){
                var scoreTotal =  $("#pointsBox").text()*1;
                 var score =res.data.score;
-                console.log("scoreTotal:"+scoreTotal)
-                console.log("score:"+score)
                 $("#pointsBox").text(scoreTotal+score);
                 layer.msg('今日签到成功赠送您'+score+"云钻");
             }else{
@@ -289,10 +163,14 @@
             }
             postJSON(API_URL.ApiProductGetProductList,dataParam,function(res){
                 if("0" == res.code){
-                    var data = res.data.pagedata.content;
+                    var list = res.data.pagedata.content;
+                    stopRefresh(list.length,pageSize);					
+					if(1 == pageNumber){
+	                    $(".dataList").html('');
+	                }
                     var tmpl = $("#dataTmpl").html();
                     var html = '';
-                    $.each(data, function(index,item) {
+                    $.each(list, function(index,item) {
                         var name = item.name;
                         var id = item.id;
                         var price = item.price;
@@ -306,51 +184,18 @@
                             .replace(/{{money}}/g,money)
                             .replace(/{{image}}/g,image);
                     });
-                    if(1 == pageSize){
-                        $(".dataList").html("");
-                    }
                     $(".dataList").append(html);
-                    bindItemClick();
-                    if(true == res.data.pagedata.last){
-                        $("#loadMore").css({"display":"none"});
-                        $("#noMore").css({"display":"block"});
-                    }else{
-                        $("#loadMore").css({"display":"block"});
-                        $("#noMore").css({"display":"none"});
-                    }
                 }else{
                     layer.msg(res.msg);
                 }
             })
         }
     }
-
-    $("#loadMore").click(function(){
-        pageNumber++;
-        getList();
-    })
-
-    function bindItemClick(){
-        $(".productItem").bind('click',function(){
-            var id = $(this).attr("data-id")
-            clickedTwo("../page/productDetail.html",id);
-            console.log("id===="+id);
-        });
+    function bindItemClick(that){
+        var id = $(that).attr("data-id");
+    	plus.storage.setItem("productId", id);
+    	openWebview("productDetail.html");
     }
-
-
-    /**
-     * 绑定的点击事件
-     * @param {Object} item 跳转路径 ， 以及存好文章id
-     * @param {Object} dataId
-     */
-    function clickedTwo(item,dataId){
-        console.log(item+":"+dataId);
-        plus.storage.setItem( "productId", dataId);
-        clicked(item);
-    }
-
-
 </script>
 
 </body>

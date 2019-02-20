@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>设置</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+		.user-list{padding: 20px;border-bottom: 1px solid #eee;position: relative;}
+		.list-laber{font-size: 16px;color: #333;margin: 0;}
+    	.navigate{position: absolute;right: 24px;top: 20px;font-size: 15px;color: #999999;}
+    	/*.mui-navigate-right:after, .mui-push-right:after{right: -20px;}*/
+    	.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    </style>
+</head>
+<body style="background: #F2F2F2;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">设置</h1>
+	</header>
+	
+	<div class="mui-content" style="background: #fff;">
+		<ul class="user-ul">
+			<li class="user-list" onclick="openWebview('deliveryAddress.html')">
+				<p class="list-laber">收货地址</p>
+				<span class="mui-navigate-right"></span>
+			</li>
+			<li class="user-list" onclick="openWebview('edition.html')">
+				<p class="list-laber">版本信息</p>
+				<span class="mui-navigate-right"></span>
+			</li>
+			<li class="user-list" onclick="openWebview('about.html')">
+				<p class="list-laber">关于我们</p>
+				<span class="mui-navigate-right"></span>
+			</li>
+			<li class="user-list" onclick="openNativeTitle('faultRepair.html')">
+				<p class="list-laber">故障报修</p>
+				<span class="mui-navigate-right"></span>
+			</li>
+			<li class="user-list" onclick="openNativeTitle('feedback.html')">
+				<p class="list-laber">意见反馈</p>
+				<span class="mui-navigate-right"></span>
+			</li>
+		</ul>
+	</div>
+	<div class="btn-submit" id="logOutBtn">
+		<span>退出登录</span>
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+			$("#logOutBtn").click(function(){
+				plus.nativeUI.confirm('确认退出登录吗？', function(event) {
+					if (event.index == 1) {return;}
+					plus.storage.clear();
+		            layer.msg("退出登录成功");
+		            setTimeout(function(){
+		                openWebview('login.html');
+		            },1000);
+				});         
+	        });
+		})
+	</script>
+</body>
+</html>

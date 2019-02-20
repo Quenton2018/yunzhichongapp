@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>我的IC卡</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/artTemplate.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+    	.no-iccard{text-align: center;margin: 60px 0 0;display: none;}
+		.no-iccard img{width: 213px;height: 172px;}
+		.btn-submit{margin: 30px 20px 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    	.no-iccard-p{color: #3D3D3D;font-size: 15px;padding: 40px 0;}
+    	.no-iccard-desc{color: #999;text-align: center;}
+    	.iccard-box{margin: 20px 0;}
+    	.list-iccard{position: relative;background: url('../img/views/iccard.png') no-repeat center;background-size: 100%;width: 352px;height: 181px;margin: 0 auto;}
+    	.list-iccard-p{width:100%;position: absolute;bottom: 0;left:0;height: 38px;line-height: 38px;color: #333;font-size: 16px;}
+    	.list-iccard-p .left{padding-left: 20px;}
+    	.list-iccard-p .right{padding-right: 20px;color: #FF0000;}
+    	.list-iccard-desc{margin:0 20px;}
+    	.icon-richscan{font-size:18px;color: #fff;font-weight: bold;padding: 12px;}
+    </style>
+</head>
+<body style="background: #F2F2F2;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">我的IC卡</h1>
+    	<a class="iconfont icon-richscan mui-icon-right-nav mui-pull-right" onclick="openScaned('scan_barcode.html','iccard')"></a>
+	</header>
+		
+	<div class="mui-content" style="background: #F2F2F2;">
+		<div class="yzc-main">
+			<div class="no-iccard">
+				<img src="../img/views/nulliccard.png" />
+				<p class="no-iccard-p">您还没有IC卡，请扫码或输入IC卡编号添加IC卡</p>
+			</div>
+			<div class="iccard-box" id="itemList"></div>
+			<div class="btn-submit" onclick="openNativeTitle('myIcCard_binding.html')">
+				<span>绑定IC卡</span>
+			</div>
+			<p class="no-iccard-desc">请扫描IC卡反面二维码进行绑定</p>
+		</div>
+	</div>
+	<script type="text/html" id="listTmpl" >
+		{{each list as item index}}
+			<div class="list-iccard" data-id="{{item.id}}">
+				<p class="list-iccard-p"><span class="left">NO.{{item.card_id}}</span><span class="right" onclick="unBinging('{{item.card_id}}')">解除绑定</span></p>
+			</div>
+		{{/each}}
+		<div class="list-iccard-desc">
+			<p>IC卡遗失则解除绑定，其它情况请慎重操作</p>
+		</div>
+	</script>
+	
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+			getList();
+		});
+		function getList(){
+			var uuid = plus.storage.getItem("uuid");
+			if (vaildeParam(uuid)) {
+				$('#itemList').html('');
+				postJSON(API_URL.ApiMemberCardGetCardList, {"uuid" : uuid}, function (res) {
+					if("0" == res.code){
+						if(res.data.length){
+							$('.no-iccard').hide();
+							var data = {'list':res.data};
+							var Html = template('listTmpl', data);
+							$('#itemList').html(Html);
+						}else{
+							$('.no-iccard').show();
+						}
+					} else {
+						layer.msg(res.msg);
+					}
+				})
+			}
+		}
+		function openScaned(href,formpage){
+			mui.openWindow({
+			    url:href,
+			    id:href,
+			    extras:{
+			     	formpage:formpage
+			    }
+			})
+		}
+		//扫码绑定IC卡
+		function scaned(type, result, file) {
+			var uuid = plus.storage.getItem("uuid");
+			if (vaildeParam(uuid)) {
+	        	plus.nativeUI.confirm('您确认绑定此IC卡？', function(event) {
+					if (event.index == 1) {
+						return;
+					}
+					icCardbinding(uuid, result);
+				});
+			}
+        }
+		function icCardbinding(uuid, cardid) {
+			postJSON(API_URL.ApiMemberCardBindingCard, {
+				"uuid" : uuid,
+				"iccard" : cardid
+			}, function(res) {
+				if (res.code == '0') {
+					layer.msg('绑定成功');
+					getList();
+				} else {
+					layer.msg(res.msg);
+				}
+			});
+		}
+		//解除IC卡
+		function unBinging(iccard) {
+			plus.nativeUI.confirm('您确认解除与此卡的绑定？', function(event) {
+				if (event.index == 1) {
+					return;
+				}				
+				var uuid = plus.storage.getItem("uuid");
+				if (vaildeParam(uuid)) {
+	    			postJSON(API_URL.ApiMemberCardUnBindingCard, {
+	    				"uuid": uuid,
+	    				"iccard": iccard
+	    			}, function(res) {
+	    				if (res.code == '0') {
+	    					layer.msg("解除绑定成功");
+	    					getList();
+	    				} else {
+	    					layer.msg(res.msg);
+	    				}
+	    			});
+				}
+			});
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>申请成为合伙人</title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css"/>
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/data.city.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		<style type="text/css">
+			body{overflow: hidden;height: auto;}
+			.mui-plus .header-immersed{display:none;}
+			.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
+			.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
+			.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
+			.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
+			.mui-content{background-color: #fff;}
+			.call{padding: 20px 0;color: #FF6D22;text-align: center;font-size: 12px;font-weight: 400;}
+			.mui-table-view{padding: 0 30px;}
+			.mui-input-group .mui-input-row{margin: 10px 30px 0 30px;font-size: 14px;border-bottom: 1px solid #EAE5E0;}
+			.mui-input-group:before,.mui-input-group:after{height: 0;}
+			.mui-input-group .mui-input-row:after{left: 30px;right: 30px;}
+			.mui-input-row label{font-size: 15px;color:#333;padding: 11px 0;line-height: inherit;}
+			.mui-input-row .mui-input-clear{font-size: 15px;color:#333;float: left;padding-right: 30px;text-align: right;}
+			.mui-input-row .mui-numbox{font-size: 15px;}
+			.mui-pull-right{color:#A8A8A8;position: absolute;right: 0px;bottom: 8px;font-size: 20px;}
+			.mui-input-row .city-text{font-size: 15px;float: right;padding-right: 30px;text-align: right;}
+			.mui-btn-blue,.mui-btn-primary,input[type=submit]{border:1px solid #FF6D22;background-color:#FF6D22;}
+			.mui-input-row input.mui-input-clear~.mui-icon-clear{top: 10px;right: 0;}
+		</style>
+	</head>
+	<body style="background: #fff;">
+        <header class="header header-immersed mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">申请成为合伙人</h1>
+        </header>
+        <div class="mui-content">
+            <h5 class="call">请正确填写信息，信息提交后，客服人员会与您联系</h5>
+            <form class="mui-input-group">
+			    <div class="mui-input-row mui-clearfix">
+			        <label>联系人</label>
+			        <input type="text" class="mui-input-clear" name="contacts" placeholder="请输入姓名">
+			    </div>
+			    <div class="mui-input-row mui-clearfix">
+			        <label>联系电话</label>
+			        <input type="tel" class="mui-input-clear" name="mobile" placeholder="请输入联系电话">
+			    </div>
+			    <div class="mui-input-row mui-clearfix">
+			        <label>预估安装数量</label>
+			        <div class="mui-numbox" data-numbox-step='1' data-numbox-min='0' data-numbox-max='100'>
+					   <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+					   <input class="mui-numbox-input" type="number" name="numbers"/>
+					   <button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+					</div>
+			    </div>
+			    <div class="mui-input-row mui-clearfix" onclick="showPick()">
+			        <label>申请发展地区</label>
+			        <a class="mui-icon mui-icon-arrowdown mui-pull-right"></a>
+			        <input type="text" name="installAddress" class="city-text" placeholder="请选择地址" id="site"  readonly/>
+			    </div>
+			</form>
+        </div>
+        <footer class="mui-bar mui-bar-footer btn-submit" id="submitBtn">
+			<span>提交申请</span>
+		</footer>
+	</body>
+	
+	
+	<script type="text/javascript">
+		function _getParam(obj, param) {
+			return obj[param] || '';
+		};
+		function showPick(){
+			//三级联动
+			var picker = new mui.PopPicker({
+			    layer: 3
+			});
+		    picker.setData(cityData3);
+			var adressStr = '';
+			//设置默认选择地址
+			picker.show(function(items) {
+			  	//将选择的省、市、区显示到屏幕上
+			    for (var i = 0; i < items.length; i++) {
+	                adressStr += _getParam(items[i], 'text');
+	            }
+			    $('.city-text').val(adressStr)
+			});
+		};
+        $("#submitBtn").click(function(){
+            var contacts = $("input[name='contacts']").val();
+            if(!vaildeParam(contacts)){
+                layer.msg("联系人不能为空");
+                return;
+            }
+            var mobile = $("input[name='mobile']").val();
+            if(!vaildeParam(mobile)){
+                layer.msg("联系电话不能为空");
+                return;
+            }
+            var numbers = $("input[name='numbers']").val();
+            if(!vaildeParam(numbers)||numbers=='0'){
+                layer.msg("预估安装数量不能为空");
+                return;
+            }
+            var installAddress = $("input[name='installAddress']").val();
+            if(!vaildeParam(installAddress)){
+                layer.msg("申请发展地区不能为空");
+                return;
+            }
+            var params = {
+                "uuid":uuid,
+                "contacts":contacts,
+                "mobile":mobile,
+                "numbers":numbers,
+                "installAddress":installAddress
+            }
+            postJSON(API_URL.APISaveapplyChargingPile,params,function(res){
+                if("0" == res.code){
+                    layer.msg("合作申请已提交，请保持您的手机畅通");
+                    setTimeout(function(){
+                        back();
+                    },2000);
+                }else{
+                    layer.msg(res.msg);
+                }
+            });
+        });
+	</script>
+</html>

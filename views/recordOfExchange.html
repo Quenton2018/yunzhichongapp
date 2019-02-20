@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="misapplication-tap-highlight" content="no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
+	<title>兑换记录</title>
+	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+	<!--引入公用样式-->
+	<link rel="stylesheet" type="text/css" href="../css/public.css" />
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../plugins/layer/layer.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/base.js"></script>
+	<style type="text/css">
+		.bottom-content p{font-size:18px;color:#000000;}
+		.middle-content{background:#ffffff;}
+		.mui-table-view-cell>a:not(.mui-btn){white-space:inherit;}
+		.mui-ellipsis{white-space:inherit;text-overflow:ellipsis;}
+		.mui-table-view-cell p{margin-bottom:0;}
+		.myList .listItem i{color:#000000;margin-right:10px;}
+		.myList img{height:70px;}
+		p{font-size:16px;}
+		.mui-table-view .mui-media-object{line-height:42px;max-width:78px;height:82px;}
+		.mui-media-body{font-size:20px;line-height:28px;}
+		.icon-zuanshi{color:#E4C133;}
+		.loadMore{background:#eaeaea;padding:10px;text-align:center;font-size:.8rem;display:none;}
+		.noMore{padding:10px;text-align:center;font-size:.8rem;			/*display: none;*/background:#EFEFF4;}
+		.mui-table-view:before{background-color:#EFEFF4;}
+		.mui-table-view:after{background-color:#EFEFF4;}
+	</style>
+</head>
+<body style="background: #EFEFF4;">
+<header class="header header-immersed mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">兑换记录</h1>
+</header>
+<div class="bodyContent"style="padding-top:90px; padding-bottom: 20px ">
+	<div class="middle-content">
+		<div class="myList">
+			<ul class="mui-table-view dataList" id="dataList" ></ul>
+		</div>
+		<div id="loadMore" class="loadMore">加载更多</div>
+		<div id="noMore" class="noMore">没有更多了</div>
+		<script type="text/html" id="dataTmpl">
+			<li class="mui-table-view-cell mui-media">
+				<a href="javascript:;" class="">
+					<img class="mui-media-object mui-pull-right" src="{{image}}">
+					<div class="mui-media-body">
+						{{name}}
+						<p class="mui-ellipsis"> <span >{{shippingStatus}}</span>  <span><i class="iconfont icon-zuanshi"></i>{{points}}云钻</span> + {{money}} 元   </br> {{createDate}}</p>
+					</div>
+				</a>
+			</li>
+		</script>
+	</div>
+</div>
+<script type="text/javascript">
+    var pageNumber = 1;
+    var pageSize = 5;
+
+    if(window.plus){
+        pagePlusReady();
+    }else{
+        document.addEventListener('plusready',pagePlusReady,false);
+    }
+
+    function pagePlusReady(){
+        $("#loadMore").css({"display":"none"});
+        $("#noMore").css({"display":"none"});
+        getList();
+    }
+
+    function getList(){
+        var uuid = plus.storage.getItem("uuid");
+        if(vaildeParam(uuid)){
+            var dataParam = {
+                "uuid":uuid,
+                "pageSize":pageSize,
+                "pageNumber":pageNumber
+            }
+            postJSON(API_URL.ApiProductGetProductOrdersList,dataParam,function(res){
+                if("0" == res.code){
+                    var data = res.data.pagedata.content;
+
+                    var tmpl = $("#dataTmpl").html();
+                    var html = '';
+                    $.each(data, function(index,item) {
+                        	var orderData = item.orderData;
+                        var  image = JSON.parse(orderData).image;
+                        var  name = JSON.parse(orderData).name;
+                        var totalMoney = item.totalMoney;
+                        var points =  item.totalAmount;
+                        var shippingStatus =  item.shippingStatus;
+                        if('shipmentPending'==shippingStatus){
+                            shippingStatus = '待发货';
+						}else if('shipped'==shippingStatus){
+                            shippingStatus = '已发货';
+						}
+                        var createDate = jsDateDiff(item.createDate / 1000);
+
+                        html += tmpl.replace(/{{name}}/g,name)
+                            .replace(/{{createDate}}/g,createDate)
+                            .replace(/{{points}}/g,points)
+                            .replace(/{{money}}/g,totalMoney)
+                            .replace(/{{shippingStatus}}/g,shippingStatus)
+                            .replace(/{{image}}/g,image);
+                    });
+                    if(1 == pageSize){
+                        $(".dataList").html("");
+                    }
+                    $(".dataList").append(html);
+                    if(true == res.data.pagedata.last){
+                        $("#loadMore").css({"display":"none"});
+                        $("#noMore").css({"display":"block"});
+                    }else{
+                        $("#loadMore").css({"display":"block"});
+                        $("#noMore").css({"display":"none"});
+                    }
+                }else{
+                    layer.msg(res.msg);
+                }
+            })
+        }
+    }
+
+    $("#loadMore").click(function(){
+        pageNumber++;
+        getList();
+    });
+</script>
+</body>
+</html>

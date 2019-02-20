@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>IC卡绑定</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+    	body{overflow: hidden;height: auto;}
+    	.mui-plus .header-immersed{display:none;}
+		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
+		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
+		.yzc-form{margin:80px 20px 0;font-size:24px;color:#666666;overflow: hidden;}
+		.yzc-form laber{display:inline-block;line-height:3rem;}
+		.yzc-form input{-webkit-user-select:text;text-align:left;border:0px;border-radius:0;font-size:16px;width:100%;outline:none;border-bottom:#D8D8D8 solid 1px;}
+		.btn-submit{margin: 30px 20px 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    	.logo{margin: 30px 0;}
+		.yzc-ipnut{margin: 20px 20px 0;}
+		.yzc-ipnut input{text-align: left;padding: 12px 15px;height: auto;font-size: 16px;}
+		.input-desc{margin: 0 20px;}
+		.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    </style>
+</head>
+<body style="background: #EBECEE;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">IC卡绑定</h1>
+	</header>
+	
+	<div class="mui-content" style="background: #EBECEE;">
+		<div class="logo">
+			<img src="../img/logo_big.png" width="75" height="75"/>
+		</div>
+		<form id="modifyForm">
+			<div class="mui-input-row yzc-ipnut">
+		        <input type="tel" id="iccardInput" class="mui-input-clear" placeholder="请输入10位数的IC卡卡号" pattern="\d*" maxlength="10">
+		    </div>
+	    	<p class="input-desc">云智充IC卡正面右下角10位数字组合。</p>
+	    	<div class="btn-submit" id="submitBtn">
+				<span>确认绑定</span>
+			</div>
+		</form>	
+	</div>
+	
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+			document.getElementById('submitBtn').addEventListener('click', icCardbinding);
+			function icCardbinding() {
+				var cardid = $('#iccardInput').val();
+				if (!/^\d{10}$/.test(cardid)) {
+					layer.msg('请输入10位数的IC卡卡号');
+					return;
+				}		
+				var uuid = plus.storage.getItem("uuid");
+				postJSON(API_URL.ApiMemberCardBindingCard, {
+					"uuid" : uuid,
+					"iccard" : cardid
+				}, function(res) {
+					if (res.code == '0') {
+						layer.msg('绑定成功', function() {
+							var ws=plus.webview.currentWebview();
+		                    var wo = ws.opener();
+		                    wo.evalJS('getList()');		                    
+		                    back();
+						});
+					} else {
+						layer.msg(res.msg);
+					}
+				});
+			}
+			
+		})
+	</script>
+</body>
+</html>

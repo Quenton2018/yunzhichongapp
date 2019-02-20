@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>我的钱包</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
@@ -11,7 +11,14 @@
     <script src="../js/common.js"></script>
     <script src="../js/base.js"></script>    
     <style type="text/css">
-		
+		.avai-balance{background:linear-gradient(160deg,rgba(255,173,47,1),rgba(254,79,28,1));box-shadow:4px 3px 18px 0px rgba(254,221,208,0.64);margin: 20px;height:136px;border-radius: 6px;text-align: center;color: #fff;}
+    	.avai-text{color: #fff;padding: 30px 0 0px;font-size: 15px;}
+    	.avai-money sub{font-size: 16px;vertical-align: 5px;padding-left: 4px;}
+    	.btn-submit{margin: 30px 20px 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    	.detailed{padding:20px 0;border-bottom: 1px solid #EBEBEB;position: relative;}
+    	.detailed h4{font-size: 16px;color: #333;}
+    	.detailed h4 img{margin: 0 15px;}
+    	.trade-box h2{height:44px;line-height:44px;background:#EBEBEB;font-size: 16px;padding-left: 20px;color: #8F8F8F;}
     </style>
 </head>
 <body>
@@ -20,21 +27,72 @@
     	<h1 class="mui-title">我的钱包</h1>
 	</header>
 	
-	<footer class="btn-submit mui-bar mui-bar-tab" id="submitBtn">
-		<span>底部按钮</span>
-	</footer>
-	
-	<div class="mui-content">
+	<div class="mui-content" style="background: #fff;">
 		<div class="yzc-main">
-			
+			<div class="avai-balance">
+				<p class="avai-text">可用余额</p>
+				<h2 class="avai-money"><strong id="money">0.00</strong><sub>元</sub></h2>
+			</div>
+			<div class="btn-submit" onclick="clicked('recharge.html')">
+				<span>立即充值</span>
+			</div>
+			<div class="detailed-box">
+				<div class="detailed" onclick="clicked('detailsBalance.html')">
+					<h4><img src="../img/views/balance.png" width="33" height="33"> 余额明细</h4>
+					<span class="mui-navigate-right"></span>
+				</div>
+				<div class="detailed" onclick="clicked('detailsCloudDrill.html')" style="border-bottom:none;">
+					<h4><img src="../img/views/clouddrill.png" width="33" height="33">云钻明细</h4>
+					<span class="mui-navigate-right"></span>
+				</div>
+			</div>
+			<div class="trade-box">
+				<h2>交易信息</h2>
+				<ul>
+					<li>
+						
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
 		mui.plusReady(function(){
-//			plus.navigator.setStatusBarStyle("light");
-		})
+			getUserInfo();
+		});
+		//更新用户信息
+	 	function updateUserInfo(){
+	        var uuid = plus.storage.getItem("uuid");
+	    	if(vaildeParam(uuid)){
+	            postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+	                if("0" == res.code){
+	                    setLoginData(res.data);
+	                    getUserInfo();
+	                }else{
+	                    layer.msg(res.msg);
+	                    clearLogin();
+	                    clicked("login.html");
+	                }
+	            })
+	    	}
+	    }
+		//取缓存里用户数据
+	    function getUserInfo(){
+	        var userinfo = plus.storage.getItem("userinfo");        
+	        if(vaildeParam(userinfo)){
+	        	userinfo = JSON.parse(userinfo);
+	            var money = userinfo.money;
+	            if(vaildeParam(money)){
+	                $("#money").text(money);
+	            }
+	        }else{
+	            layer.msg("用户不存在");
+	            clearLogin();
+	            clicked("login.html");
+	        }
+	    }
 	</script>
 </body>
 </html>

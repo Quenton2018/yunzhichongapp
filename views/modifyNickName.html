@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>修改昵称</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/base.js"></script>    
+    <style type="text/css">
+    	body{overflow: hidden;height: auto;}
+    	.mui-plus .header-immersed{display:none;}
+		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
+		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
+		.logo{margin: 30px 0;}
+		.mui-bar .mui-btn-link{color: #fff;}
+		.yzc-ipnut{margin: 20px 20px 0;}
+		.yzc-ipnut input{text-align: left;padding: 12px 15px;height: auto;font-size: 16px;}
+		.input-desc{margin: 0 20px;}
+		.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    </style>
+</head>
+<body style="background: #EBECEE;">
+	<header class="header header-immersed mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">修改昵称</h1>
+	</header>
+	<div class="mui-content" style="background: #EBECEE;">
+		<div class="logo">
+			<img src="../img/logo_big.png" width="75" height="75"/>
+		</div>
+		<form id="modifyForm">
+			<div class="mui-input-row yzc-ipnut">
+		        <input type="text" name="nickname" class="mui-input-clear" placeholder="请输入你的新昵称">
+		    </div>
+	    	<p class="input-desc">2-16个字符，仅支持中文、英文大小写、数字、“_”、减号及其组合。</p>
+	    	<div class="btn-submit" id="saveBtn">
+				<span>保存</span>
+			</div>
+		</form>	
+	</div>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		var uuid;
+		mui.plusReady(function() {
+			uuid = plus.storage.getItem("uuid");
+		});
+		$("#saveBtn").click(function(){       
+	        var nickname = $("input[name='nickname']").val();
+	        if(!vaildeParam(nickname)){
+	            layer.msg("姓名不能为空");
+	            return;
+	        }
+	        var data = {
+	            "uuid":uuid,
+	            "gender":'',
+	            "nickname":nickname,
+	            "homeAddress":''
+	        }
+	        postJSON(API_URL.ApiUpdateMemberInfo,data,function(res){
+	        	layer.msg(res.msg);
+	            if("0" == res.code){
+	                setTimeout(function(){
+	                    var ws=plus.webview.currentWebview();
+	                    var wo = ws.opener();
+	                    mui.fire(wo, "changeName", {  
+                            nickname: nickname  
+                        });  
+                        mui.back();  
+	                },1000);
+	            }
+	        });
+	    })
+	</script>
+</body>
+</html>
