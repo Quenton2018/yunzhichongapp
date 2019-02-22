@@ -158,16 +158,12 @@
 	/*点击头像触发*/
     document.getElementById('replaceAvator').addEventListener('tap', function() {
         if(mui.os.plus) {
-            var a = [{
-                title: "拍照"
-            }, {
-                title: "从手机相册选择"
-            }];
+            var buttons = [{title: "拍照"}, {title: "从手机相册选择"}];
             plus.nativeUI.actionSheet({
                 title: "修改用户头像",
                 cancel: "取消",
-                buttons: a
-            }, function(b) { /*actionSheet 按钮点击事件*/
+                buttons: buttons
+            }, function(b) { 
                 switch(b.index) {
                     case 0:
                         break;

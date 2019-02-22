@@ -27,24 +27,17 @@
 			.swiper-button-prev{left:0;float:left;width:10px;height:50px;background:transparent url(../img/charge/swiper-button-prev.png) no-repeat left center;outline:none;}
 			.swiper-slide span{text-align:center;font-size:1.2rem;color:#666;vertical-align:middle;line-height:35px;height:35px;width:35px;display:inline-block;font-weight:400;background-color:#F0F0F0;border-radius:25px;box-shadow:1px 1px 2px #888888;}
 			.swiper-slide-active span{color:#FFFFFF;margin-top:-7px;font-size:1.6rem;height:42px;width:42px;line-height:42px;background-color:#F17746;font-weight:600;}
-			
-			.SockeBox{padding:15px;padding-top:0;}
-			.SockeBox span{display:block;float:left;width:25%;text-align:center;}
-			.SockeBox span b{display:block;background:#EDEDED;margin:5px;line-height:2.5rem;font-size:1.8rem;font-weight:300;border-radius:5px;}
-			.SockeBox span.active b{background:#F17746;color:#fff;}
-			.SockeBox span.disabled b{background:#EDEDED;color:#fff;}
-						
-			
+					
 			.SockeBox{padding:0;margin-left:4%;margin-bottom: 10px;}
 			.SockeBox span{display:block;float:left;width:16%;text-align:center;margin:0;padding:0;}
-			.SockeBox span b{display:block;background:#F2F2F2;color:#666666;line-height:2.4rem;font-size:1.2rem;font-weight:500;border-radius:8px;box-shadow:1px 1px 2px #888888;}
+			.SockeBox span b{display:block;background:#F2F2F2;color: #666;margin: 5px;line-height:2.4rem;font-size:1.2rem;font-weight:500;border-radius:8px;box-shadow:1px 1px 2px #888888;}
 			.SockeBox span.active b{background:#F17746;color:#fff;}
 			.SockeBox span.disabled b{background:#EDEDED;color:#fff;}
 			
 			.timeBox{padding:15px;padding-top:0;}
 			.timeBox span{display:block;float:left;width:33%;text-align:center;position:relative;}
 			.timeBox span.active b{background:#F17746;color:#fff;}
-			.timeBox span b{display:block;margin:5px;background:#F2F2F2;line-height:2.4rem;font-size:13px;font-weight:bold;border-radius:28px;color:#666666;box-shadow:1px 1px 2px #888888;letter-spacing:1px;}
+			.timeBox span b{display:block;margin:5px;background:#F2F2F2;line-height:2.4rem;font-size:13px;font-weight:bold;border-radius:28px;color:#666;box-shadow:1px 1px 2px #888888;letter-spacing:1px;}
 			.timeBox span i{left:4px;padding:0;width:24px;height:50px;position:absolute;}
 			.timeBox span.promotion b{text-indent: 10px;}
 			.timeBox span.promotion i{background:transparent url(../img/promotion.png) no-repeat left top;word-wrap:break-word;text-align:center;vertical-align:middle;letter-spacing:5px;font-size:12px;line-height:16px;font-weight:bold;color:#FFFFFF;}
@@ -65,7 +58,9 @@
 			.h2-title{line-height: 40px;padding: 0 15px;text-align:left;font-weight:600;color:#454545;letter-spacing:1px;margin:0;}
 			.h2-title span{font-size: 18px;}
 				
-			.chargingPriceDesc{font-size: 12px;color: #333;padding:10px 25px;display: none;}
+			.chargingPriceDesc{font-size: 13px;color: #333;padding:10px 25px;}
+			.chargingPriceDesc .desc-right span{float: left;width: 50%;display: inline-block;text-align: left;}
+			.chargingPriceDesc .desc-right span:nth-child(even){text-align: right;}
 			
 			.footer{position:fixed;width:100%;left:0;bottom:0;color:#fff;line-height:50px;height:50px;vertical-align:middle;-webkit-transform:translateZ(0);background:#FF7546;background:-moz-linear-gradient(top,#FF7546 0%,#F08200 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#FF7546),color-stop(100%,#F08200));background:-webkit-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-o-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-ms-linear-gradient(right,#FF7546 0%,#F08200 100%);background:linear-gradient(to right,#FF7546 0%,#F08200 100%);}
 			.footer .left{float:left;padding-left:15px;position:absolute;color:#fff;display:none;}
@@ -143,30 +138,22 @@
 			<div class="myContent box1" style="margin-top: 15px;">
 				<div class="h2-title"><span>③</span> 选择充电时长</div>
 				<div class="timeBox mui-clearfix" id="TimeList">
-					<span class="item promotion"><i><em>免费</em></i><b>充满自停</b></span>
+					<span class="item"><b>充满自停</b></span>
 				</div>
 			</div>
 
 			<div id="chargingPriceDesc" class="chargingPriceDesc">				
-				<div class="desc-left">
-					<span>收费说明：</span>
-				</div>
-				<div class="desc-right">
-					<span>0.35元/小时 (0<功率≤200瓦)</span>
-					<span>0.45元/小时 (200<功率≤300瓦)</span>
-					<span>0.65元/小时 (300<功率≤500瓦)</span>
-				</div>
+				
 			</div>
 		</div>
 	</div>
-	<footer id="footer" class="footer">
+	<footer id="footer" class="footer mui-clearfix">
 		<div class="left">
 			价格 : &yen; <b class="priceBox" style="vertical-align: 0px;">0</b>
 		</div>
 		<div class="right" id="submitBtn">
 			开始充电
 		</div>
-		<div class="clearfix"></div>
 	</footer>
 	
 	<div class="progressBoxWrap">
@@ -240,405 +227,402 @@
 			{{/if}}
 		{{/each}}
 	</script>
+	<!--收费说明模板-->
+	<script type="text/html" id="PriceTmpl" >		
+		<div class="desc-left">
+			<span>收费说明：</span>
+		</div>
+		<div class="desc-right mui-clearfix">
+			{{each list as item index}}
+				{{if index == list.length-1}}
+					<span>{{item.price}}元/小时 ({{item.minEle}}w以上)</span>
+				{{else}}
+					<span>{{item.price}}元/小时 ({{item.minEle}}~{{item.maxEle}}w)</span>
+				{{/if}}			
+			{{/each}}
+		</div>
+	</script>
 	
-	<script type="application/javascript">
-		var swiper = null;
-		var $addressTitle = $("#cd-title");
-		//当前选择的片区
-		var groupID = null;		
-		var addresses = null;
-		//扫一扫的片区
-		var scanGroup = null;
-		//扫一扫的充电桩ID
-		var scanCdzID = null;	
-		//用户定位信息
-		var geolocationGroup = null;		
-		// 价格描述
-		var priceDesc = [];
-		
-		$.plusReady(function(){
-			checkLogin();
-			geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
-			getChargingGroup();		
-		},dataRefresh);
-		// 刷新页面
-		function dataRefresh() {
-			getChargingGroup();
-		}
-		initSwiper();	
-		//初始化选择桩号滑动效果	 
-		function initSwiper() {
-			swiper = new Swiper('.swiper-container', {
-				slidesPerView: 6,
-				spaceBetween: 5,
-				centeredSlides: true,
-				slideToClickedSlide: true,
-				spaceBetween: '3%',
-				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev'
+<script type="text/javascript">
+	var swiper = null;
+	var $addressTitle = $("#cd-title");	
+	var geolocationGroup = null;  //用户定位信息
+	var inputCdzID = null;
+	var groupID    = null;		  //当前选择的片区
+	var addresses  = null;		  //片区地址
+	var scanGroup  = null;   	  //扫一扫的片区
+	var scanCdzID  = null;		  //扫一扫的充电桩ID	
+	var priceDesc  = [];	      // 价格描述
+	
+	$.plusReady(function(){
+		checkLogin();	
+		geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
+		getChargingGroup();		
+	},dataRefresh);
+	// 刷新页面
+	function dataRefresh() {
+		getChargingGroup();
+	}
+	initSwiper();	
+	//初始化选择桩号滑动效果	 
+	function initSwiper() {
+		swiper = new Swiper('.swiper-container', {
+			slidesPerView: 6,
+			spaceBetween: 5,
+			centeredSlides: true,
+			slideToClickedSlide: true,
+			spaceBetween: '3%',
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev'
+			},
+			on: {
+				transitionEnd: function() {
+					changeSelectStake();
 				},
-				on: {
-					transitionEnd: function() {
-						changeSelectStake();
-					},
-				}
-			});
-		}
-		//初始化根据定位获取最近的充电桩地址
-		function getChargingGroup(){
-			groupID = plus.storage.getItem("currentChargeGroupID");
-			addresses = plus.storage.getItem("addresses");	
-			if(vaildeParam(groupID)){
-				console.log("##选中充电桩地址："+addresses+" 片区编号："+groupID)
-				$addressTitle.text(addresses);
-				getChargingByGroupID(groupID);
-				getChargingGroupPrice(groupID);
-			}else{
-				if(!vaildeParam(geolocationGroup)){
-					getCurrentPosition();
-					geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
-				}
-				var params = {
-					uuid:uuid,
-					latitude:geolocationGroup.latitude,
-					longitude:geolocationGroup.longitude,
-					useLocation:true
-				}
-				postJSON(API_URL.GetChargingGroup,params,function(res){
-					if(res.code == "0"){
-						addresses = res.data.chargingGroup.name;
-						groupID = res.data.chargingGroup.code;
-						$addressTitle.text(addresses);					
-						getChargingByGroupID(groupID);
-						getChargingGroupPrice(groupID);
-					}
-				})
-			}				
-		}
-		//根据片区id获取充电桩桩号
-		function getChargingByGroupID(id){
-			if(!vaildeParam(id)) {
-				layer.msg("没有获取到片区");
-				return;
 			}
-			postJSON(API_URL.ApiGetChargingByGroupID, {"id": id}, function(res) {
-				if("0" == res.code) {
-					var data = res.data;
-					if(data.length == 0) {
-						layer.msg("暂无充电桩");
-						$(".swiper-wrapper").html('<div class="swiper-slide">无</div>');
-						swiper.update();
-					} else {
-						getChargingStakeList(data);
-						changeSelectStake();
-					}
-				} else {
-					layer.msg(res.msg);
-				}
-			},true);
-		}
-		//充电桩桩号列表
-		function getChargingStakeList(data) {
-			var html = '';
-			$.each(data, function(index, item) {
-				var code = item.code;
-				var shellId = item.shellId;
-				html += '<div data-code="' + code + '" data-id="' + item.id + '" class="swiper-slide"><span>' + shellId.substring(0, 1) + '</span></div>';
-			})
-			$(".swiper-wrapper").html(html);
-			swiper.update();
-//			if(vaildeParam(scanCdzID)) {
-//				var index = $(".swiper-slide[data-id='" + scanCdzID + "']").index();
-//				swiper.slideToLoop(index, 1000, function() {
-//					console.log("--- slideToLoop --- index:" + index)
-//				})
-//			} else {
-//				if(vaildeParam(lastUseCdzID)) {
-//					var index = $(".swiper-slide[data-id='" + lastUseCdzID + "']").index();
-//					swiper.slideToLoop(index, 1000, function() {
-//						console.log("--- slideToLoop --- index:" + index)
-//					})
-//				}
-//			}
-		}
-		//选择充电桩桩号获取插座
-		function changeSelectStake() {
-			var $StakeActive = $(".swiper-slide-active");		
-			var StakeCode = $StakeActive.attr("data-code");
-			var StakeText = $StakeActive.text();
-			if(!vaildeParam(StakeCode)) {
-				return;
-			}
-			console.log("##选中充电桩桩号:" + StakeText);
-			getChargingSocketList(StakeCode);
-		}
-		//获取充电桩插座列表
-		function getChargingSocketList(StakeCode) {
-			if(!vaildeParam(StakeCode)) {
-				return;
-			}
-			var Html = "";
-			postJSON(API_URL.ApiChargingSocketListByCode, {"code": StakeCode}, function(res) {
-				if("0" == res.code) {
-					var list = res.data.sort(compare('code'));
-					var data = {'list':list};
-					Html = template('SocketTmpl', data);
-					$('#SocketList').html(Html);					
-				} else {
-					layer.msg(res.msg);
-				}
-			},true)
-		}
-		//排序
-		function compare(property) {
-			return function(a, b) {
-				var value1 = parseFloat(a[property]);
-				var value2 = parseFloat(b[property]);
-				return value1 - value2;
-			}
-		}
-		//插座点击事件
-		$("body").on('click','.SockeBox .item',function(){
-			$(this).addClass('active').siblings().removeClass('active');
 		});
-		//获取充电桩充电时长	
-		function getChargingGroupPrice(groupID) {
-			if(!vaildeParam(groupID)) {
-				layer.msg("没有获取到片区");
-				return;
+	}
+	//初始化根据定位获取最近的充电桩地址
+	function getChargingGroup(){
+		groupID = plus.storage.getItem("chargingGroupId");
+		addresses = plus.storage.getItem("addresses");
+		inputCdzID = plus.storage.getItem("inputCdzID");
+		console.log("##groupID:"+groupID)
+		if(vaildeParam(groupID)){
+			console.log("##选中充电桩地址："+addresses+" 片区编号："+groupID)
+			$addressTitle.text(addresses);
+			getChargingByGroupID(groupID);
+			getChargingGroupPrice(groupID);
+		}else{
+			if(!vaildeParam(geolocationGroup)){
+				getCurrentPosition();
+				geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
 			}
 			var params = {
-				"groupID": groupID,
-				"uuid": uuid
+				uuid:uuid,
+				latitude:geolocationGroup.latitude,
+				longitude:geolocationGroup.longitude,
+				useLocation:true
 			}
-			var Html = "";
-			postJSON(API_URL.ApiCharginGetPriceListByGroupID,params, function(res) {
-				if("0" == res.code) {
-					var data = {'list':res.data};
-					Html = template('TimeTmpl', data);
-					$('#TimeList').html(Html);
-					$('#footer').find('.left').hide();
-					$('#chargingPriceDesc').hide().html('');
-				} else {
-					layer.msg(res.msg);
-				}
-			},true)
-		}
-		//充电时长点击事件
-		$("body").on('click','.list-time',function(){
-			var price = $(this).attr("data-money");
-			var state = $(this).attr('data-state');
-			var priceId = $(this).attr("data-id");
-			console.log(price,state,priceId)
-			$(this).addClass('active').siblings().removeClass('active');
-			$(".priceBox").text(price);
-			if(state == '1' || state == '2') {
-				if(!priceDesc[priceId]) {
-					postJSON(API_URL.ApiChargingPriceDesc, {"chargingPriceId": priceId}, function(res) {
-						if(res.code == '0') {
-							showPriceDesc(res.data);
-							priceDesc[priceId] = res.data;
-						}
-					},true);
-				} else {
-					showPriceDesc(priceDesc[priceId]);
-				}
-				$('#footer').find('.left').hide();
-			} else {
-				$('#footer').find('.left').show();
-				$('#chargingPriceDesc').css('display', 'none').html('');
-			}
-		});
-		//显示价格设置
-		function showPriceDesc(data) {
-			console.log(JSON.stringify(data))
-			if(data && data.length > 0) {
-				var tmp = '<span>{{price}}元/小时 ({{min}}-{{max}}瓦)</span>';
-				var html = '';
-				$.each(data, function(inedx, item) {
-					var itemTmp = tmp.replace(/{{price}}/g, item.price)
-						.replace(/{{min}}/g, item.minEle)
-						.replace(/{{max}}/g, item.maxEle);
-						if(inedx != 0 && inedx == data.length - 1) {
-							itemTmp = itemTmp.replace('<功率≤' + item.maxEle + '瓦', '以上');
-						}
-					html += itemTmp;
-				});
-				$('#chargingPriceDesc').css('display', 'block').html(html);
-			}
-		}
-		$("#submitBtn").click(function() {
-			if(!vaildeParam(groupID)) {
-				layer.msg("没有获取到片区");
-				return;
-			}
-			var $swiperSlideActive = $(".swiper-slide-active");
-			if($swiperSlideActive.length <= 0) {
-				layer.msg("还没选择桩号");
-				return;
-			}
-			var cdzCode = $swiperSlideActive.attr("data-code");
-			if(!vaildeParam(cdzCode)) {
-				layer.msg("还没选择桩号");
-				return;
-			}
-			var $cz = $(".SockeBox .active");
-			if($cz.length == 0) {
-				layer.msg("你还没选择插座");
-				return;
-			}
-			var zcID = $cz.attr("data-id");
-			console.log("## zcID ## : " + zcID)
-			if(!vaildeParam(zcID)) {
-				layer.msg("你还没选择插座");
-				return;
-			}
-			var $time = $('.timeBox .active');
-			if($time.length == 0) {
-				layer.msg("你还没选择时间");
-				return;
-			}
-			var uuid = plus.storage.getItem("uuid");
-			showLoadingSuccess();
-			var data = {
-				"uuid": uuid,
-				"zcID": zcID,
-				"chargingGroupPriceId": $time.attr("data-id"),
-				"minutes": $time.attr('data-time'),
-				"method": $time.attr('data-state')
-			}
-			var url = API_URL.ApiDeviceCommandSendChargeCommand;
-			postJSON(url, data, shargeSubmitResponse,true);
-		})
-
-		function shargeSubmitResponse(res) {
-			if("0" == res.code) {
-				setLoadingSuccess();
-				var msg = '充电成功';
-				if(res.data > 0) {
-					msg += " , 充电结束可获得云钻";
-				}
-				layer.msg(msg);
-				setTimeout(function() {
-					initLoadingSuccess();
-					postJSON(API_URL.ApiUserChargingDetailGetDoingList, {uuid: uuid}, function(res) {
-						if('0' == res.code) {
-							var sn = res.data[res.data.length - 1].sn;
-							openWebview('chargeing.html?orderNo=' + sn);
-						} else {
-							layer.msg(res.msg);
-						}
-					});
-				}, 3000)
-			} else {
-				initLoadingSuccess();
-				if('未知错误' == res.msg) {
-					layer.msg("请求超时");
-				} else {
-					layer.msg(res.msg);
-				}
-			}
-		}
-		var loadingInterval = null;
-		function showLoadingSuccess() {
-			$('.progressBoxWrap').css("display", 'block')
-			loadingInterval = setInterval(function() {
-				var hasChange = false;
-				var $stepItems = $(".progressBox .stepItem");
-				$.each($stepItems, function(index, item) {
-					if(index < $stepItems.length - 1) {
-						if(!$(item).hasClass('stepSuccess') && !hasChange) {
-							$(item).addClass('stepSuccess');
-							$(item).find("i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
-							hasChange = true;
-						}
-					}
-				})
-				if(!hasChange) {
-					clearLoadingInterval(loadingInterval);
-				}
-			}, 1000);
-		}
-
-		function clearLoadingInterval() {
-			if(vaildeParam(loadingInterval)) {
-				clearInterval(loadingInterval);
-			}
-		}
-
-		/**
-		 * 初始化充电进度框
-		 */
-		function initLoadingSuccess() {
-			clearLoadingInterval(loadingInterval);
-			$(".progressBoxWrap").css("display", 'none');
-			$(".progressBox .stepItem").removeClass('stepSuccess');
-			$(".progressBox .stepItem i").addClass('fa-refresh').addClass('fa-spin').removeClass('fa-check-circle');
-		}
-
-		/**
-		 * 设置充电进度框为成功
-		 */
-		function setLoadingSuccess() {
-			clearLoadingInterval(loadingInterval);
-			$(".progressBox .stepItem").addClass('stepSuccess');
-			$(".progressBox .stepItem i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
-		}
-
-		/**
-		 * 扫一扫接口
-		 * @param type
-		 * @param result
-		 * @param file
-		 */
-		function scaned(type, result, file) {
-			if(!vaildeParam(result)) {
-				return;
-			}
-			postJSON(API_URL.ApiChargingInfoByShellId, {'shellId': result}, function(res) {
-				if('0' == res.code) {
-					var cdzID = res.data.id;
-					scanGroup = res.data.groupId;
-					scanCdzID = cdzID;
-					//如果存在扫一扫的片区数据，默认显示扫一扫的数据
-					if(vaildeParam(scanGroup)) {
-						$addressTitle.text(scanGroup.name);
-						currentChargeGroupID = scanGroup.id;
-					}
-					getCurrentPosition();
-				} else {
-					layer.msg(res.msg)
+			postJSON(API_URL.GetChargingGroup,params,function(res){
+				if(res.code == "0"){
+					addresses = res.data.chargingGroup.name;
+					groupID = res.data.chargingGroup.code;
+					$addressTitle.text(addresses);					
+					getChargingByGroupID(groupID);
+					getChargingGroupPrice(groupID);
 				}
 			})
 		}
-	</script>
-	<script>
-//		function guide() {
-//			/*var html = '';
-//			html += '<div class="guide guide1" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
-//			html += '<div class="guide guide2" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
-//			html += '<div class="guide guide3" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
-//			html += '<div class="guide guide4" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
-//			html += '<div class="guide guide5" onclick="guideClose();"><div class="close"></div></div>';
-//			$('body').append(html);*/
-//			$('.guide-wrapper').css('display', 'block');
-//		}
+	}
+	//根据片区id获取充电桩桩号
+	function getChargingByGroupID(id){
+		if(!vaildeParam(id)) {
+			layer.msg("没有获取到片区");
+			return;
+		}
+		console.log("##片区id:"+id)
+		postJSON(API_URL.ApiGetChargingByGroupID, {"id": id}, function(res) {
+			if("0" == res.code) {
+				var data = res.data;
+				if(data.length == 0) {
+					layer.msg("暂无充电桩");
+					$(".swiper-wrapper").html('<div class="swiper-slide">无</div>');
+					swiper.update();
+				} else {
+					getChargingStakeList(data);
+				}
+			} else {
+				layer.msg(res.msg);
+			}
+		},true);
+	}
+	//充电桩桩号列表
+	function getChargingStakeList(data) {
+		var html = '';
+		$.each(data, function(index, item) {
+			var code = item.code;
+			var shellId = item.shellId;
+			html += '<div data-code="' + code + '" data-id="' + item.id + '" class="swiper-slide"><span>' + shellId.substring(0, 1) + '</span></div>';
+		})
+		$(".swiper-wrapper").html(html);
+		swiper.update();
+		if(vaildeParam(scanCdzID)) {
+			var index = $(".swiper-slide[data-id='" + scanCdzID + "']").index();
+			console.log("--- slideToLoop --- index:" + index)
+			swiper.slideToLoop(index);
+		};
+		if(vaildeParam(inputCdzID)) {
+			var index = $(".swiper-slide[data-id='" + inputCdzID + "']").index();
+			console.log("--- slideToLoop --- index:" + index)
+			swiper.slideToLoop(index);
+		};
+		changeSelectStake();
+	}
+	//选择充电桩桩号获取插座
+	function changeSelectStake() {
+		var $StakeActive = $(".swiper-slide-active");		
+		var StakeCode = $StakeActive.attr("data-code");
+		var StakeText = $StakeActive.text();
+		if(!vaildeParam(StakeCode)) {
+			return;
+		}
+		console.log("##选中充电桩桩号:" + StakeText);
+		getChargingSocketList(StakeCode);
+	}
+	//获取充电桩插座列表
+	function getChargingSocketList(StakeCode) {
+		if(!vaildeParam(StakeCode)) {
+			return;
+		}
+		var Html = "";
+		postJSON(API_URL.ApiChargingSocketListByCode, {"code": StakeCode}, function(res) {
+			if("0" == res.code) {
+				var list = res.data.sort(compare('code'));
+				var data = {'list':list};
+				Html = template('SocketTmpl', data);
+				$('#SocketList').html(Html);					
+			} else {
+				layer.msg(res.msg);
+			}
+		},true)
+	}
+	//排序
+	function compare(property) {
+		return function(a, b) {
+			var value1 = parseFloat(a[property]);
+			var value2 = parseFloat(b[property]);
+			return value1 - value2;
+		}
+	}
+	//插座点击事件
+	$("body").on('click','.SockeBox .item',function(){
+		$(this).addClass('active').siblings().removeClass('active');
+	});
+	//获取充电桩充电时长	
+	function getChargingGroupPrice(groupID) {
+		if(!vaildeParam(groupID)) {
+			layer.msg("没有获取到片区");
+			return;
+		}
+		var params = {
+			"groupID": groupID,
+			"uuid": uuid
+		}
+		var Html = "";
+		postJSON(API_URL.ApiCharginGetPriceListByGroupID,params, function(res) {
+			if("0" == res.code) {
+				var data = {'list':res.data};
+				Html = template('TimeTmpl', data);
+				$('#TimeList').html(Html);
+				$('#footer').find('.left').hide();
+				$('#chargingPriceDesc').html('');
+			} else {
+				layer.msg(res.msg);
+			}
+		},true)
+	}
+	//充电时长点击事件
+	$("body").on('click','.list-time',function(){
+		var state = $(this).attr('data-state');
+		var price = $(this).attr("data-money");
+		var priceId = $(this).attr("data-id");
+		console.log(state,price,priceId)
+		$(this).addClass('active').siblings().removeClass('active');
+		$(".priceBox").text(price);
+		if(state == '1' || state == '2') {
+			if(!priceDesc[priceId]) {
+				postJSON(API_URL.ApiChargingPriceDesc, {"chargingPriceId": priceId}, function(res) {
+					if(res.code == '0') {
+						showPriceDesc(res.data);
+						priceDesc[priceId] = res.data;
+					}
+				},true);
+			} else {
+				showPriceDesc(priceDesc[priceId]);
+			}
+			$('#footer').find('.left').hide();
+		} else {
+			$('#footer').find('.left').show();
+			$('#chargingPriceDesc').html('');
+		}
+	});
+	//显示价格设置
+	function showPriceDesc(data) {
+		var Html = '';
+		var data = {'list':data};
+		Html = template('PriceTmpl', data);
+		$('#chargingPriceDesc').html(Html); 
+	}
+	$("#submitBtn").click(function() {
+		if(!vaildeParam(groupID)) {
+			layer.msg("没有获取到片区");
+			return;
+		}
+		var $swiperSlideActive = $(".swiper-slide-active");
+		if($swiperSlideActive.length <= 0) {
+			layer.msg("还没选择桩号");
+			return;
+		}
+		var cdzCode = $swiperSlideActive.attr("data-code");
+		if(!vaildeParam(cdzCode)) {
+			layer.msg("还没选择桩号");
+			return;
+		}
+		var $cz = $(".SockeBox .active");
+		if($cz.length == 0) {
+			layer.msg("你还没选择插座");
+			return;
+		}
+		var zcID = $cz.attr("data-id");
+		if(!vaildeParam(zcID)) {
+			layer.msg("你还没选择插座");
+			return;
+		}
+		var $time = $('.timeBox .active');
+		if($time.length == 0) {
+			layer.msg("你还没选择时间");
+			return;
+		}
+		var uuid = plus.storage.getItem("uuid");
+		showLoadingSuccess();
+		var data = {
+			"uuid": uuid,
+			"zcID": zcID,
+			"chargingGroupPriceId": $time.attr("data-id"),
+			"minutes": $time.attr('data-time'),
+			"method": $time.attr('data-state')
+		}
+		var url = API_URL.ApiDeviceCommandSendChargeCommand;
+		postJSON(url, data, shargeSubmitResponse,true);
+	})
+
+	function shargeSubmitResponse(res) {
+		if("0" == res.code) {
+			setLoadingSuccess();
+			var msg = '充电成功';
+			if(res.data > 0) {
+				msg += " , 充电结束可获得云钻";
+			}
+			layer.msg(msg);
+			setTimeout(function() {
+				initLoadingSuccess();
+				postJSON(API_URL.ApiUserChargingDetailGetDoingList, {uuid: uuid}, function(res) {
+					if('0' == res.code) {
+						var sn = res.data[res.data.length - 1].sn;
+						openWebview('chargeing.html?orderNo=' + sn);
+					} else {
+						layer.msg(res.msg);
+					}
+				});
+			}, 3000)
+		} else {
+			initLoadingSuccess();
+			if('未知错误' == res.msg) {
+				layer.msg("请求超时");
+			} else {
+				layer.msg(res.msg);
+			}
+		}
+	}
+	var loadingInterval = null;
+	function showLoadingSuccess() {
+		$('.progressBoxWrap').css("display", 'block')
+		loadingInterval = setInterval(function() {
+			var hasChange = false;
+			var $stepItems = $(".progressBox .stepItem");
+			$.each($stepItems, function(index, item) {
+				if(index < $stepItems.length - 1) {
+					if(!$(item).hasClass('stepSuccess') && !hasChange) {
+						$(item).addClass('stepSuccess');
+						$(item).find("i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
+						hasChange = true;
+					}
+				}
+			})
+			if(!hasChange) {
+				clearLoadingInterval(loadingInterval);
+			}
+		}, 1000);
+	}
+
+	function clearLoadingInterval() {
+		if(vaildeParam(loadingInterval)) {
+			clearInterval(loadingInterval);
+		}
+	}
+
+	/**
+	 * 初始化充电进度框
+	 */
+	function initLoadingSuccess() {
+		clearLoadingInterval(loadingInterval);
+		$(".progressBoxWrap").css("display", 'none');
+		$(".progressBox .stepItem").removeClass('stepSuccess');
+		$(".progressBox .stepItem i").addClass('fa-refresh').addClass('fa-spin').removeClass('fa-check-circle');
+	}
+
+	/**
+	 * 设置充电进度框为成功
+	 */
+	function setLoadingSuccess() {
+		clearLoadingInterval(loadingInterval);
+		$(".progressBox .stepItem").addClass('stepSuccess');
+		$(".progressBox .stepItem i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
+	}
+
+	/**
+	 * 扫一扫接口
+	 * @param type
+	 * @param result
+	 * @param file
+	 */
+	function scaned(type, result, file) {
+		if(!vaildeParam(result)) {
+			return;
+		}
+		postJSON(API_URL.ApiChargingInfoByShellId, {'shellId': result}, function(res) {
+			if('0' == res.code) {
+				scanCdzID = res.data.id;
+				scanGroup = res.data.groupId;
+				//如果存在扫一扫的片区数据，默认显示扫一扫的数据
+				if(vaildeParam(scanGroup)) {
+					$addressTitle.text(scanGroup.name);
+					groupID = scanGroup.id;
+					getChargingByGroupID(groupID);
+					getChargingGroupPrice(groupID);
+				}			
+			} else {
+				layer.msg(res.msg)
+			}
+		})
+	}
+//	function guide() {
+//		/*var html = '';
+//		html += '<div class="guide guide1" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//		html += '<div class="guide guide2" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//		html += '<div class="guide guide3" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//		html += '<div class="guide guide4" onclick="guideNext(this)"><div class="close" onclick="guideClose();stopEvt(event)"></div></div>';
+//		html += '<div class="guide guide5" onclick="guideClose();"><div class="close"></div></div>';
+//		$('body').append(html);*/
+//		$('.guide-wrapper').css('display', 'block');
+//	}
 //
-//		function guideNext(self) {
-//			var t = setTimeout(function() {
-//				$(self).css('display', 'none');
-//				window.clearTimeout(t);
-//			}, 200);
-//		}
+//	function guideNext(self) {
+//		var t = setTimeout(function() {
+//			$(self).css('display', 'none');
+//			window.clearTimeout(t);
+//		}, 200);
+//	}
 //
-//		function guideClose() {
-//			$('.guide-wrapper').css('display', 'none');
-//		}
+//	function guideClose() {
+//		$('.guide-wrapper').css('display', 'none');
+//	}
 //
-//		function stopEvt(e) {
-//			e.stopPropagation(); //阻止点击事件向上冒泡
-//		}
-	</script>
-	</body>
+//	function stopEvt(e) {
+//		e.stopPropagation(); //阻止点击事件向上冒泡
+//	}
+</script>
+</body>
 </html>

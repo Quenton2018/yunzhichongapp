@@ -84,10 +84,7 @@
 	<script type="text/javascript">
 		var $addressInfo = $("#addressInfo");
 		//当前选择的片区
-		var currentChargeGroupID = null;
-		var scanCdzID = null;
-		//上次使用的充电桩ID
-		var lastUseCdzID = null;
+		var groupID   = null;
 		//用户定位信息
 		var geolocationGroup = {};
 		//附近的片区
@@ -165,9 +162,9 @@
 		function selectChargingGroupAction(that) {
 			var $this = $(that);
 			$this.addClass('active');
-			currentChargeGroupID = $this.attr("data-id");
+			groupID = $this.attr("data-id");
 			var address = $this.text();
-			plus.storage.setItem("currentChargeGroupID",currentChargeGroupID);
+			plus.storage.setItem("chargingGroupId",groupID);
 			plus.storage.setItem("addresses",address);
 			returnWindow("selectChargeMethod.html");
 		}

@@ -31,7 +31,7 @@
 <body style="background: #EBECEE;">
 	<header class="header header-immersed mui-bar mui-bar-nav">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    	<h1 class="mui-title">输入桩号编码</h1>
+    	<h1 class="mui-title">输入桩条码编号</h1>
 	</header>
 	
 	<div class="mui-content" style="background: #EBECEE;">
@@ -40,9 +40,9 @@
 		</div>
 		<form id="modifyForm">
 			<div class="mui-input-row yzc-ipnut">
-		        <input type="text" id="iccardInput" class="mui-input-clear" placeholder="请输入桩号编码">
+		        <input type="text" id="shellId" class="mui-input-clear" placeholder="请输入外壳条码编号" value="X1852312">
 		    </div>
-	    	<p class="input-desc">云智充桩号编码。</p>
+	    	<p class="input-desc">输入充电桩上条形码上的数字（如M1867262）</p>
 	    	<div class="btn-submit" id="submitBtn">
 				<span>确认</span>
 			</div>
@@ -57,29 +57,27 @@
 				softinputMode: "adjustResize"
 			});					
 		})
-		document.getElementById('submitBtn').addEventListener('tap', icCardbinding);
-		function icCardbinding() {
-			var cardid = $('#iccardInput').val();
-			if (!vaildeParam(cardid)) {
-				layer.msg('请输入桩号编码');
+		document.getElementById('submitBtn').addEventListener('tap', function () {
+			var shellId = $('#shellId').val();
+			if (!vaildeParam(shellId)) {
+				layer.msg('请输入外壳条码编号');
 				return;
-			}		
-			postJSON(API_URL.ApiMemberCardBindingCard, {
-				"uuid" : uuid,
-				"iccard" : cardid
-			}, function(res) {
-				if (res.code == '0') {
-					layer.msg('绑定成功', function() {
-						var ws=plus.webview.currentWebview();
-	                    var wo = ws.opener();
-	                    wo.evalJS('getList()');		                    
-	                    back();
-					});
+			}
+			postJSON(API_URL.ApiChargingInfoByShellId, {'shellId': shellId}, function(res) {
+				if('0' == res.code) {
+					var cdzID = res.data.id;
+					var scanGroup = res.data.groupId;
+					if(vaildeParam(scanGroup)) {
+						plus.storage.setItem("chargingGroupId",scanGroup.id+"");
+						plus.storage.setItem("addresses",scanGroup.name);
+						plus.storage.setItem("inputCdzID",cdzID+"");
+						returnWindow("selectChargeMethod.html");
+					}			
 				} else {
-					layer.msg(res.msg);
+					layer.msg(res.msg)
 				}
-			});
-		}
+			})
+		});
 	</script>
 </body>
 </html>
