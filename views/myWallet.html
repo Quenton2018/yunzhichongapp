@@ -33,15 +33,15 @@
 				<p class="avai-text">可用余额</p>
 				<h2 class="avai-money"><strong id="money">0.00</strong><sub>元</sub></h2>
 			</div>
-			<div class="btn-submit" onclick="clicked('recharge.html')">
+			<div class="btn-submit" onclick="openWebview('recharge.html')">
 				<span>立即充值</span>
 			</div>
 			<div class="detailed-box">
-				<div class="detailed" onclick="clicked('detailsBalance.html')">
+				<div class="detailed" onclick="openWebview('detailsBalance.html')">
 					<h4><img src="../img/views/balance.png" width="33" height="33"> 余额明细</h4>
 					<span class="mui-navigate-right"></span>
 				</div>
-				<div class="detailed" onclick="clicked('detailsCloudDrill.html')" style="border-bottom:none;">
+				<div class="detailed" onclick="openWebview('detailsCloudDrill.html')" style="border-bottom:none;">
 					<h4><img src="../img/views/clouddrill.png" width="33" height="33">云钻明细</h4>
 					<span class="mui-navigate-right"></span>
 				</div>
@@ -59,9 +59,13 @@
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		mui.plusReady(function(){
+		$.plusReady(function(){
 			getUserInfo();
-		});
+		},dataRefresh);
+		// 刷新页面
+	    function dataRefresh(){
+	        updateUserInfo();
+	    }
 		//更新用户信息
 	 	function updateUserInfo(){
 	        var uuid = plus.storage.getItem("uuid");
@@ -73,7 +77,7 @@
 	                }else{
 	                    layer.msg(res.msg);
 	                    clearLogin();
-	                    clicked("login.html");
+	                    openWebview("login.html");
 	                }
 	            })
 	    	}
@@ -90,7 +94,7 @@
 	        }else{
 	            layer.msg("用户不存在");
 	            clearLogin();
-	            clicked("login.html");
+	            openWebview("login.html");
 	        }
 	    }
 	</script>

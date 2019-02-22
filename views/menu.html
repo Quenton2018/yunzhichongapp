@@ -84,7 +84,7 @@
 	<script type="text/javascript">
 		mui.init();	
 		$.plusReady(function(){
-			getUserInfo();
+			updateUserInfo();
 		},dataRefresh);
 		// 刷新页面
 	    function dataRefresh(){
@@ -116,7 +116,9 @@
 	            var money = userinfo.money;
 	            var points = userinfo.points;
 	            if(vaildeParam(headImage)){
-	                document.getElementById('userAvator').src = headImage;
+	            	loadImage(headImage,function () {
+	                    $("#userAvator").attr("src",headImage);
+	                });	               
 	            }
 	            if(vaildeParam(nickname)){
 	                $("#nickname").text(nickname);

@@ -18,6 +18,21 @@
 		<script type="text/javascript">
 			var ws=null,wo=null;
 			var scan=null,domready=false;
+			var formpage = getQueryString("formpage");
+			mui.init({  
+		        subpages: [{  
+	                url: 'scanSub.html',  
+	                id: 'scanSub.html',  
+	                styles: {  
+	                    top: 0,  
+	                    bottom: 0,  
+	                    background: 'transparent'  
+	                },
+	                extras:{
+	                	formpage:formpage
+	                }
+	            }]  
+		    });
 			if(window.plus){
 				plusReady();
 			}else{
@@ -45,29 +60,14 @@
 				// 获取窗口对象
 				ws=plus.webview.currentWebview();
 				wo=ws.opener();
-				mui.init({  
-			        subpages: [{  
-		                url: 'scan_main.html',  
-		                id: 'scan_main.html',  
-		                styles: {  
-		                    top: 0,  
-		                    bottom: 0,  
-		                    background: 'transparent'  
-		                },
-		                extras:{
-		                	formpage:ws.formpage
-		                }
-		            }]  
-			    });
 				// 开始扫描
 				ws.addEventListener('show', function(){
 					scan=new plus.barcode.Barcode('bcid',typeArr,styles);
 				    scan.onmarked=onmarked;
 				    scan.start({conserve:true,filename:'_doc/barcode/',vibrate:true,sound:'default'});
 				}, false);
-				// 显示页面并关闭等待框
+				// 显示页面
 			    ws.show('pop-in');
-			    wo.evalJS('closeWaiting()');
 			}
 							
 			// 二维码扫描成功

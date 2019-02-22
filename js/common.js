@@ -851,13 +851,13 @@ function shield(){
 	return false;
 }
 document.addEventListener('touchstart',shield,false);//取消浏览器的所有事件，使得active的样式在手机上正常生效
-document.oncontextmenu=shield;//屏蔽选择函数
+document.oncontextmenu = shield;//屏蔽选择函数
 // H5 plus事件处理
 w.uuid = null;
 var ws = null,as = 'pop-in';
 function plusReady(){
 	w.uuid = plus.storage.getItem("uuid");
-	ws=plus.webview.currentWebview();
+	ws = plus.webview.currentWebview();
 	// Android处理返回键
 	plus.key.addEventListener('backbutton',function(){
 		back();
@@ -869,13 +869,13 @@ if(w.plus){
 	document.addEventListener('plusready',plusReady,false);
 }
 // DOMContentLoaded事件处理
-var domready=false;
+var domready = false;
 document.addEventListener('DOMContentLoaded',function(){
-	domready=true;
+	domready = true;
 	document.body.onselectstart=shield;
 },false);
 // 处理返回事件
-w.back=function(hide){
+w.back = function(hide){
 	if(w.plus){
 		ws||(ws=plus.webview.currentWebview());
 		if(hide||ws.preate){
@@ -889,30 +889,59 @@ w.back=function(hide){
 		w.close();
 	}
 };
-var openw=null,waiting=null;
+var openw = null,waiting=null;
 /**
  * 打开新窗口
  * @param {Object} id
  * @param {Object} extras
  */
-w.openWebview = function(id,extras){
-	mui.openWindow({
-	    url:id,
-	    id:id,
-	    extras:extras||{},
-	    styles:{
-//	    	scrollIndicator:"none"
-	    },
-	    show:{
-	      	autoShow:true,//页面loaded事件发生后自动显示，默认为true
-	      	aniShow:'pop-in',//页面显示动画，默认为”slide-in-right“；
-	    },
-	    waiting:{
-	      	autoShow:false
-	    }
-	});
+w.openWebview = function(id,wa,ns,ws){
+	if(openw){//避免多次打开同一个页面
+		return null;
+	}
+	if(w.plus){
+		wa&&(waiting=plus.nativeUI.showWaiting());
+		ws = ws||{};
+		ws.scrollIndicator||(ws.scrollIndicator='none');
+		ws.scalable||(ws.scalable=false);
+		openw = plus.webview.create(id,id,ws);
+		ns||openw.addEventListener('loaded',function(){//页面加载完成后才显示
+			setTimeout(function(){//延后显示可避免低端机上动画时白屏
+				openw.show(as);
+			},200);
+		},false);
+		openw.addEventListener('close',function(){//页面关闭后可再次打开
+			openw = null;
+		},false);
+		return openw;
+	}else{
+		w.open(id);
+	}
+	return null;
 };
-
+/**
+ * 原生导航栏
+ * @param {Object} href
+ */
+w.openNativeTitle = function(href,extras,type){
+	var titleType = type ? 'transparent' : 'default';
+	//打开窗口的相关参数
+	var options = {
+		url:href,
+		id:href,
+		styles:{
+			popGesture: "close",
+			titleNView:{
+				autoBackButton:true,
+				backgroundColor:'#f47e13',
+				titleColor:'#fff',
+				type: titleType
+			}
+		},
+		extras:extras || {}
+	};	
+	mui.openWindow(options);
+}
 /**
  * 关闭当前窗口返回上个窗口并刷新
  * @param {Object} page
@@ -933,13 +962,7 @@ w.returnWindow = function(page){
 		ws.close();
 	}, 300);
 }
-/**
- * 关闭等待框
- */
-w.closeWaiting=function(){
-	waiting && waiting.close();
-	waiting = null;
-}
+
 })(window);
 
 $.plusReady = function(pageReady, pageRefresh, useRefresh) {
@@ -1065,30 +1088,6 @@ function geoInf(position) {
     console.log("## geoInf ## 位置具体信息 : " + JSON.stringify(geolocationGroup));
     plus.storage.setItem("geolocationGroup", JSON.stringify(geolocationGroup));
 }
-/**
- * 原生导航栏
- * @param {Object} href
- */
-var openNativeTitle = function(href,type,extras){
-	var titleType = type ? 'transparent' : 'default';
-	//打开窗口的相关参数
-	var options = {
-		url:href,
-		id:href,
-		styles:{
-			popGesture: "close",
-			//scrollIndicator:"none",
-			titleNView:{
-				autoBackButton:true,
-				backgroundColor:'#f47e13',
-				titleColor:'#fff',
-				type: titleType
-			}
-		},
-		extras:extras || {}
-	};	
-	mui.openWindow(options);
-}
 function checkNumber(theObj) {
 	var reg = /^[0-9]+.?[0-9]*$/;
 	if(reg.test(theObj)) {
@@ -1155,21 +1154,25 @@ function postJSON(url, data, callback,isIcon){
 	if(!isIcon){
 		showLoading("数据加载中..."); 
 	}
-	var xhr = new plus.net.XMLHttpRequest();
+	var xhr = new plus.net.XMLHttpRequest();	
 	xhr.onreadystatechange = function () {
-		console.log("## postJSON ## readyState : "+xhr.readyState)
 	    switch ( xhr.readyState ) {
-	        case 4:
+	        case 4:       	
 	            if ( xhr.status == 200 ) {
             		var responseText = xhr.responseText;
             		console.log("## postJSON ## url : "+url)
             		console.log("## responseText: "+responseText)
-            	 	// var json = eval("(" + responseText + ")");
             	 	var json = JSON.parse(responseText);
-            		callback(json);
+            	 	try{
+						callback(json);
+					}catch(e){						
+						toast("页面异常，请稍后再试！");
+						!isIcon &&  hideLoading();
+						console.error(e)
+					}        		
 	            } else {
-            		toast("抱歉，当前服务不可用，请稍后再试！");
-            		console.log("接口请求失败"+xhr.responseText)
+            		toast("系统服务异常，请稍后再试！");
+            		console.log(url+"接口请求失败 :"+xhr.responseText)
 	            }
 	            !isIcon &&  hideLoading();
 	            break;
@@ -1177,8 +1180,7 @@ function postJSON(url, data, callback,isIcon){
 	            break;
 	    }
     }
-	xhr.open( "POST", url ,true);
-	xhr.timeout = 5000;
+	xhr.open("POST", url);
 	xhr.send(null);
 }
 // 格式化 post 传递的数据
@@ -1206,7 +1208,8 @@ function hideLoading(){
     plus.nativeUI.closeWaiting();  
 }
 function toast(msg){
-	mui.toast(msg,{duration:'short',type:'div'}); 
+	$(".mui-toast-container").remove();
+	mui.toast(msg,{type:'div'}); 
 }
 /**
  * 登录校验
@@ -1238,7 +1241,18 @@ function setLoginData(userinfo) {
 	console.log("## setLoginData ## 用户登录时间 : " + date);
 	console.log("## setLoginData ## 用户基本信息 : " + JSON.stringify(userinfo))
 }
-
+function loginOut(){
+	mui.confirm('', '确认退出登录吗？',['取消','确定'],function(event) {
+		if (event.index == 1) {
+			return;
+		}
+		plus.storage.clear();
+        layer.msg("退出登录成功");
+        setTimeout(function(){
+            openWebview('login.html');
+        },1000);
+	}); 
+}
 function clearLogin() {
 	plus.storage.clear();
 }
@@ -1522,3 +1536,15 @@ function installWgt(path) {
 		plus.nativeUI.alert('应用资源更新失败' + e.message);
 	});
 }
+
+var utils = {
+    renderTemplate: function (tpl, data) {
+        if (typeof template === 'function') {
+            var render = template.compile(tpl);
+            return render(data);
+        }
+        else {
+            alert('请先加载: artTemplate');
+        }
+    }
+};

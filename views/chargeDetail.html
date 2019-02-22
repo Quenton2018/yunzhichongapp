@@ -62,7 +62,7 @@
 			<div class="charge-info">
 				<p class="charge-info-list mui-clearfix">
 					<span class="left">充电桩号</span>
-					<span class="right">桩号D-插座号12</span>
+					<span class="right">桩号{{list.charging.shellId.substr(0, 1)}}-插座号{{list.czId.code | parseInt}}</span>
 				</p>
 				<p class="charge-info-list mui-clearfix">
 					<span class="left">开始时间</span>
@@ -73,7 +73,7 @@
 					<span class="right">{{list.modifyDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</span>
 				</p>
 				<p class="charge-info-list mui-clearfix">
-					<span class="left">充电时长</span>
+					<span class="left">已充时长</span>
 					<span class="right">{{remainder}}</span>
 				</p>
 			</div>
@@ -83,22 +83,24 @@
 	<script type="text/javascript">
 		mui.init();
 		mui.plusReady(function(){
-			loadData();
+			var orderNo = getQueryString("orderNo");
+			loadData(orderNo);
+			window.addEventListener("OffCharge", function(event) {  
+	            var orderNo = event.detail.orderNo;  
+	            loadData(orderNo);
+	        }); 
 		});
 		function leftTimer(leftTime) {
 		  	var hours = checkTime(parseInt(leftTime / 1000 / 60 / 60 % 24, 10)); //计算剩余的小时
 		  	var minutes = checkTime(parseInt(leftTime / 1000 / 60 % 60, 10));//计算剩余的分钟
 		  	var seconds = checkTime(parseInt(leftTime / 1000 % 60, 10));//计算剩余的秒数
-		  	if (hours > 0) 
+		  	if (hours >= 0) 
 		  	return hours + ":" + minutes + ":" + seconds;
-		  	if (hours == 0) 
-		  	return minutes + ":" + seconds;
 		}
 		function checkTime(i) { //将0-9的数字前面加上0，例1变为01
 		  	return i < 10 ? ("0" + i ) : i;
 		}
-		function loadData(){
-			var orderNo = getQueryString("orderNo");
+		function loadData(orderNo){
 			var params = {
 				"uuid": uuid,
 		        "charge_order_number": orderNo

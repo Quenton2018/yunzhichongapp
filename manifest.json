@@ -180,12 +180,12 @@
 						/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
 						/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
 						/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
-						"retina55l": "unpackage/splash/iphone678plus2.png",
-						"iphonex": "unpackage/splash/iphoneX.png",
-						"retina47": "unpackage/splash/iphone678.png",				
-						"retina35": "unpackage/splash/iphone4s.png",
-						"retina40": "unpackage/splash/iphone5.png",
-						"retina55": "unpackage/splash/iphone678plus.png"
+						"retina55l": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus2.png",
+						"iphonex": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphoneX.png",
+						"retina47": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678.png",				
+						"retina35": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone4s.png",
+						"retina40": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone5.png",
+						"retina55": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus.png"
 					},
 					"ipad": {
 						"portrait": "unpackage/splash/iphoneX2.png", /*iPad竖屏启动图片，分辨率：768x1004*/
@@ -201,9 +201,9 @@
 				"android": {
 					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
 					"ldpi": "",
-					"hdpi": "unpackage/splash/android1.png",
-					"xhdpi": "unpackage/splash/android2.png",
-					"xxhdpi": "unpackage/splash/android3.png"
+					"hdpi": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android1.png",
+					"xhdpi": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android2.png",
+					"xxhdpi": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android3.png"
 				}
 			}
 		},
@@ -257,7 +257,12 @@
 					"page/messageList.html",
 					"page/menu.html",
 					"page/shoppingMall.html",
-					"page/edition.html"
+					"page/edition.html",
+					"views/login.html",
+					"views/selectChargeMethod.html",
+					"views/menu.html",
+					"views/shoppingMall.html",
+					"views/messageList.html"
 				]
 			},
 			"page/login.html": {
@@ -1090,6 +1095,122 @@
 				"resources": [],
 				"refer": [
 					"page/iccard.html"
+				],
+				"priority": 0
+			},
+			"views/login.html": {
+				"resources": [],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
+			},
+			"views/selectChargeMethod.html": {
+				"resources": [],
+				"refer": [
+					"views/selectChargeSearch.html",
+					"views/chargeing.html",
+					"views/scanBarcode.html"
+				],
+				"priority": 0
+			},
+			"views/chargeList.html": {
+				"resources": [],
+				"refer": [
+					"views/chargeing.html",
+					"views/chargeDetail.html"
+				],
+				"priority": 0
+			},
+			"views/menu.html": {
+				"resources": [],
+				"refer": [
+					"views/chargeList.html",
+					"views/myWallet.html",
+					"views/myIcCard.html",
+					"views/applyCooperate.html",
+					"views/userInfo.html",
+					"views/customerService.html",
+					"views/invitation.html",
+					"views/setting.html"
+				],
+				"priority": 0
+			},
+			"views/chargeing.html": {
+				"resources": [],
+				"refer": [
+					"views/chargeing.html",
+					"views/chargeList.html",
+					"views/chargeDetail.html"
+				],
+				"priority": 0
+			},
+			"views/myWallet.html": {
+				"resources": [],
+				"refer": [
+					"views/detailsBalance.html",
+					"views/detailsCloudDrill.html"
+				],
+				"priority": 0
+			},
+			"views/applyCooperate.html": {
+				"resources": [],
+				"refer": [
+					"views/applyPartner.html"
+				],
+				"priority": 0
+			},
+			"views/scanBarcode.html": {
+				"resources": [
+					"views/scanSub.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"views/userInfo.html": {
+				"resources": [],
+				"refer": [
+					"views/modifyNickName.html"
+				],
+				"priority": 0
+			},
+			"views/shoppingMall.html": {
+				"resources": [],
+				"refer": [
+					"views/productDetail.html"
+				],
+				"priority": 0
+			},
+			"views/customerService.html": {
+				"resources": [],
+				"refer": [
+					"views/commonProblem.html"
+				],
+				"priority": 0
+			},
+			"views/myIcCard.html": {
+				"resources": [],
+				"refer": [
+					"views/scanBarcode.html",
+					"views/myIcCard_binding.html"
+				],
+				"priority": 0
+			},
+			"views/setting.html": {
+				"resources": [],
+				"refer": [
+					"views/feedback.html",
+					"views/edition.html",
+					"views/faultRepair.html",
+					"views/about.html",
+					"views/deliveryAddress.html"
+				],
+				"priority": 0
+			},
+			"views/scanSub.html": {
+				"resources": [],
+				"refer": [
+					"views/myIcCard_binding.html"
 				],
 				"priority": 0
 			}

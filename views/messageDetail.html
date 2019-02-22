@@ -12,9 +12,9 @@
 		<script src="../js/base.js"></script>
 		<style type="text/css">
 			body{background-color: #f2f2f2;}
-        	.mui-content .mui-scroll-wrapper{padding-top: 85px;width: 94%;left: 3%;overflow: hidden;}
+        	.mui-content .mui-scroll-wrapper{padding-top: 80px;overflow: hidden;}
         	.mui-scrollbar {display: none !important;}  
-        	.mui-table-view{background-color: #f2f2f2;}
+        	.mui-table-view{background-color: #f2f2f2;margin: 0 10px;}
         	.mui-table-view-cell{margin-bottom: 10px;background-color: #fff;border-radius: 5px;}
         	.mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after{display: none;}
 		</style>
@@ -52,15 +52,14 @@
 	</body>
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
-		var g_page = 1;
-		var g_pageSize = 10;
+		var pageNumber = 1;
+		var pageSize = 10;
 		var $dataBox = $("#dataBox");
 		if(window.plus) {
 			pagePlusReady();
 		} else {
 			document.addEventListener('plusready', pagePlusReady, false);
 		}
-
 		function pagePlusReady() {
 			mui.init({
 				pullRefresh: {
@@ -84,7 +83,7 @@
 				'uuid': uuid,
 				'type': 'common',
 				'pageNumber': page,
-				'pageSize': g_pageSize
+				'pageSize': pageSize
 			}
 
 			postJSON(api, data, function(res) {
@@ -92,7 +91,7 @@
 					if(isClear) {
 						$dataBox.html('');
 					}
-					if(res.data.pagedata.lastPage) {
+					if(res.data.pagedata.last) {
 						//加载完毕
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
 					} else {
@@ -108,7 +107,6 @@
 						}
 						var createDate = jsDateDiff(item.createDate / 1000);
 						var messageContent = item.content;
-
 						html += dataTmpl.replace(/{{title}}/g, title)
 							.replace(/{{id}}/g, item.id)
 							.replace(/{{messageContent}}/g, messageContent)
@@ -129,24 +127,21 @@
 		 */
 		function pulldownRefresh() {
 			console.log("## pulldownRefresh ##")
-			g_page = 1;
+			pageNumber = 1;
 			loadData(1, null, true);
-//			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 		}
 		/**
 		 * 上拉加载具体业务实现
 		 */
 		function pullupRefresh() {
 			console.log("## pullupRefresh ##")
-			g_page++;
-			loadData(g_page, null, false);
+			pageNumber++;
+			loadData(pageNumber, null, false);
 		}
 
 		function itemClick(that) {
-			console.log("## itemClick ##")
 			var $this = $(that);
 			var id = $this.attr("data-id")
-			console.log("id:" + id);
 			openWebviewTwo("../page/messageContent.html", id + "");
 		}
 
@@ -160,12 +155,9 @@
 			var elem = this;
 			var li = elem.parentNode.parentNode;
 			mui.confirm('确认删除该条记录？', btnArray, function(e) {
-				if (e.index == 0) {     //删除数据调用接口
+				if (e.index == 0) {     
+					//删除数据调用接口
 					li.parentNode.removeChild(li);
-				} else {
-					setTimeout(function() {
-						$.swipeoutClose(li);
-					}, 0);
 				}
 			});
 		});

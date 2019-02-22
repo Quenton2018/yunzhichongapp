@@ -71,9 +71,7 @@
 		getUserInfo();
 		$("#logOutBtn").click(function(){
 			plus.nativeUI.confirm('确认退出登录吗？', function(event) {
-				if (event.index == 1) {
-					return;
-				}
+				if (event.index == 1) {return;}
 				plus.storage.clear();
 	            layer.msg("退出登录成功");
 	            setTimeout(function(){
@@ -112,7 +110,9 @@
             var nickname = userinfo.nickname;
             var gender = userinfo.gender;
             if(vaildeParam(headImage)){
-                document.getElementById('userAvator').src = headImage;
+            	loadImage(headImage,function () {
+                    $("#userAvator").attr("src",headImage);
+               });
             }
             if(vaildeParam(nickname)){
                 $("#nickname").text(nickname);

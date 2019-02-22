@@ -38,7 +38,7 @@
 		<!--<div class="button" onclick="getCurrentPosition()">获取定位信息</div>-->
 		<div class="footer-btn">
 			<div class="left">
-				<img src="img/app_15.png" id="views/selectChargeMethod.html" onclick="openWebview(this.id)" >
+				<img src="img/app_15.png" onclick="selectChargeMethod()" >
 			</div>
 			<div class="right">
 				<img src="img/app_16.png" id="views/shoppingMall.html" onclick="openWebview(this.id)"  >
@@ -47,9 +47,11 @@
 		</div>
 	</footer>
 		
-<script type="text/javascript">	
+<script type="text/javascript">
 	$.plusReady(function() {
-		checkPermissionPos();
+		checkLogin();
+		
+		getCurrentPosition();
 		
 		checkVersion(); 
 		
@@ -61,11 +63,8 @@
         getUserInfo(); 
         
         getMidBigPic();
-        
-		plus.push.addEventListener("onActivityResult", function(msg) {
-            toast(msg);
-        }, false );
-	},function(){	
+             
+	},function(){
 		getUserInfo(); 
 		checkPermissionPos();
 	});
@@ -77,9 +76,12 @@
                 }else{
                     toast(res.msg);
                     clearLogin();
-                    openWebview("views/login.html");
+            		openWebview("views/login.html");
                 }
             },true)
+        }else{
+        	clearLogin();
+            openWebview("views/login.html");
         }
     }
 	//获取中间banner图片
@@ -102,7 +104,10 @@
             }
         })
     }
-
+	function selectChargeMethod(){
+		plus.storage.removeItem("currentChargeGroupID");
+		openWebview("views/selectChargeMethod.html");
+	}
     //检查定位  
     function checkPermissionPos() {
         var pp = plus.navigator.checkPermission('LOCATION');

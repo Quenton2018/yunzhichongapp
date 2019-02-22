@@ -234,66 +234,39 @@
 				};
 				feedback.newPlaceholder();
 				feedback.submitBtn.addEventListener('tap', function(event) {
-					if (feedback.question.value == '' || (feedback.contact.value != '' && feedback.contact.value.search(/^(\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+)|([1-9]\d{4,9})$/) != 0)) {
-						return layer.msg('信息填写不符合规范');
+					if (feedback.question.value == '') {
+						return layer.msg('问题意见不能为空');
 					}
-					if (feedback.question.value.length > 200 || feedback.contact.value.length > 200) {
-						return layer.msg('信息超长,请重新填写~')
+					if (feedback.question.value.length > 200) {
+						return layer.msg('问题意见内容超长,请重新填写~')
 					}
 					//判断网络连接
 					if(plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_NONE){
 						return layer.msg("连接网络失败，请稍后再试");
 					}
 					feedback.send(mui.extend({}, feedback.deviceInfo, {
+						uuid: uuid,
+						type:0,
 						content: feedback.question.value,
 						contact: feedback.contact.value,
 						images: feedback.files,
 						score:''+starIndex
 					})) 
 				}, false)
-				feedback.send = function(content) {
-					feedback.uploader = plus.uploader.createUpload(url, {
-						method: 'POST'
-					}, function(upload, status) {
-			//			plus.nativeUI.closeWaiting()
-						console.log("upload cb:"+upload.responseText);
-						if(status==200){
-							var data = JSON.parse(upload.responseText);
-							//上传成功，重置表单
-							if (data.ret === 0 && data.desc === 'Success') {
-			//					layer.msg('反馈成功~')
-								console.log("upload success");
-			//					feedback.clearForm();
-							}
+				feedback.send = function(params) {
+		        	postJSON(API_URL.APIFeedbackSaveFeedback,params,function(res){
+						if("0" == res.code){
+							layer.msg("您提交的宝贵意见，我们已经收到");
+							feedback.clearForm();
+							setTimeout(function(){
+								back();
+							},3000);
 						}else{
-							console.log("upload fail");
+							layer.msg(res.msg);
 						}
-						
 					});
-					//添加上传数据
-					mui.each(content, function(index, element) {
-						if (index !== 'images') {
-							console.log("addData:"+index+","+element);
-							feedback.uploader.addData(index, element)
-						} 
-					});
-					//添加上传文件
-					mui.each(feedback.files, function(index, element) {
-						var f = feedback.files[index];
-						console.log("addFile:"+JSON.stringify(f));
-						feedback.uploader.addFile(f.path, {
-							key: f.name
-						});
-					});
-					//开始上传任务
-					feedback.uploader.start();
-					mui.alert("感谢反馈，点击确定关闭","问题反馈","确定",function () {
-						feedback.clearForm();
-						mui.back();
-					});
-				};
-				
-				 //应用评分
+				};			
+				//应用评分
 				mui('.icons').on('tap','i',function(){
 				  	var index = parseInt(this.getAttribute("data-index"));
 				  	var parent = this.parentNode;
@@ -310,11 +283,11 @@
 				  		}
 				  	}
 				  	starIndex = index;
-			  });
+			   });
 			  	//选择快捷输入
 				mui('.mui-popover').on('tap','li',function(e){
-				  document.getElementById("question").value = document.getElementById("question").value + this.children[0].innerHTML;
-				  mui('.mui-popover').popover('toggle')
+				  	document.getElementById("question").value = document.getElementById("question").value + this.children[0].innerHTML;
+				  	mui('.mui-popover').popover('toggle')
 				}) 
 			})();
 			mui.init();

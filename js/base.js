@@ -1,5 +1,5 @@
-var apiHost = "http://api.jx9n.com";
-//apiHost = "http://39.106.62.16:8181";
+//var apiHost = "http://api.jx9n.com";
+apiHost = "http://39.106.62.16:8181";
 //apiHost = "http://192.168.1.17:8181";
 var appVersion = "v3.2"; //app当前版本
 
@@ -72,3 +72,10 @@ API_URL.PSMSMFMiddlewareCharging = apiHost + "/api/oldProducts/charging"; //充�
 
 var PAGE_URL = {};
 PAGE_URL.INVITATION = apiHost + '/page/view/invitation' //邀请页面
+
+API_URL.GetChargingGroup = apiHost + "/api/chargingGroupSearch/getChargingGroup";
+API_URL.GetNearChargingGroup = apiHost + "/api/chargingGroupSearch/getNearChargingGroup";
+API_URL.SearchChargingGroup = apiHost + "/api/chargingGroupSearch/searchChargingGroup";
+//结束充电
+API_URL.TrunOffCharge = apiHost + "/api/DeviceCommand/trunOffCharge";
+

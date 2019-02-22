@@ -11,7 +11,7 @@
     <script src="../js/common.js"></script>
     <script src="../js/base.js"></script>    
     <style type="text/css">
-    	body{overflow: hidden;height: auto;}
+    	body {height: auto;overflow: hidden;}
     	.mui-plus .header-immersed{display:none;}
 		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
 		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
@@ -38,7 +38,7 @@
 			<div class="mui-input-row yzc-ipnut">
 		        <input type="text" name="nickname" class="mui-input-clear" placeholder="请输入你的新昵称">
 		    </div>
-	    	<p class="input-desc">2-16个字符，仅支持中文、英文大小写、数字、“_”、减号及其组合。</p>
+	    	<p class="input-desc">仅支持中文、英文大小写、数字、减号及其组合。</p>
 	    	<div class="btn-submit" id="saveBtn">
 				<span>保存</span>
 			</div>
@@ -47,14 +47,15 @@
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		var uuid;
 		mui.plusReady(function() {
-			uuid = plus.storage.getItem("uuid");
+			plus.webview.currentWebview().setStyle({
+				softinputMode: "adjustResize"
+			});
 		});
 		$("#saveBtn").click(function(){       
 	        var nickname = $("input[name='nickname']").val();
 	        if(!vaildeParam(nickname)){
-	            layer.msg("姓名不能为空");
+	            layer.msg("新昵称不能为空");
 	            return;
 	        }
 	        var data = {

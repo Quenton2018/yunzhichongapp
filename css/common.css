@@ -1,5 +1,10 @@
 @font-face {font-family: "iconfont";
-  src: url('//at.alicdn.com/t/font_965994_6856owpc6m5.ttf?t=1550630919513') format('truetype');
+  src: url('//at.alicdn.com/t/font_965994_6856owpc6m5.eot?t=1550630919513'); /* IE9 */
+  src: url('//at.alicdn.com/t/font_965994_6856owpc6m5.eot?t=1550630919513#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,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') format('woff2'),
+  url('//at.alicdn.com/t/font_965994_6856owpc6m5.woff?t=1550630919513') format('woff'),
+  url('//at.alicdn.com/t/font_965994_6856owpc6m5.ttf?t=1550630919513') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('//at.alicdn.com/t/font_965994_6856owpc6m5.svg?t=1550630919513#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -109,12 +114,16 @@ textarea{overflow:auto;resize:vertical}
 [type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}
 [hidden]{display:none!important}
 .h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6{margin-bottom:.5rem;font-weight: 400;line-height:1.2;color:inherit}
+.button{font-size:18px;font-weight:normal;text-decoration:none;display:block;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#FFF;background-color:#FFCC33;border:1px solid #ECB100;padding:.5em 0em;margin:.5em .7em;-webkit-border-radius:5px;border-radius:5px;}
+.button:active{outline:0;-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,0.125);box-shadow:inset 0 3px 5px rgba(0,0,0,0.125);}
+.button-waring{color:#666;background-color:#ebebeb;border-color:#e0e0e0;}
+.button-select{font-size:14px;background-color:#CCCCCC;border:0;-webkit-border-radius:2px;border-radius:2px;}
 
-#header2{background:#fff;box-shadow:none;}
+/*#header2{background:#fff;box-shadow:none;}
 #header2 .headInner{padding:0 15px;}
 #header2 img{width:48px;}
 #header2 .left{float:left;}
-#header2 .right{float:right;}
+#header2 .right{float:right;}*/
 
 /*.nvbt{width:15%;height:100%;float:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;}
 .nvbt:active{background-color:rgba(170,170,170,0.1);}
@@ -126,10 +135,6 @@ textarea{overflow:auto;resize:vertical}
 .heading{margin:0 1em;text-align:left;}
 .des{padding:0 1em;text-align:left;text-indent:2em;word-break:break-all;}
 
-.button{font-size:18px;font-weight:normal;text-decoration:none;display:block;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#FFF;background-color:#FFCC33;border:1px solid #ECB100;padding:.5em 0em;margin:.5em .7em;-webkit-border-radius:5px;border-radius:5px;}
-.button:active{outline:0;-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,0.125);box-shadow:inset 0 3px 5px rgba(0,0,0,0.125);}
-.button-waring{color:#666;background-color:#ebebeb;border-color:#e0e0e0;}
-.button-select{font-size:14px;background-color:#CCCCCC;border:0;-webkit-border-radius:2px;border-radius:2px;}
 .dlist{padding:0px;margin:1em;background:#fff;border:1px solid #ddd;-webkit-border-radius:3px;border-radius:3px;}
 .ditem{overflow:hidden;list-style-type:none;font-size:1em;padding:1em;border-bottom:inset 1px #ebebeb;vertical-align:middle;}
 .ditem:active{background:#f4f4f4;}
@@ -139,12 +144,12 @@ textarea{overflow:auto;resize:vertical}
 .mui-bar-nav .mui-icon{color:#fff;}
 .myContent{margin:0 2rem;}*/
 
-.text-muted{color:#CECECE;}
+/*.text-muted{color:#CECECE;}
 .myList .listItem{height:50px;line-height:50px;clear:both;}
 .myList .listItem i{color:#CECECE;}
 .myList .left{float:left;}
 .myList .right{float:right;}
-.myList img{display:inline-block;vertical-align:middle;height:40px;}
+.myList img{display:inline-block;vertical-align:middle;height:40px;}*/
 
 
 .header-immersed.mui-bar-nav{height:64px;padding-top:20px;}
@@ -170,6 +175,6 @@ textarea{overflow:auto;resize:vertical}
 .fixed{width:100%;position:fixed;bottom:0;left:0;z-index:100;}
 .logo{width:100%;text-align:center;}
 input{-webkit-user-select:auto!important;}
-.mui-toast-container{bottom:50%;min-width:100px;}
+.mui-toast-container{bottom:50%;min-width:100px;width: 100%;width: calc(100% - 20px);text-align: center;}
 .mui-toast-container.mui-active{opacity:1;}
-.mui-toast-message{line-height:24px;word-break:break-all;overflow:hidden;overflow-x:hidden;overflow-y:auto;color:#fff;background-color:#000;filter:alpha(opacity=60);background-color:rgba(0,0,0,.6);border-radius:4px;}
+.mui-toast-message{display:inline-block;line-height:24px;word-break:break-all;overflow:hidden;overflow-x:hidden;overflow-y:auto;color:#fff;background-color:#000;filter:alpha(opacity=60);background-color:rgba(0,0,0,.6);border-radius:2px;}

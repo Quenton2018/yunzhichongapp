@@ -7,11 +7,13 @@
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/base.js"></script>    
     <style type="text/css">
 		.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+    	.icon-dingwei{color:#FF6D22;font-size:16px;vertical-align:-1px;}
     	.charging-img{
     		background: url(../img/views/charging.png);
     		width: 230px;
@@ -22,7 +24,13 @@
     	}
     	.charging-time{color: #fff;font-weight: bold;}
     	.charging-img p{color: #fff;padding-top: 80px;font-size: 16px;}
-    	.charging h2{font-size: 16px;color: #333;text-align: center;}
+    	.charging h2{font-size: 16px;color: #333;text-align: center;font-weight: bold;}
+    	.charging-desc{margin: 20px 70px 0;border-top: 1px solid #C4C4C4;border-bottom: 1px solid #C4C4C4;padding: 10px 0;}
+    	.charging-desc h2{font-size: 24px;color: #333;margin: 0;}
+    	.charging-desc h2 sub{font-weight: 400;vertical-align: 6px;font-size: 12px;margin-left: 4px;}
+    	.charging-desc p{text-align: center;margin: 0;}
+    	.charging-desc-left{position: relative;}
+    	.charging-desc-left:after{content: '';height: 40px; width: 1px;background: #E0E0E0;position: absolute;right: 0;top: 4px;}
     </style>
 </head>
 <body>
@@ -37,28 +45,59 @@
 				<p>充电时长</p>
 				<h3 class="charging-time">00:00:00</h3>
 			</div>
-			<h2><span id="order-addr"></span>-桩号<span id="order-zh"></span>-插座号<span id="order-cz"></span></h2>
-			<div class="btn-submit" id="inviteBtn">
+			<h2><i class="iconfont icon-dingwei"></i><span id="order-addr"></span>-桩号<span id="order-zh"></span>-插座号<span id="order-cz"></span></h2>
+			<div class="charging-desc">
+				<div class="mui-row">
+					<div class="mui-col-xs-6 charging-desc-left">
+						<h2><span style="font-size: 18px;">充满自停<span></h2>
+						<p>充电方式</p>
+					</div>
+					<div class="mui-col-xs-6">
+						<h2><span class="order-money">0</span><sub>元</sub></h2>
+						<p>冻结金额</p>
+					</div>
+				</div>
+				<div class="mui-row hide">
+					<div class="mui-col-xs-6 charging-desc-left">
+						<h2><span id="order-time">0</span><sub>小时</sub></h2>
+						<p>充电时长</p>
+					</div>
+					<div class="mui-col-xs-6">
+						<h2><span class="order-money">0</span><sub>元</sub></h2>
+						<p>充电金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="btn-submit" id="offBtn" onclick="offCharging(this)">
 				<span>结束充电</span>
 			</div>
 		</div>	
 	</div>
-	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		mui.plusReady(function(){
+		var t = null;
+		$.plusReady(function(){        
 			loadData();
-		});	
+			var ws = plus.webview.currentWebview();
+			var wo = ws.opener();
+			wo.evalJS('dataRefresh()');
+		},dataRefresh);
+		// 刷新页面
+	    function dataRefresh(){
+	        clearInterval(t);
+			loadData();
+	    }
 		/**
 		 * 倒计时
 		 * 
-		 * @param {Object} estimateSeconds 充电总时长
+		 * @param {Object} timeTotal 充电总时长
 		 * @param {Object} seconds 已充电时长
 		 */
-		var countDownTime = function(estimateSeconds, remainingSeconds, goon) {
-			var seconds = estimateSeconds - remainingSeconds;		
-			var estimateHours = parseInt(estimateSeconds / 3600);
-			var estimateMinutes = parseInt(estimateSeconds / 60) - estimateHours * 60;
+		var countDownTime = function(timeTotal, remainingSeconds, goon) {
+			var seconds = timeTotal - remainingSeconds;		
+			var estimateHours = parseInt(timeTotal / 3600);
+			var estimateMinutes = parseInt(timeTotal / 60) - estimateHours * 60;
+			
 //			if (estimateHours > 0) {
 //				$('#remainingTime').html(estimateHours);
 //				$('#remainingTimeUnit').html("小时");
@@ -66,43 +105,48 @@
 //				$('#remainingTime').html(estimateMinutes);
 //				$('#remainingTimeUnit').html("分钟");
 //			} else {
-//				$('#remainingTime').html(estimateSeconds);
+//				$('#remainingTime').html(timeTotal);
 //				$('#remainingTimeUnit').html("秒");
 //			}			
-			showTime(estimateSeconds, remainingSeconds);		
+			showTime(timeTotal, remainingSeconds);		
 			if (goon) {
-				var t = setInterval(function() {
+				t = setInterval(function() {
 					remainingSeconds--;
 					if (remainingSeconds >= 0) {
-						showTime(estimateSeconds, remainingSeconds);
+						showTime(timeTotal, remainingSeconds);
 					}				
-					var uuid = plus.storage.getItem("uuid");
-					var orderNo = getQueryString("orderNo");
-					if(vaildeParam(uuid) && vaildeParam(orderNo)) {
-						// 每五分钟查询一次
-						if (remainingSeconds % 60 == 0 || remainingSeconds <= 0) {
-							postJSONNoIcon(API_URL.ApiUserChargingDetailGetChargeOrder, {
-					        	"uuid": uuid,
-					        	"charge_order_number": orderNo
-					        }, function(res) {
+					// 每五分钟查询一次
+					if (remainingSeconds % 60 == 0 || remainingSeconds <= 0) {
+						var orderNo = getQueryString("orderNo"); 
+						if(vaildeParam(uuid) && vaildeParam(orderNo)) {
+							var params = {
+								"uuid": uuid,
+								"charge_order_number": orderNo
+							}
+					        postJSON(API_URL.ApiUserChargingDetailGetChargeOrder, params, function(res) {
 					        	if ("0" == res.code) {
-					        		console.log('####' + res.data.status)
 					        		if (res.data.endReason != null) {
 					        			window.clearInterval(t);
-					        			plus.nativeUI.alert('充电结束');
+					        			mui.alert('充电结束');
+					        			var w = plus.webview.currentWebview();
+										openWebview("chargeDetail.html?orderNo="+orderNo);
+										setTimeout(function(){
+											w.close("none");
+										},1500);
+										return false;
 					        		}
 					        	}
 					        });
-						}
+					    }
 					}
 				}, 1000);
 			}
-			function showTime(estimateSeconds, remainingSeconds) {
+			function showTime(timeTotal, remainingSeconds) {
 				var timestr;
 				if (remainingSeconds <= 0) {
 					remainingSeconds = 0;
 				}			
-				var seconds = estimateSeconds - remainingSeconds;
+				var seconds = timeTotal - remainingSeconds;
 				var hours = parseInt(seconds / 3600);
 				var minutes = parseInt(seconds / 60) - hours * 60;
 				seconds = seconds % 60;
@@ -114,31 +158,73 @@
 		function loadData(){
 			var orderNo = getQueryString("orderNo");
 			if(vaildeParam(uuid) && vaildeParam(orderNo)) {
-		        postJSON(API_URL.ApiUserChargingDetailGetChargeOrder, {"uuid": uuid,"charge_order_number": orderNo}, function(res) {
+				var params = {
+					"uuid": uuid,
+					"charge_order_number": orderNo
+				}
+		        postJSON(API_URL.ApiUserChargingDetailGetChargeOrder, params, function(res) {
 		        	if ("0" == res.code) {
-		        		var estimateSeconds = res.data.timeTotal * 60;
+		        		if (res.data.endReason != null) {
+		        			window.clearInterval(t);
+		        			mui.alert('充电结束');
+		        			var w = plus.webview.currentWebview();
+							openWebview("chargeDetail.html?orderNo="+orderNo);
+							setTimeout(function(){
+								w.close("none");
+							},1500);
+							return false;
+		        		}
+		        		var timeTotal = res.data.timeTotal * 60;
+		        		var chargingTime = res.data.chargingTime;
+		        		var powerConsumption = res.data.powerConsumption == null ? 0 : res.data.powerConsumption;
+		        		var chargingPower = chargingTime == null ? 0 : parseInt((powerConsumption / 2.7778E-7) / (chargingTime * 60));
 		        		var seconds;
 		        		var goon = res.data.status == 1 && res.data.endReason == null;
 		        		if (goon) {
 		        			seconds = parseInt((res.data.endDate < new Date().getTime() ? 0 : res.data.endDate - new Date().getTime()) / 1000);
 		        		} else {
-		        			seconds = estimateSeconds - parseInt(res.data.chargingTime) * 60;
+		        			seconds = timeTotal - parseInt(chargingTime) * 60;
 		        		}
-		        		countDownTime(estimateSeconds, seconds, goon);        		
 		        		if (res.data.charging.groupId) {
 		        			$('#order-addr').text(res.data.charging.groupId.name);
-		        		}
-		        		$('#order-zh').text(res.data.charging.shellId.substr(0, 1));
-		        		if (res.data.czId) {
+		        			$('#order-zh').text(res.data.charging.shellId.substr(0, 1));
+		        		}		        		
+		        		if (res.data.czId) {		        			
 		        			$('#order-cz').text(parseInt(res.data.czId.code) + 1);
 		        		}
-		        		$('#order-money').text(res.data.amount);
-		        		$('#order-power').text(200);
+		        		if(res.data.method == "1"){
+		        			$(".mui-row").eq(1).addClass('hide').siblings().removeClass('hide');
+		        			$('#order-power').text(chargingPower);			        		
+		        		}else{
+		        			$(".mui-row").eq(0).addClass('hide').siblings().removeClass('hide');
+		        			$('#order-time').text(timeTotal/3600);
+		        		}
+		        		$('.order-money').text(res.data.amount);		        	
+		        		countDownTime(timeTotal, seconds, goon);        			        		
 		        	} else {
 		        		layer.msg(res.msg);
 		        	}
 		        });
 			}
+		}
+		function offCharging(sn){
+			var orderNo = getQueryString("orderNo");
+			var params = {
+				uuid:uuid,
+				sn:orderNo
+			}
+			postJSON(API_URL.TrunOffCharge,params,function(res){
+				if ("0" == res.code) {
+					window.clearInterval(t);
+        			var w = plus.webview.currentWebview();
+					openWebview("chargeDetail.html?orderNo="+orderNo);
+					setTimeout(function(){
+						w.close("none");
+					},1500);		
+				} else {
+	        		layer.msg(res.msg);
+	        	}
+			})
 		}
 	</script>
 </body>

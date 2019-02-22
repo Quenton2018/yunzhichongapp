@@ -20,7 +20,7 @@
     	.list-desc{font-size: 14px;color: #999;padding-left: 15px;margin: 0;}
     	.mui-navigate-right{position: absolute;right: 40px;top: 35px;font-size: 16px;color: #333;}
     	.mui-navigate-right:after, .mui-push-right:after{right: -20px;}
-    	.icon-ditu{color:#FF6D22;font-size:16px;vertical-align:-1px;}
+    	.icon-dingwei{color:#FF6D22;font-size:16px;vertical-align:-1px;}
     	.itemActive{border-bottom: 1px solid #eee;}
 		.itemActive .bottomText{text-align:center;font-size:14px;padding:20px 0 10px;color: #333;}
 		.itemActive .itemActiveInner{background:#C7C7C7;border:#EEE solid 5px;border-radius:30px;text-align:center;margin:0 30px 20px;height:50px;position:relative;color:#fff;overflow:hidden;}
@@ -46,7 +46,7 @@
 		{{each list as item index}}
 			{{if item.status == 1}}
 				<li class="itemActive" onclick="openWebview('chargeing.html?orderNo={{item.sn}}')">
-					<div class="bottomText"> <i class="iconfont icon-ditu"></i> {{item.charging.groupId.name}}  <span style="color: #F57734">桩号{{item.charging.shellId.substr(0, 1)}}-插座号{{item.czId.code | parseInt}}</span></div>
+					<div class="bottomText"> <i class="iconfont icon-dingwei"></i> {{item.charging.groupId.name}}  <span style="color: #F57734">桩号{{item.charging.shellId.substr(0, 1)}}-插座号{{item.czId.code | parseInt}}</span></div>
 	                <div class="itemActiveInner">
 	                    <div class="textBox">剩余时间 : {{item.timeDiffString}}</div>
 	                    <div class="progressBox" style="width: {{item.percent}}%"></div>
@@ -59,7 +59,7 @@
 				{{if item.status == 2 && !item.successFlag}}
 					<p class="list-desc">充电失败，退款已返回至您的钱包</p>
 				{{else}}
-					<p class="list-desc">充电时长{{item.chargingTime}}分钟，您的爱车功率为{{item.powerTotal*1000}}瓦</p>
+					<p class="list-desc">充电成功，已充时长{{item.chargingTime}}分钟</p>
 				{{/if}}
 				<span class="mui-navigate-right">{{item.amount}}元</span>
 			</li>
@@ -76,8 +76,7 @@
 		});		
 		mui.plusReady(function() {
 	        getList();
-	    });
-		
+	    });	
 		// 刷新页面
 	    function dataRefresh(){
 	        pageNumber = 1;

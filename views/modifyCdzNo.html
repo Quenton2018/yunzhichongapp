@@ -40,7 +40,7 @@
 		</div>
 		<form id="modifyForm">
 			<div class="mui-input-row yzc-ipnut">
-		        <input type="tel" id="iccardInput" class="mui-input-clear" placeholder="请输入桩号编码" pattern="\d*" maxlength="10">
+		        <input type="text" id="iccardInput" class="mui-input-clear" placeholder="请输入桩号编码">
 		    </div>
 	    	<p class="input-desc">云智充桩号编码。</p>
 	    	<div class="btn-submit" id="submitBtn">
@@ -53,31 +53,33 @@
 	<script type="text/javascript">
 		mui.init();
 		mui.plusReady(function(){
-			document.getElementById('submitBtn').addEventListener('click', icCardbinding);
-			function icCardbinding() {
-				var cardid = $('#iccardInput').val();
-				if (!/^\d{10}$/.test(cardid)) {
-					layer.msg('请输入桩号编码');
-					return;
-				}		
-				var uuid = plus.storage.getItem("uuid");
-				postJSON(API_URL.ApiMemberCardBindingCard, {
-					"uuid" : uuid,
-					"iccard" : cardid
-				}, function(res) {
-					if (res.code == '0') {
-						layer.msg('绑定成功', function() {
-							var ws=plus.webview.currentWebview();
-		                    var wo = ws.opener();
-		                    wo.evalJS('getList()');		                    
-		                    back();
-						});
-					} else {
-						layer.msg(res.msg);
-					}
-				});
-			}			
+			plus.webview.currentWebview().setStyle({
+				softinputMode: "adjustResize"
+			});					
 		})
+		document.getElementById('submitBtn').addEventListener('tap', icCardbinding);
+		function icCardbinding() {
+			var cardid = $('#iccardInput').val();
+			if (!vaildeParam(cardid)) {
+				layer.msg('请输入桩号编码');
+				return;
+			}		
+			postJSON(API_URL.ApiMemberCardBindingCard, {
+				"uuid" : uuid,
+				"iccard" : cardid
+			}, function(res) {
+				if (res.code == '0') {
+					layer.msg('绑定成功', function() {
+						var ws=plus.webview.currentWebview();
+	                    var wo = ws.opener();
+	                    wo.evalJS('getList()');		                    
+	                    back();
+					});
+				} else {
+					layer.msg(res.msg);
+				}
+			});
+		}
 	</script>
 </body>
 </html>

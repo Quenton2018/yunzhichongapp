@@ -11,7 +11,7 @@
     <script src="../js/common.js"></script>
     <script src="../js/base.js"></script>    
     <style type="text/css">
-    	body{overflow: hidden;height: auto;}
+    	body {height: auto;overflow: hidden;}
     	.mui-plus .header-immersed{display:none;}
 		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
 		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
@@ -53,6 +53,9 @@
 	<script type="text/javascript">
 		mui.init();
 		mui.plusReady(function(){
+			plus.webview.currentWebview().setStyle({
+				softinputMode: "adjustResize"
+			});
 			document.getElementById('submitBtn').addEventListener('click', icCardbinding);
 			function icCardbinding() {
 				var cardid = $('#iccardInput').val();
