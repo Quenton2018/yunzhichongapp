@@ -9,8 +9,8 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
     	.no-iccard{text-align: center;margin: 60px 0 0;}
 		.no-iccard img{width: 213px;height: 172px;}
@@ -59,12 +59,10 @@
 	
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
-		mui.init();
-		mui.plusReady(function(){
+		plusUtils.pageReady(function(){
 			getList();
 		});
 		function getList(){
-			var uuid = plus.storage.getItem("uuid");
 			if (vaildeParam(uuid)) {
 				$('#itemList').html('');
 				postJSON(API_URL.ApiMemberCardGetCardList, {"uuid" : uuid}, function (res) {
@@ -85,9 +83,8 @@
 		}
 		//扫码绑定IC卡
 		function scaned(type, result, file) {
-			var uuid = plus.storage.getItem("uuid");
 			if (vaildeParam(uuid)) {
-	        	plus.nativeUI.confirm('您确认绑定此IC卡？', function(event) {
+	        	mui.confirm('您确认绑定此IC卡？', function(event) {
 					if (event.index == 1) {
 						return;
 					}
@@ -110,11 +107,10 @@
 		}
 		//解除IC卡
 		function unBinging(iccard) {
-			plus.nativeUI.confirm('您确认解除与此卡的绑定？', function(event) {
+			mui.confirm('您确认解除与此卡的绑定？', function(event) {
 				if (event.index == 1) {
 					return;
 				}				
-				var uuid = plus.storage.getItem("uuid");
 				if (vaildeParam(uuid)) {
 	    			postJSON(API_URL.ApiMemberCardUnBindingCard, {
 	    				"uuid": uuid,

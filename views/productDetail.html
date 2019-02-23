@@ -11,8 +11,8 @@
 	<script src="../js/jquery-3.3.1.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../plugins/layer/layer.js"></script>
-	<script src="../js/common.js"></script>
 	<script src="../js/base.js"></script>
+	<script src="../js/common.js"></script>
     <script src="../js/mui.min.js"></script>
 
 	<style type="text/css">
@@ -71,22 +71,16 @@
         <div class="clearfix"></div>
     </div>
 <script type="text/javascript">
-    if(window.plus){
-        pagePlusReady();
-    }else{
-        document.addEventListener('plusready',pagePlusReady,false);
-    }
-    function pagePlusReady(){
-        mui.init();
-        //获得slider插件对象
+    plusUtils.pageReady(function(){
+		//获得slider插件对象
         var gallery = mui('.mui-slider');
         gallery.slider({
             interval:0//自动轮播周期，若为0则不自动播放，默认为0；
         });
         getProduct();
-    }
+	});
     function getProduct(){
-        var productId = plus.storage.getItem("productId");
+        var productId = plusUtils.Storage.getItem("productId");
         var dataParam = {
             "productId":productId
         }
@@ -122,7 +116,6 @@
      * 获取用户信息
      */
     function getUserInfo(){
-        var uuid = plus.storage.getItem("uuid");
         if(vaildeParam(uuid)){
             postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
                 if("0" == res.code){

@@ -9,8 +9,8 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
     	.banner img{width: 247px;height: 145px;margin: 20px auto 10px;display: block;}
 		.customer-tel{color: #5C5C5C;font-size: 16px;text-align: center;}
@@ -51,10 +51,9 @@
 	
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
-		mui.init();
-		mui.plusReady(function(){
-			getList();
-		})
+		plusUtils.pageReady(function() {
+	        getList();
+	    });	
 		function getList(){
 			if(vaildeParam(uuid)){
 				var dataParam = {

@@ -9,9 +9,8 @@
 	<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="plugins/layer/layer.js"></script>
-	<script src="js/plusUtils.js"></script>
-	<script src="js/common.js"></script>
 	<script src="js/base.js"></script>
+	<script src="js/common.js"></script>
 	<script src="js/mui.min.js"></script>
     <style type="text/css">
 		.mui-content{background-image:url("img/app_11.png");background-size:cover;padding-bottom:110px;}
@@ -25,9 +24,9 @@
 </head>
 <body>
 	<header class="header header-immersed mui-bar mui-bar-nav">
-		<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openWebview('views/menu.html')"></a>
+		<a class="mui-icon iconfont icon-person mui-pull-left" href="views/menu.html"></a>
 		<h1 class="mui-title">首页</h1>
-		<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openWebview('views/messageList.html')"></a>	
+		<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" href="views/messageList.html"></a>	
 	</header>
 	
 	<div class="mui-content" style="padding-top: 80px;">
@@ -37,42 +36,39 @@
 	<footer class="footer" style="text-align: center">
 		<!--<div class="button" onclick="getCurrentPosition()">获取定位信息</div>-->
 		<div class="footer-btn">
-			<div class="left">
+			<div class="left">			
 				<img src="img/app_15.png" onclick="selectChargeMethod()" >
 			</div>
 			<div class="right">
-				<img src="img/app_16.png" id="views/shoppingMall.html" onclick="openWebview(this.id)"  >
+				<a href="views/shoppingMall.html">
+					<img src="img/app_16.png">
+				</a>
 			</div>
 			<div style="clear: both"></div>
 		</div>
 	</footer>
 		
 <script type="text/javascript">
-	$.plusReady(function() {
-		checkLogin();
-		
-		getCurrentPosition();
-		
-		checkVersion(); 
-		
-    	// 热更新
-    	heatUpdate(plus.os.name);
-
-//		uploadLoginInfo('page/login.html');
-		//获取用户信息
-        getUserInfo(); 
-        
-        getMidBigPic();
-             
-	},function(){
-		getUserInfo(); 
-		checkPermissionPos();
+	var Permission = 'authorized';
+	plusUtils.pageReady(function(){
+		getMidBigPic();	
+        getUserInfo();       
+		checkPermissionPos();	
+		checkVersion(); 		
+    	heatUpdate(); // 热更新
 	});
+	plusRefresh(dataRefresh);
+	//刷新页面
+	function dataRefresh(){
+		getUserInfo();
+     	checkPermissionPos();
+	}
+	//获取用户信息
     function getUserInfo(){
         if(vaildeParam(uuid)){
             postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
                 if("0" == res.code){
-                	setLoginData(res.data);
+              		setLoginData(res.data);
                 }else{
                     toast(res.msg);
                     clearLogin();
@@ -80,6 +76,7 @@
                 }
             },true)
         }else{
+        	toast("用户不存在");
         	clearLogin();
             openWebview("views/login.html");
         }
@@ -105,14 +102,15 @@
         })
     }
 	function selectChargeMethod(){
-		plus.storage.removeItem("currentChargeGroupID");
+		plusUtils.Storage.removeItem("chargingGroupId");
 		openWebview("views/selectChargeMethod.html");
 	}
     //检查定位  
     function checkPermissionPos() {
-        var pp = plus.navigator.checkPermission('LOCATION');
-        console.log("## 获取定位权限 ##: "+pp)            
-        switch(pp){
+    	var Permission = 'authorized';
+//  	Permission = plus.navigator.checkPermission('LOCATION');
+        console.log("## 获取定位权限 ##: "+ Permission)            
+        switch(Permission){
             case 'authorized':
 				console.log('已开启定位权限');
 				getCurrentPosition();
@@ -129,6 +127,7 @@
                 break;
             default:
 				console.log('不支持定位权限');
+				openSystemPositionServer();
                 break;
         }
     }       
@@ -147,6 +146,17 @@
 			}
 		})
 	}
+	//页面点击事件
+	mui('body').on('tap', 'a', function() {
+		var href = this.getAttribute('href');
+		if(!href) return;
+		//非plus环境，直接走href跳转
+		if(!mui.os.plus) {
+			location.href = href;
+			return;
+		}
+		openWebview(href);
+	});
 </script>
 
 </body>

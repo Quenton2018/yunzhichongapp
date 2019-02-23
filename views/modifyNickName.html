@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script>
+    <script src="../js/common.js"></script>    
     <style type="text/css">
     	body {height: auto;overflow: hidden;}
     	.mui-plus .header-immersed{display:none;}
@@ -47,10 +47,12 @@
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		mui.plusReady(function() {
-			plus.webview.currentWebview().setStyle({
-				softinputMode: "adjustResize"
-			});
+		plusUtils.pageReady(function(){
+			if(mui.os.plus){
+				plus.webview.currentWebview().setStyle({
+					softinputMode: "adjustResize"
+				});	
+			}			
 		});
 		$("#saveBtn").click(function(){       
 	        var nickname = $("input[name='nickname']").val();

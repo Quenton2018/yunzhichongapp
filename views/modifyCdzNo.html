@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script>  
+    <script src="../js/common.js"></script>  
     <style type="text/css">
     	body{overflow: hidden;height: auto;}
     	.mui-plus .header-immersed{display:none;}
@@ -40,7 +40,7 @@
 		</div>
 		<form id="modifyForm">
 			<div class="mui-input-row yzc-ipnut">
-		        <input type="text" id="shellId" class="mui-input-clear" placeholder="请输入外壳条码编号" value="X1852312">
+		        <input type="text" id="shellId" class="mui-input-clear" placeholder="请输入外壳条码编号" >
 		    </div>
 	    	<p class="input-desc">输入充电桩上条形码上的数字（如M1867262）</p>
 	    	<div class="btn-submit" id="submitBtn">
@@ -52,10 +52,12 @@
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		mui.plusReady(function(){
-			plus.webview.currentWebview().setStyle({
-				softinputMode: "adjustResize"
-			});					
+		plusUtils.pageReady(function(){
+			if(mui.os.plus){
+				plus.webview.currentWebview().setStyle({
+					softinputMode: "adjustResize"
+				});	
+			}			
 		})
 		document.getElementById('submitBtn').addEventListener('tap', function () {
 			var shellId = $('#shellId').val();
@@ -68,9 +70,9 @@
 					var cdzID = res.data.id;
 					var scanGroup = res.data.groupId;
 					if(vaildeParam(scanGroup)) {
-						plus.storage.setItem("chargingGroupId",scanGroup.id+"");
+						plus.storage.setItem("chargingGroupId",scanGroup.id);
 						plus.storage.setItem("addresses",scanGroup.name);
-						plus.storage.setItem("inputCdzID",cdzID+"");
+						plus.storage.setItem("inputCdzID",cdzID);
 						returnWindow("selectChargeMethod.html");
 					}			
 				} else {

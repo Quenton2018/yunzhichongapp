@@ -11,8 +11,8 @@
 	<script src="../js/jquery-3.3.1.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../plugins/layer/layer.js"></script>
-	<script src="../js/common.js"></script>
 	<script src="../js/base.js"></script>
+	<script src="../js/common.js"></script>
 	<style type="text/css">
 		.myContent{padding: 0 2rem;background: #fff;}
         .headInner{font-size:.8rem;margin-top: 7px;color: #fff;}
@@ -92,26 +92,24 @@
 <script type="text/javascript">
     var pageNumber = 1;
     var pageSize = 4;
-    
-    pullRefresh(dataRefresh,function() {	
-		pageNumber++;
-		getList();	
-	});	
-	
-	mui.plusReady(function() {
+    plusUtils.pageReady(function(){
 		getUserInfo();
         getList();
-    });
+	});
+	pullRefresh(dataRefresh,function() {	
+		pageNumber++;
+		getList();	
+	});
 	// 刷新页面
     function dataRefresh(){
         pageNumber = 1;
+        getUserInfo();
         getList();
     }
     /**
      * 获取用户信息
      */
     function getUserInfo(){
-        var uuid = plus.storage.getItem("uuid");
         if(vaildeParam(uuid)){
             postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
                 if("0" == res.code){
@@ -119,7 +117,9 @@
                     mobile  = mobile.substr(0, 3) + '****' + mobile.substr(7);
                     $("#mobileBox").text(mobile);
                     $("#pointsBox").text(res.data.points);
-                    $("#avatorBox").attr("src",getHeadImg(res.data.headImage));
+                    if(vaildeParam(res.data.headImage)){
+                    	$("#avatorBox").attr("src",res.data.headImage);
+                    }                   
                 }else{
                     layer.msg(res.msg);
                     clearLogin();
@@ -129,13 +129,8 @@
         }
     }
 
-    /**
-     * 签到按钮
-     */
-
     $("#qianDao").click(function () {
         var api = "${base}/api/userSign/clickSign.do";
-        var uuid = plus.storage.getItem("uuid");
         var data = {
             "uuid":uuid
         }
@@ -150,11 +145,8 @@
             }
 
         })
-    })
-
-
+    });
     function getList(){
-        var uuid = plus.storage.getItem("uuid");
         if(vaildeParam(uuid)){
             var dataParam = {
                 "uuid":uuid,
@@ -193,7 +185,7 @@
     }
     function bindItemClick(that){
         var id = $(that).attr("data-id");
-    	plus.storage.setItem("productId", id);
+    	plusUtils.Storage.setItem("productId", id);
     	openWebview("productDetail.html");
     }
 </script>

@@ -63,13 +63,8 @@
 						"appkey_ios": "5441778696047"
 					}
 				},
-				"maps": {
-					"baidu": {
-						"appkey_ios": "tnrUD5Gd9EaqKVDqllc2ACRBouFCV3Dv",
-						"appkey_android": "f5VvE7SxGGaXAi6QvHFxHs39Ecdd8qv5",
-						"appkey": "",
-						"description": ""
-					}
+				"maps": {"amap":{"appkey_ios":"","appkey_android":"","description":""}
+					
 				},
 				"share": {
 					"weixin": {
@@ -262,7 +257,8 @@
 					"views/selectChargeMethod.html",
 					"views/menu.html",
 					"views/shoppingMall.html",
-					"views/messageList.html"
+					"views/messageList.html",
+					"views/recharge.html"
 				]
 			},
 			"page/login.html": {
@@ -1110,7 +1106,8 @@
 				"refer": [
 					"views/selectChargeSearch.html",
 					"views/chargeing.html",
-					"views/scanBarcode.html"
+					"views/scanBarcode.html",
+					"views/login.html"
 				],
 				"priority": 0
 			},
@@ -1132,7 +1129,8 @@
 					"views/userInfo.html",
 					"views/customerService.html",
 					"views/invitation.html",
-					"views/setting.html"
+					"views/setting.html",
+					"views/login.html"
 				],
 				"priority": 0
 			},
@@ -1203,14 +1201,16 @@
 					"views/edition.html",
 					"views/faultRepair.html",
 					"views/about.html",
-					"views/deliveryAddress.html"
+					"views/deliveryAddress.html",
+					"views/login.html"
 				],
 				"priority": 0
 			},
 			"views/scanSub.html": {
 				"resources": [],
 				"refer": [
-					"views/myIcCard_binding.html"
+					"views/myIcCard_binding.html",
+					"views/modifyCdzNo.html"
 				],
 				"priority": 0
 			}

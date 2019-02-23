@@ -9,14 +9,11 @@
 	<title>兑换记录</title>
 	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
-	<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
-	<!--引入公用样式-->
-	<link rel="stylesheet" type="text/css" href="../css/public.css" />
 	<script src="../js/jquery-3.3.1.min.js"></script>
 	<script src="../js/mui.min.js"></script>
 	<script src="../plugins/layer/layer.js"></script>
-	<script src="../js/common.js"></script>
 	<script src="../js/base.js"></script>
+	<script src="../js/common.js"></script>
 	<style type="text/css">
 		.bottom-content p{font-size:18px;color:#000000;}
 		.middle-content{background:#ffffff;}
@@ -63,21 +60,13 @@
 <script type="text/javascript">
     var pageNumber = 1;
     var pageSize = 5;
-
-    if(window.plus){
-        pagePlusReady();
-    }else{
-        document.addEventListener('plusready',pagePlusReady,false);
-    }
-
-    function pagePlusReady(){
+    plusUtils.pageReady(function(){
         $("#loadMore").css({"display":"none"});
         $("#noMore").css({"display":"none"});
         getList();
-    }
+    });
 
     function getList(){
-        var uuid = plus.storage.getItem("uuid");
         if(vaildeParam(uuid)){
             var dataParam = {
                 "uuid":uuid,

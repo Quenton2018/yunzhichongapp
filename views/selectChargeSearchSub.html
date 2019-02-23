@@ -9,8 +9,8 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script>
+    <script src="../js/common.js"></script>    
     <style type="text/css">
     	body{overflow: hidden;height: auto;}
     	.mui-plus .header-immersed{display:none;}
@@ -26,9 +26,9 @@
 		.dw-relocation{float: right;font-size: 12px;color: #FF6D22;}
 		.dw-relocation i{padding-right: 5px;vertical-align: -1px;}
 		.yzc-dw-text{border-bottom: 1px solid #C4C4C4;padding-bottom: 10px;}
-		.near-cdz-title{font-size: 15px;font-weight: 400;padding-top: 10px;color: #AFAFAF;}
+		.near-cdz-title,.search-cdz-title{font-size: 15px;font-weight: 400;padding-top: 10px;color: #AFAFAF;}
 		.mui-table-view:before,.mui-table-view:after{height: 0;}
-		.list-cdz{list-style: none;padding: 10px 0;border-bottom: 1px solid #F0F0F0;}
+		.list-cdz{list-style: none;padding: 10px 0;border-bottom: 1px solid #F0F0F0;color: #4D4D4D;}
 		.list-cdz.active{color: #F97A1A;}
 		.list-cdz em{color: #F97A1A;font-style: normal;}
 		.icon-cdz{padding-right: 2px;}
@@ -50,6 +50,7 @@
 				</form>		
 			</div>
 			<div class="search-content">
+				<h2 class="search-cdz-title hide">相关充电桩地址</h2>
 				<ul class="mui-table-view" id="searchList"></ul>
 			</div>
 			<div class="yzc-cdz">
@@ -72,8 +73,8 @@
 	<script type="text/html" id="listTmpl" >	
 		<!--<li class="list-cdz" data-id="389" onclick="selectChargingGroupAction(this)">太原市南内环街裕华苑</li>-->
 		{{each list as item index}}
-			{{if item.nameDisplay}}
-			<li class="list-cdz" data-id="{{item.id}}" onclick="selectChargingGroupAction(this)">{{#item.nameDisplay}}</li>
+			{{if item.nameDisplay}}			
+			<li class="list-cdz" data-id="{{item.code}}" onclick="selectChargingGroupAction(this)">{{#item.nameDisplay}}</li>
 			{{else}}
 			<li class="list-cdz" data-id="{{item.id}}" onclick="selectChargingGroupAction(this)">{{item.name}}</li>
 			{{/if}}
@@ -83,10 +84,7 @@
 	<script type="text/javascript">
 		var $addressInfo = $("#addressInfo");
 		//当前选择的片区
-		var currentChargeGroupID = null;
-		var scanCdzID = null;
-		//上次使用的充电桩ID
-		var lastUseCdzID = null;
+		var groupID   = null;
 		//用户定位信息
 		var geolocationGroup = {};
 		//附近的片区
@@ -95,6 +93,9 @@
 		var lastUseChargingGroup = null;	
 		mui.init();
 		mui.plusReady(function(){
+			plus.webview.currentWebview().setStyle({
+				softinputMode: "adjustResize"
+			});
 			getAddress();
 			getChargingGroupNearList();
 		})	
@@ -161,14 +162,14 @@
 		function selectChargingGroupAction(that) {
 			var $this = $(that);
 			$this.addClass('active');
-			currentChargeGroupID = $this.attr("data-id");
+			groupID = $this.attr("data-id");
 			var address = $this.text();
-			plus.storage.setItem("currentChargeGroupID",currentChargeGroupID);
+			plus.storage.setItem("chargingGroupId",groupID);
 			plus.storage.setItem("addresses",address);
 			returnWindow("selectChargeMethod.html");
 		}
 		$("#search").on("focus",function(){
-			$(".yzc-cdz").hide()
+			$(".yzc-cdz").hide();
 		})
 //		$("#search").on('input propertychange',function(){
 //			doSearch();
@@ -194,7 +195,8 @@
 						if(vaildeParam(res.data)) {
 							var data = {'list':res.data};
 							var Html = template('listTmpl', data);
-							$('#searchList').html(Html);						
+							$('#searchList').html(Html);
+							$('.search-cdz-title').removeClass('hide');
 						} else {
 							$('#searchList').html('<p style="padding: 10px">暂无数据</p>');
 						}
@@ -202,7 +204,9 @@
 						layer.msg(res.msg);
 					}
 				});
-			}		
+			}else{
+				$(".yzc-cdz").show();
+			}
 		}
 	</script>
 </body>

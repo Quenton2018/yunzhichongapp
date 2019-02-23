@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
 		.logo{margin: 50px 0;}
 		.logo h2{color: #333;font-size: 18px;padding: 10px 0;}
@@ -39,11 +39,10 @@
 	</div>
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
-		$(".appVersion1").text(appVersion)
-		mui.init();
-		mui.plusReady(function(){		
-        	checkVersion();
-		});
+		$(".appVersion1").text(appVersion);
+		plusUtils.pageReady(function() {
+	        checkVersion();
+	    });
 		/**
      	* 检查版本
      	*/

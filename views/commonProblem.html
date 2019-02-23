@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script>
+    <script src="../js/common.js"></script>    
     <style type="text/css">
 		.mui-plus .header-immersed{display:none;}
 		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
@@ -39,9 +39,9 @@
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		mui.plusReady(function(){
-			getArticleContent();
-		});
+		plusUtils.pageReady(function() {
+	        getArticleContent();
+	    });	
 		function getArticleContent(){
         	var ws = plus.webview.currentWebview();  
         	var params = {

@@ -8,13 +8,12 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
 		.user-list{padding: 20px;border-bottom: 1px solid #eee;position: relative;}
 		.list-laber{font-size: 16px;color: #333;margin: 0;}
-    	.navigate{position: absolute;right: 24px;top: 20px;font-size: 15px;color: #999999;}
-    	/*.mui-navigate-right:after, .mui-push-right:after{right: -20px;}*/
+    	.navigate{position: absolute;right: 24px;top: 20px;font-size: 15px;color: #999;}
     	.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
     </style>
 </head>
@@ -48,24 +47,12 @@
 			</li>
 		</ul>
 	</div>
-	<div class="btn-submit" id="logOutBtn">
+	<div class="btn-submit" onclick="loginOut()">
 		<span>退出登录</span>
 	</div>
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		mui.plusReady(function(){
-			$("#logOutBtn").click(function(){
-				plus.nativeUI.confirm('确认退出登录吗？', function(event) {
-					if (event.index == 1) {return;}
-					plus.storage.clear();
-		            layer.msg("退出登录成功");
-		            setTimeout(function(){
-		                openWebview('login.html');
-		            },1000);
-				});         
-	        });
-		})
 	</script>
 </body>
 </html>

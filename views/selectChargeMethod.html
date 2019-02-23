@@ -13,11 +13,12 @@
 		<script src="../js/artTemplate.min.js"></script>
 		<script src="../plugins/layer/layer.js"></script>
 		<script src="../plugins/swiper-4.2.2/swiper-4.2.2.min.js"></script>
-		<script src="../js/common.js"></script>
 		<script src="../js/base.js"></script>
+		<script src="../js/common.js"></script>
 		<script src="../js/mui.min.js"></script>
 		<style type="text/css">
-			body{width:100%;overflow-x:hidden;}
+			body{width:100%;height:auto;overflow-x:hidden;min-height: 100%;}
+			.mui-bar .mui-title{margin: 0 20px;}
 			.mui-main{margin-top: 20px;}
 			.myContent{margin:0 10px;padding-bottom:5px;background: #fff;border-radius: 10px;}
 			.swiper-container{}
@@ -34,7 +35,7 @@
 			.SockeBox span.active b{background:#F17746;color:#fff;}
 			.SockeBox span.disabled b{background:#EDEDED;color:#fff;}
 			
-			.timeBox{padding:15px;padding-top:0;}
+			.timeBox{padding: 10px 15px;padding-top:0;}
 			.timeBox span{display:block;float:left;width:33%;text-align:center;position:relative;}
 			.timeBox span.active b{background:#F17746;color:#fff;}
 			.timeBox span b{display:block;margin:5px;background:#F2F2F2;line-height:2.4rem;font-size:13px;font-weight:bold;border-radius:28px;color:#666;box-shadow:1px 1px 2px #888888;letter-spacing:1px;}
@@ -62,10 +63,10 @@
 			.chargingPriceDesc .desc-right span{float: left;width: 50%;display: inline-block;text-align: left;}
 			.chargingPriceDesc .desc-right span:nth-child(even){text-align: right;}
 			
-			.footer{position:fixed;width:100%;left:0;bottom:0;color:#fff;line-height:50px;height:50px;vertical-align:middle;-webkit-transform:translateZ(0);background:#FF7546;background:-moz-linear-gradient(top,#FF7546 0%,#F08200 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#FF7546),color-stop(100%,#F08200));background:-webkit-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-o-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-ms-linear-gradient(right,#FF7546 0%,#F08200 100%);background:linear-gradient(to right,#FF7546 0%,#F08200 100%);}
+			.footer{position:fixed;width:100%;left:0;bottom:0;color:#fff;line-height:60px;height:60px;vertical-align:middle;-webkit-transform:translateZ(0);background:#FF7546;background:-moz-linear-gradient(top,#FF7546 0%,#F08200 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#FF7546),color-stop(100%,#F08200));background:-webkit-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-o-linear-gradient(right,#FF7546 0%,#F08200 100%);background:-ms-linear-gradient(right,#FF7546 0%,#F08200 100%);background:linear-gradient(to right,#FF7546 0%,#F08200 100%);}
 			.footer .left{float:left;padding-left:15px;position:absolute;color:#fff;display:none;}
 			.footer .left b{vertical-align:middle;position:relative;font-weight:400;}
-			.footer .right{float:left;background:none;text-align:center;width:100%;border-left:none;border-radius:0;font-size:16px;font-weight:500;}
+			.footer .right{float:left;background:none;text-align:center;width:100%;border-left:none;border-radius:0;font-size:18px;font-weight:500;}
 			
 			.guide-wrapper{display:none;}
 			.guide{position:absolute;left:0;top:0;width:100%;height:100%;float:left;background:#000000 no-repeat left top;background-size:contain;opacity:1;}
@@ -76,11 +77,12 @@
 			.guide4{background-image:url(../img/guide/4.png);z-index:100006;}
 			.guide5{background-image:url(../img/guide/5.png);z-index:100005;}
 			.icon-richscan{font-size:18px;color: #fff;font-weight: bold;padding: 12px;}
+			.content-bg{position: absolute; z-index: -1; width: 100%; height: 202px; float: left; top: 0;left: 0; background-color: #FF7F3E;}
 		</style>
 	</head>
-<body style="background: #F7F7F7;">
-	<div style="position: absolute; z-index: -1; width: 100%; height: 202px; float: left; top: 0;left: 0; background-color: #FF7F3E;"></div>
-
+<body style="background: #F7F7F7;">   
+	<div class="content-bg"></div>
+	
 	<header class="header header-immersed mui-bar mui-bar-nav" style="background: none;">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		<h1 class="mui-title" onclick="openNativeTitle('selectChargeSearch.html')"><i class="iconfont icon-map"></i><span id="cd-title">定位中..</span><i class="mui-icon mui-icon-forward" style="font-size: 18px;"></i></h1>
@@ -149,7 +151,7 @@
 	</div>
 	<footer id="footer" class="footer mui-clearfix">
 		<div class="left">
-			价格 : &yen; <b class="priceBox" style="vertical-align: 0px;">0</b>
+			价格 : ￥<b class="priceBox" style="vertical-align: 0px;">0</b>
 		</div>
 		<div class="right" id="submitBtn">
 			开始充电
@@ -253,12 +255,14 @@
 	var scanGroup  = null;   	  //扫一扫的片区
 	var scanCdzID  = null;		  //扫一扫的充电桩ID	
 	var priceDesc  = [];	      // 价格描述
-	
-	$.plusReady(function(){
+
+	plusUtils.pageReady(function(){
 		checkLogin();	
-		geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
+		geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
 		getChargingGroup();		
-	},dataRefresh);
+	});
+	
+	plusRefresh(dataRefresh);	
 	// 刷新页面
 	function dataRefresh() {
 		getChargingGroup();
@@ -285,9 +289,9 @@
 	}
 	//初始化根据定位获取最近的充电桩地址
 	function getChargingGroup(){
-		groupID = plus.storage.getItem("chargingGroupId");
-		addresses = plus.storage.getItem("addresses");
-		inputCdzID = plus.storage.getItem("inputCdzID");
+		groupID = plusUtils.Storage.getItem("chargingGroupId");
+		addresses = plusUtils.Storage.getItem("addresses");
+		inputCdzID = plusUtils.Storage.getItem("inputCdzID");
 		console.log("##groupID:"+groupID)
 		if(vaildeParam(groupID)){
 			console.log("##选中充电桩地址："+addresses+" 片区编号："+groupID)
@@ -296,8 +300,10 @@
 			getChargingGroupPrice(groupID);
 		}else{
 			if(!vaildeParam(geolocationGroup)){
+				layer.msg("定位失败，请重新定位");
 				getCurrentPosition();
-				geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
+				geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
+				return;
 			}
 			var params = {
 				uuid:uuid,
@@ -397,7 +403,7 @@
 		}
 	}
 	//插座点击事件
-	$("body").on('click','.SockeBox .item',function(){
+	mui("body").on('tap','.SockeBox .item',function(){
 		$(this).addClass('active').siblings().removeClass('active');
 	});
 	//获取充电桩充电时长	
@@ -424,7 +430,7 @@
 		},true)
 	}
 	//充电时长点击事件
-	$("body").on('click','.list-time',function(){
+	mui("body").on('tap','.list-time',function(){
 		var state = $(this).attr('data-state');
 		var price = $(this).attr("data-money");
 		var priceId = $(this).attr("data-id");
@@ -485,7 +491,6 @@
 			layer.msg("你还没选择时间");
 			return;
 		}
-		var uuid = plus.storage.getItem("uuid");
 		showLoadingSuccess();
 		var data = {
 			"uuid": uuid,

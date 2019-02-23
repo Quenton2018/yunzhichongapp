@@ -9,8 +9,8 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script>
+    <script src="../js/common.js"></script>    
     <style type="text/css">
     	body{overflow: hidden;height: auto;}
     	.mui-plus .header-immersed{display:none;}
@@ -91,22 +91,26 @@
 		var nearChargingGroupList = null;
 		//上次使用的片区
 		var lastUseChargingGroup = null;	
-		mui.init();
-		mui.plusReady(function(){
-			plus.webview.currentWebview().setStyle({
-				softinputMode: "adjustResize"
-			});
+		plusUtils.pageReady(function(){
 			getAddress();
 			getChargingGroupNearList();
+			if(mui.os.plus){
+				plus.webview.currentWebview().setStyle({
+					softinputMode: "adjustResize"
+				});
+			}
 		})	
 		//获取定位地址
 		function getAddress(){
-			geolocationGroup = JSON.parse(plus.storage.getItem("geolocationGroup"));
+			geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
 			if(vaildeParam(geolocationGroup)){
 				var addresses = geolocationGroup.addresses;
 				setTimeout(function(){
 					$('.dw-title').text(addresses);				
 				},400);		
+			}else{
+				layer.msg("定位失败，请重新定位");
+				return;
 			}
 		}
 		$('.dw-relocation').on('tap',function(){
@@ -119,7 +123,7 @@
 		 * 获取附近的片区
 		 */
 		function getChargingGroupNearList() {
-			var uuid = plus.storage.getItem("uuid");
+			var uuid = plusUtils.Storage.getItem("uuid");
 			if(!vaildeParam(geolocationGroup.longitude) || !vaildeParam(geolocationGroup.latitude)) {
 				layer.msg("定位失败，请重新定位");
 				return;
@@ -164,8 +168,8 @@
 			$this.addClass('active');
 			groupID = $this.attr("data-id");
 			var address = $this.text();
-			plus.storage.setItem("chargingGroupId",groupID);
-			plus.storage.setItem("addresses",address);
+			plusUtils.Storage.setItem("chargingGroupId",groupID);
+			plusUtils.Storage.setItem("addresses",address);
 			returnWindow("selectChargeMethod.html");
 		}
 		$("#search").on("focus",function(){

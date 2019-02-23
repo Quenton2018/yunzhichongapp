@@ -9,8 +9,8 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
     	.mui-tab{overflow: hidden;margin: 20px 50px;border: 1px solid #FF6D22;border-radius: 5px;}
 		.mui-tab-sub{color: #666666;font-size: 14px;float: left;padding: 6px 0;text-align: center;}
@@ -64,17 +64,16 @@
 		var pageNumber = 1;
     	var pageSize = 10;
     	var consumptionType = "1";  //消费明细：1 充值明细：0
-		mui.init();
-		mui.plusReady(function(){
-			getList();
-		});
+    	plusUtils.pageReady(function() {
+	        getList();
+	    });
 		pullRefresh(dataRefresh,function() {	
 			pageNumber++;
 	        getList();
 		});
 		// 刷新页面
 	    function dataRefresh(){
-	        pageNumber=1;
+	        pageNumber = 1;
 	        getList();
 	    }
 		function getList(){
@@ -112,7 +111,7 @@
 	            })
 	        }
 	    }
-		$(".mui-tab-sub").on('click',function(){
+		mui("body").on('tap',".mui-tab-sub",function(){
 			$(this).addClass('active').siblings().removeClass('active');
 			enableRefresh();
 			consumptionType = $(this).attr('data-Type');

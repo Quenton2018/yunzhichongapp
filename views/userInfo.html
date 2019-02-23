@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
     	.user-img{text-align: center;padding: 30px 0 20px;}
     	.user-avator{width: 120px;height: 120px;position: relative;margin:0 auto;}
@@ -58,27 +58,14 @@
 				<span class="navigate mui-navigate-right">设置</span>
 			</li>
 		</ul>
-		<div class="btn-submit" id="logOutBtn">
+		<div class="btn-submit" onclick="loginOut()">
 			<span>退出登录</span>
 		</div>
 	</div>
 <script src="../js/mui.min.js"></script>
 <script type="text/javascript">
-	var uuid = null;
-	mui.init();
-	mui.plusReady(function(){
-		uuid = plus.storage.getItem("uuid");
+	plusUtils.pageReady(function(){
 		getUserInfo();
-		$("#logOutBtn").click(function(){
-			plus.nativeUI.confirm('确认退出登录吗？', function(event) {
-				if (event.index == 1) {return;}
-				plus.storage.clear();
-	            layer.msg("退出登录成功");
-	            setTimeout(function(){
-	                openWebview('login.html');
-	            },1000);
-			});         
-        });
         window.addEventListener("changeName", function(event) {  
             var nickname = event.detail.nickname;  
             $("#nickname").text(nickname);
@@ -89,23 +76,20 @@
 	})
 	//更新用户信息
  	function updateUserInfo(){
-        var uuid = plus.storage.getItem("uuid");
-    	if(vaildeParam(uuid)){
-            postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
-                if("0" == res.code){
-                    setLoginData(res.data);
-                    getUserInfo();
-                }else{
-                    layer.msg(res.msg);
-                    clearLogin();
-                    openWebview("login.html");
-                }
-            })
-    	}
+        postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+            if("0" == res.code){
+                setLoginData(res.data);
+                getUserInfo();
+            }else{
+                layer.msg(res.msg);
+                clearLogin();
+                openWebview("login.html");
+            }
+        })
     }
 	//取缓存里用户数据
     function getUserInfo(){
-        var userinfo = plus.storage.getItem("userinfo");        
+        var userinfo = plusUtils.Storage.getItem("userinfo");        
         if(vaildeParam(userinfo)){
         	userinfo = JSON.parse(userinfo);
             var mobile = userinfo.mobile;
@@ -242,7 +226,7 @@
 
     //上传头像图片
     function uploadHead(imgPath) {
-        var uid = plus.storage.getItem("uuid");
+        var uid = plusUtils.Storage.getItem("uuid");
         var image = new Image();
         console.log("dengwenwuimguid"+uid);
         image.src = imgPath;

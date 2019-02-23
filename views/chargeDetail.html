@@ -9,8 +9,8 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/artTemplate.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
 		.charge-box{background:#fff;height:486px;margin:20px;text-align:center;border-radius:10px;}
 		.charge-box h2{font-size:18px;font-weight:bold;color:#333;padding:30px 0 20px;}
@@ -82,10 +82,10 @@
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		mui.init();
-		mui.plusReady(function(){
+		plusUtils.pageReady(function(){
 			var orderNo = getQueryString("orderNo");
 			loadData(orderNo);
-			window.addEventListener("OffCharge", function(event) {  
+			window.addEventListener("OffCharge", function(event) {				
 	            var orderNo = event.detail.orderNo;  
 	            loadData(orderNo);
 	        }); 

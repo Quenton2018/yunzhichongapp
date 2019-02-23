@@ -2,14 +2,14 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>消息中心</title>
+		<title>消息详情</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 		<script src="../js/jquery-3.3.1.min.js"></script>
 		<script src="../plugins/layer/layer.js"></script>
-		<script src="../js/common.js"></script>
 		<script src="../js/base.js"></script>
+		<script src="../js/common.js"></script>
 		<style type="text/css">
 			body{background-color: #f2f2f2;}
         	.mui-content .mui-scroll-wrapper{padding-top: 80px;overflow: hidden;}
@@ -22,7 +22,7 @@
 	<body>
 		<header class="header header-immersed mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">消息中心</h1>
+			<h1 class="mui-title">消息详情</h1>
 		</header>
 		<div class="mui-content">
 		    <div id="pullrefresh" class="mui-scroll-wrapper">
@@ -60,6 +60,9 @@
 		} else {
 			document.addEventListener('plusready', pagePlusReady, false);
 		}
+//		plusUtils.pageReady(function() {
+//	        getUserInfo();
+//	    });
 		function pagePlusReady() {
 			mui.init({
 				pullRefresh: {

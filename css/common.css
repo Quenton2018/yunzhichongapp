@@ -1,3 +1,9 @@
+.mui-wechat .header-immersed{}
+/*.mui-wechat .header-immersed .mui-content{padding-top:44px;margin:0;}*/
+.mui-wechat .header-immersed.mui-bar-nav{height:44px;padding-top:0;}
+.mui-wechat .header-immersed.mui-bar-nav ~ .mui-content{padding-top:44px;}
+/*.mui-wechat .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}*/
+
 @font-face {font-family: "iconfont";
   src: url('//at.alicdn.com/t/font_965994_6856owpc6m5.eot?t=1550630919513'); /* IE9 */
   src: url('//at.alicdn.com/t/font_965994_6856owpc6m5.eot?t=1550630919513#iefix') format('embedded-opentype'), /* IE6-IE8 */

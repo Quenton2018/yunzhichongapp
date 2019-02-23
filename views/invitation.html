@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/plusUtils.js"></script>
-    <script src="../js/common.js"></script>
-    <script src="../js/base.js"></script>    
+    <script src="../js/base.js"></script> 
+    <script src="../js/common.js"></script>   
     <style type="text/css">
     	/*.invite-banner{height: 250px;}*/
     	.invite-banner img{width: 100%;}
@@ -88,8 +87,7 @@
 	<script src="../js/qrcode.min.js"></script>
 	<script type="text/javascript">
 		var shareUrl = null;
-		mui.init();
-		mui.plusReady(function(){
+		plusUtils.pageReady(function() {
 			getInvitationStatistics();
 			plusUtils.Share.init();
 			var mobile = plus.storage.getItem("mobile");
@@ -97,7 +95,7 @@
 			document.getElementById("inviteBtn").addEventListener("tap", function() {
 	            mui("#popover").popover('toggle');
 	        });	        
-		})
+		});	
 		// 微信分享
 		function shareAction(index){
 			plusUtils.Share.appshare({

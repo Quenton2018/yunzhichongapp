@@ -8,7 +8,8 @@
 		<title>扫一扫</title>
 		<script src="../js/jquery-3.3.1.min.js"></script>
 		<script src="../js/mui.min.js"></script>
-		<script type="text/javascript" src="../js/common.js"></script>
+		<script src="../js/base.js"></script>
+		<script src="../js/common.js"></script>
 		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
 		<style type="text/css">
 			#bcid{width:100%;position:absolute;top:0px;bottom:0;text-align:center;}
@@ -58,8 +59,8 @@
 				var styles = {frameColor: "#F87C1A",scanbarColor: "#F87C1A"};
 				
 				// 获取窗口对象
-				ws=plus.webview.currentWebview();
-				wo=ws.opener();
+				ws = plus.webview.currentWebview();
+				wo = ws.opener();
 				// 开始扫描
 				ws.addEventListener('show', function(){
 					scan=new plus.barcode.Barcode('bcid',typeArr,styles);
@@ -67,7 +68,7 @@
 				    scan.start({conserve:true,filename:'_doc/barcode/',vibrate:true,sound:'default'});
 				}, false);
 				// 显示页面
-			    ws.show('pop-in');
+			    ws.show('slide-in-bottom');
 			}
 							
 			// 二维码扫描成功
