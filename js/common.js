@@ -1,127 +1,209 @@
-﻿;(function(w){
-// 空函数
-function shield(){
-	return false;
+﻿/**
+ * plus公共工具类
+ * @class plusUtils
+ */
+var plusUtils = {};
+
+/**
+ * nativeUI组件
+ */
+plusUtils.nativeUI = {
+	/**
+	 * @param {String} message 必选 提示对话框上显示的内容
+	 * @param {Object} alertCB 可选 提示对话框上关闭后的回调函数
+	 * @param {Object} title   可选 提示对话框上显示的标题
+	 * @param {Object} buttonCapture 必选 提示对话框上按钮显示的内容
+	 */
+	alert:function(message, alertCB, title, buttonCapture){
+		return plus.nativeUI.alert(message, alertCB, title, buttonCapture);
+	}
 }
-document.addEventListener('touchstart',shield,false);//取消浏览器的所有事件，使得active的样式在手机上正常生效
-document.oncontextmenu = shield;//屏蔽选择函数
-// H5 plus事件处理
-w.uuid = null;
-var ws = null,as = 'pop-in';
-function plusReady(){
-	w.uuid = plusUtils.Storage.getItem("uuid");
-	console.log("###uuid##"+uuid);
-	ws = plus.webview.currentWebview();
-	// Android处理返回键
-	plus.key.addEventListener('backbutton',function(){
-		back();
-	},false);
-}
-if(w.plus){
-	plusReady();
-}else{
-	document.addEventListener('plusready',plusReady,false);
-}
-// DOMContentLoaded事件处理
-var domready = false;
-document.addEventListener('DOMContentLoaded',function(){
-if(!w.plus){	
-	w.uuid = plusUtils.Storage.getItem("uuid");
-	console.log("###uuid##"+uuid);
-}
-	domready = true;
-	document.body.onselectstart=shield;
-},false);
-// 处理返回事件
-w.back = function(hide){
-	if(w.plus){
-		ws||(ws=plus.webview.currentWebview());
-		if(hide||ws.preate){
-			ws.hide('auto');
+/**
+ * 本地存储
+ */
+plusUtils.Storage = {
+	getItem:function(key){
+		if(window.plus){
+			return plus.storage.getItem(key);
 		}else{
-			ws.close('auto');
+			return localStorage.getItem(key);
+		}		
+	},
+	setItem:function(key,value){
+		if(typeof value == "number"){
+			value = value.toString();
 		}
-	}else if(history.length>1){
-		history.back();
-	}else{
-		w.close();
+		if(window.plus){
+			return plus.storage.setItem(key,value);
+		}else{
+			return localStorage.setItem(key,value);
+		}
+	},
+	removeItem:function(key){
+		if(window.plus){
+			return plus.storage.removeItem(key);
+		}else{
+			return localStorage.removeItem(key);
+		}		
+	},
+	clear:function(){
+		if(window.plus){
+			return plus.storage.clear();
+		}else{
+			return localStorage.clear();
+		}		
 	}
-};
-var openw = null,waiting=null;
-/**
- * 打开新窗口
- * @param {Object} id
- * @param {Object} extras
- */
-w.openWebview = function(id,wa,ns,ws){
-	if(openw){//避免多次打开同一个页面
-		return null;
-	}
-	if(w.plus){
-		wa&&(waiting=plus.nativeUI.showWaiting());
-		ws = ws||{};
-		ws.scrollIndicator||(ws.scrollIndicator='none');
-		ws.scalable||(ws.scalable=false);
-		openw = plus.webview.create(id,id,ws);
-		ns||openw.addEventListener('loaded',function(){//页面加载完成后才显示
-			setTimeout(function(){//延后显示可避免低端机上动画时白屏
-				openw.show(as);
-			},200);
-		},false);
-		openw.addEventListener('close',function(){//页面关闭后可再次打开
-			openw = null;
-		},false);
-		return openw;
-	}else{
-		w.location.href = id;
-	}
-	return null;
-};
-/**
- * 原生导航栏
- * @param {Object} href
- */
-w.openNativeTitle = function(href,extras,type){
-	var titleType = type ? 'transparent' : 'default';
-	//打开窗口的相关参数
-	var options = {
-		url:href,
-		id:href,
-		styles:{
-			popGesture: "close",
-			titleNView:{
-				autoBackButton:true,
-				backgroundColor:'#f47e13',
-				titleColor:'#fff',
-				type: titleType
-			}
-		},
-		extras:extras || {}
-	};	
-	mui.openWindow(options);
-}
-/**
- * 关闭当前窗口返回上个窗口并刷新
- * @param {Object} page
- */
-w.returnWindow = function(page){
-    var ws = plus.webview.currentWebview();
-    var wo = ws.opener();
-    do {
-    	if (wo.getURL().endsWith(page)) {
-    		break;
-    	}	
-    	var temp = wo.opener();
-    	wo.close("none");
-    	wo = temp;
-    } while (true);
-	setTimeout(function() {
-		wo.evalJS("dataRefresh()");
-		ws.close();
-	}, 300);
 }
 
-})(window);
+/**
+ * 分享组件
+ */
+plusUtils.Share = {
+	shares:null,
+	init:function(){
+		var slef = this;
+		// 更新分享服务  
+	    plus.share.getServices(function(s) {  
+	        slef.shares = {};  
+	        for(var i in s) {  
+	            var t = s[i];  
+	            slef.shares[t.id] = t;  
+	        }  
+	    }, function(e) {  
+	        plusUtils.nativeUI.alert("无享服务！");  
+	        console.log("获取分享服务列表失败：" + e.message);  
+	    });
+	},
+	/**  
+	 * 发送分享消息  
+	 * @param {JSON} msg  
+	 * @param {plus.share.ShareService} s  
+	 */   
+    shareMessage:function(msg, s) {  
+        s.send(msg,function() {  
+            console.log("分享到\"" + s.description + "\"成功！ ");  
+        }, function(e) {  
+            plusUtils.nativeUI.alert("分享到\"" + s.description + "\"失败！ ");  
+            console.log("分享到\"" + s.description + "\"失败: " + JSON.stringify(e));  
+        });  
+    },
+    /**  
+	 * 分享操作  
+	 * @param {JSON} sb 分享操作对象s.s为分享通道对象(plus.share.ShareService)  
+	 * @param {Boolean} ishref 是否分享链接  
+	 * @param {JSON} config 分享内容  
+	 */  
+	shareAction:function (sb,config) {
+		var self = this;
+	    if(!sb || !sb.s) {  
+	        plusUtils.nativeUI.alert("无效的分享服务！");  
+	        return;  
+	    }  
+	    var msg = {
+	    	content: config.content,
+	    	title:config.title,
+	    	href:config.href,
+	    	content:config.content,
+	    	thumbs:config.thumbs,
+	    	extra: {scene: sb.scene } 
+	    };
+	    // 发送分享  
+	    if(sb.s.authenticated) {  
+	        console.log("---已授权---");  
+	        self.shareMessage(msg, sb.s);  
+	    } else {  
+	        console.log("---未授权---");  
+	        sb.s.authorize(function() {  
+	            self.shareMessage(msg, sb.s);  
+	        }, function(e) {  
+	            console.log("认证授权失败：" + e.code + " - " + e.message);  
+	        });  
+	    }  
+	},
+	/**  
+	 * 分享内容或者链接  
+	 * @param  {JSON} config 分享数据的对象  
+	 * @param  {Boolean} isSheet  是否弹出分享列表  
+	 */  
+	appshare:function (config,isSheet,index) { 
+		var self = this;
+	    var msginfo = {title: config.title, href: config.href, content: config.content, thumbs: config.thumbs};  
+	    var shareBts = [];  
+	    // 更新分享列表  
+	    var ss = self.shares['weixin'];  
+	    ss && ss.nativeClient && shareBts.push({ title: '微信好友', s: ss, scene: 'WXSceneSession' }),(shareBts.push({ title: '微信朋友圈', s: ss, scene: 'WXSceneTimeline' }));  	
+	    ss = self.shares['qq'];  
+	    ss && ss.nativeClient && shareBts.push({ title: 'QQ', s: ss });  	
+		if(isSheet){
+			// 弹出分享列表  
+		    shareBts.length > 0 ? plus.nativeUI.actionSheet({  
+		            title: '分享',  
+		            cancel: '取消',  
+		            buttons: shareBts  
+		        },  
+		        function(e) {  
+		            (e.index > 0) && self.shareAction(shareBts[e.index - 1], msginfo);  
+		        }  
+		    ) : plusUtils.nativeUI.alert('当前环境无法支持分享操作!');  
+		}else{
+			self.shareAction(shareBts[index], msginfo);
+		}
+	}
+};
+//页面对象
+plusUtils.appPage = {
+	//获取页面参数
+	getParam: function(name) {
+		var ws = plus.webview.currentWebview();
+		if(mui.os.plus) {
+			if(ws.params)
+				return ws.params[name] || null;
+			else
+				return null;
+		} else {
+			return null;
+		}
+	},
+	//执行上个窗口某个方法
+	openerEvalJS:function(){
+		if(mui.os.plus){
+			var ws = plus.webview.currentWebview();
+			var wo = ws.opener();
+			wo.evalJS('dataRefresh()');
+		}
+	},
+	//关闭当前页
+	close: function() {
+		if(mui.os.plus){
+			var ws = plus.webview.currentWebview();
+			plus.webview.close(ws);
+		}
+	},
+	//关闭当前页，并跳转到指定页
+	closeAndBackUrl: function(url, param) {
+		if(mui.os.plus){
+			var ws = plus.webview.currentWebview();
+	//		plus.webview.close(ws);
+			setTimeout(function(){
+				ws.close("none");
+			},1500);
+			openNewWebview(url, param);
+		}
+	}
+}
+
+/**
+ * 页面初始化
+ * @param {Object} readyCallback
+ */
+plusUtils.pageReady = function(readyCallback){
+	if(typeof readyCallback != "function") return false;
+	if(mui.os.plus){
+		mui.plusReady(readyCallback)
+	}else{
+		mui.ready(readyCallback);
+	}
+}
 /**
  * 下拉刷新
  * @param {Object} plusReady
@@ -131,20 +213,20 @@ var plusRefresh = function(pageRefresh) {
 	var topoffset = 0 + 'px';
 	var ms = (/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
     if (ms && ms.length >= 3) {
-        topoffset = parseFloat(ms[2]) + 'px';
+        topoffset = parseFloat(ms[2]) + 45 + 'px';
     }
-	if(mui.os.plus){		
+	if(window.plus){
 		if (plus.navigator.isImmersedStatusbar()) {
-        	topoffset = Math.round(plus.navigator.getStatusbarHeight()) + 45 +'px';
-    	}
+    		topoffset = Math.round(plus.navigator.getStatusbarHeight()) + 45 +'px';
+		}
 	}
 	mui.init({
 	  	pullRefresh : {
 	    	container:".mui-content",
 	    	down : {
-		      	style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
-		      	offset:topoffset, //可选 默认0px,下拉刷新控件的起始位置
-		      	callback :onRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+		      	style:'circle',
+		      	offset:topoffset, 
+		      	callback :throttle(onRefresh,1000) 
 	    	}
 	  	}
 	});
@@ -201,11 +283,200 @@ var stopRefresh = function(length,pageSize){
 var enableRefresh = function(){
 	mui('#J_refresh').pullRefresh().refresh(true);
 }
+;(function(w){
+	// 空函数
+	function shield(){
+		return false;
+	}
+	document.addEventListener('touchstart',shield,false);//取消浏览器的所有事件，使得active的样式在手机上正常生效
+	document.oncontextmenu = shield;//屏蔽选择函数
+	// H5 plus事件处理
+	w.uuid = null;
+	var ws = null,as = 'pop-in';
+	function plusReady(){
+		w.uuid = plusUtils.Storage.getItem("uuid");
+		console.log("###uuid##"+uuid);
+		ws = plus.webview.currentWebview();
+		// Android处理返回键
+		plus.key.addEventListener('backbutton',function(){
+			back();
+		},false);
+	}
+	if(w.plus){
+		plusReady();
+	}else{
+		document.addEventListener('plusready',plusReady,false);
+	}
+	// DOMContentLoaded事件处理
+	var domready = false;
+	document.addEventListener('DOMContentLoaded',function(){
+		if(!w.plus){
+			w.uuid = plusUtils.Storage.getItem("uuid");
+			console.log("###uuid##"+uuid);
+		}
+		domready = true;
+		document.body.onselectstart=shield;
+	},false);
+	// 处理返回事件
+	w.back = function(hide){
+		if(w.plus){
+			ws||(ws=plus.webview.currentWebview());
+			if(hide||ws.preate){
+				ws.hide('auto');
+			}else{
+				ws.close('auto');
+			}
+		}else if(history.length>1){
+			history.back();
+		}else{
+			w.close();
+		}
+	};
+	var openw = null,waiting=null;
+	/**
+	 * 打开新窗口
+	 * @param {URIString} id : 要打开页面url
+	 * @param {boolean} wa : 是否显示等待框
+	 * @param {boolean} ns : 是否不自动显示
+	 * @param {JSON} ws : Webview窗口属性
+	 */
+	w.openWebview = function(id,wa,ns,ws){
+		if(openw){//避免多次打开同一个页面
+			return null;
+		}
+		if(w.plus){
+			wa&&(waiting=plus.nativeUI.showWaiting());
+			ws = ws||{};
+			ws.scrollIndicator||(ws.scrollIndicator='none');
+			ws.scalable||(ws.scalable=false);
+			openw = plus.webview.create(id,id,ws);
+			ns||openw.addEventListener('loaded',function(){//页面加载完成后才显示
+				setTimeout(function(){//延后显示可避免低端机上动画时白屏
+					openw.show(as);
+				},200);
+			},false);
+			openw.addEventListener('close',function(){//页面关闭后可再次打开
+				openw = null;
+			},false);
+			return openw;
+		}else{
+			w.location.href = id;
+		}
+		return null;
+	};
+	/**
+	 * 原生导航栏
+	 * @param {Object} href
+	 */
+	w.openNativeTitle = function(href,extras,type){
+		var titleType = type ? 'transparent' : 'default';
+		//打开窗口的相关参数
+		var options = {
+			url:href,
+			id:href,
+			styles:{
+				popGesture: "close",
+				titleNView:{
+					autoBackButton:true,
+					backgroundColor:'#f47e13',
+					titleColor:'#fff',
+					type: titleType
+				}
+			},
+			extras:extras || {}
+		};	
+		mui.openWindow(options);
+	}
+	/**
+	 * @description 新开新窗口
+	 * @param {URIString} target  需要打开的页面的地址
+	 * @param {Object} params 传递的对象
+	 * @param {Boolean} autoShow 是否自动显示
+	 * @example openNewWebview({URIString});
+	 * */
+	w.openNewWebview = function (target, params, autoShow) {
+		var isAutoShow = autoShow || true;
+		mui.openWindow({
+			url: target,
+			id: target,
+			show: {
+				autoShow: isAutoShow, //页面loaded事件发生后自动显示，默认为true
+				aniShow: 'pop-in'
+			},
+			waiting: {
+				autoShow: false
+			},
+			extras: {
+				params: params
+			}
+		})
+	}
+	/**
+	 * 关闭当前窗口返回上个窗口并刷新
+	 * @param {Object} page
+	 */
+	w.returnWindow = function(page){
+	    var ws = plus.webview.currentWebview();
+	    var wo = ws.opener();
+	    do {
+	    	if (wo.getURL().endsWith(page)) {
+	    		break;
+	    	}	
+	    	var temp = wo.opener();
+	    	wo.close("none");
+	    	wo = temp;
+	    } while (true);
+		setTimeout(function() {
+			wo.evalJS("dataRefresh()");
+			ws.close();
+		}, 300);
+	}
+})(window);
 
+//检查定位  
+//function checkPermissionPos() {
+//	var Permission = 'authorized';
+////  	Permission = plus.navigator.checkPermission('LOCATION');
+//  console.log("## 获取定位权限 ##: "+ Permission)            
+//  switch(Permission){
+//      case 'authorized':
+//			console.log('已开启定位权限');
+//			getCurrentPosition();
+//          break;
+//      case 'denied':
+//			console.log('已关闭定位权限');
+//          openSystemPositionServer();
+//          break;
+//      case 'undetermined':
+//          mui.alert('未确定定位权限', '定位消息');
+//          break;
+//      case 'unknown':
+//          mui.alert('无法查询定位权限', '定位消息');
+//          break;
+//      default:
+//			console.log('不支持定位权限');
+//			openSystemPositionServer();
+//          break;
+//  }
+//} 
 //通过定位模块获取位置信息
 function getCurrentPosition() {
 	if(window.plus){
 		plus.geolocation.getCurrentPosition(showPosition, function (e) {
+			switch(e.code) {  
+                case 1:  
+                    mui.alert("GPS访问被拒绝 或 GPS未开启");  
+                    break;  
+                case 2:  
+                    mui.alert("位置信息不可用");  
+                    break;  
+                case 3:  
+                    mui.alert("获取用户位置的请求超时");  
+                    break;  
+                default:  
+                    mui.alert(e.code+e.message);  
+                    break;  
+            } 
         	console.log("获取定位位置信息失败:"+e.message)
     	},{provider:'amap'});
 	}else{
@@ -239,35 +510,21 @@ function showPosition(position) {
     console.log("## geoInf ## 位置具体信息 : " + JSON.stringify(geolocationGroup));
     plusUtils.Storage.setItem("geolocationGroup", JSON.stringify(geolocationGroup));
 }
-function checkNumber(theObj) {
-	var reg = /^[0-9]+.?[0-9]*$/;
-	if(reg.test(theObj)) {
-		return true;
-	}
-	return false;
-}
-
-Date.prototype.formatDate = function(fmt) {
-	var o = {
-		"M+": this.getMonth() + 1, //月份
-		"d+": this.getDate(), //日
-		"h+": this.getHours(), //小时
-		"m+": this.getMinutes(), //分
-		"s+": this.getSeconds(), //秒
-		"q+": Math.floor((this.getMonth() + 3) / 3), //季度
-		"S": this.getMilliseconds() //毫秒
-	};
-	if(/(y+)/.test(fmt)) {
-		fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-	}
-	for(var k in o) {
-		if(new RegExp("(" + k + ")").test(fmt)) {
-			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+// 打开手机设置 -> 隐私 -> 定位
+function openSystemPositionServer() {
+	mui.alert("允许云智充获取位置权限，查找附近的充电桩，我们将按云智充隐私政策保护您的信息。不开启将影响使用云智充服务","开启定位服务","去开启",function(){
+		//plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
+		if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+			plus.runtime.openURL("app-settings:LOCATION");
+		} else if (/android/i.test(navigator.userAgent)) {
+			var main = plus.android.runtimeMainActivity();
+			var Intent = plus.android.importClass("android.content.Intent");
+			var Settings = plus.android.importClass('android.provider.Settings');
+			var mIntent = new Intent('Settings.ACTION_LOCATION_SOURCE_SETTINGS');
+			main.startActivity(mIntent);
 		}
-	}
-	return fmt;
+	})
 }
-
 /**
  * 参数校验
  */
@@ -294,8 +551,7 @@ function vaildeParam(param) {
  * @param {Boolean} isIcon  选填（是否显示loging）
  */
 function postJSON(url, data, callback,isIcon){
-//	alert(window.plus)
-	if(mui.os.plus){	
+	if(navigator.plus){	
 		if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
 			toast("网络异常，请检查网络设置！");
 			return false;
@@ -333,14 +589,14 @@ function postJSON(url, data, callback,isIcon){
 		xhr.open("POST", url);
 		xhr.send(null);
 	}else{
-		postAjax(url, data, callback,isIcon);
+		postAjax(url, data, callback,true);
 	}	
 }
 function postAjax(url, data, callback,isIcon){
 	url += "?"+jsonToParams(data);
-//		if(!isIcon){
-//			showLoading("数据加载中..."); 
-//		}
+	if(!isIcon){
+		showLoading("数据加载中..."); 
+	}
 	var xhr = new XMLHttpRequest();	
 	xhr.onreadystatechange = function () {
 	    switch ( xhr.readyState ) {
@@ -353,14 +609,14 @@ function postAjax(url, data, callback,isIcon){
 						callback(json);
 					}catch(e){						
 						toast("页面异常，请稍后再试！");
-//							!isIcon &&  hideLoading();
+							!isIcon &&  hideLoading();
 						console.error(e)
 					}        		
 	            } else {
             		toast("系统服务异常，请稍后再试！");
             		console.log(url+"接口请求失败 :"+xhr.responseText)
 	            }
-//		            !isIcon &&  hideLoading();
+		            !isIcon &&  hideLoading();
 	            break;
 	        default :
 	            break;
@@ -419,7 +675,7 @@ function checkLogin(page) {
  * @param {Object} mobile
  */
 function setLoginData(userinfo) {
-	var date = formatDate(new Date(userinfo.loginDate), "yyyy-mm-dd HH:mm:ss");
+	var date = new Date(userinfo.loginDate).formatDate("yyyy-MM-dd hh:mm:ss");
 	plusUtils.Storage.setItem("uuid", userinfo.uuid);
 	plusUtils.Storage.setItem("mobile", userinfo.mobile);
 	plusUtils.Storage.setItem("login_date", date);
@@ -427,6 +683,7 @@ function setLoginData(userinfo) {
 	console.log("## setLoginData ## 用户登录时间 : " + date);
 	console.log("## setLoginData ## 用户基本信息 : " + JSON.stringify(userinfo))
 }
+
 function loginOut(){
 	mui.confirm('','确认退出登录吗？',['取消','确定'],function(event) {
 		if (event.index == 0) return;
@@ -442,72 +699,70 @@ function clearLogin() {
 	plusUtils.Storage.clear();
 }
 
-/** 美化时间显示*/
-function jsDateDiff(publishTime) {
-	var d_minutes, d_hours, d_days;
-	var timeNow = parseInt(new Date().getTime() / 1000);
-	var d;
-	d = timeNow - publishTime;
-	d_days = parseInt(d / 86400);
-	d_hours = parseInt(d / 3600);
-	d_minutes = parseInt(d / 60);
-	if(d_days > 0 && d_days < 4) {
-		return d_days + "天前";
-	} else if(d_days <= 0 && d_hours > 0) {
-		return d_hours + "小时前";
-	} else if(d_hours <= 0 && d_minutes > 0) {
-		return d_minutes + "分钟前";
-	} else if(d_days <= 0 && d_hours <= 0 && d_minutes <= 0) {
-		return parseInt(d, 10) + "秒前";
-	} else {
-		var s = new Date(publishTime * 1000);
-		return s.getFullYear() + "年" + (s.getMonth() + 1) + "月" + s.getDate() + "日";
-	}
-}
-
 /**
  * 日期格式化
- * @param {Object} date
- * @param {Object} str
+ * @param {Object} fmt
  */
-function formatDate(date, str) {
-	var mat = {};
-	mat.M = date.getMonth() + 1; //月份记得加1
-	mat.H = date.getHours();
-	mat.s = date.getSeconds();
-	mat.m = date.getMinutes();
-	mat.Y = date.getFullYear();
-	mat.D = date.getDate();
-	mat.d = date.getDay(); //星期几
-	mat.d = check(mat.d);
-	mat.H = check(mat.H);
-	mat.M = check(mat.M);
-	mat.D = check(mat.D);
-	mat.s = check(mat.s);
-	mat.m = check(mat.m);
-	if(str.indexOf(":") > -1) {　　　　　
-		mat.Y = mat.Y.toString().substr(2, 2);　　　　
-		return mat.Y + "/" + mat.M + "/" + mat.D + " " + mat.H + ":" + mat.m + ":" + mat.s;
+Date.prototype.formatDate = function(fmt) {
+	var o = {
+		"M+": this.getMonth() + 1, //月份
+		"d+": this.getDate(), //日
+		"h+": this.getHours(), //小时
+		"m+": this.getMinutes(), //分
+		"s+": this.getSeconds(), //秒
+		"q+": Math.floor((this.getMonth() + 3) / 3), //季度
+		"S": this.getMilliseconds() //毫秒
+	};
+	if(/(y+)/.test(fmt)) {
+		fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
 	}
-	if(str.indexOf("/") > -1) {
-		return mat.Y + "/" + mat.M + "/" + mat.D + " " + mat.H + "/" + mat.m + "/" + mat.s;
+	for(var k in o) {
+		if(new RegExp("(" + k + ")").test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		}
 	}
-	if(str.indexOf("-") > -1) {
-		return mat.Y + "-" + mat.M + "-" + mat.D + " " + mat.H + "-" + mat.m + "-" + mat.s;
-	}
+	return fmt;
 }
 
 /**
- * 检查是不是两位数字，不足补全
- * @param {Object} str
+ * 日期转换几分钟前
+ * @param {Object} timespan
  */
-function check(str) {
-	str = str.toString();
-	if(str.length < 2) {
-		str = '0' + str;
+function formatMsgTime (timespan) {
+	var dateTime  = new Date(timespan);	
+	var year      = dateTime.getFullYear();
+	var month     = dateTime.getMonth() + 1;
+	var day       = dateTime.getDate();
+	var hour      = dateTime.getHours();
+	var minute    = dateTime.getMinutes();
+	var second    = dateTime.getSeconds();
+	var timestamp = dateTime.getTime();
+	var now = new Date();
+	var now_new = Date.parse(now.toDateString());  //typescript转换写法
+	
+	var milliseconds = 0;
+	var timeSpanStr;
+	milliseconds = now_new - timestamp;
+	
+	if (milliseconds <= 1000 * 60 * 1) {
+	    timeSpanStr = '刚刚';
 	}
-	return str;
-}
+	else if (1000 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60) {
+	    timeSpanStr = Math.round((milliseconds / (1000 * 60))) + '分钟前';
+	}
+	else if (1000 * 60 * 60 * 1 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24) {
+	    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60)) + '小时前';
+	}
+	else if (1000 * 60 * 60 * 24 < milliseconds && milliseconds <= 1000 * 60 * 60 * 24 * 15) {
+	    timeSpanStr = Math.round(milliseconds / (1000 * 60 * 60 * 24)) + '天前';
+	}
+	else if (milliseconds > 1000 * 60 * 60 * 24 * 15 && year == now.getFullYear()) {
+	    timeSpanStr = month + '-' + day + ' ' + hour + ':' + minute;
+	} else {
+	    timeSpanStr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+	}
+	return timeSpanStr;
+};
 
 function getTimeDiffString(timeFiff) {
 	console.log("## getTimeDiffString ## timeFiff:" + timeFiff)
@@ -548,6 +803,11 @@ function getTimeDiff(time) {
 	return getTimeDiffString(date3);
 }
 
+/**
+ * 图片加载
+ * @param {Object} url
+ * @param {Object} callback
+ */
 function loadImage(url, callback) {
 	console.log("## loadImage ## url:" + url)
 	var img = new Image(); //创建一个Image对象，实现图片的预下载
@@ -563,6 +823,10 @@ function loadImage(url, callback) {
 	};
 }
 
+/**
+ * 随机生成字符串
+ * @param {Object} len
+ */
 function randomString(len) {
 	len = len || 32;
 	var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; 
@@ -573,157 +837,65 @@ function randomString(len) {
 	}
 	return pwd;
 }
+
+/**
+ * 获取url参数
+ * @param {Object} name
+ */
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 	var r = window.location.search.substr(1).match(reg);
 	if(r != null) return unescape(r[2]);
 	return null;
 }
+
 /**
- * 上传用户登入信息,并且校验是否多台设备登入
+ * 防抖函数
+ * @param method 事件触发的操作
+ * @param delay 多少毫秒内连续触发事件，不会执行
+ * @returns {Function}
  */
-function uploadLoginInfo(loginPagePath) {
-	checkLogin(loginPagePath);
-	setInterval(function() {
-		var uuid = plusUtils.Storage.getItem("uuid");
-		if(vaildeParam(uuid)) {
-			var osName = plus.os.name;
-			var deviceModel = plus.device.model;
-			var deviceUuid = plus.device.uuid;
-			var clientInfo = plus.push.getClientInfo().clientid;
-			console.log("## uploadLoginInfo ## uuid:" + uuid);
-			console.log("## uploadLoginInfo ## osName:" + osName);
-			console.log("## uploadLoginInfo ## deviceModel:" + deviceModel);
-			console.log("## uploadLoginInfo ## deviceUuid:" + deviceUuid);
-			console.log("## uploadLoginInfo ## clientInfo:" + JSON.stringify(plus.push.getClientInfo()));
-			console.log("## uploadLoginInfo ## clientInfo:" + clientInfo);
-			var data = {
-				"uuid": uuid,
-				"osName": osName,
-				"deviceModel": deviceModel,
-				"clientInfo": clientInfo,
-				"deviceUuid": deviceUuid
-			}
-			postJSON(API_URL.updateLoginInfo, data, function(res) {
-				if("0" == res.code) {
-					console.log("上传用户登录信息成功")
-				} else if('6003' == res.code) {
-					toast('您的账号已在在另一设备登录，您强制下线,正在跳转登录页面...');
-					setTimeout(function() {
-						clearLogin();
-						checkLogin(loginPagePath);
-					}, 2000)
-				} else {
-					toast(res.msg);
-				}
-			},true)
-		}
-	}, 5000)
+function debounce(method,delay) {
+    var timer = null;
+    return function () {
+        var self = this,
+            args = arguments;
+        timer && clearTimeout(timer);
+        timer = setTimeout(function () {
+            method.apply(self,args);
+        },delay);
+    }
 }
-function checkVersion() {
-    var osName = navigator.plus ? navigator.plus.os.name : navigator.appName;
-	postJSON(API_URL.AppVersionGetNewest,{ "appType" : osName },function (res) {
-		if (res.code == '0' && vaildeParam(res.data)) {
-			if (compareVersion(res.data.version)) {
-    			openWebview('views/edition.html');
-    		}
-		}
-    });
-}
+
 /**
- * wgt html/css/js
- * wgtu 差量更新,需要对照appStore或应用宝中的升级
+ * 节流函数
+ * @param method 事件触发的操作
+ * @param mustRunDelay 间隔多少毫秒需要触发一次事件
  */
-function heatUpdate() {
-	var appType = navigator.plus ? navigator.plus.os.name : navigator.appName;
-	appType = appType + "HeatUpdate";
-	postJSON(API_URL.AppVersionGetNewest, {'appType': appType}, function(res) {
-		if('0' == res.code && vaildeParam(res.data)) {
-			if(compareVersion(res.data.version)) {
-				plus.nativeUI.confirm('检测到新版本,是否更新?', function(e) {
-					if(e.index == 0) {
-						console.log('检测到新版本更新');
-						downloadWgt(res.data.url);
-					}
-				});
-			}
-		}
-	},true);
+function throttle(method, mustRunDelay) {
+    var timer,
+        args = arguments,
+        start;
+    return function loop() {
+        var self = this;
+        var now = Date.now();
+        if(!start){
+            start = now;
+        }
+        if(timer){
+            clearTimeout(timer);
+        }
+        if(now - start >= mustRunDelay){
+            method.apply(self, args);
+            start = now;
+        }else {
+            timer = setTimeout(function () {
+                loop.apply(self, args);
+            }, 50);
+        }
+    }
 }
-
-function compareVersion(version) {
-	if(!vaildeParam(version)) {
-		console.log('版本号不能为空');
-		return false;
-	}
-	if(!version.startsWith('v') || version.length == 1) {
-		console.log('错误的版本号');
-		return false;
-	}
-	var array1 = version.substr(1).split('.');
-	var array2 = appVersion.substr(1).split('.');
-	var len = Math.min(array1.length, array2.length);
-	var index = 0,diff = 0;
-	while(index < len && (diff = parseInt(array1[index]) - parseInt(array2[index])) == 0) {
-		index++;
-	}
-	return diff == 0 ? array1.length - array2.length : diff > 0;
-}
-
-function downloadWgt(url) {
-	var showLoading = plus.nativeUI.showWaiting(' 正在下载...... ');
-	var downloadTask = plus.downloader.createDownload(url, {
-		filename: '_doc/update/'
-	}, function(d, status) {
-		plus.nativeUI.closeWaiting();
-		if(status == 200) {
-			installWgt(d.filename);
-		} else {
-			plus.nativeUI.alert('下载升级文件失败！');
-		}
-	});
-	downloadTask.start();
-	var count = 0;
-	downloadTask.addEventListener('statechanged', function(task, status) {
-		switch(task.state) {
-			case 1:
-				break;
-			case 2:
-				showLoading.setTitle(" 已连接到服务器 ...... ");
-				break;
-			case 3:
-				var prg = parseInt(parseFloat(task.downloadedSize) / parseFloat(task.totalSize) * 100);
-				if(count < prg) {
-					count = prg;
-					showLoading.setTitle(' 正在下载 ' + count + '% ...... ');
-				}
-				break;
-			case 4:
-				break;
-			default:
-				break;
-		}
-	});
-}
-
-function installWgt(path) {
-	plus.nativeUI.showWaiting('正在安装...');
-	plus.runtime.install(path, {
-		force: true
-	}, function() {
-		plus.nativeUI.closeWaiting();
-		console.log('安装wgt文件成功！');
-		plus.nativeUI.alert('应用资源更新完成！', function() {
-			plus.runtime.restart();
-		});
-	}, function(e) {
-		plus.nativeUI.closeWaiting();
-		console.log('安装wgt文件失败[' + e.code + ']：' + e.message);
-		plus.nativeUI.alert('应用资源更新失败' + e.message);
-	});
-}
-
-var utils = {
+var appUtils = {
     renderTemplate: function (tpl, data) {
         if (typeof template === 'function') {
             var render = template.compile(tpl);
@@ -732,5 +904,5 @@ var utils = {
         else {
             alert('请先加载: artTemplate');
         }
-    }
+    }   
 };

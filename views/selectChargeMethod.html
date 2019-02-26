@@ -10,16 +10,16 @@
 		<link rel="stylesheet" href="../plugins/swiper-4.2.2/swiper-4.2.2.min.css" type="text/css" charset="utf-8" />
 		<link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" type="text/css" charset="utf-8" />
 		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/mui.min.js"></script>
 		<script src="../js/artTemplate.min.js"></script>
 		<script src="../plugins/layer/layer.js"></script>
 		<script src="../plugins/swiper-4.2.2/swiper-4.2.2.min.js"></script>
 		<script src="../js/base.js"></script>
 		<script src="../js/common.js"></script>
-		<script src="../js/mui.min.js"></script>
 		<style type="text/css">
-			body{width:100%;height:auto;overflow-x:hidden;min-height: 100%;}
+			body{width:100%;height:auto;overflow-y:auto;min-height: 100%;}
 			.mui-bar .mui-title{margin: 0 20px;}
-			.mui-main{margin-top: 20px;}
+			.mui-main{margin-top: 20px;overflow: auto;}
 			.myContent{margin:0 10px;padding-bottom:5px;background: #fff;border-radius: 10px;}
 			.swiper-container{}
 			.swiper-slide{text-align:center;font-size:1.2rem;color:#C5C4C4;vertical-align:middle;line-height:50px;height:50px;font-weight:600;}
@@ -89,7 +89,7 @@
 		<a class="iconfont icon-richscan mui-icon-right-nav mui-pull-right" onclick="openWebview('scanBarcode.html?formpage=cdzno')"></a>
 	</header>
 
-	<div class="mui-content" style="background: none;">
+	<div class="mui-content" style="background: none;overflow: auto;">
 		<div class="mui-main">
 			<div class="myContent box1">
 				<div class="h2-title"><span>①</span> 选择桩号</div>
@@ -137,7 +137,7 @@
 				</div>
 			</div>
 
-			<div class="myContent box1" style="margin-top: 15px;">
+			<div class="myContent box2" style="margin-top: 15px;">
 				<div class="h2-title"><span>③</span> 选择充电时长</div>
 				<div class="timeBox mui-clearfix" id="TimeList">
 					<span class="item"><b>充满自停</b></span>
@@ -209,7 +209,7 @@
 	<script type="text/html" id="SocketTmpl" >	
 		{{each list as item index}}
 			{{if item.status == 1}}
-				<span class="item" data-id="{{item.id}}"><b>{{item.code | parseInt}}</b></span>
+				<span class="item" data-id="{{item.id}}" onclick="clickSocket(this)"><b>{{item.code | parseInt}}</b></span>
 			{{else}}
 				<span class="disabled" data-id="{{item.id}}"><b>{{item.code | parseInt}}</b></span>
 			{{/if}}
@@ -219,12 +219,12 @@
 	<script type="text/html" id="TimeTmpl" >	
 		{{each list as item index}}
 			{{if item.state == 1}}	
-				<span class="list-time {{if item.promotion}}promotion{{/if}}" data-id="{{item.id}}" data-time="{{item.defaultTime}}" data-state="{{item.state}}" data-money="{{item.price}}"><i><em>{{item.promotionRemark}}</em></i><b>充满自停</b></span>
+				<span onclick="clickTime(this)" class="list-time {{if item.promotion}}promotion{{/if}}" data-id="{{item.id}}" data-time="{{item.defaultTime}}" data-state="{{item.state}}" data-money="{{item.price}}"><i><em>{{item.promotionRemark}}</em></i><b>充满自停</b></span>
 			{{else}}
 				{{if item.defaultTime > 60 }}
-					<span class="list-time {{if item.promotion}}promotion{{/if}}" data-id="{{item.id}}" data-time="{{item.defaultTime}}" data-state="{{item.state}}" data-money="{{item.price}}"><i><em>{{item.promotionRemark}}</em></i><b>{{item.defaultTime/60 | formatNumber:'1'}}小时</b></span>
+					<span onclick="clickTime(this)" class="list-time {{if item.promotion}}promotion{{/if}}" data-id="{{item.id}}" data-time="{{item.defaultTime}}" data-state="{{item.state}}" data-money="{{item.price}}"><i><em>{{item.promotionRemark}}</em></i><b>{{item.defaultTime/60 | formatNumber:'1'}}小时</b></span>
 				{{else}}
-					<span class="list-time {{if item.promotion}}promotion{{/if}}" data-id="{{item.id}}" data-time="{{item.defaultTime}}" data-state="{{item.state}}" data-money="{{item.price}}"><i><em>{{item.promotionRemark}}</em></i><b>{{item.defaultTime}}分钟</b></span>
+					<span onclick="clickTime(this)" class="list-time {{if item.promotion}}promotion{{/if}}" data-id="{{item.id}}" data-time="{{item.defaultTime}}" data-state="{{item.state}}" data-money="{{item.price}}"><i><em>{{item.promotionRemark}}</em></i><b>{{item.defaultTime}}分钟</b></span>
 				{{/if}}
 			{{/if}}
 		{{/each}}
@@ -255,19 +255,23 @@
 	var scanGroup  = null;   	  //扫一扫的片区
 	var scanCdzID  = null;		  //扫一扫的充电桩ID	
 	var priceDesc  = [];	      // 价格描述
-
+	mui.init();
 	plusUtils.pageReady(function(){
+		initSwiper();	
 		checkLogin();	
 		geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
 		getChargingGroup();		
 	});
-	
+	document.addEventListener("netchange", function () {
+		getChargingGroup();
+	});
 	plusRefresh(dataRefresh);	
 	// 刷新页面
 	function dataRefresh() {
+		priceDesc  = [];
 		getChargingGroup();
 	}
-	initSwiper();	
+
 	//初始化选择桩号滑动效果	 
 	function initSwiper() {
 		swiper = new Swiper('.swiper-container', {
@@ -403,9 +407,10 @@
 		}
 	}
 	//插座点击事件
-	mui("body").on('tap','.SockeBox .item',function(){
-		$(this).addClass('active').siblings().removeClass('active');
-	});
+	function clickSocket(that){
+		$(that).addClass('active').siblings().removeClass('active');
+	}
+
 	//获取充电桩充电时长	
 	function getChargingGroupPrice(groupID) {
 		if(!vaildeParam(groupID)) {
@@ -430,36 +435,43 @@
 		},true)
 	}
 	//充电时长点击事件
-	mui("body").on('tap','.list-time',function(){
-		var state = $(this).attr('data-state');
-		var price = $(this).attr("data-money");
-		var priceId = $(this).attr("data-id");
+	function clickTime(that){		
+		var state = $(that).attr('data-state');
+		var price = $(that).attr("data-money");
+		var priceId = $(that).attr("data-id");
 		console.log(state,price,priceId)
-		$(this).addClass('active').siblings().removeClass('active');
+		$(that).addClass('active').siblings().removeClass('active');
 		$(".priceBox").text(price);
 		if(state == '1' || state == '2') {
 			if(!priceDesc[priceId]) {
 				postJSON(API_URL.ApiChargingPriceDesc, {"chargingPriceId": priceId}, function(res) {
 					if(res.code == '0') {
-						showPriceDesc(res.data);
+						showPriceDesc(res.data,state);
 						priceDesc[priceId] = res.data;
 					}
 				},true);
 			} else {
-				showPriceDesc(priceDesc[priceId]);
+				showPriceDesc(priceDesc[priceId],state);
 			}
 			$('#footer').find('.left').hide();
 		} else {
+			$(".mui-main").height("auto");
 			$('#footer').find('.left').show();
 			$('#chargingPriceDesc').html('');
 		}
-	});
+	};
 	//显示价格设置
-	function showPriceDesc(data) {
+	function showPriceDesc(data,state) {
 		var Html = '';
 		var data = {'list':data};
 		Html = template('PriceTmpl', data);
-		$('#chargingPriceDesc').html(Html); 
+		$('#chargingPriceDesc').html(Html);
+		var h1 = $('.box1').outerHeight(),
+			h2 = $('.box2').outerHeight(),
+			h3 = $('.chargingPriceDesc').outerHeight();
+		if(state == '1' || state == '2') {
+			$(".mui-main").height(h1+h2+h3+20+60);
+		}
 	}
 	$("#submitBtn").click(function() {
 		if(!vaildeParam(groupID)) {
@@ -502,7 +514,7 @@
 		var url = API_URL.ApiDeviceCommandSendChargeCommand;
 		postJSON(url, data, shargeSubmitResponse,true);
 	})
-
+	//下发充电
 	function shargeSubmitResponse(res) {
 		if("0" == res.code) {
 			setLoadingSuccess();
@@ -597,6 +609,8 @@
 					groupID = scanGroup.id;
 					getChargingByGroupID(groupID);
 					getChargingGroupPrice(groupID);
+					plusUtils.Storage.setItem("chargingGroupId",groupID);
+					plusUtils.Storage.setItem("addresses",scanGroup.name);
 				}			
 			} else {
 				layer.msg(res.msg)

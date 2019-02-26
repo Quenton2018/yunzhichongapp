@@ -3,13 +3,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>我的充值</title>
-	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="misapplication-tap-highlight" content="no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
-    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
-    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8">
+    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" charset="utf-8">
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/base.js"></script> 
+    <script src="../js/fastclick.js"></script>
+    <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
     	.h2{font-size: 16px;padding-left: 22px;color: #333;}
@@ -70,7 +75,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="../js/mui.min.js"></script>
 	<script type="application/javascript">
         var wxChannel = null; // 微信支付
         var aliChannel = null; // 支付宝支付
@@ -176,7 +180,7 @@
             console.log(" PAYSERVER :"+PAYSERVER)
             console.log(" channel :"+channel)
 			var load_index = layer.load();
-            var xhr=new XMLHttpRequest();
+            var xhr = new XMLHttpRequest();
             xhr.onreadystatechange=function(){         	
                 switch(xhr.readyState){
                     case 4:

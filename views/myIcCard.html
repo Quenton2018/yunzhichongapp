@@ -3,19 +3,24 @@
 <head>
 	<meta charset="UTF-8">
 	<title>我的IC卡</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="misapplication-tap-highlight" content="no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/base.js"></script> 
+    <script src="../js/fastclick.js"></script>
+    <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
     	.no-iccard{text-align: center;margin: 60px 0 0;}
 		.no-iccard img{width: 213px;height: 172px;}
 		.btn-submit{margin: 30px 20px 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
-    	.no-iccard-p{color: #3D3D3D;font-size: 15px;padding: 40px 0;}
+    	.no-iccard-p{color: #3D3D3D;font-size: 15px;padding: 40px 40px;}
     	.no-iccard-desc{color: #999;text-align: center;}
     	.iccard-box{margin: 20px 0;}
     	.list-iccard{position: relative;background: url('../img/views/iccard.png') no-repeat center;background-size: 100%;width: 352px;height: 181px;margin: 0 auto;}
@@ -37,7 +42,7 @@
 		<div class="yzc-main">
 			<div class="no-iccard">
 				<img src="../img/views/nulliccard.png" />
-				<p class="no-iccard-p">您还没有IC卡，请扫码或输入IC卡编号添加IC卡</p>
+				<p class="no-iccard-p">您还没有IC卡，请点击右上角扫一扫进行扫码或输入IC卡编号添加IC卡</p>
 			</div>
 			<div class="iccard-box" id="itemList"></div>
 			<div class="btn-submit" onclick="openNativeTitle('myIcCard_binding.html')">
@@ -49,7 +54,7 @@
 	<script type="text/html" id="listTmpl" >
 		{{each list as item index}}
 			<div class="list-iccard" data-id="{{item.id}}">
-				<p class="list-iccard-p"><span class="left">NO.{{item.card_id}}</span><span class="right" onclick="unBinging('{{item.card_id}}')">解除绑定</span></p>
+				<p class="list-iccard-p"><span class="left">NO.{{item.card_id}}</span><span class="right" onclick="unBinging(this,'{{item.card_id}}')">解除绑定</span></p>
 			</div>
 		{{/each}}
 		<div class="list-iccard-desc">
@@ -57,11 +62,14 @@
 		</div>
 	</script>
 	
-	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		plusUtils.pageReady(function(){
 			getList();
 		});
+		//刷新页面
+		function dataRefresh(){
+			getList();
+		}
 		function getList(){
 			if (vaildeParam(uuid)) {
 				$('#itemList').html('');
@@ -106,7 +114,7 @@
 			});
 		}
 		//解除IC卡
-		function unBinging(iccard) {
+		function unBinging(that,iccard) {
 			mui.confirm('您确认解除与此卡的绑定？', function(event) {
 				if (event.index == 1) {
 					return;
@@ -118,7 +126,7 @@
 	    			}, function(res) {
 	    				if (res.code == '0') {
 	    					layer.msg("解除绑定成功");
-	    					getList();
+							dataRefresh();
 	    				} else {
 	    					layer.msg(res.msg);
 	    				}

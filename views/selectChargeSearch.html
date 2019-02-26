@@ -3,14 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>切换充电桩地址</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="misapplication-tap-highlight" content="no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
+    <script src="../js/fastclick.js"></script>
     <script src="../js/base.js"></script>
-    <script src="../js/common.js"></script>    
+    <script src="../js/common.js"></script>     
     <style type="text/css">
     	body{overflow: hidden;height: auto;}
     	.mui-plus .header-immersed{display:none;}
@@ -80,7 +85,7 @@
 			{{/if}}
 		{{/each}}
 	</script>
-	<script src="../js/mui.min.js"></script>
+
 	<script type="text/javascript">
 		var $addressInfo = $("#addressInfo");
 		//当前选择的片区
@@ -175,9 +180,13 @@
 		$("#search").on("focus",function(){
 			$(".yzc-cdz").hide();
 		})
-//		$("#search").on('input propertychange',function(){
-//			doSearch();
-//		})
+		$("#search").on("blur",function(){
+			doSearch();
+		})
+		$("#search").on('input propertychange',throttle(function(){
+			$(".yzc-cdz").hide();
+            doSearch();
+        }, 500));
 		//搜索input监听
 		document.getElementById("searchForm").onsubmit = function() {
 			$("#search").blur();
@@ -208,8 +217,10 @@
 						layer.msg(res.msg);
 					}
 				});
+				$(".search-content").show();
 			}else{
 				$(".yzc-cdz").show();
+				$(".search-content").hide();
 			}
 		}
 	</script>

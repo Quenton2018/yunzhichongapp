@@ -3,20 +3,26 @@
 	<head>
 		<meta charset="utf-8">
 		<title>消息详情</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="misapplication-tap-highlight" content="no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="MobileOptimized" content="320"/>
 		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
-		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
-		<script src="../js/jquery-3.3.1.min.js"></script>
-		<script src="../plugins/layer/layer.js"></script>
-		<script src="../js/base.js"></script>
-		<script src="../js/common.js"></script>
+	    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	    <script src="../js/jquery-3.3.1.min.js"></script>
+	    <script src="../js/mui.min.js"></script>
+	    <script src="../plugins/layer/layer.js"></script>
+	    <script src="../js/artTemplate.min.js"></script>
+	    <script src="../js/fastclick.js"></script>
+	    <script src="../js/base.js"></script>
+	    <script src="../js/common.js"></script> 
 		<style type="text/css">
-			body{background-color: #f2f2f2;}
-        	.mui-content .mui-scroll-wrapper{padding-top: 80px;overflow: hidden;}
+			body,.mui-content{background-color: #f2f2f2;}
+        	.mui-content .mui-scroll-wrapper{overflow: hidden;}
         	.mui-scrollbar {display: none !important;}  
-        	.mui-table-view{background-color: #f2f2f2;margin: 0 10px;}
+        	.mui-table-view{background-color: #f2f2f2;margin: 10px 10px;}
         	.mui-table-view-cell{margin-bottom: 10px;background-color: #fff;border-radius: 5px;}
-        	.mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after{display: none;}
+        	.mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after{display: none;}     	
 		</style>
 	</head>
 	<body>
@@ -24,14 +30,12 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">消息详情</h1>
 		</header>
-		<div class="mui-content">
-		    <div id="pullrefresh" class="mui-scroll-wrapper">
-		    	<div class="mui-scroll">
-					<div class="mui-table-view mui-table-view-chevron" id="dataBox">
-						
-					</div>
-				</div>
-			</div>
+		<div id="J_refresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+		    	<ul class="mui-table-view mui-table-view-chevron" id="itemList">
+	
+				</ul>
+		   	</div>
 		</div>
 		<script type="text/html" id="dataTmpl">
 			<div class="mui-table-view-cell mui-media" data-id="{{id}}" style="position: relative;">
@@ -44,102 +48,64 @@
 				</div>
 				<div class="mui-slider-right mui-disabled">
 					<!--<a class="mui-btn mui-btn-blue">标记已读</a>-->
-					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-trash"></a>
+					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-trash" data-id="{{id}}"></a>
 				</div>
 				<div style="clear: both;"></div>
 			</div>
 		</script>
 	</body>
-	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		var pageNumber = 1;
-		var pageSize = 10;
-		var $dataBox = $("#dataBox");
-		if(window.plus) {
-			pagePlusReady();
-		} else {
-			document.addEventListener('plusready', pagePlusReady, false);
-		}
-//		plusUtils.pageReady(function() {
-//	        getUserInfo();
-//	    });
-		function pagePlusReady() {
-			mui.init({
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						//callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
-				}
-			});
-			pulldownRefresh();
-		}
+		var pageSize  = 10;
+		var $itemList = $("#itemList");
+		
+		plusUtils.pageReady(function() {
+	        loadData();
+	    });	
+		pullRefresh(dataRefresh,function() {	
+			pageNumber++;
+			loadData();	
+		});		
+		// 刷新页面
+	    function dataRefresh(){
+	        pageNumber = 1;
+	        loadData();
+	    }
 
-		function loadData(page, callback, isClear) {
-			var uuid = plus.storage.getItem("uuid");
-			var api = API_URL.ApiMessageGetMessageList;
-			var data = {
+		function loadData() {
+			var category = plusUtils.Storage.getItem("category");
+			var api = API_URL.ApiMessageGetMessageAll;
+			var params = {
 				'uuid': uuid,
-				'type': 'common',
-				'pageNumber': page,
+				'category': category,
+				'pageNumber': pageNumber,
 				'pageSize': pageSize
 			}
-
-			postJSON(api, data, function(res) {
+			postJSON(api, params, function(res) {
 				if("0" == res.code) {
-					if(isClear) {
-						$dataBox.html('');
-					}
-					if(res.data.pagedata.last) {
-						//加载完毕
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
-					} else {
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
-					}
+					var list = res.data;;
+					stopRefresh(list.length,pageSize);					
+					if(1 == pageNumber){
+	                    $itemList.html('');
+	                }
 					var html = '';
 					var dataTmpl = $("#dataTmpl").html();
-					$.each(res.data.pagedata.content, function(index, item) {
+					$.each(list, function(index, item) {
 						//var memberArray = eval(item.member);
 						var title = item.title;
 						if(null == title) {
 							title = '系统管理员'
 						}
-						var createDate = jsDateDiff(item.createDate / 1000);
-						var messageContent = item.content;
 						html += dataTmpl.replace(/{{title}}/g, title)
 							.replace(/{{id}}/g, item.id)
-							.replace(/{{messageContent}}/g, messageContent)
-							.replace(/{{date}}/g, createDate)
+							.replace(/{{messageContent}}/g, item.context)
+							.replace(/{{date}}/g, item.time)
 					})
-					$dataBox.append(html);
-					if(null != callback) {
-						callback(res);
-					}
+					$itemList.append(html);
 				} else {
 					layer.msg(res.msg);
 				}
 			})
-		}
-
-		/**
-		 * 下拉刷新具体业务实现
-		 */
-		function pulldownRefresh() {
-			console.log("## pulldownRefresh ##")
-			pageNumber = 1;
-			loadData(1, null, true);
-		}
-		/**
-		 * 上拉加载具体业务实现
-		 */
-		function pullupRefresh() {
-			console.log("## pullupRefresh ##")
-			pageNumber++;
-			loadData(pageNumber, null, false);
 		}
 
 		function itemClick(that) {
@@ -157,13 +123,26 @@
 		$('body').on('click','.mui-btn-yellow',function() {
 			var elem = this;
 			var li = elem.parentNode.parentNode;
+			var id = $(elem).attr('data-id');
 			mui.confirm('确认删除该条记录？', btnArray, function(e) {
-				if (e.index == 0) {     
+				if (e.index == 0) {
+					delMessage(id,li);
+				}
+			});
+		});
+		function delMessage(id,li){
+			var params = {
+				uuid:uuid,
+				messageIds:id
+			}
+			postJSON(API_URL.ApiMessageDeleteMessage,params,function(res){
+				layer.msg(res.msg)
+				if(res.code == "0"){			
 					//删除数据调用接口
 					li.parentNode.removeChild(li);
 				}
 			});
-		});
+		}
 	</script>
 
 </html>

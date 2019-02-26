@@ -3,13 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>版本信息</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="misapplication-tap-highlight" content="no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/base.js"></script> 
-    <script src="../js/common.js"></script>   
+    <script src="../js/fastclick.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/common.js"></script> 
+ 
     <style type="text/css">
 		.logo{margin: 50px 0;}
 		.logo h2{color: #333;font-size: 18px;padding: 10px 0;}
@@ -37,20 +43,67 @@
 			</div>
 		</div>
 	</div>
-	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
 		$(".appVersion1").text(appVersion);
 		plusUtils.pageReady(function() {
-	        checkVersion();
+	        checkPageVersion();
 	    });
+	    function postJSON(url, data, callback,isIcon){
+			if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+				layer.msg("网络异常，请检查网络设置！");
+				return false;
+			}
+			url += "?"+jsonToParams(data);
+			var xhr = new plus.net.XMLHttpRequest();	
+			xhr.onreadystatechange = function () {
+			    switch ( xhr.readyState ) {
+			        case 4:       	
+			            if ( xhr.status == 200 ) {
+		            		var responseText = xhr.responseText;
+		            		console.log("## postJSON ## url : "+url)
+		            		console.log("## responseText: "+responseText)
+		            	 	var json = JSON.parse(responseText);
+		            	 	try{
+								callback(json);
+							}catch(e){						
+								layer.msg("页面异常，请稍后再试！");
+								console.error(e)
+							}        		
+			            } else {
+		            		layer.msg("系统服务异常，请稍后再试！");
+		            		console.log(url+"接口请求失败 :"+xhr.responseText)
+			            }
+			            break;
+			        default :
+			            break;
+			    }
+		    }
+			xhr.open("POST", url);
+			xhr.send(null);
+		}
+	    // 格式化 post 传递的数据
+		function jsonToParams(obj) {
+			if(typeof obj != "object") {
+				alert("输入的参数必须是对象");
+				return;
+			}
+			// 不支持FormData的浏览器的处理 
+			var arr = new Array();
+			var i = 0;
+			for(var attr in obj) {
+				arr[i] = encodeURIComponent(attr) + "=" + encodeURIComponent(obj[attr]);
+				i++;
+			}
+			return arr.join("&");
+		}
 		/**
      	* 检查版本
      	*/
-	    function checkVersion() {
+	    function checkPageVersion() {
 	        var osName = plus.os.name;
-	        var version = appVersion;	
+	        var version = appVersion;
 	        postJSON(API_URL.AppVersionGetNewest,{"appType":osName},function (res) {
-				if (res.code == '0' && vaildeParam(res.data)) {
+				if (res.code == '0') {
 					$(".appVersion2").text(res.data.version);
 	                if (compareVersion(res.data.version)) {
 						$("#downloadBtn").css("display",'block').click(function () {

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>登录</title>
+	<title>忘记密码</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 	<meta name="misapplication-tap-highlight" content="no"/>
 	<meta name="HandheldFriendly" content="true"/>
@@ -16,17 +16,19 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
+    	body{overflow: hidden;height: auto;}
+    	.mui-plus .header-immersed{display:none;}
+		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
+		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
 		.logo{margin: 50px 0;}
 		.login-form{margin:0 50px;}
 		.form-group{position: relative;margin-bottom: 15px;}
 		.form-group label{position: absolute;left: 0;top: 6px;}
-		.form-group input{border-radius: 0;
-			border: none;border-bottom: 1px solid #eae5e0;
-		    font-size: 18px;color: #333;padding-left: 30px;margin-bottom: 0;  
-		}
+		.form-group input{border-radius: 0;border: none;border-bottom: 1px solid #eae5e0;font-size: 18px;color: #333;padding-left: 30px;margin-bottom: 0;}
 		.btn-code{display: inline-block;padding: 10px 15px;position: absolute;right: 0;top: 0;color: #333;font-size: 15px;}
-		.btn-submit{margin: 30px 0 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));letter-spacing: 40px;text-indent: 40px;font-size: 18px;}
-    	.login-method{text-align:right;padding-bottom:10px;color:#FD8324;font-size:14px;}
+		.btn-submit{margin: 50px 0 0;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));letter-spacing: 40px;text-indent: 40px;font-size: 18px;}
     	.footer{position: absolute;bottom: 50px;width: 100%;text-align: center;left: 0;}
     	.footer .forgetpass{font-size: 15px;color: #666;padding: 10px 20px 10px 0;}
     	.footer span{font-size: 15px;color: #666;padding: 10px 10px 10px 20px;}
@@ -35,7 +37,8 @@
 </head>
 <body>
 	<header class="header header-immersed mui-bar mui-bar-nav">
-    	<h1 class="mui-title">登录</h1>
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    	<h1 class="mui-title">忘记密码</h1>
 	</header>
 		
 	<div class="mui-content" style="background: #fff;">
@@ -49,40 +52,29 @@
 				</label>
 				<input type="tel" name="mobile" placeholder="请输入手机号" maxlength="11"/>
 			</div>
-			<div class="form-group passWord">
+			<div class="form-group">
 				<label>
 					<img src="../img/views/password.png" width="15" height="18" />
 				</label>			
-				<input type="password" name="password" placeholder="请输入密码" />
+				<input type="password" name="password" placeholder="请重置新密码" />
 			</div>
-			<div class="form-group code hide">
+			<div class="form-group">
 				<label>
 					<img src="../img/views/code.png" width="15" height="18" />
 				</label>			
 				<input type="text" name="code" placeholder="请输入验证码" maxlength="8" />
 				<span class="btn-code" id="codeBtn">获取验证码</span>
 			</div>
-			<div class="login-method">
-				<span id="LoginMethod" style="padding:10px">手机快捷登录</span>
-			</div>
-			<div class="btn-submit" id="loginBtn">
-				<span>登录</span>
+			<div class="btn-submit" id="registerBtn">
+				<span>确认</span>
 			</div>
 		</form>
 		<div class="footer">
-			<a class="forgetpass" href="forgetpass.html">忘记密码</a>|<span>没有账号?</span>
-			<a class="register" href="register.html">注册</a>
+			<span>已有账号?</span>
+			<a class="register" href="login.html">去登录</a>
 		</div>
 	</div>
 	<script type="text/javascript">
-		mui.plusReady(function(){
-			plus.webview.currentWebview().setStyle({
-				popGesture:'none' // 关闭侧滑返回功能
-			});
-			plus.key.addEventListener("backbutton",function(){
-				plus.runtime.quit();
-	        });
-		});
 		var isLock = false; //是否锁定
         var time = 60; //倒计时
         var timeInterval; //定时器
@@ -126,23 +118,10 @@
                 }
             },true)
         });
-		//密码与快捷登录切换
-	    var methodFlag = false;
-	    mui('body').on("tap",'#LoginMethod',function(){
-	    	if(methodFlag){
-	    		$(this).text('手机快捷登录');
-	    		$('.code').hide();
-	    		$('.passWord').show();
-	    		methodFlag = false;
-	    	}else{
-	    		$(this).text('密码登录');
-	    		$('.code').show();
-	    		$('.passWord').hide();
-	    		methodFlag = true;
-	    	}
-	    });
-	    mui('body').on("tap",'#loginBtn',function(){
+	    mui('body').on("tap",'#registerBtn',function(){
             var mobile = $("input[name='mobile']").val();
+            var userpass = $("input[name='password']").val();
+            var code= $("input[name='code']").val();
             if(!vaildeParam(mobile)){
                 layer.msg("手机号不能为空");
                 return;
@@ -151,62 +130,38 @@
                 layer.msg("手机格式不正确");
                 return;
             }
-            if(methodFlag){
-	            var code= $("input[name='code']").val();
-	            if(!vaildeParam(code)){
-	                layer.msg("验证码不能为空");
-	                return;
-	            }				
-				var clientInfo = plus.push.getClientInfo().clientid;
-	            var params = {
-	                "clientInfo":clientInfo,
-	                "mobile": mobile,
-	                "code":code
-	            }
-	            loginCode(params);
-	        }else{
-	        	var userpass= $("input[name='password']").val();
-	            if(!vaildeParam(userpass)){
-	                layer.msg("密码不能为空");
-	                return;
-	            }				
-//				var clientInfo = plus.push.getClientInfo().clientid;
-				var clientInfo = null;
-	            var params = {
-	                "clientInfo":clientInfo,
-	                "mobile": mobile,
-	                "password":userpass
-	            }
-	            loginPassword(params);
-	        }
+            if(!vaildeParam(userpass)){
+                layer.msg("密码不能为空");
+                return;
+            }
+            if(userpass.length < 6){
+                layer.msg("密码长度不少于6位");
+                return;
+            }
+            if(!vaildeParam(code)){
+                layer.msg("验证码不能为空");
+                return;
+            }       
+            var params = {
+                "mobile":mobile,
+                "password":userpass,
+                "code":code
+            }
+            passForget(params);
         });
-        //验证码登录
-        function loginCode(params){
-        	postJSON(API_URL.ApiMemberLogin,params,function(res){
+        //忘记密码
+        function passForget(params){
+            postJSON(API_URL.APIfMemberForgetThePassword,params,function(res){
                 if("0" == res.code){
-                    layer.msg("登录成功，正在跳转...");
-                    setLoginData(res.data);
+                    layer.msg("重置成功，正在跳转...");
+                    setLoginData(res.data.uuid,res.data.mobile);
                     setTimeout(function(){
-                        openWebview('../index.html')
+                        clicked('../index.html')
                     },2000);
                 }else{
                     layer.msg(res.msg);
                 }
-            });
-        }
-        //密码登录
-        function loginPassword(params){
-        	postJSON(API_URL.ApiMemberLogin,params,function(res){
-                if("0" == res.code){
-                    layer.msg("登录成功，正在跳转...");
-                    setLoginData(res.data);
-                    setTimeout(function(){
-                        openWebview('../index.html')
-                    },2000);
-                }else{
-                    layer.msg(res.msg);
-                }
-            });
+            })
         }
 		/**
 		 * 校验手机号码

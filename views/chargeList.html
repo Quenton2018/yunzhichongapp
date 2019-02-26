@@ -3,21 +3,26 @@
 <head>
 	<meta charset="UTF-8">
 	<title>我的充电</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="misapplication-tap-highlight" content="no"/>
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/mui.min.js"></script>
-    <script src="../js/base.js"></script> 
-    <script src="../js/common.js"></script>   
+    <script src="../js/fastclick.js"></script>
+    <script src="../js/base.js"></script>
+    <script src="../js/common.js"></script> 
     <style type="text/css">
     	.charge-ul{border-top: 1px solid #eee;}
 		.charge-list{padding: 20px;border-bottom: 1px solid #eee;position: relative;}
 		.list-time{font-size: 16px;color: #333;}
 		.list-time i{width:10px;height:10px;background:#FF6D22;border-radius:50%;display: inline-block;margin-right: 6px;vertical-align: 1px;}
     	.list-desc{font-size: 14px;color: #999;padding-left: 15px;margin: 0;}
+    	.list-desc.fail{color: #F66F37;}
     	.mui-navigate-right{position: absolute;right: 40px;top: 35px;font-size: 16px;color: #333;}
     	.mui-navigate-right:after, .mui-push-right:after{right: -20px;}
     	.icon-dingwei{color:#FF6D22;font-size:16px;vertical-align:-1px;}
@@ -60,7 +65,7 @@
 					<a href="chargeDetail.html?orderNo={{item.sn}}">
 						<p class="list-time"><i></i>{{item.createDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</p>
 						{{if item.status == 2 && !item.successFlag}}
-							<p class="list-desc">充电失败，退款已返回至您的钱包</p>
+							<p class="list-desc fail">充电失败，退款已返回至您的钱包</p>
 						{{else}}
 							<p class="list-desc">充电成功，已充时长{{item.chargingTime}}分钟</p>
 						{{/if}}

@@ -8,6 +8,7 @@
 		<title>扫一扫</title>
 		<script src="../js/jquery-3.3.1.min.js"></script>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/fastclick.js"></script>
 		<script src="../js/base.js"></script>
 		<script src="../js/common.js"></script>
 		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
@@ -45,7 +46,10 @@
 				plusReady();
 			}, false);
 			// H5 plus事件处理
-			function plusReady(){		
+			function plusReady(){	
+				if(ws||!window.plus||!domready){
+					return;
+				}
 				var typeArr = new Array();
 				typeArr.push(plus.barcode.QR);
 				typeArr.push(plus.barcode.EAN13);
@@ -53,9 +57,6 @@
 				typeArr.push(plus.barcode.CODE39);
 				typeArr.push(plus.barcode.CODE93);
 				typeArr.push(plus.barcode.CODE128);	
-				if(ws||!window.plus||!domready){
-					return;
-				}
 				var styles = {frameColor: "#F87C1A",scanbarColor: "#F87C1A"};
 				
 				// 获取窗口对象
