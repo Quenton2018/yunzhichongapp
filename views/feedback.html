@@ -252,9 +252,11 @@
 						uuid: uuid,
 						type:0,
 						content: feedback.question.value,
-						contact: feedback.contact.value,
-						images: feedback.files,
-						score:''+starIndex
+						address:'',
+						chargingNum:'',
+						remark: feedback.contact.value,
+						picture: '',//feedback.files
+						star:''+starIndex
 					})) 
 				}, false)
 				feedback.send = function(params) {

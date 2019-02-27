@@ -1,10 +1,9 @@
 //var apiHost = "http://api.jx9n.com";
 apiHost = "http://39.106.62.16:8181";
-//if(!window.plus){
+//if(!navigator.plus){
 //	apiHost = "http://192.168.1.52:3000"
 //}
-//apiHost = "http://192.168.1.17:8181";
-var appVersion = "v3.1.0"; //app当前版本
+var appVersion = "v3.2.0"; //app当前版本
 
 var API_URL = {};
 API_URL.ApiSmsSendCode = apiHost + "/api/sms/sendCode"; //发送短信接口

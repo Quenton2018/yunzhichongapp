@@ -9,6 +9,7 @@
 	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/iconfont.css" />
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
@@ -17,19 +18,16 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script> 
 	<style type="text/css">
-		.bottom-content p{font-size:18px;color:#000000;}
-		.middle-content{background:#ffffff;}
+		.bottom-content p{font-size:18px;color:#000;}
+		.middle-content{background:#fff;}
 		.mui-table-view-cell>a:not(.mui-btn){white-space:inherit;}
 		.mui-ellipsis{white-space:inherit;text-overflow:ellipsis;}
 		.mui-table-view-cell p{margin-bottom:0;}
-		.myList .listItem i{color:#000000;margin-right:10px;}
+		.myList .listItem i{color:#000;margin-right:10px;}
 		.myList img{height:70px;}
-		p{font-size:16px;}
 		.mui-table-view .mui-media-object{line-height:42px;max-width:78px;height:82px;}
-		.mui-media-body{font-size:20px;line-height:28px;}
+		.mui-media-body{font-size:20px;line-height:28px;color:#555;}
 		.icon-zuanshi{color:#E4C133;}
-		.loadMore{background:#eaeaea;padding:10px;text-align:center;font-size:.8rem;display:none;}
-		.noMore{padding:10px;text-align:center;font-size:.8rem;			/*display: none;*/background:#EFEFF4;}
 		.mui-table-view:before{background-color:#EFEFF4;}
 		.mui-table-view:after{background-color:#EFEFF4;}
 	</style>
@@ -39,35 +37,42 @@
 	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	<h1 class="mui-title">兑换记录</h1>
 </header>
-<div class="bodyContent"style="padding-top:90px; padding-bottom: 20px ">
-	<div class="middle-content">
-		<div class="myList">
-			<ul class="mui-table-view dataList" id="dataList" ></ul>
+
+<div id="J_refresh" class="mui-content mui-scroll-wrapper" style="background: #EFEFF4;">
+	<div class="mui-scroll">
+		<div class="middle-content">	
+			<div class="myList">
+				<ul class="mui-table-view dataList" id="dataList" ></ul>
+			</div>
+			<script type="text/html" id="dataTmpl">
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;" class="">
+						<img class="mui-media-object mui-pull-right" src="{{image}}">
+						<div class="mui-media-body">
+							{{name}}
+							<p class="mui-ellipsis"> <span >{{shippingStatus}}</span>  <span><i class="iconfont icon-zuanshi"></i>{{points}}云钻</span> + {{money}} 元   </br> {{createDate}}</p>
+						</div>
+					</a>
+				</li>
+			</script>
 		</div>
-		<div id="loadMore" class="loadMore">加载更多</div>
-		<div id="noMore" class="noMore">没有更多了</div>
-		<script type="text/html" id="dataTmpl">
-			<li class="mui-table-view-cell mui-media">
-				<a href="javascript:;" class="">
-					<img class="mui-media-object mui-pull-right" src="{{image}}">
-					<div class="mui-media-body">
-						{{name}}
-						<p class="mui-ellipsis"> <span >{{shippingStatus}}</span>  <span><i class="iconfont icon-zuanshi"></i>{{points}}云钻</span> + {{money}} 元   </br> {{createDate}}</p>
-					</div>
-				</a>
-			</li>
-		</script>
 	</div>
 </div>
 <script type="text/javascript">
     var pageNumber = 1;
     var pageSize = 5;
-    plusUtils.pageReady(function(){
-        $("#loadMore").css({"display":"none"});
-        $("#noMore").css({"display":"none"});
+	plusUtils.pageReady(function() {
         getList();
-    });
-
+    });	
+	pullRefresh(dataRefresh,function() {	
+		pageNumber++;
+		getList();	
+	});		
+	// 刷新页面
+    function dataRefresh(){
+        pageNumber = 1;
+        getList();
+    }
     function getList(){
         if(vaildeParam(uuid)){
             var dataParam = {
@@ -77,11 +82,14 @@
             }
             postJSON(API_URL.ApiProductGetProductOrdersList,dataParam,function(res){
                 if("0" == res.code){
-                    var data = res.data.pagedata.content;
-
+					var list = res.data.pagedata.content;
+					stopRefresh(list.length,pageSize);					
+					if(1 == pageNumber){
+	                    $(".dataList").html('');
+	                }
                     var tmpl = $("#dataTmpl").html();
                     var html = '';
-                    $.each(data, function(index,item) {
+                    $.each(list, function(index,item) {
                         	var orderData = item.orderData;
                         var  image = JSON.parse(orderData).image;
                         var  name = JSON.parse(orderData).name;
@@ -93,37 +101,22 @@
 						}else if('shipped'==shippingStatus){
                             shippingStatus = '已发货';
 						}
-                        var createDate = jsDateDiff(item.createDate / 1000);
+//                      var createDate = jsDateDiff(item.createDate / 1000);
 
                         html += tmpl.replace(/{{name}}/g,name)
-                            .replace(/{{createDate}}/g,createDate)
+                            .replace(/{{createDate}}/g,new Date(item.createDate).formatDate("yyyy-MM-dd hh:mm:ss"))
                             .replace(/{{points}}/g,points)
                             .replace(/{{money}}/g,totalMoney)
                             .replace(/{{shippingStatus}}/g,shippingStatus)
                             .replace(/{{image}}/g,image);
                     });
-                    if(1 == pageSize){
-                        $(".dataList").html("");
-                    }
                     $(".dataList").append(html);
-                    if(true == res.data.pagedata.last){
-                        $("#loadMore").css({"display":"none"});
-                        $("#noMore").css({"display":"block"});
-                    }else{
-                        $("#loadMore").css({"display":"block"});
-                        $("#noMore").css({"display":"none"});
-                    }
                 }else{
                     layer.msg(res.msg);
                 }
             })
         }
     }
-
-    $("#loadMore").click(function(){
-        pageNumber++;
-        getList();
-    });
 </script>
 </body>
 </html>

@@ -74,9 +74,9 @@
 					var cdzID = res.data.id;
 					var scanGroup = res.data.groupId;
 					if(vaildeParam(scanGroup)) {
-						plus.storage.setItem("chargingGroupId",scanGroup.id);
-						plus.storage.setItem("addresses",scanGroup.name);
-						plus.storage.setItem("inputCdzID",cdzID);
+						plusUtils.Storage.setItem("chargingGroupId",scanGroup.id);
+						plusUtils.Storage.setItem("addresses",scanGroup.name);
+						plusUtils.Storage.setItem("inputCdzID",cdzID);
 						returnWindow("selectChargeMethod.html");
 					}			
 				} else {

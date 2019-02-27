@@ -1,39 +1,90 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>收货地址</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-	<meta name="misapplication-tap-highlight" content="no"/>
-	<meta name="HandheldFriendly" content="true"/>
-	<meta name="MobileOptimized" content="320"/>
-	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/>
+    <title>收货地址</title>
+    <link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/mui.picker.min.css" type="text/css" />
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/mui.min.js"></script>
+    <script src="../js/mui.picker.min.js"></script>
+	<script src="../js/data.city.js"></script>
     <script src="../plugins/layer/layer.js"></script>
-    <script src="../js/artTemplate.min.js"></script>
-    <script src="../js/fastclick.js"></script>
     <script src="../js/base.js"></script>
-    <script src="../js/common.js"></script>   
+    <script src="../js/common.js"></script>
     <style type="text/css">
-		
+    	body{overflow: hidden;height: auto;}
+        .layui-form-item{background: #fff;padding: 15px 15px;border-bottom: 1px solid #eee;}
+        .sh-info span{font-size: 15px;color: #333;padding-right: 20px;}
+    	.sh-address{margin-bottom: 0;font-size: 14px;}
     </style>
 </head>
-<body>
-	<header class="header header-immersed mui-bar mui-bar-nav">
-		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    	<h1 class="mui-title">收货地址</h1>
-	</header>
-	
-	<div class="mui-content">
-		
-	</div>
-	<script type="text/javascript">
-		mui.init();
-		mui.plusReady(function(){
+<body style="background: #EBECEE;">
 
-		})
-	</script>
+<header class="header header-immersed mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">收货地址</h1>
+</header>
+
+<div class="mui-content" style="background: #EBECEE;">
+    <div class="form-box">
+    	<form class="mui-form">
+	        <div class="layui-form-item mui-clearfix">
+	            <p class="sh-info"><span class="username"></span><span class="mobile"></span></p>
+	            <p class="sh-address"></p>
+	        </div>        
+        </form>
+    </div>
+    <div class="btn-submit mui-bar mui-bar-tab" onclick="openNativeTitle('deliveryAddressAdd.html')">
+        <span>修改收货地址</span>
+    </div>
+</div>
+
+
+
+<script type="application/javascript">
+    mui.init();
+    var userinfo;
+	plusUtils.pageReady(function(){
+		updateUserInfo();
+	});
+	// 刷新页面
+    function dataRefresh(){
+        updateUserInfo();
+    }
+	//更新用户信息
+ 	function updateUserInfo(){
+        postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
+            if("0" == res.code){
+                setLoginData(res.data);
+                getUserInfo();
+            }else{
+                layer.msg(res.msg);
+                clearLogin();
+                openWebview("login.html");
+            }
+        })
+    }
+ 	//取缓存里用户数据
+    function getUserInfo(){
+        var userinfo = plusUtils.Storage.getItem("userinfo");        
+        if(vaildeParam(userinfo)){
+          	userinfo = JSON.parse(userinfo);
+			$(".username").text(userinfo.nickname);
+			var tel = userinfo.mobile.replace(/(\d{3})\d*(\d{4})/,'$1****$2');
+			$(".mobile").text(tel);
+			$('.sh-address').text(userinfo.homeAddress);
+        }else{
+            layer.msg("用户不存在");
+            clearLogin();
+            openWebview("login.html");
+        }
+    }
+</script>
 </body>
 </html>

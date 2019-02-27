@@ -74,7 +74,7 @@
 	        	layer.msg(res.msg);
 	            if("0" == res.code){
 	                setTimeout(function(){
-	                    var ws=plus.webview.currentWebview();
+	                    var ws = plus.webview.currentWebview();
 	                    var wo = ws.opener();
 	                    mui.fire(wo, "changeName", {  
                             nickname: nickname  

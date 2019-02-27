@@ -20,10 +20,7 @@
 		.login-form{margin:0 50px;}
 		.form-group{position: relative;margin-bottom: 15px;}
 		.form-group label{position: absolute;left: 0;top: 6px;}
-		.form-group input{border-radius: 0;
-			border: none;border-bottom: 1px solid #eae5e0;
-		    font-size: 18px;color: #333;padding-left: 30px;margin-bottom: 0;  
-		}
+		.form-group input{border-radius: 0;border: none;border-bottom: 1px solid #eae5e0;font-size: 18px;color: #333;padding-left: 30px;margin-bottom: 0;}
 		.btn-code{display: inline-block;padding: 10px 15px;position: absolute;right: 0;top: 0;color: #333;font-size: 15px;}
 		.btn-submit{margin: 30px 0 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));letter-spacing: 40px;text-indent: 40px;font-size: 18px;}
     	.login-method{text-align:right;padding-bottom:10px;color:#FD8324;font-size:14px;}
@@ -170,8 +167,8 @@
 	                layer.msg("密码不能为空");
 	                return;
 	            }				
-//				var clientInfo = plus.push.getClientInfo().clientid;
-				var clientInfo = null;
+				var clientInfo = plus.push.getClientInfo().clientid;
+//				var clientInfo = null;
 	            var params = {
 	                "clientInfo":clientInfo,
 	                "mobile": mobile,

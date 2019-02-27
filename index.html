@@ -15,7 +15,7 @@
 	<script src="js/fastclick.js"></script>
 	<script src="js/base.js"></script>
 	<script src="js/common.js"></script>
-	<script src="js/mui.min.js"></script>
+	<script src="js/updateApp.js"></script>
     <style type="text/css">
 		.mui-content{background-image:url("img/app_11.png");background-size:cover;padding-bottom:110px;}
 		.banner{display: block;width: 80%;margin: 0 auto;}
@@ -39,7 +39,7 @@
 
 	<footer class="footer" style="text-align: center">
 		<!--<div class="button" onclick="getCurrentPosition()">获取定位信息</div>-->
-		<div class="footer-btn">
+		<div class="footer-btn mui-clearfix">
 			<div class="left">			
 				<img src="img/app_15.png" onclick="selectChargeMethod()" >
 			</div>
@@ -48,7 +48,6 @@
 					<img src="img/app_16.png">
 				</a>
 			</div>
-			<div style="clear: both"></div>
 		</div>
 	</footer>
 		
@@ -61,12 +60,13 @@
 		plus.key.addEventListener("backbutton",function(){
 			plus.runtime.quit();
         });
+        heatUpdate(); // 热更新
 	});
 	plusUtils.pageReady(function(){
 		getMidBigPic();	
         getUserInfo();       
 		getCurrentPosition();			
-//  	heatUpdate(); // 热更新
+
 	});
 	plusRefresh(dataRefresh);
 	//刷新页面

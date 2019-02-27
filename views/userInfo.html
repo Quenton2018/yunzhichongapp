@@ -74,9 +74,7 @@
         window.addEventListener("changeName", function(event) {  
             var nickname = event.detail.nickname;  
             $("#nickname").text(nickname);
-            var ws = plus.webview.currentWebview();
-	        var wo = ws.opener();
-	        wo.evalJS('dataRefresh()');
+            plusUtils.appPage.openerEvalJS();
         }); 
 	})
 	//更新用户信息

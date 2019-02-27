@@ -4,18 +4,15 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>商品详情</title>
-	<link rel="stylesheet" href="../css/iconfont.css">
-	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
-	<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/iconfont.css">
 	<script src="../js/jquery-3.3.1.min.js"></script>
 	<script src="../js/mui.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../plugins/layer/layer.js"></script>
 	<script src="../js/base.js"></script>
 	<script src="../js/common.js"></script>
-    <script src="../js/mui.min.js"></script>
-
 	<style type="text/css">
         .productBox{padding-top:80px;}
         .mui-slider .mui-slider-group .mui-slider-item>a:not(.mui-control-item){text-align:center;}
@@ -129,7 +126,7 @@
                     var totalMoney1 =   parseFloat(totalMoney);
                     var duihuanyue1 =    parseFloat(duihuanyue);
                     if( (points1 > productPoints1) && (totalMoney1>duihuanyue1)  ){
-                        openWebview("../page/mallAddress.html");
+                        openNativeTitle("mallAddress.html");
                     }else{
                         layer.msg("您的云钻或余额不足,无法兑换");
                         return;
