@@ -63,35 +63,15 @@
         heatUpdate(); // 热更新
 	});
 	plusUtils.pageReady(function(){
-		getMidBigPic();	
-        getUserInfo();       
+		getMidBigPic();	       
 		getCurrentPosition();			
 
 	});
 	plusRefresh(dataRefresh);
 	//刷新页面
 	function dataRefresh(){
-		getUserInfo();
      	getCurrentPosition();
 	}
-	//获取用户信息
-    function getUserInfo(){
-        if(vaildeParam(uuid)){
-            postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
-                if("0" == res.code){
-              		setLoginData(res.data);
-                }else{
-                    layer.msg(res.msg);
-                    clearLogin();
-            		openWebview("views/login.html");
-                }
-            },true)
-        }else{
-        	layer.msg("用户不存在");
-        	clearLogin();
-            openWebview("views/login.html");
-        }
-    }
 	//获取中间banner图片
     function getMidBigPic() {
         postJSON(API_URL.ApiCarouselImageGetCarouselImage,{},function(res){

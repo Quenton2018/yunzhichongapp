@@ -117,9 +117,8 @@
                     setLoginData(res.data);
                     getUserInfo();
                 }else{
-                    layer.msg(res.msg);
                     clearLogin();
-                    openWebview("login.html");
+            		openNativeTitle("login.html",false);
                 }
             })
 	    }
@@ -152,9 +151,8 @@
 	                $("#points").text(points);
 	            }
 	        }else{
-//	            layer.msg("用户不存在");
-//	            clearLogin();
-//	            openWebview("login.html");
+	            clearLogin();
+	            openNativeTitle("login.html",false);
 	        }
 	    }
 	    //签到领云钻   

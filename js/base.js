@@ -3,12 +3,14 @@ apiHost = "http://39.106.62.16:8181";
 //if(!navigator.plus){
 //	apiHost = "http://192.168.1.52:3000"
 //}
+//apiHost = "http://192.168.1.122:8181"
 var appVersion = "v3.2.0"; //app当前版本
 
 var API_URL = {};
 API_URL.ApiSmsSendCode = apiHost + "/api/sms/sendCode"; //发送短信接口
 API_URL.ApiMemberRegister = apiHost + "/api/member/register"; //注册接口
 API_URL.ApiMemberLogin = apiHost + "/api/member/login"; //登录接口
+API_URL.ApiMemberQuickLogin = apiHost + "/api/member/quickLogin"; //快捷登录
 API_URL.ApiMemberInfo = apiHost + "/api/member/info"; //获取用户信息
 API_URL.ApiMemberNeedGuide = apiHost + "/api/member/needGuide"; // 用户是否需要新手引导
 API_URL.APIfMemberForgetThePassword = apiHost + "/api/member/forgetThePassword"; //重置密码

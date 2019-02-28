@@ -296,7 +296,6 @@ var enableRefresh = function(){
 	function plusReady(){
 		w.uuid = plusUtils.Storage.getItem("uuid");
 		console.log("###uuid##"+uuid);
-		ws = plus.webview.currentWebview();
 		// Android处理返回键
 		plus.key.addEventListener('backbutton',function(){
 			back();
@@ -346,6 +345,10 @@ var enableRefresh = function(){
 			return null;
 		}
 		if(w.plus){
+			if(!checkLogin()){
+				showLogin();
+				return false;
+			}
 			wa&&(waiting=plus.nativeUI.showWaiting());
 			ws = ws||{};
 			ws.scrollIndicator||(ws.scrollIndicator='none');
@@ -369,8 +372,9 @@ var enableRefresh = function(){
 	 * 原生导航栏
 	 * @param {Object} href
 	 */
-	w.openNativeTitle = function(href,extras,type){
+	w.openNativeTitle = function(href,isButton,extras,type){
 		var titleType = type ? 'transparent' : 'default';
+		var isButton = isButton == false ? false:true;
 		//打开窗口的相关参数
 		var options = {
 			url:href,
@@ -378,7 +382,7 @@ var enableRefresh = function(){
 			styles:{
 				popGesture: "close",
 				titleNView:{
-					autoBackButton:true,
+					autoBackButton:isButton,
 					backgroundColor:'#f47e13',
 					titleColor:'#fff',
 					type: titleType
@@ -479,7 +483,7 @@ function getCurrentPosition() {
                     break;  
             } 
         	console.log("获取定位位置信息失败:"+e.message)
-    	},{provider:'amap'});
+    	},{enableHighAccuracy:true,provider:'amap'});
 	}else{
 		if (navigator.geolocation){
     		navigator.geolocation.getCurrentPosition(showPosition);
@@ -658,19 +662,36 @@ function toast(msg){
 /**
  * 登录校验
  */
-function checkLogin(page) {
+function checkLogin() {
 	var userinfo = plusUtils.Storage.getItem("userinfo");
 	var uuid = plusUtils.Storage.getItem("uuid");
 	var loginDate = plusUtils.Storage.getItem("login_date");
 	if(!vaildeParam(userinfo) || !vaildeParam(uuid) || !vaildeParam(loginDate)) {
-		if(vaildeParam(page)) {
-			openWebview(page, true, false);
-		} else {
-			openWebview('_www/views/login.html', true, false);
-		}
+		return false;
+	}else{
+		return true;
 	}
 }
-
+/**
+ * 跳转登录界面 
+ * isJump - 登录成功后是否执行页面跳转 true-跳转，false-直接关闭当前页面
+ */
+function showLogin(isJump) {
+	if(!window.plus) return;
+	if(checkLogin()){
+		toast('您已是登录状态！');
+		return;
+	}
+	var href = '_www/views/login.html';
+	if(typeof isJump == 'undefined'){
+		isJump = true;
+	} 
+	var ws = plus.webview.getWebviewById("login");
+	if(!ws){
+		openNativeTitle(href,false);
+	}
+	ws.show('slide-in-bottom');
+}
 /**
  * 保存登入数据
  * @param {Object} userID
@@ -692,7 +713,7 @@ function loginOut(){
 		clearLogin();
         layer.msg("退出登录成功");
         setTimeout(function(){
-            openWebview('login.html');
+            openNativeTitle('login.html',false);
         },1000);
 	}, 'div');
 }

@@ -147,7 +147,7 @@
 			$(this).addClass("selected");
 		})		
 		$(".rechargeSubmitBtn").click(function(){	
-			var uuid = plus.storage.getItem("uuid");
+			var uuid = plusUtils.Storage.getItem("uuid");
 			var money = $(".moneyBox .item.selected").attr("data-money");
 			var payType = $(".payType .selected").attr('data-type');			
 			console.log("## rechargeSubmitBtn ##");

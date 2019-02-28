@@ -16,6 +16,12 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
+    	body{overflow: hidden;height: auto;}
+    	.mui-plus .header-immersed{display:none;}
+		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
+		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
+		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
 		.logo{margin: 50px 0;}
 		.login-form{margin:0 50px;}
 		.form-group{position: relative;margin-bottom: 15px;}
@@ -179,7 +185,7 @@
         });
         //验证码登录
         function loginCode(params){
-        	postJSON(API_URL.ApiMemberLogin,params,function(res){
+        	postJSON(API_URL.ApiMemberQuickLogin,params,function(res){
                 if("0" == res.code){
                     layer.msg("登录成功，正在跳转...");
                     setLoginData(res.data);

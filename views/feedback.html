@@ -28,8 +28,7 @@
 			.feedback textarea{height:100px;margin-bottom:0!important;padding-bottom:0!important;}
 			.feedback .row{width:100%;background-color:#fff;}
 			.feedback p{padding: 10px;margin-bottom: 0;}
-			input::-webkit-input-placeholder,
-			textarea::-webkit-input-placeholder{font-size:14px;}
+			input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{font-size:14px;}
 			.feedback .hidden{display:none;}
 			.feedback .image-list{width:100%;background-size:cover;padding: 15px 15px 0;;overflow:hidden;}
 			.feedback .image-item{width:82px;height:82px;background-size:100% 100%;display:inline-block;position:relative;border-radius:5px;margin-right:15px;margin-bottom:15px;border:solid 1px #e8e8e8;vertical-align:top;}
@@ -77,7 +76,7 @@
 			<div class="row mui-input-row">
 				<textarea id='question' class="mui-input-clear question" placeholder="请详细描述您的问题或建议，我们将及时跟进解决。感谢您的热心反馈（200字以内）"></textarea>
 			</div>
-			<p>上传图片(选填,提供问题截图,总大小2M以下)</p>
+			<p>上传图片(选填,提供问题截图,总大小10M以下)</p>
 			<div id='image-list' class="row image-list"></div>
 			<p>手机号码/QQ邮箱</p>
 			<div class="mui-input-row">
@@ -223,12 +222,9 @@
 								placeholder.style.backgroundImage = 'url(' + zip.target + ')';
 							}, function(zipe) {
 								layer.msg('压缩失败！')
-							});
-							
-			
-							
+							});						
 						}, function(e) {
-							layer.msg(e.message);
+							layer.msg("上传失败！");
 						},{});
 					}, false);
 					placeholder.appendChild(closeButton);

@@ -213,37 +213,20 @@
 	    "index.html": {
 	      "href": "index.html",
 	      "resources": [
-	        "css/iconfont.css",
-	        "css/iconfont.eot",
-	        "css/iconfont.ttf",
-	        "css/iconfont.svg",
-	        "css/common.css",
-	        "css/bootstrap.min.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/bootstrap.min.js",
-	        "js/hammer.min.js",
-	        "js/jquery.hammer.js",
-	        "img/index/focus1.png",
-	        "plugins/layer/theme/default/layer.css",
-	        "plugins/layer/theme/default/loading-1.gif",
-	        "plugins/layer/theme/default/icon.png",
-	        "plugins/layer/theme/default/loading-0.gif",
-	        "plugins/layer/theme/default/loading-2.gif",
-	        "plugins/layer/theme/default/icon-ext.png",
-	        "plugins/layer/layer.js",
-	        "js/common.js",
-	        "js/base.js",
-	        "img/app_11.png",
-	        "img/app_06.png",
-	        "img/app_03.png",
-	        "img/app_focus_03.png",
-	        "img/app_15.png",
-	        "img/app_16.png",
 	        "css/mui.min.css",
 	        "fonts/mui.ttf",
+	        "css/common.css",
+	        "js/jquery-3.3.1.min.js",
 	        "js/mui.min.js",
+	        "plugins/layer/layer.js",
 	        "js/fastclick.js",
-	        "img/app_focus_04.png"
+	        "js/base.js",
+	        "js/common.js",
+	        "js/updateApp.js",
+	        "img/app_11.png",
+	        "img/app_focus_04.png",
+	        "img/app_15.png",
+	        "img/app_16.png"
 	      ],
 	      "priority": 0,
 	      "refer": [
@@ -492,7 +475,8 @@
 	        "views/productDetail.html",
 	        "views/login.html",
 	        "views/detailsCloudDrill.html",
-	        "views/recordOfExchange.html"
+	        "views/recordOfExchange.html",
+	        "views/mallDetail.html"
 	      ],
 	      "priority": 0
 	    },
@@ -615,7 +599,8 @@
 	        "img/views/success.png",
 	        "img/views/fail.png"
 	      ],
-	      "priority": 0
+	      "priority": 0,
+	      "refer": []
 	    },
 	    "views/selectChargeSearch.html": {
 	      "href": "views/selectChargeSearch.html",
@@ -669,7 +654,8 @@
 	        "js/common.js",
 	        "img/logo_big.png"
 	      ],
-	      "priority": 3
+	      "priority": 3,
+	      "refer": []
 	    },
 	    "views/forgetpass.html": {
 	      "href": "views/forgetpass.html",
@@ -730,9 +716,16 @@
 	        "js/artTemplate.min.js",
 	        "js/fastclick.js",
 	        "js/base.js",
-	        "js/common.js"
+	        "js/common.js",
+	        "css/mui.picker.min.css",
+	        "js/mui.picker.min.js",
+	        "js/data.city.js"
 	      ],
-	      "priority": 3
+	      "priority": 3,
+	      "refer": [
+	        "views/login.html",
+	        "views/deliveryAddressAdd.html"
+	      ]
 	    },
 	    "views/edition.html": {
 	      "href": "views/edition.html",
@@ -746,9 +739,11 @@
 	        "js/fastclick.js",
 	        "js/base.js",
 	        "js/common.js",
-	        "img/logo_big.png"
+	        "img/logo_big.png",
+	        "js/updateApp.js"
 	      ],
-	      "priority": 4
+	      "priority": 4,
+	      "refer": []
 	    },
 	    "views/about.html": {
 	      "href": "views/about.html",
@@ -764,7 +759,8 @@
 	        "js/common.js",
 	        "img/logo_big.png"
 	      ],
-	      "priority": 5
+	      "priority": 5,
+	      "refer": []
 	    },
 	    "views/faultRepair.html": {
 	      "href": "views/faultRepair.html",
@@ -779,7 +775,8 @@
 	        "js/base.js",
 	        "js/common.js"
 	      ],
-	      "priority": 6
+	      "priority": 6,
+	      "refer": []
 	    },
 	    "views/feedback.html": {
 	      "href": "views/feedback.html",
@@ -794,7 +791,8 @@
 	        "js/base.js",
 	        "js/common.js"
 	      ],
-	      "priority": 7
+	      "priority": 7,
+	      "refer": []
 	    },
 	    "views/modifyNickName.html": {
 	      "href": "views/modifyNickName.html",
@@ -810,7 +808,8 @@
 	        "js/common.js",
 	        "img/logo_big.png"
 	      ],
-	      "priority": 5
+	      "priority": 5,
+	      "refer": []
 	    },
 	    "views/modifyPassWord.html": {
 	      "href": "views/modifyPassWord.html",
@@ -868,7 +867,8 @@
 	        "js/common.js",
 	        "img/views/null.png"
 	      ],
-	      "priority": 8
+	      "priority": 8,
+	      "refer": []
 	    },
 	    "views/detailsCloudDrill.html": {
 	      "href": "views/detailsCloudDrill.html",
@@ -885,7 +885,8 @@
 	        "js/common.js",
 	        "img/views/null.png"
 	      ],
-	      "priority": 9
+	      "priority": 9,
+	      "refer": []
 	    },
 	    "views/applyPartner.html": {
 	      "href": "views/applyPartner.html",
@@ -903,7 +904,8 @@
 	        "js/base.js",
 	        "js/common.js"
 	      ],
-	      "priority": 8
+	      "priority": 8,
+	      "refer": []
 	    },
 	    "views/invitation.html": {
 	      "href": "views/invitation.html",
@@ -924,7 +926,8 @@
 	        "img/yaoqing/app_wxpy.png",
 	        "img/yaoqing/app_mdm.png"
 	      ],
-	      "priority": 9
+	      "priority": 9,
+	      "refer": []
 	    },
 	    "views/commonProblem.html": {
 	      "href": "views/commonProblem.html",
@@ -939,7 +942,8 @@
 	        "js/base.js",
 	        "js/common.js"
 	      ],
-	      "priority": 10
+	      "priority": 10,
+	      "refer": []
 	    },
 	    "views/messageDetail.html": {
 	      "href": "views/messageDetail.html",
@@ -955,7 +959,8 @@
 	        "js/base.js",
 	        "js/common.js"
 	      ],
-	      "priority": 3
+	      "priority": 3,
+	      "refer": []
 	    },
 	    "views/productDetail.html": {
 	      "href": "views/productDetail.html",
@@ -997,9 +1002,74 @@
 	        "js/artTemplate.min.js",
 	        "js/fastclick.js",
 	        "js/base.js",
+	        "js/common.js",
+	        "css/iconfont.css",
+	        "css/iconfont.eot",
+	        "css/iconfont.ttf",
+	        "css/iconfont.svg"
+	      ],
+	      "priority": 8,
+	      "refer": []
+	    },
+	    "views/deliveryAddressAdd.html": {
+	      "href": "views/deliveryAddressAdd.html",
+	      "resources": [
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "css/mui.picker.min.css",
+	        "css/common.css",
+	        "js/jquery-3.3.1.min.js",
+	        "js/mui.min.js",
+	        "js/mui.picker.min.js",
+	        "js/data.city.js",
+	        "plugins/layer/layer.js",
+	        "js/base.js",
 	        "js/common.js"
 	      ],
-	      "priority": 8
+	      "priority": 4
+	    },
+	    "views/mallAddress.html": {
+	      "href": "views/mallAddress.html",
+	      "resources": [
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "css/mui.picker.min.css",
+	        "css/common.css",
+	        "js/jquery-3.3.1.min.js",
+	        "js/mui.min.js",
+	        "js/mui.picker.min.js",
+	        "js/data.city.js",
+	        "plugins/layer/layer.js",
+	        "js/base.js",
+	        "js/common.js"
+	      ],
+	      "refer": [
+	        "views/recordOfExchange.html"
+	      ],
+	      "priority": 6
+	    },
+	    "views/mallDetail.html": {
+	      "href": "views/mallDetail.html",
+	      "resources": [
+	        "css/mui.min.css",
+	        "fonts/mui.ttf",
+	        "css/common.css",
+	        "css/iconfont.css",
+	        "css/iconfont.eot",
+	        "css/iconfont.ttf",
+	        "css/iconfont.svg",
+	        "js/jquery-3.3.1.min.js",
+	        "js/mui.min.js",
+	        "js/bootstrap.min.js",
+	        "plugins/layer/layer.js",
+	        "js/base.js",
+	        "js/common.js"
+	      ],
+	      "refer": [
+	        "views/mallAddress.html",
+	        "views/login.html"
+	      ],
+	      "priority": 6
 	    }
 	  },
 	  "idle": {
@@ -1007,11 +1077,11 @@
 	      "img/editPs/app_03.png",
 	      "img/loading.gif",
 	      "img/shangcheng/app_shangcheng_07.png",
+	      "img/app_03.png",
 	      "img/iccard/noneIcCard.png",
 	      "img/app_back.png",
 	      "img/upgrade.png",
 	      "img/chongzhi/app_07.png",
-	      "js/updateApp.js",
 	      "css/iconfont.woff",
 	      "img/user_profile/app_22.png",
 	      "img/user_profile/app_25.png",
@@ -1040,6 +1110,8 @@
 	      "img/iccard/unbinding.png",
 	      "img/iccard/input-iccard.png",
 	      "img/user_profile/app_28.png",
+	      "js/hammer.min.js",
+	      "css/bootstrap.min.css",
 	      "img/charge/location.png",
 	      "img/user_profile/app_19.png",
 	      "img/yaoqing/app_qqkj.png",
@@ -1051,6 +1123,7 @@
 	      "plugins/font-awesome-4.7.0/css/font-awesome.css",
 	      "img/app_yunzuang.png",
 	      "img/app_charge.png",
+	      "img/app_06.png",
 	      "js/mui.pullToRefresh.js",
 	      "img/app_close.png",
 	      "img/iccard/tip.png",
@@ -1067,6 +1140,7 @@
 	      "img/app_money_icon.png",
 	      "img/yaoqing/app_07.png",
 	      "img/app_small_logo_03.png",
+	      "js/jquery.hammer.js",
 	      "js/shortcut.js",
 	      "js/circleChart.min.js"
 	    ]

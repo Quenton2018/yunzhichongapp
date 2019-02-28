@@ -16,19 +16,18 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>    
     <style type="text/css">
-		body{overflow: hidden;height: auto;}
-    	.mui-plus .header-immersed{display:none;}
+		body{overflow:hidden;height:auto;background-color:#EFEFF4;}
+		.mui-plus .header-immersed{display:none;}
 		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
 		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
 		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
 		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
-		body{background-color:#EFEFF4;}
-		.faultRepair input,.faultRepair textarea{border:none!important;margin-bottom: 0;}
+		.faultRepair input,.faultRepair textarea{border:none!important;margin-bottom:0;}
 		.faultRepair textarea{height:100px;margin-bottom:0!important;padding-bottom:0!important;}
 		.faultRepair .row{width:100%;background-color:#fff;}
 		input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{font-size:14px;}
-		.faultRepair .mui-inline{vertical-align:bottom;font-size:14px;color:#8f8f94;}		
-		.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+		.faultRepair .mui-inline{vertical-align:bottom;font-size:14px;color:#8f8f94;}
+		.btn-submit{margin:30px 20px 30px;border-radius:50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
     </style>
 </head>
 <body>
@@ -42,7 +41,7 @@
 			<div class="mui-inline">报修地址</div>			
 		</div>
 		<div class="mui-input-row">
-			<input id='adress' type="text" class="mui-input-clear contact" placeholder="请输入需要维修的充电桩地址" />
+			<input id='address' type="text" class="mui-input-clear contact" placeholder="请输入需要维修的充电桩地址" />
 		</div>
 		<div class="mui-content-padded">
 			<div class="mui-inline">桩号</div>			
@@ -67,20 +66,20 @@
 
 		});
 		$("#submitBtn").click(function(){
-			var adress = $("#adress").val();
-			var zhNo = $("#zhNo").val();
+			var address = $("#address").val();
+			var chargingNum = $("#zhNo").val();
             var content = $('#question').val();
             if(!canPostFlag){
                 layer.msg("你操作太频繁了！");
                 return;
             }
             canPostFlag = false;
-            if(!vaildeParam(adress)){
+            if(!vaildeParam(address)){
                 layer.msg("报修地址不能为空");
                 canPostFlag = true;
                 return;
             }
-            if(!vaildeParam(zhNo)){
+            if(!vaildeParam(chargingNum)){
                 layer.msg("桩号不能为空");
                 canPostFlag = true;
                 return;
@@ -103,7 +102,12 @@
 			var params = {
 				"uuid":uuid,
 				"content":content,
-				"type":1
+				"type":1,
+				"address":address,
+				"chargingNum":chargingNum,
+				"remark":'',
+				"star":'',
+				"picture":''
 			}
 			postJSON(API_URL.APIFeedbackSaveFeedback,params,function(res){
 				if("0" == res.code){
