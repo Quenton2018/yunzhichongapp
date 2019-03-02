@@ -11,26 +11,36 @@
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/mui.min.js"></script>
-    <script src="../plugins/layer/layer.js"></script>
+    <script src="../js/layer.mobile.js"></script>
     <script src="../js/fastclick.js"></script>
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script> 
     <style type="text/css">
-    	body{overflow: hidden;height: auto;}
-    	.mui-plus .header-immersed{display:none;}
-		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
-		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
-		.yzc-form{margin:80px 20px 0;font-size:24px;color:#666666;overflow: hidden;}
-		.yzc-form laber{display:inline-block;line-height:3rem;}
-		.yzc-form input{-webkit-user-select:text;text-align:left;border:0px;border-radius:0;font-size:16px;width:100%;outline:none;border-bottom:#D8D8D8 solid 1px;}
 		.btn-submit{margin: 30px 20px 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
     	.logo{margin: 30px 0;}
-		.yzc-ipnut{margin: 20px 20px 0;}
-		.yzc-ipnut input{text-align: left;padding: 12px 15px;height: auto;font-size: 16px;}
 		.input-desc{margin: 0 20px;}
 		.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+		
+		.che_tit{text-align:center;padding:20px;}
+		.ul_pro{background-color:#CED3D9;text-align:center;padding:4px 2px;font-size:14px;}
+		.ul_pro li{float:left;width:11.11%;padding:2px;box-sizing:border-box;}
+		.ul_pro .li_close{float:right;width:22.22%;}
+		.ul_pro .li_close span{background-color:#ACB3BB;}
+		.ul_pro .li_clean{float:right;width:22.22%;}
+		.ul_pro li span{display:block;background-color:#fff;border-radius:4px;box-shadow:2px 2px 2px #888888;line-height:32px;padding-top:2px;}
+		.ul_pro li span:active{background-color:#4DA9F2;color:#fff;}
+		.ul_input{padding:20px 10px;margin:0 auto;}
+		.ul_input li{float:left;width:12.5%;text-align:center;}
+		.ul_input li span{display:block;background-color:#fff;border:1px solid #ccc;border-radius:4px;width:40px;margin:0 auto;height:40px;line-height:40px;font-size:18px;color:#000;}
+		.ul_keybord{background-color:#CED3D9;text-align:center;padding:8px 2px;font-size:14px;}
+		.ul_keybord li{float:left;width:10%;padding:6px 2px;box-sizing:border-box;}
+		.ul_keybord .ikey20{margin-left:5%;}
+		.ul_keybord .li_w{width:11.11%;}
+		.ul_keybord .li_close{float:right;width:22.22%;}
+		.ul_keybord .li_close span{background-color:#ACB3BB;}
+		.ul_keybord .li_clean{float:right;width:22.22%;}
+		.ul_keybord li span{display:block;background-color:#fff;border-radius:4px;box-shadow:2px 2px 2px #888;font-size:18px;line-height:40px;padding-top:2px;color:#000;}
+		.ul_keybord li span:active{background-color:#007AFC;color:#fff;}
     </style>
 </head>
 <body style="background: #EBECEE;">
@@ -44,9 +54,18 @@
 			<img src="../img/logo_big.png" width="75" height="75"/>
 		</div>
 		<form id="modifyForm">
-			<div class="mui-input-row yzc-ipnut">
-		        <input type="text" id="shellId" class="mui-input-clear" placeholder="请输入外壳条码编号" >
-		    </div>
+		    <div class="yzc-ipnut">
+				<ul class="ul_input mui-clearfix">
+					<li class="input_pp input_zim"><span></span></li>
+					<li class="input_pp"><span></span></li>
+					<li class="input_pp"><span></span></li>
+					<li class="input_pp"><span></span></li>
+					<li class="input_pp"><span></span></li>
+					<li class="input_pp"><span></span></li>
+					<li class="input_pp"><span></span></li>
+					<li class="input_pp"><span></span></li>
+				</ul>
+			</div>
 	    	<p class="input-desc">输入充电桩上条形码上的数字（如M1867262）</p>
 	    	<div class="btn-submit" id="submitBtn">
 				<span>确认</span>
@@ -56,19 +75,17 @@
 	
 	<script type="text/javascript">
 		mui.init();
-		plusUtils.pageReady(function(){
-			if(mui.os.plus){
-				plus.webview.currentWebview().setStyle({
-					softinputMode: "adjustResize"
-				});	
-			}			
-		});
 		document.getElementById('submitBtn').addEventListener('tap', function () {
-			var shellId = $('#shellId').val();
+			var shellId = $(".yzc-ipnut").attr("data-pai");
 			if (!vaildeParam(shellId)) {
-				layer.msg('请输入外壳条码编号');
+				layer.open({
+                    content: '请输入外壳条码编号',
+                    skin: 'msg',
+                    time: 1
+                });
 				return;
 			}
+			if(shellId.length < 8) return;
 			postJSON(API_URL.ApiChargingInfoByShellId, {'shellId': shellId}, function(res) {
 				if('0' == res.code) {
 					var cdzID = res.data.id;
@@ -80,10 +97,99 @@
 						returnWindow("selectChargeMethod.html");
 					}			
 				} else {
-					layer.msg(res.msg)
+					layer.open({
+	                    content: res.msg,
+	                    skin: 'msg',
+	                    time: 1
+	                });
 				}
 			})
 		});
+		var keyNums = new Array("0","1","2","3","4","5","6","7","8","9","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","OK","Z","X","C","V","B","N","M","Del");
+		var next = 0;
+		function showKeybord() {
+		    var sss = "";
+		    for (var i = 0; i < keyNums.length; i++) {
+		        sss = sss + '<li class="ikey ikey' + i + ' ' + (i > 9 ? "li_zm" : "li_num") + ' ' + (i > 28 ? "li_w" : "") + '" ><span onclick="choosekey(this,' + i + ');">' + keyNums[i] + '</span></li>'
+		    }
+		    layer.open({
+                type: 1,
+                content: '<div id="pro"><ul class="mui-clearfix ul_keybord">' + sss + '</ul></div>',
+                anim: 'up',
+                shade: false,
+                style: 'position:fixed; bottom:0; left:0; width: 100%; height: auto; padding:0; border:none;'
+            });
+		}
+		function choosekey(obj, jj) {
+		    if (jj == 29) {
+		        console.log($(".yzc-ipnut").attr("data-pai"))
+		        layer.closeAll();
+		    } else if (jj == 37) {
+		        if ($(".ppHas").length == 0) {
+		            $(".hasPro").find("span").text("");
+		            $(".hasPro").removeClass("hasPro");
+		            next = 0;
+		        }
+		        $(".ppHas:last").find("span").text("");
+		        $(".ppHas:last").removeClass("ppHas");
+		        next = next - 1;
+		        if (next < 1) {
+		            next = 0;
+		        }
+		        getpai();
+		        console.log(next);
+		    } else {
+		        if (next > 7) {
+		            return
+		        }
+		        console.log(next);
+		        for (var i = 0; i < $(".input_pp").length; i++) {
+		            if (next == 0 & jj < 10 & $(".input_pp:eq(" + next + ")").hasClass("input_zim")) {
+		                layer.open({
+		                    content: '充电桩第一位为字母',
+		                    skin: 'msg',
+		                    time: 1
+		                });
+		                return
+		            }
+		            if(next > 0 & jj >= 10){
+		            	layer.open({
+		                    content: '充电桩字母后面全为数字',
+		                    skin: 'msg',
+		                    time: 1
+		                });
+		                return
+		            }
+		            $(".input_pp:eq(" + next + ")").find("span").text($(obj).text());
+		            $(".input_pp:eq(" + next + ")").addClass("ppHas");
+		            next = next + 1;
+		            if (next > 7) {
+		                next = 8;
+		            }
+		            getpai();
+		            return
+		        }
+		    }
+		}
+		function closePro() {
+		    layer.closeAll()
+		}
+		function cleanPro() {
+		    $(".ul_input").find("span").text("");
+		    $(".hasPro").removeClass("hasPro");
+		    $(".ppHas").removeClass("ppHas");
+		    next = 0;
+		}
+		function getpai() {
+		    var pai = $(".yzc-ipnut").text().replace(/\s*/g,"");
+		    $(".yzc-ipnut").attr("data-pai", pai);
+		}
+		window.onload = function() {
+            showKeybord();
+            $('.input_pp').on('click',function(){
+            	showKeybord();
+            });
+		}
 	</script>
 </body>
 </html>

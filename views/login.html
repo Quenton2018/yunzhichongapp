@@ -9,6 +9,7 @@
 	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/plus.css" type="text/css" />
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
@@ -16,12 +17,6 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
-    	body{overflow: hidden;height: auto;}
-    	.mui-plus .header-immersed{display:none;}
-		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
-		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
 		.logo{margin: 50px 0;}
 		.login-form{margin:0 50px;}
 		.form-group{position: relative;margin-bottom: 15px;}
@@ -30,10 +25,10 @@
 		.btn-code{display: inline-block;padding: 10px 15px;position: absolute;right: 0;top: 0;color: #333;font-size: 15px;}
 		.btn-submit{margin: 30px 0 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));letter-spacing: 40px;text-indent: 40px;font-size: 18px;}
     	.login-method{text-align:right;padding-bottom:10px;color:#FD8324;font-size:14px;}
-    	.footer{position: absolute;bottom: 50px;width: 100%;text-align: center;left: 0;}
+    	.footer{margin-top:50px;width: 100%;text-align: center;}
     	.footer .forgetpass{font-size: 15px;color: #666;padding: 10px 20px 10px 0;}
     	.footer span{font-size: 15px;color: #666;padding: 10px 10px 10px 20px;}
-    	.footer .register{color: #FD8324;font-size: 16px;font-weight: bold;}
+    	.footer .register{color: #FD8324;font-size: 16px;font-weight: bold;padding: 10px 20px 10px 0;}
     </style>
 </head>
 <body>
@@ -73,8 +68,8 @@
 			</div>
 		</form>
 		<div class="footer">
-			<a class="forgetpass" href="forgetpass.html">忘记密码</a>|<span>没有账号?</span>
-			<a class="register" href="register.html">注册</a>
+			<a class="forgetpass">忘记密码</a>|<span>没有账号?</span>
+			<a class="register">注册</a>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -105,7 +100,7 @@
             },1000)
         }
         //获取验证码
-        mui('body').on("tap",'#codeBtn',function(){
+        $('#codeBtn').on('click',function(){	
             var mobile = $("input[name='mobile']").val();
             if(!vaildeParam(mobile)){
                 layer.msg("手机号不能为空");
@@ -144,7 +139,7 @@
 	    		methodFlag = true;
 	    	}
 	    });
-	    mui('body').on("tap",'#loginBtn',function(){
+	    $('#loginBtn').on('click',function(){
             var mobile = $("input[name='mobile']").val();
             if(!vaildeParam(mobile)){
                 layer.msg("手机号不能为空");
@@ -174,7 +169,6 @@
 	                return;
 	            }				
 				var clientInfo = plus.push.getClientInfo().clientid;
-//				var clientInfo = null;
 	            var params = {
 	                "clientInfo":clientInfo,
 	                "mobile": mobile,
@@ -190,7 +184,7 @@
                     layer.msg("登录成功，正在跳转...");
                     setLoginData(res.data);
                     setTimeout(function(){
-                        openWebview('../index.html')
+                        openWebview('../index.html');
                     },2000);
                 }else{
                     layer.msg(res.msg);
@@ -204,7 +198,7 @@
                     layer.msg("登录成功，正在跳转...");
                     setLoginData(res.data);
                     setTimeout(function(){
-                        openWebview('../index.html')
+                        openWebview('../index.html');
                     },2000);
                 }else{
                     layer.msg(res.msg);
@@ -225,15 +219,11 @@
             }
         }
         //页面点击事件
-		mui('body').on('tap', 'a', function() {
-			var href = this.getAttribute('href');
-			if(!href) return;
-			//非plus环境，直接走href跳转
-			if(!mui.os.plus) {
-				location.href = href;
-				return;
-			}
-			openNativeTitle(href);
+		mui('body').on('tap', '.register', function() {
+			openWebview("register.html",true);
+		});
+		mui('body').on('tap', '.forgetpass', function() {
+			openWebview("forgetpass.html",true);
 		});
 	</script>
 </body>

@@ -38,7 +38,7 @@
 			.feedback .image-item .image-up{height:82px;width:82px;line-height:82px;border-radius:4px;border:1px dashed #A8A8A8;color:#ccc;display:inline-block;text-align:center;}
 			.feedback .image-item .image-up:after{font-family:"微软雅黑";content:'+';font-size:40px;color: #A8A8A8;position: relative;top: -5px;font-weight: 200;}
 			.feedback .image-item.space .image-close{display:none;}
-			.feedback .mui-inline{vertical-align:bottom;font-size:14px;color:#8f8f94;}
+			.feedback .mui-inline{vertical-align: middle;font-size:14px;color:#8f8f94;}
 			.mui-icon-star{color:#B5B5B5;font-size:22px;}
 			.mui-icon-star-filled{color:#FFB400;font-size:22px;}
 			.mui-popover{height:180px;}
@@ -74,7 +74,7 @@
 				</div>
 			</div>
 			<div class="row mui-input-row">
-				<textarea id='question' class="mui-input-clear question" placeholder="请详细描述您的问题或建议，我们将及时跟进解决。感谢您的热心反馈（200字以内）"></textarea>
+				<textarea id='question' maxlength="200" class="mui-input-clear question" placeholder="请详细描述您的问题或建议，我们将及时跟进解决。感谢您的热心反馈（200字以内）"></textarea>
 			</div>
 			<p>上传图片(选填,提供问题截图,总大小10M以下)</p>
 			<div id='image-list' class="row image-list"></div>
@@ -114,17 +114,6 @@
 				feedback.deviceInfo = null; 
 				mui.plusReady(function() {
 					//设备信息，无需修改
-					feedback.deviceInfo = {
-						appid: plus.runtime.appid, 
-						imei: plus.device.imei, //设备标识
-						images: feedback.files, //图片文件
-						p: mui.os.android ? 'a' : 'i', //平台类型，i表示iOS平台，a表示Android平台。
-						md: plus.device.model, //设备型号
-						app_version: plus.runtime.version,
-						plus_version: plus.runtime.innerVersion, //基座版本号
-						os:  mui.os.version,
-						net: ''+plus.networkinfo.getCurrentType()
-					}
 				});
 				/**
 				 *提交成功之后，恢复表单项 
@@ -185,21 +174,18 @@
 							feedback.imageList.removeChild(placeholder);
 						}, 0);
 						return false;
-					}, false);
-					
+					}, false);				
 					//
 					var fileInput = document.createElement('div');
 					fileInput.setAttribute('class', 'file');
 					fileInput.setAttribute('id', 'image-' + imageIndexIdNum);
 					fileInput.addEventListener('tap', function(event) {
 						var self = this;
-						var index = (this.id).substr(-1);
-						
+						var index = (this.id).substr(-1);						
 						plus.gallery.pick(function(e) {
 			//				console.log("event:"+e);
 							var name = e.substr(e.lastIndexOf('/') + 1);
-							console.log("name:"+name);
-								
+							console.log("name:"+name);							
 							plus.zip.compressImage({
 								src: e,
 								dst: '_doc/' + name,
@@ -215,11 +201,23 @@
 									feedback.files.splice(index-1,1,{name:"images"+index,path:e});
 								} else { //加号
 									placeholder.classList.remove('space');
-									feedback.addFile(zip.target);
-									feedback.newPlaceholder();
+									showLoading("图片上传中...");
+									var task = plus.uploader.createUpload(API_URL.ApiUploadfile, {}, function (t,status) {
+										hideLoading();
+										// 上传完成
+										if (status == 200) {
+											console.log(JSON.parse(t.responseText).data)
+											feedback.addFile(JSON.parse(t.responseText).data);
+											feedback.newPlaceholder();
+											up.classList.remove('image-up');
+											placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+										} else {
+											layer.msg('上传失败,请重试');
+										}
+									});
+									task.addFile(zip.target, {key:"uploadfile"});
+									task.start();								
 								}
-								up.classList.remove('image-up');
-								placeholder.style.backgroundImage = 'url(' + zip.target + ')';
 							}, function(zipe) {
 								layer.msg('压缩失败！')
 							});						
@@ -244,6 +242,14 @@
 					if(plus.networkinfo.getCurrentType()==plus.networkinfo.CONNECTION_NONE){
 						return layer.msg("连接网络失败，请稍后再试");
 					}
+					console.log(JSON.stringify(feedback.files))
+					var pictureArr = [];
+					feedback.files.forEach(function(item){
+						pictureArr.push(item.path)
+					});
+					console.log(JSON.stringify(pictureArr))
+					var picture = pictureArr.join(",");
+					console.log(picture)
 					feedback.send(mui.extend({}, feedback.deviceInfo, {
 						uuid: uuid,
 						type:0,
@@ -251,9 +257,9 @@
 						address:'',
 						chargingNum:'',
 						remark: feedback.contact.value,
-						picture: '',//feedback.files
+						picture: picture,
 						star:''+starIndex
-					})) 
+					})); 
 				}, false)
 				feedback.send = function(params) {
 		        	postJSON(API_URL.APIFeedbackSaveFeedback,params,function(res){
@@ -262,7 +268,7 @@
 							feedback.clearForm();
 							setTimeout(function(){
 								back();
-							},3000);
+							},1500);
 						}else{
 							layer.msg(res.msg);
 						}

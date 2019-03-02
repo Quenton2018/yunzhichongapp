@@ -9,6 +9,7 @@
 	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/plus.css" type="text/css" />
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
@@ -16,12 +17,6 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
-    	body{overflow: hidden;height: auto;}
-    	.mui-plus .header-immersed{display:none;}
-		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
-		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
 		.logo{margin: 50px 0;}
 		.login-form{margin:0 50px;}
 		.form-group{position: relative;margin-bottom: 15px;}
@@ -29,10 +24,10 @@
 		.form-group input{border-radius: 0;border: none;border-bottom: 1px solid #eae5e0;font-size: 18px;color: #333;padding-left: 30px;margin-bottom: 0;}
 		.btn-code{display: inline-block;padding: 10px 15px;position: absolute;right: 0;top: 0;color: #333;font-size: 15px;}
 		.btn-submit{margin: 50px 0 0;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));letter-spacing: 40px;text-indent: 40px;font-size: 18px;}
-    	.footer{position: absolute;bottom: 50px;width: 100%;text-align: center;left: 0;}
+    	.footer{margin-top:50px;width: 100%;text-align: center;}
     	.footer .forgetpass{font-size: 15px;color: #666;padding: 10px 20px 10px 0;}
     	.footer span{font-size: 15px;color: #666;padding: 10px 10px 10px 20px;}
-    	.footer .register{color: #FD8324;font-size: 16px;font-weight: bold;}
+    	.footer .register{color: #FD8324;font-size: 16px;font-weight: bold;padding: 10px 20px 10px 0;}
     </style>
 </head>
 <body>
@@ -70,8 +65,8 @@
 			</div>
 		</form>
 		<div class="footer">
-			<a class="forgetpass" href="forgetpass.html">忘记密码</a>|<span>已有账号?</span>
-			<a class="register" href="login.html">登录</a>
+			<a class="forgetpass" onclick="openWebview('forgetpass.html',true)">忘记密码</a>|<span>已有账号?</span>
+			<a class="register" onclick="openWebview('login.html',true,false)">登录</a>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -94,7 +89,7 @@
             },1000)
         }
         //获取验证码
-        mui('body').on("tap",'#codeBtn',function(){
+        $('#codeBtn').on('click',function(){	
             var mobile = $("input[name='mobile']").val();
             if(!vaildeParam(mobile)){
                 layer.msg("手机号不能为空");
@@ -118,7 +113,7 @@
                 }
             },true)
         });
-	    mui('body').on("tap",'#registerBtn',function(){
+        $('#registerBtn').on('click',function(){
             var mobile = $("input[name='mobile']").val();
             var userpass = $("input[name='password']").val();
             if(!vaildeParam(mobile)){
@@ -181,17 +176,6 @@
                 return true;
             }
         }
-        //页面点击事件
-		mui('body').on('tap', 'a', function() {
-			var href = this.getAttribute('href');
-			if(!href) return;
-			//非plus环境，直接走href跳转
-			if(!mui.os.plus) {
-				location.href = href;
-				return;
-			}
-			openNativeTitle(href);
-		});
 	</script>
 </body>
 </html>

@@ -84,11 +84,7 @@
 		function jumpPage(that){
 			//打开窗口的相关参数
 			var options = {
-				url:"commonProblem.html",
-    			id:"commonProblem.html",
-				styles:{
-					popGesture: "close",      
-					bounce:"none",      
+				styles:{      
 					titleNView:{
 						autoBackButton:true,
 						backgroundColor:'#f47e13',
@@ -100,7 +96,7 @@
 			      	categoryId:$(that).attr('data-id')
 			    }
 			};
-			mui.openWindow(options);
+			openWebview("commonProblem.html",true,false,options.styles,options.extras)
 		}
 	</script>
 </body>

@@ -39,6 +39,7 @@ API_URL.ApiMessageGetMessageAll  = apiHost + "/api/message/getMessage";     //�
 API_URL.ApiMessageDeleteMessage  = apiHost + "/api/message/deleteMessage";  //删除消息
 API_URL.ApiMessageGetLastestMessage = apiHost + "/api/message/getLastestMessage";  //获取最后消息
 API_URL.ApiMessageCountUnreadMessage = apiHost + "/api/message/countUnreadMessage"; //统计未读消息
+API_URL.ApiMessageSetAllMessageRead = apiHost + "/api/message/setAllMessageRead";   //设置消息已读
 API_URL.ApiMessageGetMessageList = apiHost + "/api/message/getMessageList"; //获取消息列表
 API_URL.ApiMessageGetMessageText = apiHost + "/api/message/getMessageText"; //获取消息列表
 API_URL.ApiMessageGetMessageByID = apiHost + "/api/message/getMessageById"; //获取消息
@@ -86,6 +87,7 @@ API_URL.GetNearChargingGroup = apiHost + "/api/chargingGroupSearch/getNearChargi
 API_URL.SearchChargingGroup = apiHost + "/api/chargingGroupSearch/searchChargingGroup";
 
 API_URL.TrunOffCharge = apiHost + "/api/DeviceCommand/trunOffCharge";  //结束充电
+API_URL.ApiUploadfile = apiHost + "/api/common/uploadfile";
 
 
 

@@ -22,7 +22,7 @@
         .mui-table-view-cell{margin-bottom: 10px;background-color: #fff;border-radius: 5px;}
         .mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after{display: none;}
         .mui-media a:hover{text-decoration: none;}
-        .mui-media-body{color: black;font-weight: 700;}
+        .mui-media-body{color: black;font-weight: 500;}
         .mui-media-body .mui-ellipsis{color: #999999;font-weight: 400;}
         .mui-media span{position: absolute;right: 15px;top: 10px;font-size: 12px;color: #cccccc;}
         .mui-table-view .mui-media-object{width: 50px;height: 50px;max-width: 50px;}
@@ -40,7 +40,7 @@
 	<div class="mui-content">
 	    <ul class="mui-table-view">
 			<li class="mui-table-view-cell mui-media">
-				<a href="javascript:;" class="mui-media-a" data-type="common">
+				<a href="javascript:;" class="mui-media-a common-a" data-type="common">
 					<img class="mui-media-object mui-pull-left" src="../img/views/list1.png">
 					<div class="mui-media-body">
 						用户消息
@@ -50,7 +50,7 @@
 				</a>
 			</li>
 			<li class="mui-table-view-cell mui-media">
-				<a class="mui-media-a" data-type="notice">
+				<a href="javascript:;" class="mui-media-a notice-a"  data-type="notice">
 					<img class="mui-media-object mui-pull-left" src="../img/views/list2.png">
 					<div class="mui-media-body">
 						公告消息
@@ -60,7 +60,7 @@
 				</a>
 			</li>
 			<li class="mui-table-view-cell mui-media">
-				<a class="mui-media-a" href="javascript:;" data-type="systems">
+				<a href="javascript:;" class="mui-media-a systems-a" data-type="systems">
 					<img class="mui-media-object mui-pull-left" src="../img/views/list4.png">
 					<div class="mui-media-body">
 						系统通知
@@ -77,10 +77,22 @@
 		plusUtils.pageReady(function(){
 			loadData();
 			$("body").on("tap",".mui-media-a",function(){
-				var category = $(this).attr('data-type');
+				var $this = $(this);
+				var category = $this.attr('data-type');
+				var ws = plus.webview.currentWebview();
+	            var wo = ws.opener();
 				plusUtils.Storage.setItem("category",category);
-				$(this).removeClass('unread') //调用接口
-				openWebview('messageDetail.html');
+				var params = {
+					uuid:uuid,
+					category:category
+				}
+				postJSON(API_URL.ApiMessageSetAllMessageRead,params,function(res){
+					if(res.code == '0'){
+	                    mui.fire(wo, "setAllMessageRead");
+						$this.removeClass('unread') //调用接口
+						openWebview('messageDetail.html');
+					}
+				})
 			})
 		});
 		function loadData(){
@@ -88,12 +100,21 @@
 				if(res.code == "0"){
 					if(vaildeParam(res.data.common)){
 						$('.common').text(res.data.common.context);
+						if(res.data.common.hasUnRead){
+							$('.common-a').addClass('unread');
+						}
 					}
 					if(vaildeParam(res.data.notice)){
 						$('.notice').text(res.data.notice.context);
+						if(res.data.common.hasUnRead){
+							$('.notice-a').addClass('unread');
+						}
 					}
 					if(vaildeParam(res.data.systems)){
 						$('.systems').text(res.data.systems.context);
+						if(res.data.common.hasUnRead){
+							$('.systems-a').addClass('unread');
+						}
 					}
 				}
 			})

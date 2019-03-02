@@ -198,11 +198,11 @@ plusUtils.appPage = {
  */
 plusUtils.pageReady = function(readyCallback){
 	if(typeof readyCallback != "function") return false;
-	if(mui.os.plus){
+//	if(mui.os.plus){
 		mui.plusReady(readyCallback)
-	}else{
-		mui.ready(readyCallback);
-	}
+//	}else{
+//		mui.ready(readyCallback);
+//	}
 }
 /**
  * 下拉刷新
@@ -332,90 +332,42 @@ var enableRefresh = function(){
 			w.close();
 		}
 	};
-	var openw = null,waiting=null;
+	// 处理点击事件
+	var openw=null;
 	/**
 	 * 打开新窗口
 	 * @param {URIString} id : 要打开页面url
-	 * @param {boolean} wa : 是否显示等待框
-	 * @param {boolean} ns : 是否不自动显示
+	 * @param {String} tilte : 页面标题名称
 	 * @param {JSON} ws : Webview窗口属性
 	 */
-	w.openWebview = function(id,wa,ns,ws){
+	w.openWebview = function(id, isNView, isBack, ws, extras){
 		if(openw){//避免多次打开同一个页面
 			return null;
 		}
+		if(typeof isBack == 'undefined'){isBack= true}
 		if(w.plus){
-			if(!checkLogin()){
-				showLogin();
-				return false;
-			}
-			wa&&(waiting=plus.nativeUI.showWaiting());
-			ws = ws||{};
+			ws=ws||{};
 			ws.scrollIndicator||(ws.scrollIndicator='none');
 			ws.scalable||(ws.scalable=false);
-			openw = plus.webview.create(id,id,ws);
-			ns||openw.addEventListener('loaded',function(){//页面加载完成后才显示
-				setTimeout(function(){//延后显示可避免低端机上动画时白屏
-					openw.show(as);
-				},200);
-			},false);
-			openw.addEventListener('close',function(){//页面关闭后可再次打开
-				openw = null;
-			},false);
+			ws.backButtonAutoControl||(ws.backButtonAutoControl='close');
+			if(isNView){						
+				ws.titleNView = ws.titleNView||{autoBackButton:isBack};
+				ws.titleNView.backgroundColor = '#f47e13';
+				ws.titleNView.titleColor = '#fff';
+			}		
+			openw = plus.webview.create(id, id, ws, extras||{});
+			openw.addEventListener('loaded', function(){
+				openw.show(as);
+			}, false);
+			openw.addEventListener('close', function(){
+				openw=null;
+			}, false);
 			return openw;
 		}else{
-			w.location.href = id;
+			w.open(id);
 		}
 		return null;
 	};
-	/**
-	 * 原生导航栏
-	 * @param {Object} href
-	 */
-	w.openNativeTitle = function(href,isButton,extras,type){
-		var titleType = type ? 'transparent' : 'default';
-		var isButton = isButton == false ? false:true;
-		//打开窗口的相关参数
-		var options = {
-			url:href,
-			id:href,
-			styles:{
-				popGesture: "close",
-				titleNView:{
-					autoBackButton:isButton,
-					backgroundColor:'#f47e13',
-					titleColor:'#fff',
-					type: titleType
-				}
-			},
-			extras:extras || {}
-		};	
-		mui.openWindow(options);
-	}
-	/**
-	 * @description 新开新窗口
-	 * @param {URIString} target  需要打开的页面的地址
-	 * @param {Object} params 传递的对象
-	 * @param {Boolean} autoShow 是否自动显示
-	 * @example openNewWebview({URIString});
-	 * */
-	w.openNewWebview = function (target, params, autoShow) {
-		var isAutoShow = autoShow || true;
-		mui.openWindow({
-			url: target,
-			id: target,
-			show: {
-				autoShow: isAutoShow, //页面loaded事件发生后自动显示，默认为true
-				aniShow: 'pop-in'
-			},
-			waiting: {
-				autoShow: false
-			},
-			extras: {
-				params: params
-			}
-		})
-	}
 	/**
 	 * 关闭当前窗口返回上个窗口并刷新
 	 * @param {Object} page
@@ -439,50 +391,35 @@ var enableRefresh = function(){
 })(window);
 
 //检查定位  
-//function checkPermissionPos() {
-//	var Permission = 'authorized';
-////  	Permission = plus.navigator.checkPermission('LOCATION');
-//  console.log("## 获取定位权限 ##: "+ Permission)            
-//  switch(Permission){
-//      case 'authorized':
-//			console.log('已开启定位权限');
-//			getCurrentPosition();
-//          break;
-//      case 'denied':
-//			console.log('已关闭定位权限');
-//          openSystemPositionServer();
-//          break;
-//      case 'undetermined':
-//          mui.alert('未确定定位权限', '定位消息');
-//          break;
-//      case 'unknown':
-//          mui.alert('无法查询定位权限', '定位消息');
-//          break;
-//      default:
-//			console.log('不支持定位权限');
-//			openSystemPositionServer();
-//          break;
-//  }
-//} 
+function checkPermissionPos() {
+	var Permission = plus.navigator.checkPermission('LOCATION');
+    console.log("## 获取定位权限 ##: "+ Permission)            
+    switch(Permission){
+        case 'authorized':
+			console.log('已开启定位权限');
+            break;
+        case 'denied':
+			console.log('已关闭定位权限');
+            openSystemPositionServer();
+            break;
+        case 'undetermined':
+            mui.alert('未确定定位权限', '定位消息');
+            break;
+        case 'unknown':
+            mui.alert('无法查询定位权限', '定位消息');
+            break;
+        default:
+			console.log('不支持定位权限');
+			openSystemPositionServer();
+            break;
+    }
+} 
 //通过定位模块获取位置信息
 function getCurrentPosition() {
-	if(window.plus){
+	if(window.plus){	
 		plus.geolocation.getCurrentPosition(showPosition, function (e) {
-			switch(e.code) {  
-                case 1:  
-                    mui.alert("GPS访问被拒绝 或 GPS未开启");  
-                    break;  
-                case 2:  
-                    mui.alert("位置信息不可用");  
-                    break;  
-                case 3:  
-                    mui.alert("获取用户位置的请求超时");  
-                    break;  
-                default:  
-                    mui.alert(e.code+e.message);  
-                    break;  
-            } 
-        	console.log("获取定位位置信息失败:"+e.message)
+        	console.log("获取定位位置信息失败:" + e.code + e.message );
+        	checkPermissionPos();
     	},{enableHighAccuracy:true,provider:'amap'});
 	}else{
 		if (navigator.geolocation){
@@ -513,12 +450,12 @@ function showPosition(position) {
     	"latitude":latitude      	
     }
     console.log("## geoInf ## 位置具体信息 : " + JSON.stringify(geolocationGroup));
-    alert("## geoInf ## 位置具体信息 : " + JSON.stringify(geolocationGroup))
     plusUtils.Storage.setItem("geolocationGroup", JSON.stringify(geolocationGroup));
 }
 // 打开手机设置 -> 隐私 -> 定位
 function openSystemPositionServer() {
-	mui.alert("允许云智充获取位置权限，查找附近的充电桩，我们将按云智充隐私政策保护您的信息。不开启将影响使用云智充服务","开启定位服务","去开启",function(){
+//	"云智充向你申请定位权限，以提供更加精准的定位充电桩服务"
+	mui.alert("请打开系统设置中“隐私->定位服务”，允许“云智充”使用您的位置","开启定位服务","设置",function(){
 		//plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
 		if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
 			plus.runtime.openURL("app-settings:LOCATION");
@@ -666,31 +603,10 @@ function checkLogin() {
 	var userinfo = plusUtils.Storage.getItem("userinfo");
 	var uuid = plusUtils.Storage.getItem("uuid");
 	var loginDate = plusUtils.Storage.getItem("login_date");
+	var href = 'login.html';
 	if(!vaildeParam(userinfo) || !vaildeParam(uuid) || !vaildeParam(loginDate)) {
-		return false;
-	}else{
-		return true;
+		openWebview(href);
 	}
-}
-/**
- * 跳转登录界面 
- * isJump - 登录成功后是否执行页面跳转 true-跳转，false-直接关闭当前页面
- */
-function showLogin(isJump) {
-	if(!window.plus) return;
-	if(checkLogin()){
-		toast('您已是登录状态！');
-		return;
-	}
-	var href = '_www/views/login.html';
-	if(typeof isJump == 'undefined'){
-		isJump = true;
-	} 
-	var ws = plus.webview.getWebviewById("login");
-	if(!ws){
-		openNativeTitle(href,false);
-	}
-	ws.show('slide-in-bottom');
 }
 /**
  * 保存登入数据
@@ -713,7 +629,7 @@ function loginOut(){
 		clearLogin();
         layer.msg("退出登录成功");
         setTimeout(function(){
-            openNativeTitle('login.html',false);
+            openWebview('login.html','登录',false);
         },1000);
 	}, 'div');
 }

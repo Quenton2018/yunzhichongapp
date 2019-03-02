@@ -126,7 +126,7 @@
                     var totalMoney1 =   parseFloat(totalMoney);
                     var duihuanyue1 =    parseFloat(duihuanyue);
                     if( (points1 > productPoints1) && (totalMoney1>duihuanyue1)  ){
-                        openNativeTitle("mallAddress.html");
+                        openWebview("mallAddress.html",true);
                     }else{
                         layer.msg("您的云钻或余额不足,无法兑换");
                         return;
