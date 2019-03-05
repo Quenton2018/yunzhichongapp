@@ -48,9 +48,9 @@
 	        getArticleContent();
 	    });	
 		function getArticleContent(){
-        	var ws = plus.webview.currentWebview();  
+        	var categoryId = plusUtils.appPage.getParam("categoryId");  
         	var params = {
-				"categoryId":ws.categoryId
+				"categoryId":categoryId
 			}
         	postJSON(API_URL.ApiArticleContentBYID,params,function(res){
 				if("0" == res.code){

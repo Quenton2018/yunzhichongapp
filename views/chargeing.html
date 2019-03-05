@@ -93,6 +93,7 @@
 	<script type="text/javascript">
 		mui.init();
 		var t = null;
+		var chargingType = "";
 		plusUtils.pageReady(function(){
 			loadData();
 			plusUtils.appPage.openerEvalJS();
@@ -132,7 +133,7 @@
 					}				
 					// 每一分钟查询一次
 					if (remainingSeconds % 60 == 0 || remainingSeconds <= 0) {
-						var orderNo = getQueryString("orderNo"); 
+						var orderNo = plusUtils.appPage.getParam("orderNo"); 
 						if(vaildeParam(uuid) && vaildeParam(orderNo)) {
 							var params = {
 								"uuid": uuid,
@@ -167,7 +168,7 @@
 		}
 		
 		function loadData(){
-			var orderNo = getQueryString("orderNo");
+			var orderNo = plusUtils.appPage.getParam("orderNo"); 
 			if(vaildeParam(uuid) && vaildeParam(orderNo)) {
 				var params = {
 					"uuid": uuid,
@@ -202,12 +203,17 @@
 		        		if(res.data.method == "1"){
 		        			$(".mui-row").eq(1).addClass('hide').siblings().removeClass('hide');
 		        			$('#order-power').text(chargingPower);
-		        			$(".chargin-method").text("充满自停");
+		        			chargingType = "充满自停";	        			    			
 		        		}else{
 		        			$(".mui-row").eq(0).addClass('hide').siblings().removeClass('hide');
-		        			$('#order-time').text(timeTotal/3600);
-		        			$(".chargin-method").text("预付扣款");
+		        			$('#order-time').text(timeTotal/3600);	        			
+		        			if(res.data.method == "-1"){
+		        				chargingType = "预付扣款";
+		        			}else{
+		        				chargingType = "实际扣款";
+		        			}		        			
 		        		}
+		        		$(".chargin-method").text(chargingType);  
 		        		$('.order-money').text(res.data.amount);		        	
 		        		countDownTime(timeTotal, seconds, goon);        			        		
 		        	} else {
@@ -217,17 +223,23 @@
 			}
 		}
 		function maskShow(){
-			$('.masking').show();
-			mui.confirm("充电结算","你本次充电方式为")
+			var orderNo = plusUtils.appPage.getParam("orderNo"); 
+			var params = {
+				uuid:uuid,
+				sn:orderNo
+			}
+			postJSON(API_URL.ApiUserChargingDetail,params,function(res){
+				if(res.code == "0"){
+					var chargingPrice = res.data.chargingPrice;
+					mui.confirm("你本次充电方式为"+chargingType+",应付金额为"+chargingPrice+"元,您确定结束充电么？","结束充电",['取消','确定'],function(event) {
+						if (event.index == 0) return;
+						offCharging();
+					});
+				}
+			})			
 		}
-		$(".btn-close").on('click',function(){
-			$('.masking').hide();
-		});
-		$(".btn-success").on('click',function(){
-			offCharging();
-		});
 		function offCharging(){
-			var orderNo = getQueryString("orderNo");
+			var orderNo = plusUtils.appPage.getParam("orderNo");
 			var params = {
 				uuid:uuid,
 				sn:orderNo

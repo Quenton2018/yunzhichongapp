@@ -42,8 +42,8 @@
 				<div class="mui-slider-handle">
 					<span style="position: absolute;right: -50px;font-size: .8rem;line-height: 60px;">{{date}}</span>
 					<div class="mui-media-body">
-						<h1 style="line-height: 25px;font-size: 1.0rem;color: #444">{{title}}</h1>
-						<p class="mui-ellipsis">{{messageContent}}</p>
+						<h1 class="mui-ellipsis" style="line-height: 25px;font-size: 1.0rem;color: #444">{{title}}</h1>
+						<p>{{messageContent}}</p>
 					</div>
 				</div>
 				<div class="mui-slider-right mui-disabled">
@@ -91,7 +91,6 @@
 					var html = '';
 					var dataTmpl = $("#dataTmpl").html();
 					$.each(list, function(index, item) {
-						//var memberArray = eval(item.member);
 						var title = item.title;
 						if(null == title) {
 							title = '系统管理员'
@@ -111,14 +110,9 @@
 		function itemClick(that) {
 			var $this = $(that);
 			var id = $this.attr("data-id")
-			openWebviewTwo("../page/messageContent.html", id + "");
+			plus.storage.setItem("messageId", id + "");
+			openWebview("messageContent.html");
 		}
-
-		function openWebviewTwo(item, dataId) {
-			console.log(item + ":" + dataId);
-			plus.storage.setItem("messageId", dataId + "");
-			openWebview(item);
-		} 
 		var btnArray = ['确认', '取消'];
 		$('body').on('click','.mui-btn-yellow',function() {
 			var elem = this;

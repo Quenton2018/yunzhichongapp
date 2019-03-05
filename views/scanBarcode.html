@@ -20,21 +20,6 @@
 		<script type="text/javascript">
 			var ws=null,wo=null;
 			var scan=null,domready=false;
-			var formpage = getQueryString("formpage");
-			mui.init({  
-		        subpages: [{  
-	                url: 'scanSub.html',  
-	                id: 'scanSub.html',  
-	                styles: {  
-	                    top: 0,  
-	                    bottom: 0,  
-	                    background: 'transparent'  
-	                },
-	                extras:{
-	                	formpage:formpage
-	                }
-	            }]  
-		    });
 			if(window.plus){
 				plusReady();
 			}else{
@@ -46,10 +31,25 @@
 				plusReady();
 			}, false);
 			// H5 plus事件处理
-			function plusReady(){	
+			function plusReady(){			
 				if(ws||!window.plus||!domready){
 					return;
 				}
+				var formpage = plusUtils.appPage.getParam("formpage");
+				mui.init({  
+			        subpages: [{  
+		                url: 'scanSub.html',  
+		                id: 'scanSub.html',  
+		                styles: {  
+		                    top: 0,  
+		                    bottom: 0,  
+		                    background: 'transparent'  
+		                },
+		                extras:{
+		                	formpage:formpage
+		                }
+		            }]  
+			    });
 				var typeArr = new Array();
 				typeArr.push(plus.barcode.QR);
 				typeArr.push(plus.barcode.EAN13);
@@ -75,46 +75,65 @@
 			// 二维码扫描成功
 			function onmarked(type, result, file){
 			    switch(type){
-				    	case plus.barcode.QR:
-				    		type = 'QR';
-				    		break;
-				    	case plus.barcode.EAN13:
-				    		type = 'EAN13';
-				    		break;
-				    	case plus.barcode.EAN8:
-				    		type = 'EAN8';
-				    		break;
-				    	case plus.barcode.AZTEC:
-				    		type = 'AZTEC';
-				    		break;
-				    	case plus.barcode.DATAMATRIX:
-				    		type = 'DATAMATRIX';
-				    		break;
-				    	case plus.barcode.UPCA:
-				    		type = 'UPCA';
-				    		break;
-				    	case plus.barcode.UPCE:
-				    		type = 'UPCE';
-				    		break;
-			    		case plus.barcode.CODABAR:
-				    		type = 'CODABAR';
-				    		break;
-			    		case plus.barcode.CODE39:
-				    		type = 'CODE39';
-				    		break;
-			    		case plus.barcode.CODE93:
-				    		type = 'CODE93';
-				    		break;
-			    		case plus.barcode.CODE128:
-				    		type = 'CODE128';
-				    		break;
-				    	default:
-				    		type = '其它'+type;
-				    	break;
+			    	case plus.barcode.QR:
+			    		type = 'QR';
+			    		break;
+			    	case plus.barcode.EAN13:
+			    		type = 'EAN13';
+			    		break;
+			    	case plus.barcode.EAN8:
+			    		type = 'EAN8';
+			    		break;
+			    	case plus.barcode.AZTEC:
+			    		type = 'AZTEC';
+			    		break;
+			    	case plus.barcode.DATAMATRIX:
+			    		type = 'DATAMATRIX';
+			    		break;
+			    	case plus.barcode.UPCA:
+			    		type = 'UPCA';
+			    		break;
+			    	case plus.barcode.UPCE:
+			    		type = 'UPCE';
+			    		break;
+		    		case plus.barcode.CODABAR:
+			    		type = 'CODABAR';
+			    		break;
+		    		case plus.barcode.CODE39:
+			    		type = 'CODE39';
+			    		break;
+		    		case plus.barcode.CODE93:
+			    		type = 'CODE93';
+			    		break;
+		    		case plus.barcode.CODE128:
+			    		type = 'CODE128';
+			    		break;
+			    	default:
+			    		type = '其它'+type;
+			    	break;
 			    }
 			    result = result.replace(/\n/g, '');
 			    wo.evalJS("scaned('"+ type +"','"+ result +"','"+ file +"');");
 			    back();
+			}
+			var bFlash = false;
+			//开启手电筒
+			function switchFlash(){
+				bFlash = !bFlash;
+				scan.setFlash(bFlash);
+//				if(flashFlag){
+//					scan.setFlash(false);
+//					flashFlag= false;
+//					$(that).find('.text').html('打开手电筒');
+//					$(that).find('.on').hide();
+//					$(that).find('.off').show();
+//				}else{
+//					scan.setFlash(true);
+//					flashFlag = true;
+//					$(that).find('.text').html('关闭手电筒');
+//					$(that).find('.on').show();
+//					$(that).find('.off').hide();
+//				}			
 			}
 		</script>
 	</head>

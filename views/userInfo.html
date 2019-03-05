@@ -248,7 +248,7 @@
                         document.getElementById('userAvator').src = retUrl;
                         layer.msg("上传成功");
                         updateUserInfo(); //图片回写进对象
-                        var ws=plus.webview.currentWebview();
+                        var ws = plus.webview.currentWebview();
 	                    var wo = ws.opener();
 	                    wo.evalJS('updateUserInfo()');
                     }else{

@@ -8,7 +8,6 @@
 		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />	
 		<link rel="stylesheet" href="../plugins/layer/theme/default/layer.css" type="text/css" charset="utf-8" />
 		<link rel="stylesheet" href="../plugins/swiper-4.2.2/swiper-4.2.2.min.css" type="text/css" charset="utf-8" />
-		<link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" type="text/css" charset="utf-8" />
 		<script src="../js/jquery-3.3.1.min.js"></script>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/artTemplate.min.js"></script>
@@ -43,17 +42,37 @@
 			.timeBox span.promotion i{background:transparent url("../img/promotion.png") no-repeat left top;word-wrap:break-word;text-align:center;vertical-align:middle;letter-spacing:5px;font-size:12px;line-height:16px;font-weight:bold;color:#FFFFFF;}
 			.timeBox span.promotion i em{margin-left:5px;margin-top:5px;width:12px;height:24px;float:left;font-style:normal;}			
 					
-			.progressBoxWrap{position:fixed;top:0;width:100%;height:100%;bottom:0;background:rgba(0,0,0,.3);z-index:9999;overflow:hidden;display:none;}
-			.progressBox{background:#fff;width:80%;height:80%;margin:0 auto;margin-top:20%;border-radius:10px;overflow:hidden;}
+			.progressBoxWrap{position:fixed;top:0;width:100%;height:100%;bottom:0;background:rgba(0,0,0,.3);z-index:9999;overflow:hidden;display: none;}
+			.progressBox{background:#fff;width:80%;height:60%;margin:0 auto;margin-top:30%;border-radius:10px;overflow:hidden;}
 			.progressBoxTitle{text-align:center;background:#EF7F35;padding:10px;color:#fff;}
 			.stepBox{padding:20px;}
-			.stepBox .stepItem{width:160px;margin:0 auto;padding:10px 0;position:relative;color:#666666;font-size:.8rem;}
-			.stepBox .stepItem span{display:block;position:absolute;height:28px;width:2px;background:#666666;left:7px;top:28px;}
+			.stepBox .stepItem{width:160px;margin:0 auto;padding:10px 0;position:relative;color:#666;font-size:.8rem;}
+			.stepBox .stepItem span{display:block;position:absolute;height:25px;width:2px;background:#666;left:9px;top:28px;}
 			.stepBox .stepItem:last-child span{display:none;}
-			.stepBox .stepItem i{display:inline-block;margin-right:5px;font-size:20px;}
+			.stepBox .stepItem i{display:inline-block;margin-right:5px;font-size:20px;vertical-align: top;}
 			.fa-spin{-webkit-animation:fa-spin 2s infinite linear;animation:fa-spin 2s infinite linear;}
 			.stepBox .stepSuccess{color:#009966;}
 			.stepBox .stepSuccess span{background:#009966;}
+			@-webkit-keyframes fa-spin {
+			  0% {
+			    -webkit-transform: rotate(0deg);
+			    transform: rotate(0deg);
+			  }
+			  100% {
+			    -webkit-transform: rotate(359deg);
+			    transform: rotate(359deg);
+			  }
+			}
+			@keyframes fa-spin {
+			  0% {
+			    -webkit-transform: rotate(0deg);
+			    transform: rotate(0deg);
+			  }
+			  100% {
+			    -webkit-transform: rotate(359deg);
+			    transform: rotate(359deg);
+			  }
+			}
 						
 			.h2-title{line-height: 40px;padding: 0 15px;text-align:left;font-weight:600;color:#454545;letter-spacing:1px;margin:0;}
 			.h2-title span{font-size: 18px;}
@@ -85,8 +104,8 @@
 	
 	<header class="header header-immersed mui-bar mui-bar-nav" style="background: none;">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		<h1 class="mui-title" onclick="openWebview('selectChargeSearch.html',true)"><i class="iconfont icon-map"></i><span id="cd-title">定位中..</span><i class="mui-icon mui-icon-forward" style="font-size: 18px;"></i></h1>
-		<a class="iconfont icon-saoyisao2 mui-icon-right-nav mui-pull-right" onclick="openWebview('scanBarcode.html?formpage=cdzno')"></a>
+		<h1 class="mui-title" onclick="openSearch()"><i class="iconfont icon-map"></i><span id="cd-title">定位中..</span><i class="mui-icon mui-icon-forward" style="font-size: 18px;"></i></h1>
+		<a class="iconfont icon-saoyisao2 mui-icon-right-nav mui-pull-right" onclick="openWebview('scanBarcode.html',false,false,{formpage:'cdzno'})"></a>
 	</header>
 
 	<div class="mui-content" style="background: none;overflow: auto;">
@@ -163,27 +182,27 @@
 			<div class="progressBoxTitle">请求执行中</div>
 			<div class="stepBox">
 				<div class="stepItem stepSuccess">
-					<i class="fa fa-check-circle"></i>
+					<i class="iconfont icon-check"></i>
 					<span class="line"></span> 开始下单
 				</div>
 				<div class="stepItem">
-					<i class="fa fa-refresh fa-spin"></i>
+					<i class="iconfont icon-refresh fa-spin"></i>
 					<span class="line"></span> 校验设备
 				</div>
 				<div class="stepItem">
-					<i class="fa fa-refresh fa-spin"></i>
+					<i class="iconfont icon-refresh fa-spin"></i>
 					<span class="line"></span> 发送命令给充电桩
 				</div>
 				<div class="stepItem">
-					<i class="fa fa-refresh fa-spin"></i>
+					<i class="iconfont icon-refresh fa-spin"></i>
 					<span class="line"></span> 等待充电桩回复
 				</div>
 				<div class="stepItem">
-					<i class="fa fa-refresh fa-spin"></i>
+					<i class="iconfont icon-refresh fa-spin"></i>
 					<span class="line"></span> 赠送云钻
 				</div>
 				<div class="stepItem">
-					<i class="fa fa-refresh fa-spin"></i>
+					<i class="iconfont icon-refresh fa-spin"></i>
 					<span class="line"></span> 开启充电桩成功
 				</div>
 			</div>
@@ -259,7 +278,7 @@
 	plusUtils.pageReady(function(){
 		initSwiper();
 		checkLogin();
-		getCurrentPosition();
+		plusUtils.locate.getCurrentPosition();
 		geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
 		getChargingGroup();		
 	});
@@ -306,7 +325,7 @@
 		}else{
 			if(!vaildeParam(geolocationGroup)){
 				layer.msg("定位失败，请重新定位");
-				getCurrentPosition();
+				plusUtils.locate.getCurrentPosition();
 				geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
 				return;
 			}
@@ -520,20 +539,13 @@
 		if("0" == res.code) {
 			setLoadingSuccess();
 			var msg = '充电成功';
-			if(res.data > 0) {
+			if(res.givePoints > 0) {
 				msg += " , 充电结束可获得云钻";
 			}
 			layer.msg(msg);
 			setTimeout(function() {
 				initLoadingSuccess();
-				postJSON(API_URL.ApiUserChargingDetailGetDoingList, {uuid: uuid}, function(res) {
-					if('0' == res.code) {
-						var sn = res.data[res.data.length - 1].sn;
-						openWebview('chargeing.html?orderNo=' + sn);
-					} else {
-						layer.msg(res.msg);
-					}
-				});
+				openWebview('chargeing.html',false,true,{'orderNo':res.data.sn});
 			}, 3000)
 		} else {
 			initLoadingSuccess();
@@ -554,7 +566,7 @@
 				if(index < $stepItems.length - 1) {
 					if(!$(item).hasClass('stepSuccess') && !hasChange) {
 						$(item).addClass('stepSuccess');
-						$(item).find("i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
+						$(item).find("i").removeClass('icon-refresh').removeClass('fa-spin').addClass('icon-check');
 						hasChange = true;
 					}
 				}
@@ -578,7 +590,7 @@
 		clearLoadingInterval(loadingInterval);
 		$(".progressBoxWrap").css("display", 'none');
 		$(".progressBox .stepItem").removeClass('stepSuccess');
-		$(".progressBox .stepItem i").addClass('fa-refresh').addClass('fa-spin').removeClass('fa-check-circle');
+		$(".progressBox .stepItem i").addClass('icon-refresh').addClass('fa-spin').removeClass('icon-check');
 	}
 
 	/**
@@ -587,9 +599,12 @@
 	function setLoadingSuccess() {
 		clearLoadingInterval(loadingInterval);
 		$(".progressBox .stepItem").addClass('stepSuccess');
-		$(".progressBox .stepItem i").removeClass('fa-refresh').removeClass('fa-spin').addClass('fa-check-circle');
+		$(".progressBox .stepItem i").removeClass('icon-refresh').removeClass('fa-spin').addClass('icon-check');
 	}
-
+	// 打开搜索页面
+	function openSearch(){
+		openWebview('selectChargeSearch.html',true);
+	}
 	/**
 	 * 扫一扫接口
 	 * @param type

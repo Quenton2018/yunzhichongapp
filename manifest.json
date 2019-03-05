@@ -20,10 +20,12 @@
 		"url": "http://www.jx9n.com"
 	},
 	"permissions": {
-
 		"Cache": {
 			"description": "管理应用缓存"
 		},
+		"Geolocation": {
+            "description": "位置信息"
+        },
 		"Console": {
 			"description": "跟踪调试输出日志"
 		},
@@ -36,19 +38,27 @@
 		"Maps": {
 			"description": "管理地图插件"
 		},
-		"OAuth": {},
-		"Payment": {},
-		"Share": {},
-		"Push": {}
+		"OAuth": {
+            "description": "登录授权"
+        },
+		"Payment": {
+            "description": "支付"
+        },
+		"Share": {
+            "description": "社交分享"
+        },
+		"Push": {
+            "description": "消息推送"
+        }
 	},
 	"plus": {
-		"statusbar": {
-			"immersed": "supportedDevice", /* 沉浸式状态栏 */
-			"style": "light"
-		},
 		"splashscreen": {
 			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
 			"waiting": true
+		},
+		"statusbar": {
+			"immersed": "supportedDevice", //是否为沉浸式状态栏，提交云端打包后生效
+			"style": "light"
 		},
 		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
 		"runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
@@ -1165,8 +1175,6 @@
 	  "js/shortcut.js",
 	  "js/update.js",
 	  "js/update.json",
-	  "page/failureReporting.html",
-	  "page/selectChargingSocketOld.html",
 	  "plugins/layer/mobile/layer.js",
 	  "plugins/layer/mobile/need/layer.css",
 	  "README.md",

@@ -1,4 +1,4 @@
-//var apiHost = "http://api.jx9n.com";
+var apiHost = "http://api.jx9n.com";
 apiHost = "http://39.106.62.16:8181";
 //if(!navigator.plus){
 //	apiHost = "http://192.168.1.52:3000"
@@ -87,6 +87,7 @@ API_URL.GetNearChargingGroup = apiHost + "/api/chargingGroupSearch/getNearChargi
 API_URL.SearchChargingGroup = apiHost + "/api/chargingGroupSearch/searchChargingGroup";
 
 API_URL.TrunOffCharge = apiHost + "/api/DeviceCommand/trunOffCharge";  //结束充电
+API_URL.ApiUserChargingDetail = apiHost + "/api/userChargingDetail/settlement"; //订单结算
 API_URL.ApiUploadfile = apiHost + "/api/common/uploadfile";
 
 

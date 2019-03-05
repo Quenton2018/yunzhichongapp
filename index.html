@@ -26,25 +26,25 @@
 		.footer-btn .right{float:left;width:43%;}
 		.footer-btn img{display:block;width:100%;}
 		.icon-xiaoxi{position: relative;}
-		.UnreadMessage{position: absolute;top: 1px;right: 5px; color: #fff;background: red;padding:9px;border-radius: 50%;font-size: 10px;font-style: normal;text-align: center;display: none;}
+		.UnreadMessage{position: absolute;top: 1px;right: 5px; color: #fff;background: red;width:16px;height:16px;line-height:16px;border-radius: 50%;font-size: 10px;font-style: normal;text-align: center;display: none;}
     </style>
 </head>
 <body>
 	<header class="header header-immersed mui-bar mui-bar-nav">
-		<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openWebview('views/menu.html')"></a>
+		<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openMenu()"></a>
 		<h1 class="mui-title">首页</h1>
-		<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openWebview('views/messageList.html')"><i class="UnreadMessage"></i></a>	
+		<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openMessage()"><i class="UnreadMessage"></i></a>	
 	</header>
 	
 	<div class="mui-content">
-		<img src="img/app_focus_04.png" class="banner" onclick="openWebview('views/recharge.html')">
+		<img src="img/app_focus_04.png" class="banner" onclick="openRecharge()">
 	</div>
 
 	<footer class="footer" style="text-align: center">
 		<!--<div class="button" onclick="getCurrentPosition()">获取定位信息</div>-->
 		<div class="footer-btn mui-clearfix">
 			<div class="left">			
-				<img src="img/app_15.png" onclick="selectChargeMethod()" >
+				<img src="img/app_15.png" onclick="openCharge()" >
 			</div>
 			<div class="right">
 				<a onclick="openWebview('views/shoppingMall.html')">
@@ -66,10 +66,10 @@
         heatUpdate(); // 热更新
 	});
 	plusUtils.pageReady(function(){
+		plusUtils.locate.getCurrentPosition();
 		getUserInfo();
 		countUnreadMessage();
 		getMidBigPic();	       
-		getCurrentPosition();
 		document.addEventListener("setAllMessageRead",function(){
 			countUnreadMessage();
 		})
@@ -77,9 +77,12 @@
 	plusRefresh(dataRefresh);
 	//刷新页面
 	function dataRefresh(){
+		plus.cache.calculate(function(size) {
+			console.log(size)
+		});
+		plusUtils.locate.getCurrentPosition();
 		getUserInfo();
 		countUnreadMessage();
-     	getCurrentPosition();
 	}
 	//获取用户信息
     function getUserInfo(){
@@ -119,10 +122,21 @@
             }
         })
     }
-    function selectChargeMethod(){
-		plusUtils.Storage.removeItem("chargingGroupId");
-		openWebview("views/selectChargeMethod.html");
+    function openCharge(){
+    	if(uuid){		
+    		plusUtils.Storage.removeItem("chargingGroupId");
+			openWebview("views/selectChargeMethod.html");
+    	}else{
+    		openWebview('views/login.html','登录',false);
+    	}
 	}
+    function openRecharge(){
+    	if(uuid){
+    		openWebview('views/recharge.html');
+    	}else{
+    		openWebview('views/login.html','登录',false);
+    	} 
+    }
     function openMenu(){
     	if(uuid){
     		openWebview('views/menu.html');

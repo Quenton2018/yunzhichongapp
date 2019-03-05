@@ -19,6 +19,92 @@ plusUtils.nativeUI = {
 	}
 }
 /**
+ * 定位组件 
+ */
+plusUtils.locate = {
+	//通过定位模块获取位置信息
+	getCurrentPosition:function () {
+		var self = this;
+		if(window.plus){	
+			plus.geolocation.getCurrentPosition(self.showPosition, function (e) {
+	        	console.log("获取定位位置信息失败:" + e.code + e.message );
+	        	self.checkPermissionPos();
+	    	},{enableHighAccuracy:true,provider:'amap'});
+		}else{
+			if (navigator.geolocation){
+	    		navigator.geolocation.getCurrentPosition(self.showPosition);
+	    	}
+		}
+	},
+	//检查定位  
+	checkPermissionPos:function () {
+		var self = this;
+		var Permission = plus.navigator.checkPermission('LOCATION');
+	    console.log("## 获取定位权限 ##: "+ Permission)            
+	    switch(Permission){
+	        case 'authorized':
+				console.log('已开启定位权限');
+	            break;
+	        case 'denied':
+				console.log('已关闭定位权限');
+	            self.openSystemPositionServer();
+	            break;
+	        case 'undetermined':
+	            mui.alert('未确定定位权限', '定位消息');
+	            break;
+	        case 'unknown':
+	            mui.alert('无法查询定位权限', '定位消息');
+	            break;
+	        default:
+				console.log('不支持定位权限');
+				self.openSystemPositionServer();
+	            break;
+	    }
+	}, 
+	/**
+	 * 获取位置具体信息
+	 * @param position
+	 */
+	showPosition:function (position) {
+		var self = this;
+	    var addresses = position.addresses;
+	    var longitude = position.coords.longitude;
+	    var latitude = position.coords.latitude;
+	    var province = '', city = '';
+	    try{
+	    	province = position.address.province;
+	    	city = position.address.city;
+	    }catch(e){
+	    	
+	    }
+	    var geolocationGroup = {
+	    	"province":province,
+	    	"city":city,
+	    	"addresses":addresses,
+	    	"longitude":longitude,
+	    	"latitude":latitude      	
+	    }
+	    console.log("## geoInf ## 位置具体信息 : " + JSON.stringify(geolocationGroup));
+	    plusUtils.Storage.setItem("geolocationGroup", JSON.stringify(geolocationGroup));
+	},
+	// 打开手机设置 -> 隐私 -> 定位
+	openSystemPositionServer:function () {
+	//	"云智充向你申请定位权限，以提供更加精准的定位充电桩服务"
+		mui.alert("请打开系统设置中“隐私->定位服务”，允许“云智充”使用您的位置","开启定位服务","设置",function(){
+			//plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
+			if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+				plus.runtime.openURL("app-settings:LOCATION");
+			} else if (/android/i.test(navigator.userAgent)) {
+				var main = plus.android.runtimeMainActivity();
+				var Intent = plus.android.importClass("android.content.Intent");
+				var Settings = plus.android.importClass('android.provider.Settings');
+				var mIntent = new Intent('Settings.ACTION_LOCATION_SOURCE_SETTINGS');
+				main.startActivity(mIntent);
+			}
+		})
+	}
+}
+/**
  * 本地存储
  */
 plusUtils.Storage = {
@@ -150,7 +236,9 @@ plusUtils.Share = {
 		}
 	}
 };
-//页面对象
+/**
+ * 页面方法组件
+ */
 plusUtils.appPage = {
 	//获取页面参数
 	getParam: function(name) {
@@ -180,14 +268,14 @@ plusUtils.appPage = {
 		}
 	},
 	//关闭当前页，并跳转到指定页
-	closeAndBackUrl: function(url, param) {
+	closeAndBackUrl: function(url) {
 		if(mui.os.plus){
 			var ws = plus.webview.currentWebview();
-	//		plus.webview.close(ws);
+			//plus.webview.close(ws);
 			setTimeout(function(){
 				ws.close("none");
 			},1500);
-			openNewWebview(url, param);
+			openWebview(url);
 		}
 	}
 }
@@ -340,7 +428,7 @@ var enableRefresh = function(){
 	 * @param {String} tilte : 页面标题名称
 	 * @param {JSON} ws : Webview窗口属性
 	 */
-	w.openWebview = function(id, isNView, isBack, ws, extras){
+	w.openWebview = function(id, isNView, isBack, extras, ws){
 		if(openw){//避免多次打开同一个页面
 			return null;
 		}
@@ -355,7 +443,7 @@ var enableRefresh = function(){
 				ws.titleNView.backgroundColor = '#f47e13';
 				ws.titleNView.titleColor = '#fff';
 			}		
-			openw = plus.webview.create(id, id, ws, extras||{});
+			openw = plus.webview.create(id, id, ws, {params:extras||null});
 			openw.addEventListener('loaded', function(){
 				openw.show(as);
 			}, false);
@@ -390,84 +478,6 @@ var enableRefresh = function(){
 	}
 })(window);
 
-//检查定位  
-function checkPermissionPos() {
-	var Permission = plus.navigator.checkPermission('LOCATION');
-    console.log("## 获取定位权限 ##: "+ Permission)            
-    switch(Permission){
-        case 'authorized':
-			console.log('已开启定位权限');
-            break;
-        case 'denied':
-			console.log('已关闭定位权限');
-            openSystemPositionServer();
-            break;
-        case 'undetermined':
-            mui.alert('未确定定位权限', '定位消息');
-            break;
-        case 'unknown':
-            mui.alert('无法查询定位权限', '定位消息');
-            break;
-        default:
-			console.log('不支持定位权限');
-			openSystemPositionServer();
-            break;
-    }
-} 
-//通过定位模块获取位置信息
-function getCurrentPosition() {
-	if(window.plus){	
-		plus.geolocation.getCurrentPosition(showPosition, function (e) {
-        	console.log("获取定位位置信息失败:" + e.code + e.message );
-        	checkPermissionPos();
-    	},{enableHighAccuracy:true,provider:'amap'});
-	}else{
-		if (navigator.geolocation){
-    		navigator.geolocation.getCurrentPosition(showPosition);
-    	}
-	}
-}
-/**
- * 获取位置具体信息
- * @param position
- */
-function showPosition(position) {
-    var addresses = position.addresses;
-    var longitude = position.coords.longitude;
-    var latitude = position.coords.latitude;
-    var province = '', city = '';
-    try{
-    	province = position.address.province;
-    	city = position.address.city;
-    }catch(e){
-    	
-    }
-    var geolocationGroup = {
-    	"province":province,
-    	"city":city,
-    	"addresses":addresses,
-    	"longitude":longitude,
-    	"latitude":latitude      	
-    }
-    console.log("## geoInf ## 位置具体信息 : " + JSON.stringify(geolocationGroup));
-    plusUtils.Storage.setItem("geolocationGroup", JSON.stringify(geolocationGroup));
-}
-// 打开手机设置 -> 隐私 -> 定位
-function openSystemPositionServer() {
-//	"云智充向你申请定位权限，以提供更加精准的定位充电桩服务"
-	mui.alert("请打开系统设置中“隐私->定位服务”，允许“云智充”使用您的位置","开启定位服务","设置",function(){
-		//plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
-		if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-			plus.runtime.openURL("app-settings:LOCATION");
-		} else if (/android/i.test(navigator.userAgent)) {
-			var main = plus.android.runtimeMainActivity();
-			var Intent = plus.android.importClass("android.content.Intent");
-			var Settings = plus.android.importClass('android.provider.Settings');
-			var mIntent = new Intent('Settings.ACTION_LOCATION_SOURCE_SETTINGS');
-			main.startActivity(mIntent);
-		}
-	})
-}
 /**
  * 参数校验
  */
@@ -499,18 +509,16 @@ function postJSON(url, data, callback,isIcon){
 			toast("网络异常，请检查网络设置！");
 			return false;
 		}
-		url += "?"+jsonToParams(data);
-		if(!isIcon){
-			showLoading("数据加载中..."); 
-		}
+		!isIcon && showLoading("数据加载中..."); 
 		var xhr = new plus.net.XMLHttpRequest();	
 		xhr.onreadystatechange = function () {
 		    switch ( xhr.readyState ) {
-		        case 4:       	
+		        case 4:
+		        	console.log("## url: " + url);
+	            	console.log("## params: " + JSON.stringify(data))
 		            if ( xhr.status == 200 ) {
-	            		var responseText = xhr.responseText;
-	            		console.log("## postJSON ## url : "+url)
-	            		console.log("## responseText: "+responseText)
+	            		var responseText = xhr.responseText;            		
+	            		console.log("## responseText: " + responseText)
 	            	 	var json = JSON.parse(responseText);
 	            	 	try{
 							callback(json);
@@ -530,7 +538,8 @@ function postJSON(url, data, callback,isIcon){
 		    }
 	    }
 		xhr.open("POST", url);
-		xhr.send(null);
+		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded'); 
+		xhr.send(jsonToParams(data));
 	}else{
 		postAjax(url, data, callback,true);
 	}	
@@ -569,19 +578,18 @@ function postAjax(url, data, callback,isIcon){
 	xhr.send(null);
 }
 // 格式化 post 传递的数据
-function jsonToParams(obj) {
-	if(typeof obj != "object") {
+function jsonToParams(data) {
+	if(typeof data != "object") {
 		alert("输入的参数必须是对象");
 		return;
 	}
-	// 不支持FormData的浏览器的处理 
-	var arr = new Array();
-	var i = 0;
-	for(var attr in obj) {
-		arr[i] = encodeURIComponent(attr) + "=" + encodeURIComponent(obj[attr]);
-		i++;
-	}
-	return arr.join("&");
+	var tempArr = [];
+    for (var i in data) {
+        var key = encodeURIComponent(i);
+        var value = encodeURIComponent(data[i]);
+        tempArr.push(key + '=' + value);
+    }
+    return tempArr.join('&');
 }
 function showLoading(msg){  
     plus.nativeUI.showWaiting(msg,{  
@@ -596,18 +604,7 @@ function toast(msg){
 	$(".mui-toast-container").remove();
 	mui.toast(msg,{type:'div'}); 
 }
-/**
- * 登录校验
- */
-function checkLogin() {
-	var userinfo = plusUtils.Storage.getItem("userinfo");
-	var uuid = plusUtils.Storage.getItem("uuid");
-	var loginDate = plusUtils.Storage.getItem("login_date");
-	var href = 'login.html';
-	if(!vaildeParam(userinfo) || !vaildeParam(uuid) || !vaildeParam(loginDate)) {
-		openWebview(href);
-	}
-}
+
 /**
  * 保存登入数据
  * @param {Object} userID
@@ -621,6 +618,19 @@ function setLoginData(userinfo) {
 	plusUtils.Storage.setItem("userinfo", JSON.stringify(userinfo));
 	console.log("## setLoginData ## 用户登录时间 : " + date);
 	console.log("## setLoginData ## 用户基本信息 : " + JSON.stringify(userinfo))
+}
+
+/**
+ * 登录校验
+ */
+function checkLogin() {
+	var userinfo = plusUtils.Storage.getItem("userinfo");
+	var uuid = plusUtils.Storage.getItem("uuid");
+	var loginDate = plusUtils.Storage.getItem("login_date");
+	var href = 'login.html';
+	if(!vaildeParam(userinfo) || !vaildeParam(uuid) || !vaildeParam(loginDate)) {
+		openWebview(href);
+	}
 }
 
 function loginOut(){
@@ -858,7 +868,7 @@ function checkVersion() {
     			
     		}
 		}
-    });
+    },true);
 }
 function compareVersion(version) {
 	if(!vaildeParam(version)) {

@@ -39,13 +39,13 @@
 	<header class="header header-immersed mui-bar mui-bar-nav">
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     	<h1 class="mui-title">切换充电桩地址</h1>
-	</header>		
+	</header>
 	<div class="mui-content" style="background: #fff;">
 		<div class="yzc-main">
 			<div class="search-box">
 				<form id="searchForm">
 					<div class="mui-input-row mui-search yzc-search">
-						<input id="search" type="text" class="mui-input-clear" placeholder="请输入您要搜索的关键字">
+						<input id="search" type="text" class="mui-input-clear" placeholder="请输入您要搜索的充电桩地址">
 					</div>
 				</form>		
 			</div>
@@ -82,15 +82,11 @@
 	</script>
 
 	<script type="text/javascript">
-		var $addressInfo = $("#addressInfo");
-		//当前选择的片区
-		var groupID   = null;
-		//用户定位信息
-		var geolocationGroup = {};
-		//附近的片区
-		var nearChargingGroupList = null;
-		//上次使用的片区
-		var lastUseChargingGroup = null;	
+		var $addressTitle = $(".dw-title");
+		var groupID   = null;	             //当前选择的片区
+		var geolocationGroup = {};           //用户定位信息		
+		var nearChargingGroupList = null;    //附近的片区		
+		var lastUseChargingGroup = null;	 //最近使用的片区
 		plusUtils.pageReady(function(){
 			getAddress();
 			getChargingGroupNearList();
@@ -106,7 +102,7 @@
 			if(vaildeParam(geolocationGroup)){
 				var addresses = geolocationGroup.addresses;
 				setTimeout(function(){
-					$('.dw-title').text(addresses);				
+					$addressTitle.text(addresses);				
 				},400);		
 			}else{
 				layer.msg("定位失败，请重新定位");
@@ -114,8 +110,8 @@
 			}
 		}
 		$('.dw-relocation').on('tap',function(){
-			$('.dw-title').text("定位中..");
-			getCurrentPosition();
+			$addressTitle.text("定位中..");
+			plusUtils.locate.getCurrentPosition();
 			getAddress();
 			getChargingGroupNearList();
 		});		

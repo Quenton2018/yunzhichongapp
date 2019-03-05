@@ -55,28 +55,26 @@
 	</body>
 	<script>
 		var scan = null;
-		var scan_win = null;  
+		var scanBarcode = null;  
 		mui.plusReady(function() {
 			ws = plus.webview.currentWebview();
 			$('.'+ws.formpage).show().siblings().hide();
-			scan = new plus.barcode.Barcode('bcid');
+			scanBarcode = plus.webview.getWebviewById('scanBarcode.html'); 
 		})
 		var flashFlag = false;
-		//开启手电筒
-		function openFlash(that){	 
+		function openFlash(that){
+			scanBarcode.evalJS("switchFlash()");
 			if(flashFlag){
-				scan.setFlash(false);
 				flashFlag= false;
 				$(that).find('.text').html('打开手电筒');
 				$(that).find('.on').hide();
 				$(that).find('.off').show();
 			}else{
-				scan.setFlash(true);
 				flashFlag = true;
 				$(that).find('.text').html('关闭手电筒');
 				$(that).find('.on').show();
 				$(that).find('.off').hide();
-			}			
-		}		
+			}
+		}	
 	</script>
 </html>

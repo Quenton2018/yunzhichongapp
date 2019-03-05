@@ -50,27 +50,23 @@
 	<script type="text/html" id="listTmpl" >
 		{{each list as item index}}
 			{{if item.status == 1}}
-				<li class="itemActive">
-					<a href="chargeing.html?orderNo={{item.sn}}">
-						<div class="bottomText"> <i class="iconfont icon-dingwei"></i> {{item.charging.groupId.name}}  <span style="color: #F57734">桩号{{item.charging.shellId.substr(0, 1)}}-插座号{{item.czId.code | parseInt}}</span></div>
-		                <div class="itemActiveInner">
-		                    <div class="textBox">剩余时间 : {{item.timeDiffString}}</div>
-		                    <div class="progressBox" style="width: {{item.percent}}%"></div>
-		                </div>
-	                </a>
+				<li class="itemActive" onclick="openchargeing('{{item.sn}}')">
+					<div class="bottomText"> <i class="iconfont icon-dingwei"></i> {{item.charging.groupId.name}}  <span style="color: #F57734">桩号{{item.charging.shellId.substr(0, 1)}}-插座号{{item.czId.code | parseInt}}</span></div>
+	                <div class="itemActiveInner">
+	                    <div class="textBox">剩余时间 : {{item.timeDiffString}}</div>
+	                    <div class="progressBox" style="width: {{item.percent}}%"></div>
+	                </div>
 	            </li>
             {{/if}}
             {{if item.status == 2}}
-				<li class="charge-list">
-					<a href="chargeDetail.html?orderNo={{item.sn}}">
-						<p class="list-time"><i></i>{{item.createDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</p>
-						{{if item.status == 2 && !item.successFlag}}
-							<p class="list-desc fail">充电失败，退款已返回至您的钱包</p>
-						{{else}}
-							<p class="list-desc">充电成功，已充时长{{item.chargingTime}}分钟</p>
-						{{/if}}
-						<span class="mui-navigate-right">{{item.amount}}元</span>
-					</a>
+				<li class="charge-list" onclick="openWebview('chargeDetail.html?orderNo={{item.sn}}')">
+					<p class="list-time"><i></i>{{item.createDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</p>
+					{{if item.status == 2 && !item.successFlag}}
+						<p class="list-desc fail">充电失败，退款已返回至您的钱包</p>
+					{{else}}
+						<p class="list-desc">充电成功，已充时长{{item.remainder}}分钟</p>
+					{{/if}}
+					<span class="mui-navigate-right">{{item.amount}}元</span>
 				</li>
 			{{/if}}
 		{{/each}}
@@ -122,6 +118,9 @@
                                 }catch (e) {
 
                                 }
+                            }else{
+                            	var leftTime = item.pullOutDate-item.createDate;
+                            	item.remainder = parseInt(leftTime / 1000 / 60 , 10);
                             }
                         });
 				    	var itemHtml = '';
@@ -134,17 +133,9 @@
 				})
 			}
 		}
-		//页面点击事件
-		mui('body').on('tap', 'a', function() {
-			var href = this.getAttribute('href');
-			if(!href) return;
-			//非plus环境，直接走href跳转
-			if(!mui.os.plus) {
-				location.href = href;
-				return;
-			}
-			openWebview(href);
-		});
+		function openchargeing(orderNo){		
+			openWebview('chargeing.html',false,true,{'orderNo':orderNo});
+		}
 	</script>
 </body>
 </html>

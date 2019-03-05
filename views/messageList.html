@@ -79,20 +79,24 @@
 			$("body").on("tap",".mui-media-a",function(){
 				var $this = $(this);
 				var category = $this.attr('data-type');
-				var ws = plus.webview.currentWebview();
-	            var wo = ws.opener();
 				plusUtils.Storage.setItem("category",category);
-				var params = {
-					uuid:uuid,
-					category:category
-				}
-				postJSON(API_URL.ApiMessageSetAllMessageRead,params,function(res){
-					if(res.code == '0'){
-	                    mui.fire(wo, "setAllMessageRead");
-						$this.removeClass('unread') //调用接口
-						openWebview('messageDetail.html');
+				if($this.hasClass('unread')){
+					var ws = plus.webview.currentWebview();
+		            var wo = ws.opener();
+					var params = {
+						uuid:uuid,
+						category:category
 					}
-				})
+					postJSON(API_URL.ApiMessageSetAllMessageRead,params,function(res){
+						if(res.code == '0'){
+		                    mui.fire(wo, "setAllMessageRead");
+							$this.removeClass('unread') //调用接口
+							openWebview('messageDetail.html');
+						}
+					})
+				}else{
+					openWebview('messageDetail.html');
+				}			
 			})
 		});
 		function loadData(){
@@ -106,13 +110,13 @@
 					}
 					if(vaildeParam(res.data.notice)){
 						$('.notice').text(res.data.notice.context);
-						if(res.data.common.hasUnRead){
+						if(res.data.notice.hasUnRead){
 							$('.notice-a').addClass('unread');
 						}
 					}
 					if(vaildeParam(res.data.systems)){
 						$('.systems').text(res.data.systems.context);
-						if(res.data.common.hasUnRead){
+						if(res.data.systems.hasUnRead){
 							$('.systems-a').addClass('unread');
 						}
 					}

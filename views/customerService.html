@@ -49,8 +49,27 @@
 	</div>
 
 	<script type="text/html" id="listTmpl" >
-		{{each list as item index}}
-			<div class="hot-list" onclick="jumpPage(this)" data-id="{{item.id}}">{{item.name}}</div>
+		{{each list as item index}}			
+			<div class="hot-list" onclick="jumpPage(this)" data-id="{{item.id}}" data-title="{{item.name}}">
+				{{if index == 0}}
+					<i class="iconfont icon-register"></i>
+				{{else if index == 1}}
+					<i class="iconfont icon-invitation"></i>
+				{{else if index == 2}}
+					<i class="iconfont icon-charging"></i>
+				{{else if index == 3}}
+					<i class="iconfont icon-cdxg"></i>
+				{{else if index == 4}}
+					<i class="iconfont icon-drill"></i>
+				{{else if index == 5}}
+					<i class="iconfont icon-novice"></i>
+				{{else if index == 6}}
+					<i class="iconfont icon-agreement"></i>
+				{{else if index == 7}}
+					<i class="iconfont icon-kefu"></i>
+				{{/if}}				
+				{{item.name}}
+			</div>
 		{{/each}}
 	</script>
 	
@@ -89,14 +108,14 @@
 						autoBackButton:true,
 						backgroundColor:'#f47e13',
 						titleColor:'#fff',
-						titletext:$(that).text()
+						titletext:$(that).attr('data-title')
 					}
 				},
 				extras:{
 			      	categoryId:$(that).attr('data-id')
 			    }
 			};
-			openWebview("commonProblem.html",true,false,options.styles,options.extras)
+			openWebview("commonProblem.html",false,true,options.extras,options.styles)
 		}
 	</script>
 </body>
