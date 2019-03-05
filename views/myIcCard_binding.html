@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>IC卡绑定</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 	<meta name="misapplication-tap-highlight" content="no"/>
 	<meta name="HandheldFriendly" content="true"/>
 	<meta name="MobileOptimized" content="320"/>
@@ -20,7 +20,6 @@
 		.yzc-form{margin:80px 20px 0;font-size:24px;color:#666666;overflow: hidden;}
 		.yzc-form laber{display:inline-block;line-height:3rem;}
 		.yzc-form input{-webkit-user-select:text;text-align:left;border:0px;border-radius:0;font-size:16px;width:100%;outline:none;border-bottom:#D8D8D8 solid 1px;}
-		.btn-submit{margin: 30px 20px 20px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
     	.logo{margin: 30px 0;}
 		.yzc-ipnut{margin: 20px 20px 0;}
 		.yzc-ipnut input{text-align: left;padding: 12px 15px;height: auto;font-size: 16px;}
@@ -58,6 +57,14 @@
 				});	
 			}
 			mui("body").on("tap","#submitBtn",function(){
+				doHandle();
+			});
+			document.getElementById("modifyForm").onsubmit = function() {
+				$("#iccardInput").blur();		
+				doHandle(); 
+				return false;  
+			}
+			function doHandle(){
 				var cardid = $('#iccardInput').val();
 				if (!/^\d{10}$/.test(cardid)) {
 					layer.msg('请输入10位数的IC卡卡号');
@@ -70,13 +77,13 @@
 					if (res.code == '0') {
 						layer.msg('绑定成功',{time:1000},function(){
 							plusUtils.appPage.openerEvalJS();
-		                	back();
+				        	back();
 						});
 					} else {
 						layer.msg(res.msg);
 					}
 				});
-			});
+			}	
 		})
 	</script>
 </body>

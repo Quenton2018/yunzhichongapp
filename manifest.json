@@ -1,1183 +1,1169 @@
 {
-	"@platforms": [
-		"android",
-		"iPhone"
-	],
-	"id": "YunZhiChong",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "云智充",/*应用名称，程序桌面图标名称*/
-	"version": {
-		"name": "3.1.1",/*应用版本名称*/
-		"code": ""
-	},
-	"description": "云智充",/*应用描述信息*/
-	"icons": {
-		"72": "icon.png"
-	},
-	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
-	"developer": {
-		"name": "江西九牛科技有限公司技术部",/*开发者名称*/
-		"email": "",/*开发者邮箱地址*/
-		"url": "http://www.jx9n.com"
-	},
-	"permissions": {
-		"Cache": {
-			"description": "管理应用缓存"
-		},
-		"Geolocation": {
-            "description": "位置信息"
+    "@platforms" : [ "android", "iPhone" ],
+    "id" : "H5CF6AE4A", /*应用的标识，创建应用时自动生成，勿手动修改*/
+    "name" : "云智充Bate版", /*应用名称，程序桌面图标名称*/
+    "version" : {
+        "name" : "3.2.0", /*应用版本名称*/
+        "code" : ""
+    },
+    "description" : "云智充", /*应用描述信息*/
+    "icons" : {
+        "72" : "icon.png"
+    },
+    "launch_path" : "index.html", /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+    "developer" : {
+        "name" : "江西九牛科技有限公司技术部", /*开发者名称*/
+        "email" : "lhywork@aliyun.com", /*开发者邮箱地址*/
+        "url" : "http://www.jx9n.com"
+    },
+    "permissions" : {
+        "Cache" : {
+            "description" : "管理应用缓存"
         },
-		"Console": {
-			"description": "跟踪调试输出日志"
-		},
-		"Contacts": {
-			"description": "访问系统联系人信息"
-		},
-		"Events": {
-			"description": "应用扩展事件"
-		},
-		"Maps": {
-			"description": "管理地图插件"
-		},
-		"OAuth": {
-            "description": "登录授权"
+        "Geolocation" : {
+            "description" : "位置信息"
         },
-		"Payment": {
-            "description": "支付"
+        "Console" : {
+            "description" : "跟踪调试输出日志"
         },
-		"Share": {
-            "description": "社交分享"
+        "Contacts" : {
+            "description" : "访问系统联系人信息"
         },
-		"Push": {
-            "description": "消息推送"
+        "Events" : {
+            "description" : "应用扩展事件"
+        },
+        "Maps" : {
+            "description" : "管理地图插件"
+        },
+        "OAuth" : {
+            "description" : "登录授权"
+        },
+        "Payment" : {
+            "description" : "支付"
+        },
+        "Share" : {
+            "description" : "社交分享"
+        },
+        "Push" : {
+            "description" : "消息推送"
+        },
+        "Bluetooth" : {
+            "description" : "蓝牙"
         }
-	},
-	"plus": {
-		"splashscreen": {
-			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
-			"waiting": true
-		},
-		"statusbar": {
-			"immersed": "supportedDevice", //是否为沉浸式状态栏，提交云端打包后生效
-			"style": "light"
-		},
-		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
-		"runmode": "normal",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
-		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-		"distribute": {
-			"plugins": {
-				"push": {
-					"mipush": {
-						"appid_android": "2882303761517542346",
-						"appkey_android": "5771754257346",
-						"appid_ios": "2882303761517786047",
-						"appkey_ios": "5441778696047"
-					}
-				},
-				"maps": {"baidu":{"appkey_ios":"tnrUD5Gd9EaqKVDqllc2ACRBouFCV3Dv","appkey_android":"f5VvE7SxGGaXAi6QvHFxHs39Ecdd8qv5","appkey":"","description":""}
-					
-				},
-				"share": {
-					"weixin": {
-						"appid": "wx55cdec5c462c13af",
-						"appsecret": "0d47df340f75baf8950db58bb39afa58",
-						"description": "可选，微信分享"
-					}
-				},
-				"payment": {
-					"alipay": {
-						"description": "支付宝支付",
-						"scheme": ""
-					},
-					"weixin": {
-						"description": "微信支付",
-						"appid": "wx55cdec5c462c13af"
-					}
-				}
-			},
-			"apple": {
-				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
-				"mobileprovision": "",/*iOS应用打包配置文件*/
-				"password": "",/*iOS应用打包个人证书导入密码*/
-				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
-				"devices": "iphone",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
-				"frameworks": [],/*调用Native.js调用原生Objective-c API需要引用的FrameWork，如需调用GameCenter，则添加"GameKit.framework"*/
-				"plistcmds": [
-					"Set :NSContactsUsageDescription 说明读取用户通讯录的原因",
-					"Set :NSMicrophoneUsageDescription 说明使用麦克风的原因",
-					"Set :NSPhotoLibraryUsageDescription 读取用户相册用来上传用户头像",
-					"Set :NSCameraUsageDescription 使用用户相机来上传用户头像",
-					"Set :NSPhotoLibraryAddUsageDescription 说明向用户相册添加图片的原因",
-					"Set :NSLocationAlwaysUsageDescription 持续获取用户地理位置用于获取用户附近的充电桩片区",
-					"Set :NSLocationWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区",
-					"Set :NSLocationAlwaysAndWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区"
-				]
-			},
-			"google": {
-				"packagename": "com.dream.zncd.intelligentcharge",/*Android应用包名，如io.dcloud.HelloH5*/
-				"keystore": "jiuniu",/*Android应用打包使用的密钥库文件*/
-				"password": "jiuniu2016",/*Android应用打包使用密钥库中证书的密码*/
-				"aliasname": "jiuniu",/*Android应用打包使用密钥库中证书的别名*/
-				"targetSdkVersion": 23,
-				"permissions": ["<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.GET_TASKS\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>","<uses-permission android:name=\"android.permission.GET_TOP_ACTIVITY_INFO\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-permission android:name=\"android.permission.INTERACT_ACROSS_USERS_FULL\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"]
-			},
-			"orientation": [
-				"portrait-primary"
-			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
-			"icons": {
-				"ios": {
-					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
-					/*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
-					"iphone": {
-						"normal": "", /*iPhone3/3GS程序图标，分辨率：57x57*/
-						"retina": "", /*iPhone4程序图标，分辨率：114x114*/
-						/*iPhone4S/5/6程序图标，分辨率：120x120*/
-						/*iPhone6 Plus程序图标，分辨率：180x180*/
-						"spotlight-normal": "", /*iPhone3/3GS Spotlight搜索程序图标，分辨率：29x29*/
-						"spotlight-retina": "", /*iPhone4 Spotlight搜索程序图标，分辨率：58x58*/
-						/*iPhone4S/5/6 Spotlight搜索程序图标，分辨率：80x80*/
-						"settings-normal": "", /*iPhone4设置页面程序图标，分辨率：29x29*/
-						/*iPhone4S/5/6设置页面程序图标，分辨率：58x58*/
-						"app@2x": "unpackage/res/icons/120x120.png",
-						"app@3x": "unpackage/res/icons/180x180.png",
-						"settings@3x": "unpackage/res/icons/87x87.png",
-						"settings@2x": "unpackage/res/icons/58x58.png",
-						"spotlight@2x": "unpackage/res/icons/80x80.png",
-						"spotlight@3x": "unpackage/res/icons/120x120.png",
-						"notification@3x": "unpackage/res/icons/60x60.png",
-						"notification@2x": "unpackage/res/icons/40x40.png"
-					},
-					"ipad": {
-						"normal": "", /*iPad普通屏幕程序图标，分辨率：72x72*/
-						"retina": "", /*iPad高分屏程序图标，分辨率：144x144*/
-						/*iPad iOS7程序图标，分辨率：76x76*/
-						/*iPad iOS7高分屏程序图标，分辨率：152x152*/
-						"spotlight-normal": "", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
-						"spotlight-retina": "", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
-						/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
-						/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
-						/*iPad设置页面程序图标，分辨率：29x29*/
-						"app": "unpackage/res/icons/76x76.png",
-						"app@2x": "unpackage/res/icons/152x152.png",
-						"settings": "unpackage/res/icons/29x29.png",
-						"proapp@2x": "unpackage/res/icons/167x167.png",
-						"spotlight": "unpackage/res/icons/40x40.png",
-						"settings@2x": "unpackage/res/icons/58x58.png",
-						"spotlight@2x": "unpackage/res/icons/80x80.png",
-						"notification": "unpackage/res/icons/20x20.png",
-						"notification@2x": "unpackage/res/icons/40x40.png"
-					},
-					"appstore": "unpackage/res/icons/1024x1024.png"
-				},
-				"android": {
-					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
-					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
-					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
-					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
-					"xxhdpi": "unpackage/res/icons/144x144.png",
-					"xxxhdpi": "unpackage/res/icons/192x192.png"
-				}
-			},
-			"splashscreen": {
-				"ios": {
-					"iphone": {
-						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
-						/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-						/*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
-						/*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
-						/*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
-						"retina55l": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus2.png",
-						"iphonex": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphoneX.png",
-						"retina47": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678.png",				
-						"retina35": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone4s.png",
-						"retina40": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone5.png",
-						"retina55": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus.png"
-					},
-					"ipad": {
-						"portrait": "unpackage/splash/iphoneX2.png", /*iPad竖屏启动图片，分辨率：768x1004*/
-                        "portrait-retina": "unpackage/splash/iphoneX2.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
-                        "landscape": "unpackage/splash/iphoneX2.png", /*iPad横屏启动图片，分辨率：1024x748*/
-                        "landscape-retina": "unpackage/splash/iphoneX2.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
-                        "portrait7": "unpackage/splash/iphoneX2.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
-                        "portrait-retina7": "unpackage/splash/iphoneX2.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
-                        "landscape7": "unpackage/splash/iphoneX2.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
-                        "landscape-retina7": "unpackage/splash/iphoneX2.png"/*iPad iOS7高分屏横屏启动图片，分辨率：2048x1536*/
-					}
-				},
-				"android": {
-					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
-					"ldpi": "",
-					"hdpi": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android1.png",
-					"xhdpi": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android2.png",
-					"xxhdpi": "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android3.png"
-				}
-			}
-		},
-		"ads": {
-			"rp": false,
-			"splash": false,
-			"push": false
-		}
-	},
-	"dependencies": {
-	  "pages": {
-	    "index.html": {
-	      "href": "index.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "js/updateApp.js",
-	        "img/app_11.png",
-	        "img/app_focus_04.png",
-	        "img/app_15.png",
-	        "img/app_16.png"
-	      ],
-	      "priority": 0,
-	      "refer": [
-	        "views/login.html",
-	        "views/selectChargeMethod.html",
-	        "views/menu.html",
-	        "views/shoppingMall.html",
-	        "views/messageList.html",
-	        "views/recharge.html"
-	      ]
-	    },
-	    "views/login.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png",
-	        "img/views/phone.png",
-	        "img/views/password.png",
-	        "img/views/code.png"
-	      ],
-	      "refer": [
-	        "index.html",
-	        "views/forgetpass.html",
-	        "views/register.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/selectChargeMethod.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "plugins/layer/theme/default/layer.css",
-	        "plugins/layer/theme/default/loading-1.gif",
-	        "plugins/layer/theme/default/icon.png",
-	        "plugins/layer/theme/default/loading-0.gif",
-	        "plugins/layer/theme/default/loading-2.gif",
-	        "plugins/layer/theme/default/icon-ext.png",
-	        "plugins/swiper-4.2.2/swiper-4.2.2.min.css",
-	        "plugins/font-awesome-4.7.0/css/font-awesome.min.css",
-	        "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.eot",
-	        "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2",
-	        "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff",
-	        "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf",
-	        "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.svg",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/artTemplate.min.js",
-	        "plugins/layer/layer.js",
-	        "plugins/swiper-4.2.2/swiper-4.2.2.min.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/charge/swiper-button-next.png",
-	        "img/charge/swiper-button-prev.png",
-	        "img/promotion.png",
-	        "img/guide/1.png",
-	        "img/guide/2.png",
-	        "img/guide/3.png",
-	        "img/guide/4.png",
-	        "img/guide/5.png"
-	      ],
-	      "refer": [
-	        "views/selectChargeSearch.html",
-	        "views/chargeing.html",
-	        "views/scanBarcode.html",
-	        "views/login.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/chargeList.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "refer": [
-	        "views/chargeing.html",
-	        "views/chargeDetail.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/menu.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/user_profile/app_10.png",
-	        "img/menu/app_1.png",
-	        "img/menu/app_2.png",
-	        "img/menu/app_3.png",
-	        "img/menu/app_4.png",
-	        "img/menu/app_5.png",
-	        "img/menu/app_6.png"
-	      ],
-	      "refer": [
-	        "views/chargeList.html",
-	        "views/myWallet.html",
-	        "views/myIcCard.html",
-	        "views/applyCooperate.html",
-	        "views/userInfo.html",
-	        "views/customerService.html",
-	        "views/invitation.html",
-	        "views/setting.html",
-	        "views/login.html",
-	        "index.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/chargeing.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/charging.png",
-	        "img/views/chargemask.png"
-	      ],
-	      "refer": [
-	        "views/chargeing.html",
-	        "views/chargeList.html",
-	        "views/chargeDetail.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/myWallet.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/balance.png",
-	        "img/views/clouddrill.png"
-	      ],
-	      "refer": [
-	        "views/detailsBalance.html",
-	        "views/detailsCloudDrill.html",
-	        "views/login.html",
-	        "views/recharge.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/applyCooperate.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/hez1.png",
-	        "img/views/hez2.png",
-	        "img/views/hez3.png"
-	      ],
-	      "refer": [
-	        "views/applyPartner.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/scanBarcode.html": {
-	      "resources": [
-	        "views/scanSub.html",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "css/common.css"
-	      ],
-	      "refer": [
-	        "views/scanSub.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/userInfo.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/user_profile/app_10.png"
-	      ],
-	      "refer": [
-	        "views/modifyNickName.html",
-	        "views/login.html",
-	        "views/modifyPassWord.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/shoppingMall.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "css/iconfont.css",
-	        "css/iconfont.eot",
-	        "css/iconfont.ttf",
-	        "css/iconfont.svg",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/bootstrap.min.js",
-	        "plugins/layer/layer.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/user_profile/app_10.png"
-	      ],
-	      "refer": [
-	        "views/productDetail.html",
-	        "views/login.html",
-	        "views/detailsCloudDrill.html",
-	        "views/recordOfExchange.html",
-	        "views/mallDetail.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/customerService.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/customerService.png"
-	      ],
-	      "refer": [
-	        "views/commonProblem.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/myIcCard.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/iccard.png",
-	        "img/views/nulliccard.png"
-	      ],
-	      "refer": [
-	        "views/scanBarcode.html",
-	        "views/myIcCard_binding.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/setting.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "refer": [
-	        "views/feedback.html",
-	        "views/edition.html",
-	        "views/faultRepair.html",
-	        "views/about.html",
-	        "views/deliveryAddress.html",
-	        "views/login.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/scanSub.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/sdt.png",
-	        "img/views/sdton.png",
-	        "img/views/srbh.png"
-	      ],
-	      "refer": [
-	        "views/myIcCard_binding.html",
-	        "views/modifyCdzNo.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/messageList.html": {
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/list1.png",
-	        "img/views/list2.png",
-	        "img/views/list4.png"
-	      ],
-	      "refer": [
-	        "views/messageDetail.html"
-	      ],
-	      "priority": 0
-	    },
-	    "views/chargeDetail.html": {
-	      "href": "views/chargeDetail.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/success.png",
-	        "img/views/fail.png"
-	      ],
-	      "priority": 0,
-	      "refer": []
-	    },
-	    "views/selectChargeSearch.html": {
-	      "href": "views/selectChargeSearch.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "refer": [
-	        "views/selectChargeMethod.html"
-	      ],
-	      "priority": 1
-	    },
-	    "views/modifyCdzNo.html": {
-	      "href": "views/modifyCdzNo.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png"
-	      ],
-	      "refer": [
-	        "views/selectChargeMethod.html"
-	      ],
-	      "priority": 2
-	    },
-	    "views/myIcCard_binding.html": {
-	      "href": "views/myIcCard_binding.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png"
-	      ],
-	      "priority": 3,
-	      "refer": []
-	    },
-	    "views/forgetpass.html": {
-	      "href": "views/forgetpass.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png",
-	        "img/views/phone.png",
-	        "img/views/password.png",
-	        "img/views/code.png"
-	      ],
-	      "refer": [
-	        "index.html",
-	        "views/login.html"
-	      ],
-	      "priority": 2
-	    },
-	    "views/register.html": {
-	      "href": "views/register.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png",
-	        "img/views/phone.png",
-	        "img/views/password.png",
-	        "img/views/code.png"
-	      ],
-	      "refer": [
-	        "index.html",
-	        "views/forgetpass.html",
-	        "views/login.html"
-	      ],
-	      "priority": 3
-	    },
-	    "views/deliveryAddress.html": {
-	      "href": "views/deliveryAddress.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "css/mui.picker.min.css",
-	        "js/mui.picker.min.js",
-	        "js/data.city.js"
-	      ],
-	      "priority": 3,
-	      "refer": [
-	        "views/login.html",
-	        "views/deliveryAddressAdd.html"
-	      ]
-	    },
-	    "views/edition.html": {
-	      "href": "views/edition.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png",
-	        "js/updateApp.js"
-	      ],
-	      "priority": 4,
-	      "refer": []
-	    },
-	    "views/about.html": {
-	      "href": "views/about.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png"
-	      ],
-	      "priority": 5,
-	      "refer": []
-	    },
-	    "views/faultRepair.html": {
-	      "href": "views/faultRepair.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "priority": 6,
-	      "refer": []
-	    },
-	    "views/feedback.html": {
-	      "href": "views/feedback.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "priority": 7,
-	      "refer": []
-	    },
-	    "views/modifyNickName.html": {
-	      "href": "views/modifyNickName.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png"
-	      ],
-	      "priority": 5,
-	      "refer": []
-	    },
-	    "views/modifyPassWord.html": {
-	      "href": "views/modifyPassWord.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/logo_big.png"
-	      ],
-	      "refer": [
-	        "index.html"
-	      ],
-	      "priority": 6
-	    },
-	    "views/recharge.html": {
-	      "href": "views/recharge.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "css/iconfont.css",
-	        "css/iconfont.eot",
-	        "css/iconfont.ttf",
-	        "css/iconfont.svg",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "refer": [
-	        "views/myWallet.html"
-	      ],
-	      "priority": 7
-	    },
-	    "views/detailsBalance.html": {
-	      "href": "views/detailsBalance.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/null.png"
-	      ],
-	      "priority": 8,
-	      "refer": []
-	    },
-	    "views/detailsCloudDrill.html": {
-	      "href": "views/detailsCloudDrill.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "img/views/null.png"
-	      ],
-	      "priority": 9,
-	      "refer": []
-	    },
-	    "views/applyPartner.html": {
-	      "href": "views/applyPartner.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/mui.picker.min.css",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/mui.picker.min.js",
-	        "js/data.city.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "priority": 8,
-	      "refer": []
-	    },
-	    "views/invitation.html": {
-	      "href": "views/invitation.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "js/qrcode.min.js",
-	        "img/logo.png",
-	        "img/views/invite_banner.png",
-	        "img/yaoqing/app_wx.png",
-	        "img/yaoqing/app_wxpy.png",
-	        "img/yaoqing/app_mdm.png"
-	      ],
-	      "priority": 9,
-	      "refer": []
-	    },
-	    "views/commonProblem.html": {
-	      "href": "views/commonProblem.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "priority": 10,
-	      "refer": []
-	    },
-	    "views/messageDetail.html": {
-	      "href": "views/messageDetail.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "priority": 3,
-	      "refer": []
-	    },
-	    "views/productDetail.html": {
-	      "href": "views/productDetail.html",
-	      "resources": [
-	        "css/iconfont.css",
-	        "css/iconfont.eot",
-	        "css/iconfont.ttf",
-	        "css/iconfont.svg",
-	        "css/common.css",
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "plugins/layer/theme/default/layer.css",
-	        "plugins/layer/theme/default/loading-1.gif",
-	        "plugins/layer/theme/default/icon.png",
-	        "plugins/layer/theme/default/loading-0.gif",
-	        "plugins/layer/theme/default/loading-2.gif",
-	        "plugins/layer/theme/default/icon-ext.png",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/bootstrap.min.js",
-	        "plugins/layer/layer.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "refer": [
-	        "views/login.html"
-	      ],
-	      "priority": 5
-	    },
-	    "views/recordOfExchange.html": {
-	      "href": "views/recordOfExchange.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "plugins/layer/layer.js",
-	        "js/artTemplate.min.js",
-	        "js/fastclick.js",
-	        "js/base.js",
-	        "js/common.js",
-	        "css/iconfont.css",
-	        "css/iconfont.eot",
-	        "css/iconfont.ttf",
-	        "css/iconfont.svg"
-	      ],
-	      "priority": 8,
-	      "refer": []
-	    },
-	    "views/deliveryAddressAdd.html": {
-	      "href": "views/deliveryAddressAdd.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/mui.picker.min.css",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/mui.picker.min.js",
-	        "js/data.city.js",
-	        "plugins/layer/layer.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "priority": 4
-	    },
-	    "views/mallAddress.html": {
-	      "href": "views/mallAddress.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/mui.picker.min.css",
-	        "css/common.css",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/mui.picker.min.js",
-	        "js/data.city.js",
-	        "plugins/layer/layer.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "refer": [
-	        "views/recordOfExchange.html"
-	      ],
-	      "priority": 6
-	    },
-	    "views/mallDetail.html": {
-	      "href": "views/mallDetail.html",
-	      "resources": [
-	        "css/mui.min.css",
-	        "fonts/mui.ttf",
-	        "css/common.css",
-	        "css/iconfont.css",
-	        "css/iconfont.eot",
-	        "css/iconfont.ttf",
-	        "css/iconfont.svg",
-	        "js/jquery-3.3.1.min.js",
-	        "js/mui.min.js",
-	        "js/bootstrap.min.js",
-	        "plugins/layer/layer.js",
-	        "js/base.js",
-	        "js/common.js"
-	      ],
-	      "refer": [
-	        "views/mallAddress.html",
-	        "views/login.html"
-	      ],
-	      "priority": 6
-	    }
-	  },
-	  "idle": {
-	    "resources": [
-	      "img/editPs/app_03.png",
-	      "img/loading.gif",
-	      "img/shangcheng/app_shangcheng_07.png",
-	      "img/app_03.png",
-	      "img/iccard/noneIcCard.png",
-	      "img/app_back.png",
-	      "img/upgrade.png",
-	      "img/chongzhi/app_07.png",
-	      "css/iconfont.woff",
-	      "img/user_profile/app_22.png",
-	      "img/user_profile/app_25.png",
-	      "img/user_profile/app_03.png",
-	      "img/chongzhi/app_09.png",
-	      "plugins/font-awesome-4.7.0/fonts/FontAwesome.otf",
-	      "views/common.html",
-	      "img/app_yes_btn.png",
-	      "js/plusUtils.js",
-	      "views/selectChargeSearchSub.html",
-	      "js/mui.pullToRefresh.material.js",
-	      "img/shangcheng/app_shangcheng_11.png",
-	      "img/yaoqing/app_qq.png",
-	      "img/views/list3.png",
-	      "js/immersed.js",
-	      "img/app_charge_two.png",
-	      "img/user_profile/app_34.png",
-	      "plugins/layer/mobile/layer.js",
-	      "img/iccard/none.png",
-	      "img/app_next_03.png",
-	      "js/update.js",
-	      "img/logout/app_03.png",
-	      "img/views/cdbg.png",
-	      "img/app_reg_03.png",
-	      "js/update.json",
-	      "img/iccard/unbinding.png",
-	      "img/iccard/input-iccard.png",
-	      "img/user_profile/app_28.png",
-	      "js/hammer.min.js",
-	      "css/bootstrap.min.css",
-	      "img/charge/location.png",
-	      "img/user_profile/app_19.png",
-	      "img/yaoqing/app_qqkj.png",
-	      "img/yaoqing/app_fulj.png",
-	      "img/charge/app_charge_bg_2.png",
-	      "img/charge/app_charge_bg.png",
-	      "img/user_profile/app_14.png",
-	      "img/chongzhi/app_03.png",
-	      "plugins/font-awesome-4.7.0/css/font-awesome.css",
-	      "img/app_yunzuang.png",
-	      "img/app_charge.png",
-	      "img/app_06.png",
-	      "js/mui.pullToRefresh.js",
-	      "img/app_close.png",
-	      "img/iccard/tip.png",
-	      "plugins/layer/mobile/need/layer.css",
-	      "img/user_profile/app_33.png",
-	      "img/logout/app_login_btn.png",
-	      "img/logo_footer.gif",
-	      "css/iconfont.js",
-	      "img/yaoqing/app_03.png",
-	      "img/user_profile/app_30.png",
-	      "img/position.png",
-	      "img/cdz.png",
-	      "img/iccard/iccard.png",
-	      "img/app_money_icon.png",
-	      "img/yaoqing/app_07.png",
-	      "img/app_small_logo_03.png",
-	      "js/jquery.hammer.js",
-	      "js/shortcut.js",
-	      "js/circleChart.min.js"
-	    ]
-	  }
-	},
-	"fullscreen": false,
-	"unpackage":[
-	  "css/iconfont.js",
-	  "css/iconfont.woff",
-	  "img/chongzhi/app_03.png",
-	  "img/chongzhi/app_07.png",
-	  "img/shangcheng/app_shangcheng_07.png",
-	  "img/shangcheng/app_shangcheng_11.png",
-	  "img/yaoqing/app_fulj.png",
-	  "img/yaoqing/app_qq.png",
-	  "img/yaoqing/app_qqkj.png",
-	  "img/app_next_03.png",
-	  "img/loading.gif",
-	  "js/immersed.js",
-	  "js/mui.pullToRefresh.js",
-	  "js/mui.pullToRefresh.material.js",
-	  "js/shortcut.js",
-	  "js/update.js",
-	  "js/update.json",
-	  "plugins/layer/mobile/layer.js",
-	  "plugins/layer/mobile/need/layer.css",
-	  "README.md",
-	  "jiuniu.keystore"
-	]
+    },
+    "plus" : {
+        "splashscreen" : {
+            "autoclose" : true, /*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+            "waiting" : true
+        },
+        "statusbar" : {
+            "immersed" : true, //是否为沉浸式状态栏，提交云端打包后生效
+            "style" : "light"
+        },
+        "popGesture" : "close", /*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
+        "runmode" : "normal", /*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+        "signature" : "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==", /*可选，保留给应用签名，暂不使用*/
+        "distribute" : {
+            "plugins" : {
+                "push" : {
+                    "mipush" : {
+                        "appid_android" : "2882303761517542346",
+                        "appkey_android" : "5771754257346",
+                        "appid_ios" : "2882303761517786047",
+                        "appkey_ios" : "5441778696047"
+                    }
+                },
+                "maps" : {
+                    "baidu" : {
+                        "appkey_ios" : "tnrUD5Gd9EaqKVDqllc2ACRBouFCV3Dv",
+                        "appkey_android" : "f5VvE7SxGGaXAi6QvHFxHs39Ecdd8qv5",
+                        "appkey" : "",
+                        "description" : ""
+                    }
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wx55cdec5c462c13af",
+                        "appsecret" : "0d47df340f75baf8950db58bb39afa58",
+                        "description" : "可选，微信分享"
+                    }
+                },
+                "payment" : {
+                    "alipay" : {
+                        "description" : "支付宝支付",
+                        "scheme" : ""
+                    },
+                    "weixin" : {
+                        "description" : "微信支付",
+                        "appid" : "wx55cdec5c462c13af"
+                    }
+                }
+            },
+            "apple" : {
+                "appid" : "", /*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+                "mobileprovision" : "", /*iOS应用打包配置文件*/
+                "password" : "", /*iOS应用打包个人证书导入密码*/
+                "p12" : "", /*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+                "devices" : "iphone", /*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+                "frameworks" : [], /*调用Native.js调用原生Objective-c API需要引用的FrameWork，如需调用GameCenter，则添加"GameKit.framework"*/
+                "plistcmds" : [
+                    "Set :NSContactsUsageDescription 说明读取用户通讯录的原因",
+                    "Set :NSMicrophoneUsageDescription 说明使用麦克风的原因",
+                    "Set :NSPhotoLibraryUsageDescription 读取用户相册用来上传用户头像",
+                    "Set :NSCameraUsageDescription 使用用户相机来上传用户头像",
+                    "Set :NSPhotoLibraryAddUsageDescription 说明向用户相册添加图片的原因",
+                    "Set :NSLocationAlwaysUsageDescription 持续获取用户地理位置用于获取用户附近的充电桩片区",
+                    "Set :NSLocationWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区",
+                    "Set :NSLocationAlwaysAndWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区"
+                ]
+            },
+            "google" : {
+                "packagename" : "com.dream.zncd.intelligentcharge", /*Android应用包名，如io.dcloud.HelloH5*/
+                "keystore" : "jiuniu", /*Android应用打包使用的密钥库文件*/
+                "password" : "jiuniu2016", /*Android应用打包使用密钥库中证书的密码*/
+                "aliasname" : "jiuniu", /*Android应用打包使用密钥库中证书的别名*/
+                "targetSdkVersion" : 23,
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_TASKS\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_TOP_ACTIVITY_INFO\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERACT_ACROSS_USERS_FULL\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                ]
+            },
+            "orientation" : [ "portrait-primary" ], /*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+            "icons" : {
+                "ios" : {
+                    "prerendered" : true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+
+                    /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+                    "iphone" : {
+                        "normal" : "", /*iPhone3/3GS程序图标，分辨率：57x57*/
+                        "retina" : "", /*iPhone4程序图标，分辨率：114x114*/
+
+                        /*iPhone4S/5/6程序图标，分辨率：120x120*//*iPhone6 Plus程序图标，分辨率：180x180*/
+                        "spotlight-normal" : "", /*iPhone3/3GS Spotlight搜索程序图标，分辨率：29x29*/
+                        "spotlight-retina" : "", /*iPhone4 Spotlight搜索程序图标，分辨率：58x58*/
+
+                        /*iPhone4S/5/6 Spotlight搜索程序图标，分辨率：80x80*/
+                        "settings-normal" : "", /*iPhone4设置页面程序图标，分辨率：29x29*/
+
+                        /*iPhone4S/5/6设置页面程序图标，分辨率：58x58*/
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png"
+                    },
+                    "ipad" : {
+                        "normal" : "", /*iPad普通屏幕程序图标，分辨率：72x72*/
+                        "retina" : "", /*iPad高分屏程序图标，分辨率：144x144*/
+
+                        /*iPad iOS7程序图标，分辨率：76x76*//*iPad iOS7高分屏程序图标，分辨率：152x152*/
+                        "spotlight-normal" : "", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+                        "spotlight-retina" : "", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+
+                        /*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*//*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*//*iPad设置页面程序图标，分辨率：29x29*/
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png"
+                    },
+                    "appstore" : "unpackage/res/icons/1024x1024.png"
+                },
+                "android" : {
+                    "mdpi" : "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+                    "ldpi" : "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+                    "hdpi" : "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+                    "xhdpi" : "unpackage/res/icons/96x96.png", /*720P高分屏程序图标，分辨率：96x96*/
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                }
+            },
+            "splashscreen" : {
+                "ios" : {
+                    "iphone" : {
+                        "default" : "", /*iPhone3启动图片选，分辨率：320x480*/
+
+                        /*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*//*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*//*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*//*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
+                        "retina55l" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus2.png",
+                        "iphonex" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphoneX.png",
+                        "retina47" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678.png",
+                        "retina35" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone4s.png",
+                        "retina40" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone5.png",
+                        "retina55" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus.png"
+                    },
+                    "ipad" : {
+                        "portrait" : "unpackage/splash/iphoneX2.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+                        "portrait-retina" : "unpackage/splash/iphoneX2.png", /*iPad高分屏竖屏图片，分辨率：1536x2008*/
+                        "landscape" : "unpackage/splash/iphoneX2.png", /*iPad横屏启动图片，分辨率：1024x748*/
+                        "landscape-retina" : "unpackage/splash/iphoneX2.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+                        "portrait7" : "unpackage/splash/iphoneX2.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+                        "portrait-retina7" : "unpackage/splash/iphoneX2.png", /*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+                        "landscape7" : "unpackage/splash/iphoneX2.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+                        "landscape-retina7" : "unpackage/splash/iphoneX2.png" /*iPad iOS7高分屏横屏启动图片，分辨率：2048x1536*/
+                    }
+                },
+                "android" : {
+                    "mdpi" : "", /*普通屏启动图片，分辨率：240x282*/
+                    "ldpi" : "",
+                    "hdpi" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android1.png",
+                    "xhdpi" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android2.png",
+                    "xxhdpi" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android3.png"
+                }
+            }
+        },
+        "ads" : {
+            "rp" : false,
+            "splash" : false,
+            "push" : false
+        }
+    },
+    "dependencies" : {
+        "pages" : {
+            "index.html" : {
+                "href" : "index.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "js/updateApp.js",
+                    "img/app_11.png",
+                    "img/app_focus_04.png",
+                    "img/app_15.png",
+                    "img/app_16.png"
+                ],
+                "priority" : 0,
+                "refer" : [
+                    "views/login.html",
+                    "views/selectChargeMethod.html",
+                    "views/menu.html",
+                    "views/shoppingMall.html",
+                    "views/messageList.html",
+                    "views/recharge.html"
+                ]
+            },
+            "views/login.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png",
+                    "img/views/phone.png",
+                    "img/views/password.png",
+                    "img/views/code.png"
+                ],
+                "refer" : [ "index.html", "views/forgetpass.html", "views/register.html" ],
+                "priority" : 0
+            },
+            "views/selectChargeMethod.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "plugins/layer/theme/default/layer.css",
+                    "plugins/layer/theme/default/loading-1.gif",
+                    "plugins/layer/theme/default/icon.png",
+                    "plugins/layer/theme/default/loading-0.gif",
+                    "plugins/layer/theme/default/loading-2.gif",
+                    "plugins/layer/theme/default/icon-ext.png",
+                    "plugins/swiper-4.2.2/swiper-4.2.2.min.css",
+                    "plugins/font-awesome-4.7.0/css/font-awesome.min.css",
+                    "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.eot",
+                    "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2",
+                    "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.woff",
+                    "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf",
+                    "plugins/font-awesome-4.7.0/fonts/fontawesome-webfont.svg",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/artTemplate.min.js",
+                    "plugins/layer/layer.js",
+                    "plugins/swiper-4.2.2/swiper-4.2.2.min.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/charge/swiper-button-next.png",
+                    "img/charge/swiper-button-prev.png",
+                    "img/promotion.png",
+                    "img/guide/1.png",
+                    "img/guide/2.png",
+                    "img/guide/3.png",
+                    "img/guide/4.png",
+                    "img/guide/5.png"
+                ],
+                "refer" : [
+                    "views/selectChargeSearch.html",
+                    "views/chargeing.html",
+                    "views/scanBarcode.html",
+                    "views/login.html"
+                ],
+                "priority" : 0
+            },
+            "views/chargeList.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "refer" : [ "views/chargeing.html", "views/chargeDetail.html" ],
+                "priority" : 0
+            },
+            "views/menu.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/user_profile/app_10.png",
+                    "img/menu/app_1.png",
+                    "img/menu/app_2.png",
+                    "img/menu/app_3.png",
+                    "img/menu/app_4.png",
+                    "img/menu/app_5.png",
+                    "img/menu/app_6.png"
+                ],
+                "refer" : [
+                    "views/chargeList.html",
+                    "views/myWallet.html",
+                    "views/myIcCard.html",
+                    "views/applyCooperate.html",
+                    "views/userInfo.html",
+                    "views/customerService.html",
+                    "views/invitation.html",
+                    "views/setting.html",
+                    "views/login.html",
+                    "index.html"
+                ],
+                "priority" : 0
+            },
+            "views/chargeing.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/charging.png",
+                    "img/views/chargemask.png"
+                ],
+                "refer" : [
+                    "views/chargeing.html",
+                    "views/chargeList.html",
+                    "views/chargeDetail.html"
+                ],
+                "priority" : 0
+            },
+            "views/myWallet.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/balance.png",
+                    "img/views/clouddrill.png"
+                ],
+                "refer" : [
+                    "views/detailsBalance.html",
+                    "views/detailsCloudDrill.html",
+                    "views/login.html",
+                    "views/recharge.html"
+                ],
+                "priority" : 0
+            },
+            "views/applyCooperate.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/hez1.png",
+                    "img/views/hez2.png",
+                    "img/views/hez3.png"
+                ],
+                "refer" : [ "views/applyPartner.html" ],
+                "priority" : 0
+            },
+            "views/scanBarcode.html" : {
+                "resources" : [
+                    "views/scanSub.html",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "css/common.css"
+                ],
+                "refer" : [ "views/scanSub.html" ],
+                "priority" : 0
+            },
+            "views/userInfo.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/user_profile/app_10.png"
+                ],
+                "refer" : [
+                    "views/modifyNickName.html",
+                    "views/login.html",
+                    "views/modifyPassWord.html"
+                ],
+                "priority" : 0
+            },
+            "views/shoppingMall.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "css/iconfont.css",
+                    "css/iconfont.eot",
+                    "css/iconfont.ttf",
+                    "css/iconfont.svg",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/bootstrap.min.js",
+                    "plugins/layer/layer.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/user_profile/app_10.png"
+                ],
+                "refer" : [
+                    "views/productDetail.html",
+                    "views/login.html",
+                    "views/detailsCloudDrill.html",
+                    "views/recordOfExchange.html",
+                    "views/mallDetail.html"
+                ],
+                "priority" : 0
+            },
+            "views/customerService.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/customerService.png"
+                ],
+                "refer" : [ "views/commonProblem.html" ],
+                "priority" : 0
+            },
+            "views/myIcCard.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/iccard.png",
+                    "img/views/nulliccard.png"
+                ],
+                "refer" : [ "views/scanBarcode.html", "views/myIcCard_binding.html" ],
+                "priority" : 0
+            },
+            "views/setting.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "refer" : [
+                    "views/feedback.html",
+                    "views/edition.html",
+                    "views/faultRepair.html",
+                    "views/about.html",
+                    "views/deliveryAddress.html",
+                    "views/login.html"
+                ],
+                "priority" : 0
+            },
+            "views/scanSub.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/sdt.png",
+                    "img/views/sdton.png",
+                    "img/views/srbh.png"
+                ],
+                "refer" : [ "views/myIcCard_binding.html", "views/modifyCdzNo.html" ],
+                "priority" : 0
+            },
+            "views/messageList.html" : {
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/list1.png",
+                    "img/views/list2.png",
+                    "img/views/list4.png"
+                ],
+                "refer" : [ "views/messageDetail.html" ],
+                "priority" : 0
+            },
+            "views/chargeDetail.html" : {
+                "href" : "views/chargeDetail.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/success.png",
+                    "img/views/fail.png"
+                ],
+                "priority" : 0,
+                "refer" : []
+            },
+            "views/selectChargeSearch.html" : {
+                "href" : "views/selectChargeSearch.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "refer" : [ "views/selectChargeMethod.html" ],
+                "priority" : 1
+            },
+            "views/modifyCdzNo.html" : {
+                "href" : "views/modifyCdzNo.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png"
+                ],
+                "refer" : [ "views/selectChargeMethod.html" ],
+                "priority" : 2
+            },
+            "views/myIcCard_binding.html" : {
+                "href" : "views/myIcCard_binding.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png"
+                ],
+                "priority" : 3,
+                "refer" : []
+            },
+            "views/forgetpass.html" : {
+                "href" : "views/forgetpass.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png",
+                    "img/views/phone.png",
+                    "img/views/password.png",
+                    "img/views/code.png"
+                ],
+                "refer" : [ "index.html", "views/login.html" ],
+                "priority" : 2
+            },
+            "views/register.html" : {
+                "href" : "views/register.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png",
+                    "img/views/phone.png",
+                    "img/views/password.png",
+                    "img/views/code.png"
+                ],
+                "refer" : [ "index.html", "views/forgetpass.html", "views/login.html" ],
+                "priority" : 3
+            },
+            "views/deliveryAddress.html" : {
+                "href" : "views/deliveryAddress.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "css/mui.picker.min.css",
+                    "js/mui.picker.min.js",
+                    "js/data.city.js"
+                ],
+                "priority" : 3,
+                "refer" : [ "views/login.html", "views/deliveryAddressAdd.html" ]
+            },
+            "views/edition.html" : {
+                "href" : "views/edition.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png",
+                    "js/updateApp.js"
+                ],
+                "priority" : 4,
+                "refer" : []
+            },
+            "views/about.html" : {
+                "href" : "views/about.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png"
+                ],
+                "priority" : 5,
+                "refer" : []
+            },
+            "views/faultRepair.html" : {
+                "href" : "views/faultRepair.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "priority" : 6,
+                "refer" : []
+            },
+            "views/feedback.html" : {
+                "href" : "views/feedback.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "priority" : 7,
+                "refer" : []
+            },
+            "views/modifyNickName.html" : {
+                "href" : "views/modifyNickName.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png"
+                ],
+                "priority" : 5,
+                "refer" : []
+            },
+            "views/modifyPassWord.html" : {
+                "href" : "views/modifyPassWord.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/logo_big.png"
+                ],
+                "refer" : [ "index.html" ],
+                "priority" : 6
+            },
+            "views/recharge.html" : {
+                "href" : "views/recharge.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "css/iconfont.css",
+                    "css/iconfont.eot",
+                    "css/iconfont.ttf",
+                    "css/iconfont.svg",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "refer" : [ "views/myWallet.html" ],
+                "priority" : 7
+            },
+            "views/detailsBalance.html" : {
+                "href" : "views/detailsBalance.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/null.png"
+                ],
+                "priority" : 8,
+                "refer" : []
+            },
+            "views/detailsCloudDrill.html" : {
+                "href" : "views/detailsCloudDrill.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "img/views/null.png"
+                ],
+                "priority" : 9,
+                "refer" : []
+            },
+            "views/applyPartner.html" : {
+                "href" : "views/applyPartner.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/mui.picker.min.css",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/mui.picker.min.js",
+                    "js/data.city.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "priority" : 8,
+                "refer" : []
+            },
+            "views/invitation.html" : {
+                "href" : "views/invitation.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "js/qrcode.min.js",
+                    "img/logo.png",
+                    "img/views/invite_banner.png",
+                    "img/yaoqing/app_wx.png",
+                    "img/yaoqing/app_wxpy.png",
+                    "img/yaoqing/app_mdm.png"
+                ],
+                "priority" : 9,
+                "refer" : []
+            },
+            "views/commonProblem.html" : {
+                "href" : "views/commonProblem.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "priority" : 10,
+                "refer" : []
+            },
+            "views/messageDetail.html" : {
+                "href" : "views/messageDetail.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "priority" : 3,
+                "refer" : []
+            },
+            "views/productDetail.html" : {
+                "href" : "views/productDetail.html",
+                "resources" : [
+                    "css/iconfont.css",
+                    "css/iconfont.eot",
+                    "css/iconfont.ttf",
+                    "css/iconfont.svg",
+                    "css/common.css",
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "plugins/layer/theme/default/layer.css",
+                    "plugins/layer/theme/default/loading-1.gif",
+                    "plugins/layer/theme/default/icon.png",
+                    "plugins/layer/theme/default/loading-0.gif",
+                    "plugins/layer/theme/default/loading-2.gif",
+                    "plugins/layer/theme/default/icon-ext.png",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/bootstrap.min.js",
+                    "plugins/layer/layer.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "refer" : [ "views/login.html" ],
+                "priority" : 5
+            },
+            "views/recordOfExchange.html" : {
+                "href" : "views/recordOfExchange.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "plugins/layer/layer.js",
+                    "js/artTemplate.min.js",
+                    "js/fastclick.js",
+                    "js/base.js",
+                    "js/common.js",
+                    "css/iconfont.css",
+                    "css/iconfont.eot",
+                    "css/iconfont.ttf",
+                    "css/iconfont.svg"
+                ],
+                "priority" : 8,
+                "refer" : []
+            },
+            "views/deliveryAddressAdd.html" : {
+                "href" : "views/deliveryAddressAdd.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/mui.picker.min.css",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/mui.picker.min.js",
+                    "js/data.city.js",
+                    "plugins/layer/layer.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "priority" : 4
+            },
+            "views/mallAddress.html" : {
+                "href" : "views/mallAddress.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/mui.picker.min.css",
+                    "css/common.css",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/mui.picker.min.js",
+                    "js/data.city.js",
+                    "plugins/layer/layer.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "refer" : [ "views/recordOfExchange.html" ],
+                "priority" : 6
+            },
+            "views/mallDetail.html" : {
+                "href" : "views/mallDetail.html",
+                "resources" : [
+                    "css/mui.min.css",
+                    "fonts/mui.ttf",
+                    "css/common.css",
+                    "css/iconfont.css",
+                    "css/iconfont.eot",
+                    "css/iconfont.ttf",
+                    "css/iconfont.svg",
+                    "js/jquery-3.3.1.min.js",
+                    "js/mui.min.js",
+                    "js/bootstrap.min.js",
+                    "plugins/layer/layer.js",
+                    "js/base.js",
+                    "js/common.js"
+                ],
+                "refer" : [ "views/mallAddress.html", "views/login.html" ],
+                "priority" : 6
+            }
+        },
+        "idle" : {
+            "resources" : [
+                "img/editPs/app_03.png",
+                "img/loading.gif",
+                "img/shangcheng/app_shangcheng_07.png",
+                "img/app_03.png",
+                "img/iccard/noneIcCard.png",
+                "img/app_back.png",
+                "img/upgrade.png",
+                "img/chongzhi/app_07.png",
+                "css/iconfont.woff",
+                "img/user_profile/app_22.png",
+                "img/user_profile/app_25.png",
+                "img/user_profile/app_03.png",
+                "img/chongzhi/app_09.png",
+                "plugins/font-awesome-4.7.0/fonts/FontAwesome.otf",
+                "views/common.html",
+                "img/app_yes_btn.png",
+                "js/plusUtils.js",
+                "views/selectChargeSearchSub.html",
+                "js/mui.pullToRefresh.material.js",
+                "img/shangcheng/app_shangcheng_11.png",
+                "img/yaoqing/app_qq.png",
+                "img/views/list3.png",
+                "js/immersed.js",
+                "img/app_charge_two.png",
+                "img/user_profile/app_34.png",
+                "plugins/layer/mobile/layer.js",
+                "img/iccard/none.png",
+                "img/app_next_03.png",
+                "js/update.js",
+                "img/logout/app_03.png",
+                "img/views/cdbg.png",
+                "img/app_reg_03.png",
+                "js/update.json",
+                "img/iccard/unbinding.png",
+                "img/iccard/input-iccard.png",
+                "img/user_profile/app_28.png",
+                "js/hammer.min.js",
+                "css/bootstrap.min.css",
+                "img/charge/location.png",
+                "img/user_profile/app_19.png",
+                "img/yaoqing/app_qqkj.png",
+                "img/yaoqing/app_fulj.png",
+                "img/charge/app_charge_bg_2.png",
+                "img/charge/app_charge_bg.png",
+                "img/user_profile/app_14.png",
+                "img/chongzhi/app_03.png",
+                "plugins/font-awesome-4.7.0/css/font-awesome.css",
+                "img/app_yunzuang.png",
+                "img/app_charge.png",
+                "img/app_06.png",
+                "js/mui.pullToRefresh.js",
+                "img/app_close.png",
+                "img/iccard/tip.png",
+                "plugins/layer/mobile/need/layer.css",
+                "img/user_profile/app_33.png",
+                "img/logout/app_login_btn.png",
+                "img/logo_footer.gif",
+                "css/iconfont.js",
+                "img/yaoqing/app_03.png",
+                "img/user_profile/app_30.png",
+                "img/position.png",
+                "img/cdz.png",
+                "img/iccard/iccard.png",
+                "img/app_money_icon.png",
+                "img/yaoqing/app_07.png",
+                "img/app_small_logo_03.png",
+                "js/jquery.hammer.js",
+                "js/shortcut.js",
+                "js/circleChart.min.js"
+            ]
+        }
+    },
+    "fullscreen" : false,
+    "unpackage" : [
+        "css/iconfont.js",
+        "css/iconfont.woff",
+        "img/chongzhi/app_03.png",
+        "img/chongzhi/app_07.png",
+        "img/shangcheng/app_shangcheng_07.png",
+        "img/shangcheng/app_shangcheng_11.png",
+        "img/yaoqing/app_fulj.png",
+        "img/yaoqing/app_qq.png",
+        "img/yaoqing/app_qqkj.png",
+        "img/app_next_03.png",
+        "img/loading.gif",
+        "js/immersed.js",
+        "js/mui.pullToRefresh.js",
+        "js/mui.pullToRefresh.material.js",
+        "js/shortcut.js",
+        "js/update.js",
+        "js/update.json",
+        "plugins/layer/mobile/layer.js",
+        "plugins/layer/mobile/need/layer.css",
+        "README.md",
+        "jiuniu.keystore"
+    ]
 }

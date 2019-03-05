@@ -1,4 +1,4 @@
-﻿/**
+/**
  * plus公共工具类
  * @class plusUtils
  */
@@ -509,7 +509,7 @@ function postJSON(url, data, callback,isIcon){
 			toast("网络异常，请检查网络设置！");
 			return false;
 		}
-		!isIcon && showLoading("数据加载中..."); 
+		!isIcon && showLoading("正在加载..."); 
 		var xhr = new plus.net.XMLHttpRequest();	
 		xhr.onreadystatechange = function () {
 		    switch ( xhr.readyState ) {

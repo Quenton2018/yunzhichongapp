@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>申请合作</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 	<meta name="misapplication-tap-highlight" content="no"/>
 	<meta name="HandheldFriendly" content="true"/>
 	<meta name="MobileOptimized" content="320"/>
@@ -60,7 +60,17 @@
 	<script type="text/javascript">
 		mui.init();
 		function phoneCilck(){
-			plus.device.dial("400-825-1068", false);
+			if(mui.os.ios){
+				plus.device.dial(Phone, false);
+			}else{
+				var btnArray = ['拨打', '取消'];
+				var Phone = "400-825-1068";
+				mui.confirm('是否拨打 ' + Phone + ' ？', '提示', btnArray, function(e) {
+					if(e.index == 0) {
+							plus.device.dial(Phone, false);
+					}
+				});
+			}
 		}
 	</script>
 </body>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 	<meta name="misapplication-tap-highlight" content="no"/>
 	<meta name="HandheldFriendly" content="true"/>
 	<meta name="MobileOptimized" content="320"/>
@@ -17,7 +17,7 @@
 	<script src="js/common.js"></script>
 	<script src="js/updateApp.js"></script>
     <style type="text/css">
-    	*{touch-action: none;}
+    *{touch-action: none;}
 		.mui-content{background-image:url("img/app_11.png");background-size:cover;padding-bottom:110px;}
 		.banner{display: block;width: 80%;margin: 0 auto;padding-top: 20px;}
 		.footer{width:100%;position:fixed;bottom:0;left:0;background:#fff;box-shadow:-2px -2px 2px 2px rgba(116,116,116,.1);border-radius:30px 30px 0 0;border-top:#FAFAFA solid 5px;}
@@ -62,8 +62,8 @@
 		});
 		plus.key.addEventListener("backbutton",function(){
 			plus.runtime.quit();
-        });
-        heatUpdate(); // 热更新
+    });
+    heatUpdate(); // 热更新
 	});
 	plusUtils.pageReady(function(){
 		plusUtils.locate.getCurrentPosition();
@@ -77,9 +77,6 @@
 	plusRefresh(dataRefresh);
 	//刷新页面
 	function dataRefresh(){
-		plus.cache.calculate(function(size) {
-			console.log(size)
-		});
 		plusUtils.locate.getCurrentPosition();
 		getUserInfo();
 		countUnreadMessage();

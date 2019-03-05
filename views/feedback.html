@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>问题反馈</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 		<meta name="misapplication-tap-highlight" content="no"/>
 		<meta name="HandheldFriendly" content="true"/>
 		<meta name="MobileOptimized" content="320"/>
@@ -17,7 +17,7 @@
 	    <script src="../js/common.js"></script>  
 		<style>
 			body{overflow: hidden;height: auto;}
-	    	.mui-plus .header-immersed{display:none;}
+	    .mui-plus .header-immersed{display:none;}
 			.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
 			.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
 			.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
@@ -160,11 +160,9 @@
 					up.setAttribute('class','image-up')
 					//删除图片
 					var closeButton = document.createElement('div');
-					closeButton.setAttribute('class', 'image-close');
-					closeButton.innerHTML = 'X';
-					closeButton.id = "img-"+index;
 					//小X的点击事件
 					closeButton.addEventListener('tap', function(event) {
+						if(feedback.files.length == 0){return false;}
 						setTimeout(function() {
 							for(var temp=0;temp<feedback.files.length;temp++){
 								if(feedback.files[temp].id==closeButton.id){
@@ -181,9 +179,11 @@
 					fileInput.setAttribute('id', 'image-' + imageIndexIdNum);
 					fileInput.addEventListener('tap', function(event) {
 						var self = this;
-						var index = (this.id).substr(-1);						
+						var index = (this.id).substr(-1);	
+						if(feedback.files.length > 5){
+							return layer.msg('最多只能上传6张图片');
+						}
 						plus.gallery.pick(function(e) {
-			//				console.log("event:"+e);
 							var name = e.substr(e.lastIndexOf('/') + 1);
 							console.log("name:"+name);							
 							plus.zip.compressImage({
@@ -207,10 +207,14 @@
 										// 上传完成
 										if (status == 200) {
 											console.log(JSON.parse(t.responseText).data)
-											feedback.addFile(JSON.parse(t.responseText).data);
+											var filepath = JSON.parse(t.responseText).data;
+											feedback.addFile(filepath);
 											feedback.newPlaceholder();
 											up.classList.remove('image-up');
 											placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+											closeButton.setAttribute('class', 'image-close');
+											closeButton.innerHTML = 'X';
+											closeButton.id = "img-"+index;
 										} else {
 											layer.msg('上传失败,请重试');
 										}
