@@ -46,13 +46,6 @@
 	</div>
 	<script type="text/javascript">
 		mui.init();
-		plusUtils.pageReady(function(){
-			if(mui.os.plus){
-				plus.webview.currentWebview().setStyle({
-					softinputMode: "adjustResize"
-				});	
-			}			
-		});
 		$("#saveBtn").click(function(){       
 	        var nickname = $("input[name='nickname']").val();
 	        if(!vaildeParam(nickname)){
@@ -68,12 +61,10 @@
 	        postJSON(API_URL.ApiUpdateMemberInfo,data,function(res){
 	        	layer.msg(res.msg);
 	            if("0" == res.code){
-	                setTimeout(function(){
-	                    var ws = plus.webview.currentWebview();
-	                    var wo = ws.opener();
-	                    mui.fire(wo, "changeName", {  
+	                setTimeout(function(){                    
+						plusUtils.appPage.openerFire("changeName", {  
                             nickname: nickname  
-                        });  
+                        });
                         mui.back();  
 	                },1000);
 	            }

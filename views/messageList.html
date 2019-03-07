@@ -81,16 +81,14 @@
 				var category = $this.attr('data-type');
 				plusUtils.Storage.setItem("category",category);
 				if($this.hasClass('unread')){
-					var ws = plus.webview.currentWebview();
-		            var wo = ws.opener();
 					var params = {
 						uuid:uuid,
 						category:category
 					}
 					postJSON(API_URL.ApiMessageSetAllMessageRead,params,function(res){
 						if(res.code == '0'){
-		                    mui.fire(wo, "setAllMessageRead");
-							$this.removeClass('unread') //调用接口
+							$this.removeClass('unread');
+							plusUtils.appPage.openerFire("setAllMessageRead");
 							openWebview('messageDetail.html');
 						}
 					})

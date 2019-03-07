@@ -1,172 +1,155 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
-	<meta name="misapplication-tap-highlight" content="no"/>
-	<meta name="HandheldFriendly" content="true"/>
-	<meta name="MobileOptimized" content="320"/>
-    <title>主页</title>
-	<link rel="stylesheet" href="css/mui.min.css" type="text/css" charset="utf-8">
-	<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8"/>
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/mui.min.js"></script>
-	<script src="plugins/layer/layer.js"></script>
-	<script src="js/fastclick.js"></script>
-	<script src="js/base.js"></script>
-	<script src="js/common.js"></script>
-	<script src="js/updateApp.js"></script>
-    <style type="text/css">
-    *{touch-action: none;}
-		.mui-content{background-image:url("img/app_11.png");background-size:cover;padding-bottom:110px;}
-		.banner{display: block;width: 80%;margin: 0 auto;padding-top: 20px;}
-		.footer{width:100%;position:fixed;bottom:0;left:0;background:#fff;box-shadow:-2px -2px 2px 2px rgba(116,116,116,.1);border-radius:30px 30px 0 0;border-top:#FAFAFA solid 5px;}
-		.footer-btn{width:80%;margin:0 auto;padding:20px 0;}
-		.footer-btn .left{float:left;width:54%;}
-		.footer-btn .right{float:left;width:43%;}
-		.footer-btn img{display:block;width:100%;}
-		.icon-xiaoxi{position: relative;}
-		.UnreadMessage{position: absolute;top: 1px;right: 5px; color: #fff;background: red;width:16px;height:16px;line-height:16px;border-radius: 50%;font-size: 10px;font-style: normal;text-align: center;display: none;}
-    </style>
-</head>
-<body>
-	<header class="header header-immersed mui-bar mui-bar-nav">
-		<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openMenu()"></a>
-		<h1 class="mui-title">首页</h1>
-		<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openMessage()"><i class="UnreadMessage"></i></a>	
-	</header>
-	
-	<div class="mui-content">
-		<img src="img/app_focus_04.png" class="banner" onclick="openRecharge()">
-	</div>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover" />
+		<meta name="misapplication-tap-highlight" content="no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>主页</title>
+		<link rel="stylesheet" href="css/mui.min.css" type="text/css" charset="utf-8">
+		<link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="plugins/layer/layer.js"></script>
+		<script src="js/fastclick.js"></script>
+		<script src="js/base.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/updateApp.js"></script>
+		<style type="text/css">
+			.mui-content{background-image:url("img/app_11.png");background-size:cover;height: 100%;}
+			.banner{display:block;width:80%;margin:0 auto;padding-top:20px;}
+			.footer{width:100%;position:fixed;bottom:0;left:0;background:#fff;box-shadow:-2px -2px 2px 2px rgba(116,116,116,.1);border-radius:30px 30px 0 0;border-top:#FAFAFA solid 5px;}
+			.footer-btn{width:80%;margin:0 auto;padding:20px 0;}
+			.footer-btn .left{float:left;width:54%;}
+			.footer-btn .right{float:left;width:43%;}
+			.footer-btn img{display:block;width:100%;}
+			.icon-xiaoxi{position:relative;}
+			.UnreadMessage{position:absolute;top:1px;right:5px;color:#fff;background:red;width:16px;height:16px;line-height:16px;border-radius:50%;font-size:10px;font-style:normal;text-align:center;display:none;}
+		</style>
+	</head>
+	<body>
+		<header class="header header-immersed mui-bar mui-bar-nav">
+			<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openIsLogin('views/menu.html')"></a>
+			<h1 class="mui-title">首页</h1>
+			<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openIsLogin('views/messageList.html')"><i class="UnreadMessage"></i></a>
+		</header>
 
-	<footer class="footer" style="text-align: center">
-		<!--<div class="button" onclick="getCurrentPosition()">获取定位信息</div>-->
-		<div class="footer-btn mui-clearfix">
-			<div class="left">			
-				<img src="img/app_15.png" onclick="openCharge()" >
-			</div>
-			<div class="right">
-				<a onclick="openWebview('views/shoppingMall.html')">
-					<img src="img/app_16.png">
-				</a>
-			</div>
+		<div class="mui-content">
+			<img src="img/app_focus_04.png" class="banner" onclick="openIsLogin('views/recharge.html')">
 		</div>
-	</footer>
-		
-<script type="text/javascript">
-	var Permission = 'authorized';
-	mui.plusReady(function(){
-		plus.webview.currentWebview().setStyle({
-			popGesture:'none' // 关闭侧滑返回功能
-		});
-		plus.key.addEventListener("backbutton",function(){
-			plus.runtime.quit();
-    });
-    heatUpdate(); // 热更新
-	});
-	plusUtils.pageReady(function(){
-		plusUtils.locate.getCurrentPosition();
-		getUserInfo();
-		countUnreadMessage();
-		getMidBigPic();	       
-		document.addEventListener("setAllMessageRead",function(){
-			countUnreadMessage();
-		})
-	});
-	plusRefresh(dataRefresh);
-	//刷新页面
-	function dataRefresh(){
-		plusUtils.locate.getCurrentPosition();
-		getUserInfo();
-		countUnreadMessage();
-	}
-	//获取用户信息
-    function getUserInfo(){
-        if(vaildeParam(uuid)){
-            postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
-                if("0" == res.code){
-              		setLoginData(res.data);
-                }else{
-                    layer.msg(res.msg);
-                    clearLogin();
-            		openWebview('views/login.html','登录',false);
-                }
-            },true)
-        }else{
-        	layer.msg("用户不存在");
-        	clearLogin();
-            openWebview('views/login.html','登录',false);
-        }
-    }
-	//获取中间banner图片
-    function getMidBigPic() {
-        postJSON(API_URL.ApiCarouselImageGetCarouselImage,{},function(res){
-            if("0" == res.code){
-                var data = res.data;
-                if(0 == data.length) return;
-                var imgUrl = '';
-                $.each(data, function(index,item) {
-                    if(0 == index){
-                        imgUrl = item.pic;
-		                loadImage(imgUrl,function () {
-		                    $(".banner").attr("src",imgUrl);
-		                })
-                    }
-                });
-            }else{
-                toast(res.msg);
-            }
-        })
-    }
-    function openCharge(){
-    	if(uuid){		
-    		plusUtils.Storage.removeItem("chargingGroupId");
-			openWebview("views/selectChargeMethod.html");
-    	}else{
-    		openWebview('views/login.html','登录',false);
-    	}
-	}
-    function openRecharge(){
-    	if(uuid){
-    		openWebview('views/recharge.html');
-    	}else{
-    		openWebview('views/login.html','登录',false);
-    	} 
-    }
-    function openMenu(){
-    	if(uuid){
-    		openWebview('views/menu.html');
-    	}else{
-    		openWebview('views/login.html','登录',false);
-    	}   	
-    }
-    function openMessage(){
-    	if(uuid){
-    		openWebview('views/messageList.html');
-    	}else{
-    		openWebview('views/login.html','登录',false);
-    	}   	
-    }
-    function countUnreadMessage(){
-    	var count = '';
-    	postJSON(API_URL.ApiMessageCountUnreadMessage,{'uuid':uuid},function(res){
-    		if(res.code == '0'){
-    			if(res.data == 0){
-    				$('.UnreadMessage').hide();
-    			}else{
-    				if(res.data > 10){
-	    				count = "9+";
-	    			} else{
-	    				count = res.data;
-	    			}
-	    			$('.UnreadMessage').show().text(count);
-    			}
-    			plus.runtime.setBadgeNumber(res.data);
-    		}
-    	})
-    }
-</script>
 
-</body>
+		<footer class="footer" style="text-align: center">
+			<div class="footer-btn mui-clearfix">
+				<div class="left">
+					<img src="img/app_15.png" onclick="openIsLogin('views/selectChargeMethod.html')">
+				</div>
+				<div class="right">
+					<a onclick="openIsLogin('views/shoppingMall.html')">
+						<img src="img/app_16.png">
+					</a>
+				</div>
+			</div>
+		</footer>
+
+		<script type="text/javascript">
+			var Permission = 'authorized';
+			plusUtils.pageReady(function() {
+				if(mui.os.plus){
+					plus.webview.currentWebview().setStyle({
+						popGesture: 'none' // 关闭侧滑返回功能
+					});
+					plus.key.addEventListener("backbutton", function() {
+						plus.runtime.quit();
+					});
+				}
+				heatUpdate(); // 热更新
+				document.addEventListener("setAllMessageRead", function() {
+					countUnreadMessage();
+				})
+				plusUtils.locate.getCurrentPosition();
+				getUserInfo();
+				countUnreadMessage();
+				getMidBigPic();
+			});
+			plusRefresh(dataRefresh);
+			//刷新页面
+			function dataRefresh() {
+				console.log(plus.device.uuid)
+				plusUtils.locate.getCurrentPosition();
+				getUserInfo();
+				countUnreadMessage();
+			}
+			//获取用户信息
+			function getUserInfo() {
+				if (vaildeParam(uuid)) {
+					postJSON(API_URL.ApiMemberInfo, {
+						"uuid": uuid
+					}, function(res) {
+						if ("0" == res.code) {
+							setLoginData(res.data);
+						} else {
+							layer.msg(res.msg);
+							clearLogin();
+							openWebview('views/login.html', '登录', false);
+						}
+					}, true)
+				} else {
+					layer.msg("用户不存在");
+					clearLogin();
+					openWebview('views/login.html', '登录', false);
+				}
+			}
+			//获取中间banner图片
+			function getMidBigPic() {
+				postJSON(API_URL.ApiCarouselImageGetCarouselImage, {}, function(res) {
+					if ("0" == res.code) {
+						var data = res.data;
+						if (0 == data.length) return;
+						var imgUrl = '';
+						$.each(data, function(index, item) {
+							if (0 == index) {
+								imgUrl = item.pic;
+								loadImage(imgUrl, function() {
+									$(".banner").attr("src", imgUrl);
+								})
+							}
+						});
+					} else {
+						toast(res.msg);
+					}
+				})
+			}
+
+			function openIsLogin(url) {
+				if (uuid) {
+					openWebview(url);
+				} else {
+					openWebview('views/login.html', true, false);
+				}
+			}
+
+			function countUnreadMessage() {
+				var count = '';
+				postJSON(API_URL.ApiMessageCountUnreadMessage, {
+					'uuid': uuid
+				}, function(res) {
+					if (res.code == '0') {
+						if (res.data == 0) {
+							$('.UnreadMessage').hide();
+						} else {
+							if (res.data > 10) {
+								count = "9+";
+							} else {
+								count = res.data;
+							}
+							$('.UnreadMessage').show().text(count);
+						}
+						plus.runtime.setBadgeNumber(res.data);
+					}
+				})
+			}
+		</script>
+
+	</body>
 </html>

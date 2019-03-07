@@ -25,7 +25,8 @@
     	.user-name{text-align: center;color: #1A1A1A;font-size: 18px;}
     	.user-mobile{text-align: center;}
     	.user-signin{position: absolute;right:0;bottom:12px;width:70px;height:28px;line-height:28px;background:linear-gradient(90deg,rgba(252,94,83,1) 0%,rgba(250,131,91,1) 100%);border-radius:5px 0 0 5px;text-align: center;color: #fff;}		
-    	.mui-table-view:before,.mui-table-view:after{height: 0;}
+    	.user-signin.isOn{background:#c3c3c3;}
+		.mui-table-view:before,.mui-table-view:after{height: 0;}
     	.mui-table-view-cell{padding: 12px 15px;color: #4D4D4D;}
     	.mui-table-view-cell:after{left: 0;}
     	.mui-table-view-cell>a:not(.mui-btn).mui-active{background: none;}
@@ -98,8 +99,8 @@
 					<img src="../img/menu/app_6.png" width="18px">客服中心
 				</a>
 			</li>
-			<li class="mui-table-view-cell">
-				<a href="bluetooth.html" class="mui-navigate-right">
+			<li class="mui-table-view-cell" onclick="openWebview('bluetooth.html',true)">
+				<a class="mui-navigate-right">
 					<img src="../img/menu/app_6.png" width="18px">蓝牙连接
 				</a>
 			</li>
@@ -109,11 +110,13 @@
 		mui.init();	
 		plusUtils.pageReady(function() {
 	        getUserInfo();
+			isSignToday();
 	    });	
 		plusRefresh(dataRefresh);
 		// 刷新页面
 	    function dataRefresh(){
 	        updateUserInfo();
+			isSignToday();
 	    }
 		//更新用户信息
      	function updateUserInfo(){
@@ -158,15 +161,28 @@
 	            openWebview("login.html",true,false);
 	        }
 	    }
+		function isSignToday(){		
+			var params = {"uuid":uuid}
+			postJSON(API_URL.ApiUserSignIsSignToday,params,function (res) {
+				if(res.data){
+					$(".user-signin").addClass("isOn").text("已签到");
+				}else{
+					$(".user-signin").removeClass("isOn").text("签到");
+				}
+			});
+		}
 	    //签到领云钻   
 	    mui('body').on('tap', "#qianDao", function(e) {
+			if($(this).hasClass('isOn')) return false;
 	        var params = {"uuid":uuid}
 	        postJSON( API_URL.ApiUserSignClickSign,params,function (res) {
 	            if("0" == res.code){
-	               var scoreTotal =  $("#points").text()*1;
+	               var scoreTotal =  $("#points").text();
 	                var score = res.data.score;
-	                $("#points").text(scoreTotal+score);
+	                $("#points").text(parseInt(scoreTotal) + score);
+					$(".user-signin").addClass("isOn").text("已签到");
 	                layer.msg('今日签到成功赠送您'+score+"云钻");
+					plusUtils.appPage.openerFire("setAllMessageRead");
 	            }else{
 	                layer.msg(res.msg);
 	            }	

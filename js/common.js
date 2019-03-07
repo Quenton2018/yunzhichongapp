@@ -22,7 +22,9 @@ plusUtils.nativeUI = {
  * 定位组件 
  */
 plusUtils.locate = {
-	//通过定位模块获取位置信息
+	/**
+	 * 获取定位
+	 */
 	getCurrentPosition:function () {
 		var self = this;
 		if(window.plus){	
@@ -36,7 +38,9 @@ plusUtils.locate = {
 	    	}
 		}
 	},
-	//检查定位  
+	/**
+	 * 检查定位权限
+	 */
 	checkPermissionPos:function () {
 		var self = this;
 		var Permission = plus.navigator.checkPermission('LOCATION');
@@ -46,14 +50,16 @@ plusUtils.locate = {
 				console.log('已开启定位权限');
 	            break;
 	        case 'denied':
-				console.log('已关闭定位权限');
+				console.log('定位失败，请确保是否开启gps定位服务');
 	            self.openSystemPositionServer();
 	            break;
 	        case 'undetermined':
-	            mui.alert('未确定定位权限', '定位消息');
+	            console.log('未确定定位权限');
+	            self.openSystemPositionServer();
 	            break;
 	        case 'unknown':
-	            mui.alert('无法查询定位权限', '定位消息');
+	           console.log('无法查询定位权限');
+	            self.openSystemPositionServer();
 	            break;
 	        default:
 				console.log('不支持定位权限');
@@ -84,17 +90,22 @@ plusUtils.locate = {
 	    	"longitude":longitude,
 	    	"latitude":latitude      	
 	    }
-	    console.log("## geoInf ## 位置具体信息 : " + JSON.stringify(geolocationGroup));
+	    console.log("## showPosition ## 位置具体信息 : " + JSON.stringify(geolocationGroup));
 	    plusUtils.Storage.setItem("geolocationGroup", JSON.stringify(geolocationGroup));
 	},
-	// 打开手机设置 -> 隐私 -> 定位
+	/**
+	 * 开启定位
+	 */
 	openSystemPositionServer:function () {
-	//	"云智充向你申请定位权限，以提供更加精准的定位充电桩服务"
-		mui.alert("请打开系统设置中“隐私->定位服务”，允许“云智充”使用您的位置","开启定位服务","设置",function(){
-			//plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
-			if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+		var msg = "定位失败，请确保是否开启gps定位服务";
+		if(mui.os.ios){
+			msg = "请打开系统设置中“隐私->定位服务”，允许“云智充”使用您的位置";
+		}
+		mui.alert(msg,"开启定位服务","设置",function(){		
+			if (mui.os.ios) {
+				//plus.runtime.openURL("App-Prefs:root=Privacy&path=LOCATION");
 				plus.runtime.openURL("app-settings:LOCATION");
-			} else if (/android/i.test(navigator.userAgent)) {
+			} else {
 				var main = plus.android.runtimeMainActivity();
 				var Intent = plus.android.importClass("android.content.Intent");
 				var Settings = plus.android.importClass('android.provider.Settings');
@@ -237,6 +248,27 @@ plusUtils.Share = {
 	}
 };
 /**
+ * 电话组件
+ */
+plusUtils.device = {
+	phone:function(){
+		mui.plusReady(function(){
+			var btnArray = ['拨打', '取消'];
+			var Phone = "400-825-1068";
+			if(mui.os.ios){
+				plus.device.dial(Phone, false);
+			}else{
+				mui.confirm('是否拨打 ' + Phone + ' ？', '提示', btnArray, function(e) {
+					if(e.index == 0) {
+						plus.device.dial(Phone, false);
+					}
+				});
+			}
+		});
+	}
+}
+
+/**
  * 页面方法组件
  */
 plusUtils.appPage = {
@@ -258,6 +290,18 @@ plusUtils.appPage = {
 			var ws = plus.webview.currentWebview();
 			var wo = ws.opener();
 			wo.evalJS('dataRefresh()');
+		}
+	},
+	openerFire:function(event, data){
+		var ws = plus.webview.currentWebview();
+		var wo = ws.opener();
+		mui.fire(wo, event, data||{});
+	},
+	//触发自定义事件
+	openerFireById:function(id, event, data){
+		if(mui.os.plus){
+			var page = plus.webview.getWebviewById(id);
+			page && mui.fire(page, event, data||{});
 		}
 	},
 	//关闭当前页
@@ -286,11 +330,11 @@ plusUtils.appPage = {
  */
 plusUtils.pageReady = function(readyCallback){
 	if(typeof readyCallback != "function") return false;
-//	if(mui.os.plus){
+	if(mui.os.plus){
 		mui.plusReady(readyCallback)
-//	}else{
-//		mui.ready(readyCallback);
-//	}
+	}else{
+		//mui.ready(readyCallback);
+	}
 }
 /**
  * 下拉刷新
@@ -303,11 +347,11 @@ var plusRefresh = function(pageRefresh) {
     if (ms && ms.length >= 3) {
         topoffset = parseFloat(ms[2]) + 45 + 'px';
     }
-	if(window.plus){
-		if (plus.navigator.isImmersedStatusbar()) {
-    		topoffset = Math.round(plus.navigator.getStatusbarHeight()) + 45 +'px';
-		}
-	}
+	mui.plusReady(function () {
+	    if (plus.navigator.isImmersedStatusbar()) {
+	    	topoffset = Math.round(plus.navigator.getStatusbarHeight()) + 45 +'px';
+	    }
+	});
 	mui.init({
 	  	pullRefresh : {
 	    	container:".mui-content",
@@ -770,21 +814,6 @@ function loadImage(url, callback) {
 		console.log("## loadImage ## onload")
 		callback.call(img); //将回调函数的this替换为Image对象
 	};
-}
-
-/**
- * 随机生成字符串
- * @param {Object} len
- */
-function randomString(len) {
-	len = len || 32;
-	var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; 
-	var maxPos = $chars.length;
-	var pwd = '';
-	for(i = 0; i < len; i++) {
-		pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-	}
-	return pwd;
 }
 
 /**

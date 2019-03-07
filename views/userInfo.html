@@ -86,7 +86,7 @@
             }else{
                 layer.msg(res.msg);
                 clearLogin();
-                openWebview("login.html");
+                openWebview("login.html",true,false);
             }
         })
     }
@@ -117,7 +117,7 @@
         }else{
             layer.msg("用户不存在");
             clearLogin();
-            openNativeTitle("login.html",false);
+            openWebview("login.html",true,false);
         }
     }
     //修改性别
@@ -229,28 +229,29 @@
 
     //上传头像图片
     function uploadHead(imgPath) {
-        var uid = plusUtils.Storage.getItem("uuid");
+        var uuid = plusUtils.Storage.getItem("uuid");
         var image = new Image();
-        console.log("dengwenwuimguid"+uid);
         image.src = imgPath;
         image.onload = function() {
             var imgData = getBase64Image(image);
             mui.ajax(API_URL.ApiUploadPicture, {
-                data: { img: imgData,uuid:uid },
+                data: { 
+					img: imgData,
+					uuid:uuid,
+				},
                 dataType: 'json',
                 type: 'post',
                 timeout: 10000,
                 success: function(data) {
                     if("0" == data.code){
-                        var retUrl =   data.data;
-                        console.log("dengwenwuimgRetUrl"+retUrl);
-                        console.log("dengwenwuimgPath"+imgPath);
-                        document.getElementById('userAvator').src = retUrl;
+                        var userAvator =  data.data;
+                        document.getElementById('userAvator').src = userAvator;
                         layer.msg("上传成功");
-                        updateUserInfo(); //图片回写进对象
+						
                         var ws = plus.webview.currentWebview();
 	                    var wo = ws.opener();
 	                    wo.evalJS('updateUserInfo()');
+						
                     }else{
                         layer.msg(data.msg);
                     }

@@ -342,6 +342,10 @@
 					$addressTitle.text(addresses);					
 					getChargingByGroupID(groupID);
 					getChargingGroupPrice(groupID);
+					// res.data.needGuide = true;
+					if(res.data.needGuide){
+						guide();
+					}
 				}
 			})
 		}

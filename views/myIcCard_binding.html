@@ -51,11 +51,6 @@
 	<script type="text/javascript">
 		mui.init();
 		plusUtils.pageReady(function(){
-			if(mui.os.plus){
-				plus.webview.currentWebview().setStyle({
-					softinputMode: "adjustResize"
-				});	
-			}
 			mui("body").on("tap","#submitBtn",function(){
 				doHandle();
 			});

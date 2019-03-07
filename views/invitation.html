@@ -95,7 +95,7 @@
 		plusUtils.pageReady(function() {
 			getInvitationStatistics();
 			plusUtils.Share.init();
-			var mobile = plus.storage.getItem("mobile");
+			var mobile = plusUtils.Storage.getItem("mobile");
         	shareUrl = PAGE_URL.INVITATION+"?mobile="+mobile;
 			document.getElementById("inviteBtn").addEventListener("tap", function() {
 	            mui("#popover").popover('toggle');

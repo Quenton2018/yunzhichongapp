@@ -60,17 +60,7 @@
 	<script type="text/javascript">
 		mui.init();
 		function phoneCilck(){
-			if(mui.os.ios){
-				plus.device.dial(Phone, false);
-			}else{
-				var btnArray = ['拨打', '取消'];
-				var Phone = "400-825-1068";
-				mui.confirm('是否拨打 ' + Phone + ' ？', '提示', btnArray, function(e) {
-					if(e.index == 0) {
-							plus.device.dial(Phone, false);
-					}
-				});
-			}
+			plusUtils.device.phone();
 		}
 	</script>
 </body>

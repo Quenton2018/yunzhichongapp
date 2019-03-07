@@ -57,7 +57,8 @@ API_URL.ApiDetailRecordGetDetailRecordList = apiHost + "/api/detailRecord/getDet
 API_URL.ApiInvitationLogGetInvitationStatistics = apiHost + "/api/invitationLog/getInvitationStatistics"; //获取邀请统计数据
 API_URL.ApiInvitationLogGetInvitationList = apiHost + "/api/invitationLog/getInvitationList"; //获取邀请列表
 
-API_URL.ApiUserSignClickSign = apiHost + "/api/userSign/clickSign"; //用户签到
+API_URL.ApiUserSignClickSign   = apiHost + "/api/userSign/clickSign"; //用户签到
+API_URL.ApiUserSignIsSignToday = apiHost + "/api/userSign/isSignToday";//用户今日是否签到
 
 API_URL.AppVersionGetNewest = apiHost + "/api/AppVersion/getNewest";
 

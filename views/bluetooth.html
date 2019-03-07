@@ -5,11 +5,12 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 		<meta name="HandheldFriendly" content="true"/>
 		<meta name="MobileOptimized" content="320"/>
-		<title>Hello H5+</title>
+		<title>蓝牙模块</title>
 		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
-    	<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
-    	<script src="../js/mui.min.js"></script>
-    	<script src="../js/base.js"></script>
+    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/plus.css" type="text/css" />
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/base.js"></script>
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script type="text/javascript">
 			var bds = []; // 可连接设备列表
@@ -438,7 +439,6 @@
 				});
 			}
 		</script>
-		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
 	</head>
 	<body>
 		<header class="header header-immersed mui-bar mui-bar-nav">
@@ -450,27 +450,39 @@
 			<div class="button" onclick="openBluetooth()">初始化蓝牙模块</div>
 			<div class="button" onclick="startDiscovery()">开始搜索蓝牙设备</div>
 			<div class="button" onclick="stopDiscovery()">停止搜索蓝牙设备</div>
-			设备：<input id="deivce" type="text" disabled="disabled"></input>
+			<div class="input" style="width: 80%;margin: 0 auto;">
+				设备：<input id="deivce" type="text" disabled="disabled"></input>
+			</div>			
 			<div class="button" onclick="selectDevice()">选择设备</div>
 			<div class="button" onclick="connectDevice()">连接蓝牙设备</div>
 			<div class="button" onclick="getServices()">获取设备服务</div>
-			服务：<input id="service" type="text" disabled="disabled"></input>
+			<div class="input" style="width: 80%;margin: 0 auto;">
+				服务：<input id="service" type="text" disabled="disabled"></input>
+			</div>	
 			<div class="button" onclick="selectService()">选择服务</div>
 			<div class="button" onclick="getCharacteristics()">获取服务的特征值</div>
-			读取特征值：<input id="characteristic" type="text" disabled="disabled"></input>
-			<a href="#" onclick="selectCharacteristic()">选择</a>
+			<div class="input" style="width: 80%;margin: 0 auto;">
+				读取特征值：<input id="characteristic" type="text" disabled="disabled"></input>
+			</div>		
+			<div class="button"  onclick="selectCharacteristic()">选择</div>
 			<div class="button" onclick="readValue()">读取特征值数据</div>
-			读取数据：<input id="readvalue" type="text" disabled="disabled" style="width:60%"></input>
+			<div class="input" style="width: 80%;margin: 0 auto;">
+				读取数据：<input id="readvalue" type="text" disabled="disabled"></input>
+			</div>			
 			<hr/>
 			<br/>
-			写入特征值：<input id="wcharacteristic" type="text" disabled="disabled"></input>
-			<a href="#" onclick="selectCharacteristic()">选择</a>
+			<div class="input" style="width: 80%;margin: 0 auto;">
+				写入特征值：<input id="wcharacteristic" type="text"></input>
+			</div>
+			<div class="button" onclick="selectCharacteristic()">选择</div>
 			<div class="button" onclick="writeValue()">写入特征值数据</div>
-			写入数据：<input id="writevalue" type="text" style="width:60%;-webkit-user-select:text" value="test"></input>
+			<div class="input" style="width: 80%;margin: 0 auto;">
+				写入数据：<input id="writevalue" type="text" style="-webkit-user-select:text" value="test"></input>
+			</div>		
 			<div class="button" onclick="disconnectDevice()">断开蓝牙设备</div>
 			<div class="button" onclick="closeBluetooth()">关闭蓝牙模块</div>
 			<div id="outpos"/>
-			<div id="output">
+			<div id="output" style="width: 80%;margin: 0 auto;">
 				Bluetooth用于管理蓝牙设备，搜索附近蓝牙设备、连接实现数据通信等。
 			</div>
 		</div>		

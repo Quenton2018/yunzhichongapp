@@ -73,6 +73,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var clientInfo;
 		mui.plusReady(function(){
 			plus.webview.currentWebview().setStyle({
 				popGesture:'none' // 关闭侧滑返回功能
@@ -80,6 +81,7 @@
 			plus.key.addEventListener("backbutton",function(){
 				plus.runtime.quit();
 	        });
+			clientInfo = plus.device.uuid || null;
 		});
 		var usermobile = getQueryString('mobile');
 		if(usermobile){
@@ -159,7 +161,6 @@
 	                layer.msg("验证码不能为空");
 	                return;
 	            }				
-				var clientInfo = plus.push.getClientInfo().clientid;
 	            var params = {
 	                "clientInfo":clientInfo,
 	                "mobile": mobile,
@@ -172,7 +173,6 @@
 	                layer.msg("密码不能为空");
 	                return;
 	            }				
-				var clientInfo = plus.push.getClientInfo().clientid;
 	            var params = {
 	                "clientInfo":clientInfo,
 	                "mobile": mobile,

@@ -75,7 +75,7 @@
 	
 	<script type="text/javascript">
 		plusUtils.pageReady(function() {
-	    getList();
+			getList();
 		});	
 		function getList(){
 			if(vaildeParam(uuid)){
@@ -98,17 +98,7 @@
 			}
 		}
 		function phoneCilck(){
-			if(mui.os.ios){
-				plus.device.dial(Phone, false);
-			}else{
-				var btnArray = ['拨打', '取消'];
-				var Phone = "400-825-1068";
-				mui.confirm('是否拨打 ' + Phone + ' ？', '提示', btnArray, function(e) {
-					if(e.index == 0) {
-							plus.device.dial(Phone, false);
-					}
-				});
-			}
+			plusUtils.device.phone();
 		}
 		function jumpPage(that){
 			//打开窗口的相关参数
