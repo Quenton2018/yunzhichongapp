@@ -45,9 +45,9 @@
 	<script type="text/javascript">
 		mui.init();
 		plusUtils.pageReady(function() {
-	        getArticleContent();
+	        loadData();
 	    });	
-		function getArticleContent(){
+		function loadData(){
         	var categoryId = plusUtils.appPage.getParam("categoryId");  
         	var params = {
 				"categoryId":categoryId

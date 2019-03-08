@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script type="text/javascript">
 			var bds = []; // 可连接设备列表
-			var deviceId = null, bconnect = false;
+			var deviceId = "D49A570D-44F6-EC37-71B1-5F52A07866BB", bconnect = true;
 			var bss = [];	// 连接设备服务列表
 			var serviceId = null;
 			var bscs = [];	// 连接设备服务对应的特征值列表
@@ -147,7 +147,7 @@
 					if(e.index>0){
 						document.getElementById('deivce').value = bds[e.index-1].name;
 						deviceId = bds[e.index-1].deviceId;
-						console.log('选择了"'+bds[e.index-1].name+'"');
+						console.log('选择了"'+bds[e.index-1].name+'"'+deviceId);
 					}
 				});
 			}
@@ -162,10 +162,10 @@
 				plus.bluetooth.createBLEConnection({
 					deviceId: deviceId,
 					success: function(e){
-						console.log('连接成功!');
+						plus.nativeUI.toast('连接成功!'+deviceId);
 					},
 					fail: function(e){
-						console.log('连接失败! '+JSON.stringify(e));
+						plus.nativeUI.toast('连接失败! '+JSON.stringify(e));
 					}
 				});
 			}
@@ -307,6 +307,7 @@
 			
 			// 读取特征值数据 
 			function readValue(){
+				
 				if(!deviceId){
 					plus.nativeUI.toast('未选择设备!');
 					return;
@@ -445,7 +446,7 @@
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 	    	<h1 class="mui-title">蓝牙模块</h1>
 		</header>
-		<div class="mui-content">
+		<div class="mui-content" style="background: #fff;">
 			<br/>
 			<div class="button" onclick="openBluetooth()">初始化蓝牙模块</div>
 			<div class="button" onclick="startDiscovery()">开始搜索蓝牙设备</div>
@@ -479,12 +480,12 @@
 			<div class="input" style="width: 80%;margin: 0 auto;">
 				写入数据：<input id="writevalue" type="text" style="-webkit-user-select:text" value="test"></input>
 			</div>		
-			<div class="button" onclick="disconnectDevice()">断开蓝牙设备</div>
+			<!-- <div class="button" onclick="disconnectDevice()">断开蓝牙设备</div>
 			<div class="button" onclick="closeBluetooth()">关闭蓝牙模块</div>
 			<div id="outpos"/>
 			<div id="output" style="width: 80%;margin: 0 auto;">
 				Bluetooth用于管理蓝牙设备，搜索附近蓝牙设备、连接实现数据通信等。
-			</div>
+			</div> -->
 		</div>		
 	</body>
 </html>

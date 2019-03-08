@@ -90,19 +90,17 @@
                     var tmpl = $("#dataTmpl").html();
                     var html = '';
                     $.each(list, function(index,item) {
-                        	var orderData = item.orderData;
-                        var  image = JSON.parse(orderData).image;
-                        var  name = JSON.parse(orderData).name;
+                        var orderData = item.orderData;
+                        var image = JSON.parse(orderData).image;
+                        var name = JSON.parse(orderData).name;
                         var totalMoney = item.totalMoney;
                         var points =  item.totalAmount;
                         var shippingStatus =  item.shippingStatus;
-                        if('shipmentPending'==shippingStatus){
+                        if('shipmentPending' == shippingStatus){
                             shippingStatus = '待发货';
-						}else if('shipped'==shippingStatus){
+						}else if('shipped' == shippingStatus){
                             shippingStatus = '已发货';
 						}
-//                      var createDate = jsDateDiff(item.createDate / 1000);
-
                         html += tmpl.replace(/{{name}}/g,name)
                             .replace(/{{createDate}}/g,new Date(item.createDate).formatDate("yyyy-MM-dd hh:mm:ss"))
                             .replace(/{{points}}/g,points)
