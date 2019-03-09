@@ -32,15 +32,15 @@
 		</header>
 		<div id="J_refresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
-		    	<ul class="mui-table-view mui-table-view-chevron" id="itemList">
-	
+		    	<ul class="mui-table-view" id="itemList">
+
 				</ul>
 		   	</div>
 		</div>
 		<script type="text/html" id="dataTmpl">
-			<div class="mui-table-view-cell mui-media" data-id="{{id}}" style="position: relative;">
+			<li class="mui-table-view-cell mui-media" data-id="{{id}}" style="position: relative;">
 				<div class="mui-slider-handle">
-					<span style="position: absolute;right: -50px;font-size: .8rem;line-height: 60px;">{{date}}</span>
+					<span style="position: absolute;right: 0px;font-size: .8rem;line-height: 40px;">{{date}}</span>
 					<div class="mui-media-body">
 						<h1 class="mui-ellipsis" style="line-height: 25px;font-size: 1.0rem;color: #444">{{title}}</h1>
 						<p>{{messageContent}}</p>
@@ -51,7 +51,7 @@
 					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-trash" data-id="{{id}}"></a>
 				</div>
 				<div style="clear: both;"></div>
-			</div>
+			</li>
 		</script>
 	</body>
 	<script type="text/javascript">

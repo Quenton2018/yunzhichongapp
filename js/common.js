@@ -108,8 +108,7 @@ plusUtils.locate = {
 			} else {
 				var main = plus.android.runtimeMainActivity();
 				var Intent = plus.android.importClass("android.content.Intent");
-				var Settings = plus.android.importClass('android.provider.Settings');
-				var mIntent = new Intent('Settings.ACTION_LOCATION_SOURCE_SETTINGS');
+				var mIntent = new Intent('android.settings.LOCATION_SOURCE_SETTINGS');
 				main.startActivity(mIntent);
 			}
 		})
@@ -260,7 +259,7 @@ plusUtils.device = {
 			}else{
 				mui.confirm('是否拨打 ' + Phone + ' ？', '提示', btnArray, function(e) {
 					if(e.index == 0) {
-						plus.device.dial(Phone, false);
+						plus.device.dial(Phone, true);
 					}
 				});
 			}
@@ -627,7 +626,7 @@ function jsonToParams(data) {
 		alert("输入的参数必须是对象");
 		return;
 	}
-	var tempArr = [];
+	var tempArr = ["appVersion=" + appVersion];
     for (var i in data) {
         var key = encodeURIComponent(i);
         var value = encodeURIComponent(data[i]);

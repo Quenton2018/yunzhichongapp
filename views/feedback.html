@@ -183,56 +183,140 @@
 						if(feedback.files.length > 5){
 							return layer.msg('最多只能上传6张图片');
 						}
-						plus.gallery.pick(function(e) {
-							var name = e.substr(e.lastIndexOf('/') + 1);
-							console.log("name:"+name);							
-							plus.zip.compressImage({
-								src: e,
-								dst: '_doc/' + name,
-								overwrite: true,
-								quality: 50
-							}, function(zip) {
-								size += zip.size  
-								console.log("filesize:"+zip.size+",totalsize:"+size);
-								if (size > (10*1024*1024)) {
-									return layer.msg('文件超大,请重新选择~');
-								}
-								if (!self.parentNode.classList.contains('space')) { //已有图片
-									feedback.files.splice(index-1,1,{name:"images"+index,path:e});
-								} else { //加号
-									placeholder.classList.remove('space');
-									showLoading("图片上传中...");
-									var task = plus.uploader.createUpload(API_URL.ApiUploadfile, {}, function (t,status) {
-										hideLoading();
-										// 上传完成
-										if (status == 200) {
-											console.log(JSON.parse(t.responseText).data)
-											var filepath = JSON.parse(t.responseText).data;
-											feedback.addFile(filepath);
-											feedback.newPlaceholder();
-											up.classList.remove('image-up');
-											placeholder.style.backgroundImage = 'url(' + zip.target + ')';
-											closeButton.setAttribute('class', 'image-close');
-											closeButton.innerHTML = 'X';
-											closeButton.id = "img-"+index;
-										} else {
-											layer.msg('上传失败,请重试');
-										}
-									});
-									task.addFile(zip.target, {key:"uploadfile"});
-									task.start();								
-								}
-							}, function(zipe) {
-								layer.msg('压缩失败！')
-							});						
-						}, function(e) {
-							layer.msg("上传失败！");
-						},{});
+						var buttons = [{title: "拍照"}, {title: "从手机相册选择"}];
+						plus.nativeUI.actionSheet({
+						    title: "请选择照片来源",
+						    cancel: "取消",
+						    buttons: buttons
+						}, function(b) { 
+						    switch(b.index) {
+						        case 0:
+						            break;
+						        case 1:
+						            feedback.getImage(self,placeholder,up,closeButton); 
+						            break;
+						        case 2:
+						            feedback.galleryImg(self,placeholder,up,closeButton); 
+						            break;
+						        default:
+						            break;
+						    }
+						});													
 					}, false);
 					placeholder.appendChild(closeButton);
 					placeholder.appendChild(up);
 					placeholder.appendChild(fileInput);
 					feedback.imageList.appendChild(placeholder);
+				};
+				feedback.openCamera =  function(){
+					var msg = "拍照失败，请确保是否开启拍照权限";
+					mui.alert(msg,"开启拍照权限","设置",function(){		
+						if (mui.os.ios) {
+							plus.runtime.openURL("app-settings:CAMERA");
+						} else {
+							var packageName = "io.dcloud.yunzhichongbusiness";
+							var Uri = plus.android.importClass("android.net.Uri");  
+							var Settings = plus.android.importClass("android.provider.Settings");  
+							var context = plus.android.runtimeMainActivity();  
+
+							var packageURI = Uri.parse("package:" + packageName);  
+							var intent = plus.android.newObject("android.content.Intent", Settings.ACTION_SEARCH_SETTINGS, packageURI);  
+							context.startActivity(intent); 
+						}
+					})
+				};
+				/*拍照*/
+				feedback.getImage = function(self,placeholder,up,closeButton){
+					var cmr = plus.camera.getCamera();
+					var res = cmr.supportedImageResolutions[0];
+					var fmt = cmr.supportedImageFormats[0];
+					cmr.captureImage(function(e) {
+						feedback.uploadImg(self,placeholder,up,closeButton,e);
+					}, function(err) {
+						layer.msg("拍照失败");
+					});
+// 					var CAMERA_P = plus.navigator.checkPermission("CAMERA");
+// 					console.log(CAMERA_P)
+// 					switch(CAMERA_P){
+// 					    case 'authorized':
+// 							console.log('已开启拍照权限');
+// 							var cmr = plus.camera.getCamera();
+// 							var res = cmr.supportedImageResolutions[0];
+// 							var fmt = cmr.supportedImageFormats[0];
+// 							cmr.captureImage(function(e) {
+// 								feedback.uploadImg(self,placeholder,up,closeButton,e);
+// 							}, function(err) {
+// 								layer.msg("拍照失败");
+// 							});
+// 					        break;
+// 					    case 'denied':
+// 							console.error('拍照失败，请确保是否开启拍照权限');
+// 					        feedback.openCamera();
+// 					        break;
+// 					    case 'undetermined':
+// 					        console.error('拍照失败，请确保是否开启拍照权限');
+// 					        feedback.openCamera();
+// 					        break;
+// 					    case 'unknown':
+// 					        console.error('拍照失败，请确保是否开启拍照权限');
+// 					        feedback.openCamera();
+// 					        break;
+// 					    default:
+// 							console.error('拍照失败，请确保是否开启拍照权限');
+// 							feedback.openCamera();
+// 					        break;
+// 					}				
+				};
+				/*打开相册*/
+				feedback.galleryImg = function(self,placeholder,up,closeButton){
+					plus.gallery.pick(function(e) {										
+						feedback.uploadImg(self,placeholder,up,closeButton,e);					
+					}, function(e) {
+						console.log(e)
+						layer.msg("上传失败！");
+					},{});
+				};
+				feedback.uploadImg = function(self,placeholder,up,closeButton,e){
+					var name = e.substr(e.lastIndexOf('/') + 1);
+					plus.zip.compressImage({
+						src: e,
+						dst: '_doc/' + name,
+						overwrite: true,
+						quality: 50
+					}, function(zip) {
+						size += zip.size  
+						console.log("filesize:"+zip.size+",totalsize:"+size);
+						if (size > (10*1024*1024)) {
+							return layer.msg('文件超大,请重新选择~');
+						}
+						if (!self.parentNode.classList.contains('space')) { //已有图片
+							feedback.files.splice(index-1,1,{name:"images"+index,path:e});
+						} else { //加号
+							placeholder.classList.remove('space');
+							showLoading("图片上传中...");
+							var task = plus.uploader.createUpload(API_URL.ApiUploadfile, {}, function (t,status) {
+								hideLoading();
+								// 上传完成
+								if (status == 200) {										
+									var filepath = JSON.parse(t.responseText).data;
+									console.log(filepath);
+									feedback.addFile(filepath);
+									feedback.newPlaceholder();
+									up.classList.remove('image-up');
+									placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+									closeButton.setAttribute('class', 'image-close');
+									closeButton.innerHTML = 'X';
+									closeButton.id = "img-"+index;
+								} else {
+									layer.msg('上传失败,请重试');
+								}
+							});
+							task.addFile(zip.target, {key:"uploadfile"});
+							task.start();								
+						}
+					}, function(zipe) {
+						layer.msg('压缩失败！')
+					});	
 				};
 				feedback.newPlaceholder();
 				feedback.submitBtn.addEventListener('tap', function(event) {

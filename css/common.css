@@ -126,7 +126,7 @@ ol ol,ol ul,ul ol,ul ul{margin-bottom:0}
 ol,ul{list-style:none;}
 b,strong{font-weight:bolder}
 small{font-size:80%}
-a{color:#007bff;text-decoration:none;background-color:transparent;-webkit-text-decoration-skip:objects}
+a{background-color:transparent;}
 pre{margin-top:0;margin-bottom:1rem;overflow:auto;-ms-overflow-style:scrollbar}
 figure{margin:0 0 1rem}
 img{vertical-align:middle;border-style:none}
