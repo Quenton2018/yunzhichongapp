@@ -320,7 +320,7 @@
 				};
 				feedback.newPlaceholder();
 				feedback.submitBtn.addEventListener('tap', function(event) {
-					if (feedback.question.value == '') {
+					if (!feedback.question.value.trim()) {
 						return layer.msg('问题意见不能为空');
 					}
 					if (feedback.question.value.length > 200) {

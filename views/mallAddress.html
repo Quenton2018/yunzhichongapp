@@ -136,15 +136,13 @@
                 postJSON(API_URL.ApiProductOrdersAddProductOrders,data,function (res) {
                     if("0" == res.code){
                         layer.msg('兑换成功');
-                        setTimeout(function(){
-                            openWebview('recordOfExchange.html');
-                        },2000);
+						plusUtils.appPage.closeAndBackUrl('recordOfExchange.html');
                     }else{
                         layer.msg(res.msg);
                     }
                 })
             } 
-        });
+        },'div');
     })
 </script>
 </body>

@@ -124,30 +124,29 @@
     }
 
     $("#qianDao").click(function () {
-        var api = "${base}/api/userSign/clickSign.do";
         var data = {
             "uuid":uuid
         }
-        postJSON( API_URL.ApiUserSignClickSign,data,function (res) {
+        postJSON(API_URL.ApiUserSignClickSign,data,function (res) {
             if("0" == res.code){
-               var scoreTotal =  $("#pointsBox").text()*1;
+                var scoreTotal =  $("#pointsBox").text()*1;
                 var score =res.data.score;
                 $("#pointsBox").text(scoreTotal+score);
                 layer.msg('今日签到成功赠送您'+score+"云钻");
+				plusUtils.appPage.openerFire("setAllMessageRead");
             }else{
                 layer.msg(res.msg);
             }
-
-        })
+        },true)
     });
     function getList(){
         if(vaildeParam(uuid)){
-            var dataParam = {
+            var params = {
                 "uuid":uuid,
                 "pageSize":pageSize,
                 "pageNumber":pageNumber
             }
-            postJSON(API_URL.ApiProductGetProductList,dataParam,function(res){
+            postJSON(API_URL.ApiProductGetProductList,params,function(res){
                 if("0" == res.code){
                     var list = res.data.pagedata.content;
                     stopRefresh(list.length,pageSize);					

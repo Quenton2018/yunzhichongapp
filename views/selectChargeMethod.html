@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 		<title>充电</title>
 		<link rel="stylesheet" href="../css/mui.min.css">
 		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />	
@@ -18,7 +18,8 @@
 		<style type="text/css">
 			body{width:100%;height:auto;overflow-y:auto;min-height: 100%;}
 			.mui-bar .mui-title{margin: 0 20px;}
-			.mui-main{margin-top: 20px;overflow: auto;}
+			.mui-content{background: none;overflow: auto;}
+			.mui-main{margin-top: 20px;}
 			.myContent{margin:0 10px;padding-bottom:5px;background: #fff;border-radius: 10px;}
 			.swiper-slide{text-align:center;font-size:1.2rem;color:#C5C4C4;vertical-align:middle;line-height:50px;height:50px;font-weight:600;}
 			.swiper-slide-active{color:#F17746;font-size:2rem;}
@@ -94,7 +95,7 @@
 			.guide3{background-image:url("../img/guide/3.png");z-index:10007;}
 			.guide4{background-image:url("../img/guide/4.png");z-index:10006;}
 			.guide5{background-image:url("../img/guide/5.png");z-index:10005;}
-			.icon-saoyisao2{font-size:22px;color: #fff;font-weight: bold;padding: 12px;position: relative;}
+			.icon-saoyisao2{font-size:22px;color: #fff;font-weight: bold;padding: 12px;position: relative;top: -5px;}
 			.icon-saoyisao2:after{content: '扫一扫';position: absolute;bottom: -5px;left: 0;font-size: 9px;font-weight: 100;color: #fff;width: 100%;text-align: center;}
 			.content-bg{position: absolute; z-index: -1; width: 100%; height: 190px; float: left; top: 0;left: 0; background-color: #FF7F3E;}
 		</style>
@@ -108,7 +109,7 @@
 		<a class="iconfont icon-saoyisao2 mui-icon-right-nav mui-pull-right" onclick="openWebview('scanBarcode.html',false,false,{formpage:'cdzno'})"></a>
 	</header>
 
-	<div class="mui-content" style="background: none;overflow: auto;">
+	<div class="mui-content">
 		<div class="mui-main">
 			<div class="myContent box1">
 				<div class="h2-title"><span>①</span> 选择桩号</div>
@@ -141,18 +142,18 @@
 
 				<div class="h2-title"><span>②</span> 选择插座</div>
 				<div class="SockeBox mui-clearfix" id="SocketList">
-					<span class="item"><b>1</b></span>
-					<span class="item"><b>2</b></span>
-					<span class="item"><b>3</b></span>
-					<span class="item"><b>4</b></span>
-					<span class="item"><b>5</b></span>
-					<span class="item"><b>6</b></span>
-					<span class="item"><b>7</b></span>
-					<span class="item"><b>8</b></span>
-					<span class="item"><b>9</b></span>
-					<span class="item"><b>10</b></span>
-					<span class="item"><b>11</b></span>
-					<span class="item"><b>12</b></span>
+					<span class="disabled"><b>1</b></span>
+					<span class="disabled"><b>2</b></span>
+					<span class="disabled"><b>3</b></span>
+					<span class="disabled"><b>4</b></span>
+					<span class="disabled"><b>5</b></span>
+					<span class="disabled"><b>6</b></span>
+					<span class="disabled"><b>7</b></span>
+					<span class="disabled"><b>8</b></span>
+					<span class="disabled"><b>9</b></span>
+					<span class="disabled"><b>10</b></span>
+					<span class="disabled"><b>11</b></span>
+					<span class="disabled"><b>12</b></span>
 				</div>
 			</div>
 
@@ -324,7 +325,7 @@
 			getChargingGroupPrice(groupID);
 		}else{
 			if(!vaildeParam(geolocationGroup)){
-				layer.msg("定位失败,请手动选择充电桩地址!");
+				layer.msg("定位失败,请手动输入充电桩地址!");
 				plusUtils.locate.getCurrentPosition();
 				geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
 				return;
@@ -456,7 +457,7 @@
 			} else {
 				layer.msg(res.msg);
 			}
-		},true)
+		})
 	}
 	//充电时长点击事件
 	function clickTime(that){		
@@ -493,8 +494,9 @@
 		var h1 = $('.box1').outerHeight(),
 			h2 = $('.box2').outerHeight(),
 			h3 = $('.chargingPriceDesc').outerHeight();
+		var Height = h1 + h2 + h3 + 20 + 60;
 		if(state == '1' || state == '2') {
-			$(".mui-main").height(h1+h2+h3+20+60);
+			$(".mui-main").height(Height);
 		}
 	}
 	$("#submitBtn").click(function() {

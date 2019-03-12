@@ -34,7 +34,9 @@ plusUtils.locate = {
 	    	},{enableHighAccuracy:true,provider:'amap'});
 		}else{
 			if (navigator.geolocation){
-	    		navigator.geolocation.getCurrentPosition(self.showPosition);
+	    		navigator.geolocation.getCurrentPosition(self.showPosition,function(e){
+					console.log("获取定位位置信息失败:");
+				});
 	    	}
 		}
 	},
@@ -119,7 +121,7 @@ plusUtils.locate = {
  */
 plusUtils.Storage = {
 	getItem:function(key){
-		if(window.plus){
+		if(mui.os.plus){
 			return plus.storage.getItem(key);
 		}else{
 			return localStorage.getItem(key);
@@ -129,24 +131,24 @@ plusUtils.Storage = {
 		if(typeof value == "number"){
 			value = value.toString();
 		}
-		if(window.plus){
-			return plus.storage.setItem(key,value);
+		if(mui.os.plus){
+			plus.storage.setItem(key,value);
 		}else{
-			return localStorage.setItem(key,value);
+			localStorage.setItem(key,value);
 		}
 	},
 	removeItem:function(key){
-		if(window.plus){
-			return plus.storage.removeItem(key);
+		if(mui.os.plus){
+			plus.storage.removeItem(key);
 		}else{
-			return localStorage.removeItem(key);
+			localStorage.removeItem(key);
 		}		
 	},
 	clear:function(){
 		if(window.plus){
-			return plus.storage.clear();
+			plus.storage.clear();
 		}else{
-			return localStorage.clear();
+			localStorage.clear();
 		}		
 	}
 }
@@ -175,12 +177,21 @@ plusUtils.Share = {
 	 * @param {JSON} msg  
 	 * @param {plus.share.ShareService} s  
 	 */   
-    shareMessage:function(msg, s) {  
-        s.send(msg,function() {  
-            console.log("分享到\"" + s.description + "\"成功！ ");  
-        }, function(e) {  
-            plusUtils.nativeUI.alert("分享到\"" + s.description + "\"失败！ ");  
-            console.log("分享到\"" + s.description + "\"失败: " + JSON.stringify(e));  
+    shareMessage:function(msg, s, callback) {  
+        s.send(msg,function() {
+			toast("分享成功");
+            console.log("分享到\"" + s.description + "\"成功！ ");
+			callback && callback(true);
+        }, function(e) { 
+			//获取失败返回状态码
+			var code = e.code;
+			var msg = "分享失败!";
+			if(code == -100){
+				msg = "您已取消分享";
+			}
+			toast(msg); 
+			console.log("分享到\"" + s.description + "\"失败: " + JSON.stringify(e));
+			callback && callback(false);
         });  
     },
     /**  
@@ -189,7 +200,7 @@ plusUtils.Share = {
 	 * @param {Boolean} ishref 是否分享链接  
 	 * @param {JSON} config 分享内容  
 	 */  
-	shareAction:function (sb,config) {
+	shareAction:function (sb,config,callback) {
 		var self = this;
 	    if(!sb || !sb.s) {  
 	        plusUtils.nativeUI.alert("无效的分享服务！");  
@@ -206,11 +217,11 @@ plusUtils.Share = {
 	    // 发送分享  
 	    if(sb.s.authenticated) {  
 	        console.log("---已授权---");  
-	        self.shareMessage(msg, sb.s);  
+	        self.shareMessage(msg, sb.s,callback);  
 	    } else {  
 	        console.log("---未授权---");  
 	        sb.s.authorize(function() {  
-	            self.shareMessage(msg, sb.s);  
+	            self.shareMessage(msg, sb.s,callback);  
 	        }, function(e) {  
 	            console.log("认证授权失败：" + e.code + " - " + e.message);  
 	        });  
@@ -221,7 +232,7 @@ plusUtils.Share = {
 	 * @param  {JSON} config 分享数据的对象  
 	 * @param  {Boolean} isSheet  是否弹出分享列表  
 	 */  
-	appshare:function (config,isSheet,index) { 
+	appshare:function (config,isSheet,index,callback) { 
 		var self = this;
 	    var msginfo = {title: config.title, href: config.href, content: config.content, thumbs: config.thumbs};  
 	    var shareBts = [];  
@@ -238,11 +249,11 @@ plusUtils.Share = {
 		            buttons: shareBts  
 		        },  
 		        function(e) {  
-		            (e.index > 0) && self.shareAction(shareBts[e.index - 1], msginfo);  
+		            (e.index > 0) && self.shareAction(shareBts[e.index - 1], msginfo,callback);  
 		        }  
 		    ) : plusUtils.nativeUI.alert('当前环境无法支持分享操作!');  
 		}else{
-			self.shareAction(shareBts[index], msginfo);
+			self.shareAction(shareBts[index], msginfo,callback);
 		}
 	}
 };
@@ -319,6 +330,32 @@ plusUtils.appPage = {
 				ws.close("none");
 			},1500);
 			openWebview(url);
+		}else{
+			window.location.href = url;
+		}
+	},
+	/**
+	 * 关闭当前窗口返回上个窗口并刷新
+	 * @param {Object} page
+	 */
+	closeAndRefresh:function(url){
+		if(mui.os.plus){
+			var ws = plus.webview.currentWebview();
+			var wo = ws.opener();
+			do {
+				if (wo.getURL().endsWith(url)) {
+					break;
+				}	
+				var temp = wo.opener();
+				wo.close("none");
+				wo = temp;
+			} while (true);
+			setTimeout(function() {
+				wo.evalJS("dataRefresh()");
+				ws.close();
+			}, 300);
+		}else{
+			window.location.href = url;
 		}
 	}
 }
@@ -332,7 +369,7 @@ plusUtils.pageReady = function(readyCallback){
 	if(mui.os.plus){
 		mui.plusReady(readyCallback)
 	}else{
-		//mui.ready(readyCallback);
+		mui.ready(readyCallback);
 	}
 }
 /**
@@ -344,13 +381,11 @@ var plusRefresh = function(pageRefresh) {
 	var topoffset = 0 + 'px';
 	var ms = (/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
     if (ms && ms.length >= 3) {
-        topoffset = parseFloat(ms[2]) + 45 + 'px';
+        topoffset = parseFloat(ms[2]) + 44 + 'px';
     }
-	mui.plusReady(function () {
-	    if (plus.navigator.isImmersedStatusbar()) {
-	    	topoffset = Math.round(plus.navigator.getStatusbarHeight()) + 45 +'px';
-	    }
-	});
+	if(mui.os.ios && mui.os.plus && plus.navigator.isImmersedStatusbar()){
+	    topoffset = Math.round(plus.navigator.getStatusbarHeight()) + 44 +'px';		
+	};
 	mui.init({
 	  	pullRefresh : {
 	    	container:".mui-content",
@@ -361,12 +396,14 @@ var plusRefresh = function(pageRefresh) {
 	    	}
 	  	}
 	});
-    // 刷新页面
-    function onRefresh(){
-        console.log("### onRefresh ###");
-        pageRefresh && pageRefresh();
-        mui('.mui-content').pullRefresh().endPulldownToRefresh();
-    }
+	// 刷新页面
+	function onRefresh(){
+		plusUtils.pageReady(function () {
+			console.log("### onRefresh ###");
+			pageRefresh && pageRefresh();
+			mui('.mui-content').pullRefresh().endPulldownToRefresh();
+		});		
+	} 
 }
 /**
  * 上拉刷新下拉加载
@@ -426,22 +463,31 @@ var enableRefresh = function(){
 	var ws = null,as = 'pop-in';
 	function plusReady(){
 		w.uuid = plusUtils.Storage.getItem("uuid");
-		console.log("###uuid##"+uuid);
+		console.log("## uuid ## "+uuid);
+		if(plus.navigator.isImmersedStatusbar()){
+			var barHeight = plus.device.model == 'iPhoneX' ? 44 : Math.round(plus.navigator.getStatusbarHeight());
+			if(plus.device.model == 'iPhoneX'){
+				document.documentElement.classList.add("iphonex");								
+			}else{
+				document.documentElement.classList.remove("iphonex");
+			}
+		}
 		// Android处理返回键
 		plus.key.addEventListener('backbutton',function(){
 			back();
 		},false);
-		checkVersion();
+		// checkVersion();
 	}
 	if(w.plus){
 		plusReady();
 	}else{
 		document.addEventListener('plusready',plusReady,false);
 	}
+	
 	// DOMContentLoaded事件处理
 	var domready = false;
 	document.addEventListener('DOMContentLoaded',function(){
-		if(!w.plus){
+		if(!mui.os.plus){
 			w.uuid = plusUtils.Storage.getItem("uuid");
 			console.log("###uuid##"+uuid);
 		}
@@ -464,7 +510,7 @@ var enableRefresh = function(){
 		}
 	};
 	// 处理点击事件
-	var openw=null;
+	var openw = null;
 	/**
 	 * 打开新窗口
 	 * @param {URIString} id : 要打开页面url
@@ -495,30 +541,10 @@ var enableRefresh = function(){
 			}, false);
 			return openw;
 		}else{
-			w.open(id);
+			w.location.href = id;
 		}
 		return null;
 	};
-	/**
-	 * 关闭当前窗口返回上个窗口并刷新
-	 * @param {Object} page
-	 */
-	w.returnWindow = function(page){
-	    var ws = plus.webview.currentWebview();
-	    var wo = ws.opener();
-	    do {
-	    	if (wo.getURL().endsWith(page)) {
-	    		break;
-	    	}	
-	    	var temp = wo.opener();
-	    	wo.close("none");
-	    	wo = temp;
-	    } while (true);
-		setTimeout(function() {
-			wo.evalJS("dataRefresh()");
-			ws.close();
-		}, 300);
-	}
 })(window);
 
 /**
@@ -756,45 +782,6 @@ function formatMsgTime (timespan) {
 	return timeSpanStr;
 };
 
-function getTimeDiffString(timeFiff) {
-	console.log("## getTimeDiffString ## timeFiff:" + timeFiff)
-	var days = Math.floor(timeFiff / (24 * 3600 * 1000));
-	//计算出小时数
-	var leave1 = timeFiff % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
-	var hours = Math.floor(leave1 / (3600 * 1000))
-	console.log("## getTimeDiffString ## hours:" + hours)
-	//计算相差分钟数
-	var leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
-	var minutes = Math.floor(leave2 / (60 * 1000))
-	console.log("## getTimeDiffString ## minutes:" + minutes)
-	//计算相差秒数
-	var leave3 = leave2 % (60 * 1000) //计算分钟数后剩余的毫秒数
-	var seconds = Math.round(leave3 / 1000)
-	console.log("## getTimeDiffString ## seconds:" + seconds)
-	var res = '';
-	if(seconds > 0) {
-		res = seconds + " 秒" + res;
-	}
-	if(minutes > 0) {
-		res = minutes + "分钟 " + res
-	}
-	if(hours > 0) {
-		res = hours + "小时 " + res
-	}
-	if(days > 0) {
-		res = days + "天 " + res
-	}
-	console.log("## getTimeDiffString ## res:" + res)
-	return res;
-}
-
-function getTimeDiff(time) {
-	console.log("## getTimeDiff ## time:" + time)
-	var date2 = new Date();
-	var date3 = date2.getTime() - time;
-	return getTimeDiffString(date3);
-}
-
 /**
  * 图片加载
  * @param {Object} url
@@ -872,6 +859,7 @@ function throttle(method, mustRunDelay) {
         }
     }
 }
+
 var appUtils = {
     renderTemplate: function (tpl, data) {
         if (typeof template === 'function') {
@@ -883,7 +871,6 @@ var appUtils = {
         }
     }   
 };
-
 function checkVersion() {
     var osName = navigator.plus ? plus.os.name : navigator.appName;
 	postJSON(API_URL.AppVersionGetNewest,{ "appType" : osName },function (res) {

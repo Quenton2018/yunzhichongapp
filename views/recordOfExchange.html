@@ -40,7 +40,11 @@
 
 <div id="J_refresh" class="mui-content mui-scroll-wrapper" style="background: #EFEFF4;">
 	<div class="mui-scroll">
-		<div class="middle-content">	
+		<div class="middle-content">
+			<div class="nodata" style="background-color:#EFEFF4;">
+				<img src="../img/views/null.png" width="154" style="margin: 50px auto 10px;"/>
+				<p>暂无兑换记录</p>
+			</div>
 			<div class="myList">
 				<ul class="mui-table-view dataList" id="dataList" ></ul>
 			</div>
@@ -60,7 +64,7 @@
 </div>
 <script type="text/javascript">
     var pageNumber = 1;
-    var pageSize = 5;
+    var pageSize = 6;
 	plusUtils.pageReady(function() {
         getList();
     });	
@@ -87,6 +91,14 @@
 					if(1 == pageNumber){
 	                    $(".dataList").html('');
 	                }
+					if (list.length == 0 && pageNumber > 1) {
+						return false;
+					} 
+					if(!vaildeParam(list)){
+						$(".nodata").show();                   	
+					}else{
+						$(".nodata").hide();
+					}
                     var tmpl = $("#dataTmpl").html();
                     var html = '';
                     $.each(list, function(index,item) {

@@ -53,7 +53,7 @@
 				<li class="itemActive" onclick="openchargeing('{{item.sn}}')">
 					<div class="bottomText"> <i class="iconfont icon-dingwei"></i> {{item.charging.groupId.name}}  <span style="color: #F57734">桩号{{item.charging.shellId.substr(0, 1)}}-插座号{{item.czId.code | parseInt}}</span></div>
 	                <div class="itemActiveInner">
-	                    <div class="textBox">剩余时间 : {{item.timeDiffString}}</div>
+	                    <div class="textBox">剩余时间 : {{item.countDown}}</div>
 	                    <div class="progressBox" style="width: {{item.percent}}%"></div>
 	                </div>
 	            </li>
@@ -105,9 +105,9 @@
                                 try {
                                     var timeFiff = item.endDate - new Date().getTime();
                                     if(timeFiff <= 0){
-                                        item.timeDiffString = "0秒";
+                                        item.countDown = "0秒";
                                     }else{
-                                        item.timeDiffString = getTimeDiffString(timeFiff);
+                                        item.countDown = countDown(timeFiff);
                                     }
                                     var timeTotal = item.timeTotal * 60 * 1000; //下发多少毫秒
                                     var percent = timeFiff/timeTotal;
@@ -132,6 +132,37 @@
 					}
 				})
 			}
+		}
+		function countDown(timeFiff) {
+			console.log("## countDown ## timeFiff:" + timeFiff)
+			var days = Math.floor(timeFiff / (24 * 3600 * 1000));
+			//计算出小时数
+			var leave1 = timeFiff % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
+			var hours = Math.floor(leave1 / (3600 * 1000))
+			console.log("## countDown ## hours:" + hours)
+			//计算相差分钟数
+			var leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
+			var minutes = Math.floor(leave2 / (60 * 1000))
+			console.log("## countDown ## minutes:" + minutes)
+			//计算相差秒数
+			var leave3 = leave2 % (60 * 1000) //计算分钟数后剩余的毫秒数
+			var seconds = Math.round(leave3 / 1000)
+			console.log("## countDown ## seconds:" + seconds)
+			var res = '';
+			if(seconds > 0) {
+				res = seconds + " 秒" + res;
+			}
+			if(minutes > 0) {
+				res = minutes + "分钟 " + res
+			}
+			if(hours > 0) {
+				res = hours + "小时 " + res
+			}
+			if(days > 0) {
+				res = days + "天 " + res
+			}
+			console.log("## countDown ## res:" + res)
+			return res;
 		}
 		function openchargeing(orderNo){		
 			openWebview('chargeing.html',false,true,{'orderNo':orderNo});

@@ -1,9 +1,8 @@
 var apiHost = "http://api.jx9n.com";
 apiHost = "http://39.106.62.16:8181";
-//if(!navigator.plus){
-//	apiHost = "http://192.168.1.52:3000"
-//}
-//apiHost = "http://192.168.1.122:8181"
+if(!mui.os.plus){
+	apiHost = "http://127.0.0.1:3000"
+}
 var appVersion = "v3.2.0"; //app当前版本
 
 var API_URL = {};

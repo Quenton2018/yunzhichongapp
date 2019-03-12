@@ -155,10 +155,12 @@ textarea{overflow:auto;resize:vertical}
 
 
 .header-immersed.mui-bar-nav{height:64px;padding-top:20px;}
+.iphonex .header-immersed.mui-bar-nav{height:84px!important;padding-top:40px!important;}
 .header-immersed.mui-bar-nav ~ .mui-content{padding-top:64px;}
 .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:64px;}
 .header-immersed{box-shadow:none;background-image:-moz-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-webkit-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-ms-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);}
 .header-immersed .mui-title,.header-immersed .mui-icon{color:#fff;}
+
 .btn-submit{background-image:-moz-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-webkit-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-ms-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);height:50px;line-height:50px;font-size:16px;color:#FFFFFF;text-align:center;box-shadow:none;}
 .left{float:left;}
 .right{float:right;}
@@ -168,7 +170,7 @@ textarea{overflow:auto;resize:vertical}
 /*flex 布局*/
 .flex{display:-webkit-box;display:-webkit-flex;display:flex;align-items:center;justify-content:center;}
 .flex .flex-item{-webkit-box-flex:1;-webkit-flex:1;flex:1;}
-.nodata{text-align:center;}
+.nodata{text-align:center;display:none;}
 .nodata-img img{width:60%;margin:0 auto;margin-bottom:45px;display:block;}
 .nodata-p{text-align:center;font-size:14px;}
 .mui-pull-caption{font-weight:normal;}

@@ -109,7 +109,9 @@
 				href:shareUrl,
 				title:'云智充智能共享充电桩',
 				content:'云智充欢迎您加入，安全充电，即停即充，共享充电，引导智能小区新潮流。'
-			},false,index);	  
+			},false,index,function(res){
+				mui("#popover").popover('toggle');
+			});	  
 		}
 		$("#showQrcode").click(function () {
             var id = 'Qrcode_' + randomString(20);

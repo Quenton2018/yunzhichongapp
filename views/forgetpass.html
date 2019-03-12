@@ -66,10 +66,15 @@
 		</form>
 		<div class="footer">
 			<span>已有账号?</span>
-			<a class="register" onclick="openLogin()">去登录</a>
+			<a class="register" onclick="openWebview('login.html',true,false);">去登录</a>
 		</div>
 	</div>
 	<script type="text/javascript">
+		mui.plusReady(function(){
+			plus.webview.currentWebview().setStyle({
+				popGesture:'none' // 关闭侧滑返回功能
+			});
+		});
 		var isLock = false; //是否锁定
         var time = 60; //倒计时
         var timeInterval; //定时器
@@ -149,9 +154,9 @@
             postJSON(API_URL.APIfMemberForgetThePassword,params,function(res){
                 if("0" == res.code){
                     layer.msg("重置成功，正在跳转...");
-                    setLoginData(res.data.uuid,res.data.mobile);
+                    setLoginData(res.data);
                     setTimeout(function(){
-                        clicked('../index.html')
+                        openWebview('../index.html');
                     },2000);
                 }else{
                     layer.msg(res.msg);
@@ -170,9 +175,6 @@
             } else {
                 return true;
             }
-        }
-        function openLogin(){
-        	openWebview("login.html",true,false);
         }
 	</script>
 </body>

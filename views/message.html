@@ -17,8 +17,7 @@
 	<script src="../js/base.js"></script>
 	<script src="../js/common.js"></script> 	
 	<style type="text/css">
-			.mui-content{padding-left: 8px;padding-right: 8px;}
-			.mui-table-view{background-color: #f2f2f2;}
+			.mui-table-view{background-color: #f2f2f2;margin: 15px 10px;}
 			.mui-table-view-cell{margin-bottom: 10px;background-color: #fff;border-radius: 5px;}
 			.mui-table-view:before,.mui-table-view-cell:after,.mui-table-view:after{display: none;}
 			.mui-media a:hover{text-decoration: none;}
@@ -97,6 +96,11 @@
 				}			
 			})
 		});
+		plusRefresh(dataRefresh);
+		//刷新页面
+		function dataRefresh() {
+			loadData();
+		}
 		function loadData(){
 			postJSON(API_URL.ApiMessageGetLastestMessage,{'uuid':uuid},function(res){
 				if(res.code == "0"){

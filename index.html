@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover" />
+		<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,viewport-fit=cover">  
 		<meta name="misapplication-tap-highlight" content="no" />
 		<meta name="HandheldFriendly" content="true" />
 		<meta name="MobileOptimized" content="320" />
@@ -16,7 +16,7 @@
 		<script src="js/base.js"></script>
 		<script src="js/common.js"></script>
 		<script src="js/updateApp.js"></script>
-		<style type="text/css">
+		<style type="text/css">		
 			.mui-content{background-image:url("img/app_11.png");background-size:cover;height: 100%;}
 			.banner{height: calc(100% - 110px);display: flex;align-items: center;justify-content: center;}
 			.pic{display:block;width:80%;margin:0 auto;}
@@ -33,7 +33,7 @@
 		<header class="header header-immersed mui-bar mui-bar-nav">
 			<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openIsLogin('views/menu.html')"></a>
 			<h1 class="mui-title">首页</h1>
-			<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openIsLogin('views/messageList.html')"><i class="UnreadMessage"></i></a>
+			<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openIsLogin('views/message.html')"><i class="UnreadMessage"></i></a>
 		</header>
 
 		<div class="mui-content">
@@ -56,7 +56,6 @@
 		</footer>
 
 		<script type="text/javascript">
-			var Permission = 'authorized';
 			plusUtils.pageReady(function() {
 				if(mui.os.plus){
 					plus.webview.currentWebview().setStyle({
@@ -78,7 +77,6 @@
 			plusRefresh(dataRefresh);
 			//刷新页面
 			function dataRefresh() {
-				console.log(plus.device.uuid)
 				plusUtils.locate.getCurrentPosition();
 				getUserInfo();
 				countUnreadMessage();
@@ -134,9 +132,7 @@
 
 			function countUnreadMessage() {
 				var count = '';
-				postJSON(API_URL.ApiMessageCountUnreadMessage, {
-					'uuid': uuid
-				}, function(res) {
+				postJSON(API_URL.ApiMessageCountUnreadMessage, {'uuid': uuid}, function(res) {
 					if (res.code == '0') {
 						if (res.data == 0) {
 							$('.UnreadMessage').hide();
@@ -148,9 +144,9 @@
 							}
 							$('.UnreadMessage').show().text(count);
 						}
-						plus.runtime.setBadgeNumber(res.data);
+						mui.os.plus && plus.runtime.setBadgeNumber(res.data);
 					}
-				})
+				},true)
 			}
 		</script>
 

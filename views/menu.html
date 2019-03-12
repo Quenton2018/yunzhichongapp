@@ -168,15 +168,15 @@
 				}else{
 					$(".user-signin").removeClass("isOn").text("签到");
 				}
-			});
+			},true);
 		}
 	    //签到领云钻   
 	    mui('body').on('tap', "#qianDao", function(e) {
 			if($(this).hasClass('isOn')) return false;
 	        var params = {"uuid":uuid}
-	        postJSON( API_URL.ApiUserSignClickSign,params,function (res) {
+	        postJSON(API_URL.ApiUserSignClickSign,params,function (res) {
 	            if("0" == res.code){
-	               var scoreTotal =  $("#points").text();
+	                var scoreTotal =  $("#points").text();
 	                var score = res.data.score;
 	                $("#points").text(parseInt(scoreTotal) + score);
 					$(".user-signin").addClass("isOn").text("已签到");
@@ -185,7 +185,7 @@
 	            }else{
 	                layer.msg(res.msg);
 	            }	
-	        })
+	        },true)
 	    });
 	    //页面点击事件
 		mui('body').on('tap', 'a', function() {
