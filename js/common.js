@@ -581,13 +581,13 @@ function postJSON(url, data, callback,isIcon){
 		!isIcon && showLoading("正在加载..."); 
 		var xhr = new plus.net.XMLHttpRequest();	
 		xhr.onreadystatechange = function () {
-		    switch ( xhr.readyState ) {
+		    switch (xhr.readyState) {
 		        case 4:
+					var responseText = xhr.responseText; 
 		        	console.log("## url: " + url);
 	            	console.log("## params: " + JSON.stringify(data))
-		            if ( xhr.status == 200 ) {
-	            		var responseText = xhr.responseText;            		
-	            		console.log("## responseText: " + responseText)
+					console.log("## responseText: " + responseText)
+		            if (xhr.status == 200) {           		           		
 	            	 	var json = JSON.parse(responseText);
 	            	 	try{
 							callback(json);
@@ -596,9 +596,11 @@ function postJSON(url, data, callback,isIcon){
 							!isIcon &&  hideLoading();
 							console.error(e)
 						}        		
-		            } else {
-	            		toast("系统服务异常，请稍后再试！");
-	            		console.log(url+"接口请求失败 :"+xhr.responseText)
+		            }else if(xhr.status == 0){
+						callback({code:408,msg:"服务请求超时，请稍后再试！"});
+					} else {
+	            		toast("系统服务繁忙，请稍后再试！");
+	            		console.log(url + "接口请求失败 :" + responseText)
 		            }
 		            !isIcon &&  hideLoading();
 		            break;
@@ -606,8 +608,9 @@ function postJSON(url, data, callback,isIcon){
 		            break;
 		    }
 	    }
+		xhr.timeout = 15000; 
 		xhr.open("POST", url);
-		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded'); 
+		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 		xhr.send(jsonToParams(data));
 	}else{
 		postAjax(url, data, callback,true);
@@ -714,6 +717,12 @@ function loginOut(){
 }
 
 function clearLogin() {
+	var wvs = plus.webview.all();  
+	for(var i=0;i<wvs.length;i++){  
+		if(plus.webview.currentWebview().id!=wvs[i].id){  
+			plus.webview.close(wvs[i],'none');  
+		}  
+	} 
 	plusUtils.Storage.clear();
 }
 

@@ -4,18 +4,26 @@
 }
 
 .iconfont {
-  font-family:"iconfont" !important;  
-	font-size:16px;  
-	font-style:normal;  
-	-webkit-font-smoothing: antialiased;  
-	-webkit-text-stroke-width: 0.2px;  
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-uncheck:before {
+  content: "\e607";
+}
+
+.icon-check-more:before {
+  content: "\e60c";
 }
 
 .icon-uoload:before {
   content: "\e608";
 }
 
-.icon-dingwei:before {
+.icon-map2:before {
   content: "\e60b";
 }
 
@@ -27,12 +35,8 @@
   content: "\e621";
 }
 
-.icon-register:before {
+.icon-invitation:before {
   content: "\e628";
-}
-
-.icon-richscan:before {
-  content: "\e649";
 }
 
 .icon-novice:before {
@@ -43,12 +47,16 @@
   content: "\e600";
 }
 
-.icon-gongzuoshenqing:before {
-  content: "\e658";
+.icon-zhifubao:before {
+  content: "\e615";
 }
 
 .icon-refresh:before {
   content: "\e883";
+}
+
+.icon-weixin:before {
+  content: "\e678";
 }
 
 .icon-agreement:before {
@@ -75,7 +83,7 @@
   content: "\e70f";
 }
 
-.icon-you1:before {
+.icon-sjt:before {
   content: "\e602";
 }
 
@@ -91,28 +99,29 @@
   content: "\e640";
 }
 
+.icon-sousuo:before {
+  content: "\e659";
+}
+
 .icon-shenqing:before {
   content: "\e601";
 }
 
-.icon-saoyisao2:before {
+.icon-richscan:before {
   content: "\e605";
 }
 
-.icon-zhongxindingwei:before {
+.icon-dingwei:before {
   content: "\e6cc";
 }
 
-.icon-invitation:before {
+.icon-register:before {
   content: "\e643";
 }
 
 .icon-person:before {
   content: "\e6cd";
 }
-
-
-
 
 
 

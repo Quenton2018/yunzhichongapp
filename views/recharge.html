@@ -9,7 +9,6 @@
 	<meta name="MobileOptimized" content="320"/>
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8">
-    <link rel="stylesheet" href="../css/iconfont.css" type="text/css" charset="utf-8">
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
@@ -17,7 +16,7 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
-    	.h2{font-size: 16px;padding-left: 22px;color: #333;}
+    	.h2{font-size: 16px;padding-left: 25px;color: #333;font-weight: bold;}
 		.list-group-item{text-align:left;}
 		.list-group-item span{display:inline-block;width:70px;}
 		.list-group-item:last-child{border-bottom-right-radius:0rem;border-bottom-left-radius:0rem;}
@@ -29,13 +28,15 @@
 		.moneyBox .item .itemInner b.b2{font-size:.7rem;font-weight:400;}
 		.payType .iconfont{font-size:1.2rem;vertical-align:middle;display:inline-block;margin-right:5px;}
 		.payType .list-group-item{position:relative;}
-		.payType .icon-xuanze-moren{display:inline-block;}
-		.payType .icon-xuanze{display:none;}
-		.payType .selected .icon-xuanze-moren{display:none;}
-		.payType .selected .icon-xuanze{display:inline-block;}
-		.payType .selectedIcon{position:absolute;right:10px;color:#F68D41;}
+		.payType .icon-check-more{display:none;}
+		.payType .icon-uncheck{display:inline-block;}
+		.payType .selected .icon-check-more{display:inline-block;}
+		.payType .selected .icon-uncheck{display:none;}
+		.payType .selectedIcon{position:absolute;right:10px;color:#F68D41;font-size: 24px;}
 		.list-group{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;}
-		.list-group-item{border:none;position:relative;display:block;text-align:left;padding:.75rem 1.25rem;margin-bottom:-1px;background-color:#fff;}
+		.list-group-item{border:none;position:relative;display:block;text-align:left;padding: 10px 25px;background-color:#fff;}
+		.rmake{display: inline-block;background: #FF5455;color: #fff;border-radius: 15px;font-size: 11px;padding: 0 10px;margin:0 0 0 30px;}
+		.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
 	</style>
 </head>
 <body>
@@ -44,11 +45,8 @@
     	<h1 class="mui-title">我的充值</h1>
 	</header>
 	
-	<footer class="btn-submit mui-bar mui-bar-tab rechargeSubmitBtn" id="submitBtn">
-		<span>充值</span>
-	</footer>
 	<div class="mui-content" style="background: #fff;">
-		<div class="myContent" style="padding-top: 70px">
+		<div class="myContent" style="padding-top: 60px">
 			<h2 class="h2">充值金额</h2>
 			<div class="moneyBox mui-clearfix" id="moneyBox">
 				<div class="item selected" data-money="10">
@@ -61,17 +59,26 @@
 			<h2 class="h2">选择支付方式</h2>
 			<div class="payType">
 				<ul class="list-group">
-				  <li class="list-group-item selected" data-type='wxpay'>
-				  	<i class="iconfont icon-gongzhonghao" style="font-size: 1.5rem;color: #52B547;"></i> 微信
-				  	<i class="iconfont icon-xuanze selectedIcon"></i>
-				  	<i class="iconfont icon-xuanze-moren selectedIcon"></i>
-				  </li>
-				  <li class="list-group-item" data-type='alipay'>
-				  	<i class="iconfont icon-zhifubao" style="color: #1DA4E6;"></i> 支付宝
-				  	<i class="iconfont icon-xuanze selectedIcon"></i>
-				  	<i class="iconfont icon-xuanze-moren selectedIcon"></i>
-				  </li>
+					<li class="list-group-item selected" data-type='alipay'>
+						<div class="pay-way">
+							<i class="iconfont icon-zhifubao" style="font-size:22px;color: #1DA4E6;"></i> 支付宝
+							<i class="iconfont icon-uncheck selectedIcon"></i>
+							<i class="iconfont icon-check-more selectedIcon"></i>
+						</div>			
+						<p class="rmake">随机优惠金额</p>
+					</li>
+					<li class="list-group-item" data-type='wxpay'>
+						<div class="pay-way">
+							<i class="iconfont icon-weixin" style="font-size:22px;color: #52B547;"></i> 微信支付
+							<i class="iconfont icon-uncheck selectedIcon"></i>
+							<i class="iconfont icon-check-more selectedIcon"></i>
+						</div>	
+						<!-- <p class="rmake">随机优惠金额</p> -->
+					</li>
 				</ul>
+			</div>
+			<div class="btn-submit rechargeSubmitBtn" id="submitBtn">
+				<span>充值</span>
 			</div>
 		</div>
 	</div>
@@ -82,21 +89,18 @@
         
         var ALIPAYSERVER = API_URL.ApiPayAlipay;
         var WXPAYSERVER= API_URL.ApiPayWx;
-        if(window.plus){
-			pagePlusReady();
-		}else{
-			document.addEventListener('plusready',pagePlusReady,false);
-		}	
-		function pagePlusReady(){
-            getMoneyList();	
-            // 获取支付通道
-            plus.payment.getChannels(function(channels){
-                aliChannel = channels[0];
-                wxChannel = channels[1];
-            },function(e){
-                console.log("获取支付通道失败："+e.message);
-            });
-		}
+        plusUtils.pageReady(function() {
+            getMoneyList();
+			if(mui.os.plus){
+				// 获取支付通道
+				plus.payment.getChannels(function(channels){
+				    aliChannel = channels[0];
+				    wxChannel = channels[1];
+				},function(e){
+				    console.log("获取支付通道失败："+e.message);
+				});
+			}
+		});
 		/**
 		 * 获取充钱配置
 		 */
@@ -142,7 +146,7 @@
 		/**
 		 * 选择支付方式事件
 		 */
-		$(".payType .list-group-item").click(function(){
+		$(".list-group-item").on('click',function(){
 			$(".payType .list-group-item").removeClass("selected");
 			$(this).addClass("selected");
 		})		

@@ -25,7 +25,7 @@
     	.list-desc.fail{color: #F66F37;}
     	.mui-navigate-right{position: absolute;right: 40px;top: 35px;font-size: 16px;color: #333;}
     	.mui-navigate-right:after, .mui-push-right:after{right: -20px;}
-    	.icon-dingwei{color:#FF6D22;font-size:16px;vertical-align:-1px;}
+    	.icon-map2{color:#FF6D22;font-size:16px;vertical-align:-1px;}
     	.itemActive{border-bottom: 1px solid #eee;}
 		.itemActive .bottomText{text-align:center;font-size:14px;padding:20px 0 10px;color: #333;}
 		.itemActive .itemActiveInner{background:#C7C7C7;border:#EEE solid 5px;border-radius:30px;text-align:center;margin:0 30px 20px;height:50px;position:relative;color:#fff;overflow:hidden;}
@@ -51,7 +51,7 @@
 		{{each list as item index}}
 			{{if item.status == 1}}
 				<li class="itemActive" onclick="openchargeing('{{item.sn}}')">
-					<div class="bottomText"> <i class="iconfont icon-dingwei"></i> {{item.charging.groupId.name}}  <span style="color: #F57734">桩号{{item.charging.shellId.substr(0, 1)}}-插座号{{item.czId.code | parseInt}}</span></div>
+					<div class="bottomText"> <i class="iconfont icon-map2"></i> {{item.charging.groupId.name}}  <span style="color: #F57734">桩号{{item.charging.shellId.substr(0, 1)}}-插座号{{item.czId.code | parseInt}}</span></div>
 	                <div class="itemActiveInner">
 	                    <div class="textBox">剩余时间 : {{item.countDown}}</div>
 	                    <div class="progressBox" style="width: {{item.percent}}%"></div>
