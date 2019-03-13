@@ -717,12 +717,14 @@ function loginOut(){
 }
 
 function clearLogin() {
-	var wvs = plus.webview.all();  
-	for(var i=0;i<wvs.length;i++){  
-		if(plus.webview.currentWebview().id!=wvs[i].id){  
-			plus.webview.close(wvs[i],'none');  
-		}  
-	} 
+	if(mui.os.plus){
+		var wvs = plus.webview.all();  
+		for(var i=0;i<wvs.length;i++){  
+			if(plus.webview.currentWebview().id!=wvs[i].id){  
+				plus.webview.close(wvs[i],'none');  
+			}  
+		}
+	}	
 	plusUtils.Storage.clear();
 }
 

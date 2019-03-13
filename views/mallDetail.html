@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
 	<title>商品详情</title>
+	<link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8"/>
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <link rel="stylesheet" href="../css/iconfont.css">
@@ -14,18 +15,17 @@
 	<script src="../js/base.js"></script>
 	<script src="../js/common.js"></script>
 	<style type="text/css">
-        .productBox{padding-top:80px;}
+		.productBox{margin-top:20px;}
         .mui-slider .mui-slider-group .mui-slider-item>a:not(.mui-control-item){text-align:center;}
         .mui-slider .mui-slider-group .mui-slider-item img{width:50%;}
         .prdect-title{margin:0 2rem;margin-top:20px;}
-        .border-item{border-bottom:0.7px solid #EFEFF4;}
+        .border-item{border-bottom:1px solid #EFEFF4;}
         .listItem .right{float:right;}
         .listItem .left{float:left;}
         .Item-clo1{font-size:16px;color:#999999;}
         .listItem{height:50px;line-height:40px;clear:both;}
         .pro-content{background-color:#EDEDED;text-align:center;height:40px;line-height:40px;}
         img{width:100%;}
-        .pro-content-desc{padding-bottom:70px;}
 	</style>
 </head>
 <body style="background: #fff;">
@@ -36,38 +36,41 @@
 	<footer class="btn-submit mui-bar mui-bar-tab" id="confirmBtn">
 		<span>兑换</span>
 	</footer>
-    <div class="productBox">
-        <div class="data">
-            <div class="mui-slider">
-                <div class="mui-slider-group">                 
-                    <div class="mui-slider-item"><a href="#"><img class="img_title" src="" /></a></div>
-                </div>
-            </div>
-            <div class="prdect-title">
-                <h4 class="tile-text"  ></h4>
-                <div class="listItem Item-clo1">
-                    <div class="left"> 京东价：￥<span class="jingdj"></span></div>
-                    <div class="right">运费：￥<span class="yunfei"></span></div>
-                    <div class="clearfix"></div>
-                </div>
+	
+	<div class="mui-content" style="background: #fff;">
+		<div class="productBox">
+			<div class="data">
+				<div class="mui-slider">
+					<div class="mui-slider-group">                 
+						<div class="mui-slider-item"><a href="#"><img class="img_title" src="" /></a></div>
+					</div>
+				</div>
+				<div class="prdect-title">
+					<h4 class="tile-text"  ></h4>
+					<div class="listItem Item-clo1">
+						<div class="left"> 京东价：￥<span class="jingdj"></span></div>
+						<div class="right">运费：￥<span class="yunfei"></span></div>
+						<div class="clearfix"></div>
+					</div>
 
-                <div class="listItem border-item">
-                    <div class="left"> <i class="iconfont icon-zuanshi" style="color: #E4C133;"></i> <span id="yunzuang"></span>云钻 + <span id="duihuanyue"></span>元 </div>
-                    <div class="right">运费：免运费</div>
-                    <div class="clearfix"></div>
-                </div>
+					<div class="listItem border-item">
+						<div class="left"> <i class="iconfont icon-zuanshi" style="color: #E4C133;"></i> <span id="yunzuang"></span>云钻 + <span id="duihuanyue"></span>元 </div>
+						<div class="right">运费：免运费</div>
+						<div class="clearfix"></div>
+					</div>
 
-                <div class="listItem Item-clo1">
-                    云智充用户可兑，产品由京东负责配送。
-                </div>
-            </div>
-            <div class="pro-content">
-                —— 产品详情 ——
-            </div>
-            <div class="pro-content-desc"></div>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+					<div class="listItem Item-clo1">
+						云智充用户可兑，产品由京东负责配送。
+					</div>
+				</div>
+				<div class="pro-content">
+					—— 产品详情 ——
+				</div>
+				<div class="pro-content-desc"></div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
 <script type="text/javascript">
     plusUtils.pageReady(function(){
 		//获得slider插件对象

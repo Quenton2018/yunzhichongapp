@@ -7,6 +7,7 @@
 	<meta name="misapplication-tap-highlight" content="no"/>
 	<meta name="HandheldFriendly" content="true"/>
 	<meta name="MobileOptimized" content="320"/>
+	<link rel="shortcut icon" href="../favicon.ico">
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
@@ -16,8 +17,7 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
-		.yzc-main{width: 100%;height: 150px;background: linear-gradient(270deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);margin-top: -5px;
-			padding: 0 15px;position: relative;}
+		.yzc-main{width: 100%;height: 150px;margin-top: -5px;padding: 0 15px;position: relative;}
 		.yzc-nav{margin: 0 15px;margin-top: 90px;border-radius: 6px;padding: 6px 0;}
 		.user-info{position:relative;width: 100%;height: 135px;background-color: #fff;top: 80px;border-radius: 6px;}
 		.user-avator{display:inline-block;width:100px;height:100px;position: absolute;left:50%;margin-left:-50px;top:-50px;z-index:99;}
@@ -31,6 +31,7 @@
     	.mui-table-view-cell:after{left: 0;}
     	.mui-table-view-cell>a:not(.mui-btn).mui-active{background: none;}
     	.mui-table-view-cell.mui-active{background: none;}
+		.mui-table-view-cell i{font-size: 20px;color: #4D4D4D;}
     	.yzc-nav li img {height: 20px;vertical-align: top;display: inline-block;margin-right: 10px;}
     	.mui-row-list{padding-top: 20px;}
     	.mui-row-list .balance{font-size: 22px;color: #4D4D4D;margin-bottom: 4px;}
@@ -47,7 +48,7 @@
 	</header>
 	
 	<div class="mui-content" style="background: #efeff4;">
-		<div class="yzc-main">
+		<div class="yzc-main linear">
 			<div class="user-info">
 				<a href="userInfo.html" class="user-avator">
 					<img src="../img/user_profile/app_10.png" id="userAvator">
@@ -70,37 +71,51 @@
 		<ul class="yzc-nav mui-table-view">
 			<li class="mui-table-view-cell">		
 				<a href="chargeList.html" class="mui-navigate-right">
-					<img src="../img/menu/app_1.png">我的充电
+					<!-- <img src="../img/menu/app_1.png"> -->
+					<i class="iconfont icon-cdz"></i>
+					我的充电
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
-				<a href="myWallet.html" class="mui-navigate-right">
-					<img src="../img/menu/app_2.png">我的钱包
+				<a href="myWallet.html" class="mui-navigate-right">			
+					<!-- <img src="../img/menu/app_2.png"> -->
+					<i class="iconfont icon-wallet"></i>
+					我的钱包
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a href="myIcCard.html" class="mui-navigate-right">
-					<img src="../img/menu/app_3.png" width="18px">我的IC卡
+					<!-- <img src="../img/menu/app_3.png" width="18px"> -->
+					<i class="iconfont icon-ICcard"></i>
+					我的IC卡
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a href="applyCooperate.html" class="mui-navigate-right">
-					<img src="../img/menu/app_4.png">申请合作
+					<!-- <img src="../img/menu/app_4.png"> -->
+					<i class="iconfont icon-shenqinghezuo"></i>
+					申请合作
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a href="invitation.html" class="mui-navigate-right">
-					<img src="../img/menu/app_5.png">邀请好友
+					<!-- <img src="../img/menu/app_5.png"> -->
+					<i class="iconfont icon-register"></i>			
+					邀请好友
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a href="customerService.html" class="mui-navigate-right">
-					<img src="../img/menu/app_6.png" width="18px">客服中心
+					<!-- <img src="../img/menu/app_6.png" width="18px">-->
+					<i class="iconfont icon-kefu"></i>
+					客服中心
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a href="bluetooth.html" class="mui-navigate-right">
-					<img src="../img/menu/app_6.png" width="18px">蓝牙连接
+					<!-- <img src="../img/menu/app_6.png" width="18px"> -->
+					<i class="iconfont icon-bluetooth"></i>
+					蓝牙连接
 				</a>
 			</li>
 		</ul>
