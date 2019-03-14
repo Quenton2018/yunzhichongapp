@@ -42,7 +42,7 @@
 		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     	<h1 class="mui-title">切换充电桩地址</h1>
 	</header>
-	<div class="mui-content" style="background: #fff;">
+	<div class="mui-main" style="background: #fff;">
 		<div class="yzc-main">
 			<div class="search-box">
 				<form id="searchForm">
@@ -85,7 +85,7 @@
 
 	<script type="text/javascript">
 		var $addressTitle = $(".dw-title");
-		var groupID   = null;	             //当前选择的片区
+		var groupID = null;	             //当前选择的片区
 		var geolocationGroup = null;           //用户定位信息		
 		var nearChargingGroupList = null;    //附近的片区		
 		var lastUseChargingGroup = null;	 //最近使用的片区
@@ -129,7 +129,7 @@
 						var Html = template('listTmpl', data);
 						$('#lastList').html(Html);
 					} else {
-						$('#lastList').html('<p style="padding: 10px">暂无充电桩</p>');
+						$('#lastList').html('<p style="padding: 10px">暂无使用记录</p>');
 					}
 					if(vaildeParam(nearChargingGroupList) && geolocationGroup) {
 						var data = {'list':nearChargingGroupList};
