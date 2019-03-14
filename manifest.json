@@ -213,7 +213,7 @@
                         "notification" : "unpackage/res/icons/20x20.png",
                         "notification@2x" : "unpackage/res/icons/40x40.png"
                     },
-                    "appstore" : "img/0190314135416.png"
+                    "appstore" : "img/yzc_logo.png"
                 },
                 "android" : {
                     "mdpi" : "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
@@ -230,12 +230,12 @@
                         "default" : "", /*iPhone3启动图片选，分辨率：320x480*/
 
                         /*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*//*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*//*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*//*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
-                        "retina55l" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus2.png",
-                        "iphonex" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphoneX.png",
-                        "retina47" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678.png",
-                        "retina35" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone4s.png",
-                        "retina40" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone5.png",
-                        "retina55" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/iphone678plus.png"
+                        "retina55l" : "unpackage/splash/iphone678plus2.png",
+                        "iphonex" : "unpackage/splash/iphoneX.png",
+                        "retina47" : "unpackage/splash/iphone678.png",
+                        "retina35" : "unpackage/splash/iphone4s.png",
+                        "retina40" : "unpackage/splash/iphone5.png",
+                        "retina55" : "unpackage/splash/iphone678plus.png"
                     },
                     "ipad" : {
                         "portrait" : "unpackage/splash/iphoneX2.png", /*iPad竖屏启动图片，分辨率：768x1004*/
@@ -245,15 +245,16 @@
                         "portrait7" : "unpackage/splash/iphoneX2.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
                         "portrait-retina7" : "unpackage/splash/iphoneX2.png", /*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
                         "landscape7" : "unpackage/splash/iphoneX2.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
-                        "landscape-retina7" : "unpackage/splash/iphoneX2.png" /*iPad iOS7高分屏横屏启动图片，分辨率：2048x1536*/
+                        "landscape-retina7" : "unpackage/splash/iphoneX2.png", /*iPad iOS7高分屏横屏启动图片，分辨率：2048x1536*/
+                        "portrait-1112h@2x" : ""
                     }
                 },
                 "android" : {
                     "mdpi" : "", /*普通屏启动图片，分辨率：240x282*/
                     "ldpi" : "",
-                    "hdpi" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android1.png",
-                    "xhdpi" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android2.png",
-                    "xxhdpi" : "E:/lhywork/YunZhiChongAPP2/unpackage/splash/android3.png"
+                    "hdpi" : "unpackage/splash/android1.png",
+                    "xhdpi" : "unpackage/splash/android2.png",
+                    "xxhdpi" : "unpackage/splash/android3.png"
                 }
             }
         },
