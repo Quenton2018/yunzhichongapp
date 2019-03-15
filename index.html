@@ -16,7 +16,6 @@
 		<script src="js/fastclick.js"></script>
 		<script src="js/base.js"></script>
 		<script src="js/common.js"></script>
-		<script src="js/updateApp.js"></script>
 		<style type="text/css">		
 			.mui-content{background-image:url("img/app_11.png");background-size:cover;height: 100%;}
 			.banner{height: calc(100% - 110px);display: flex;align-items: center;justify-content: center;}
@@ -32,9 +31,9 @@
 	</head>
 	<body>
 		<header class="header header-immersed mui-bar mui-bar-nav">
-			<a class="mui-icon iconfont icon-person mui-pull-left" onclick="openIsLogin('views/menu.html')"></a>
+			<a class="mui-icon iconfont icon-person mui-pull-left" id="menu"></a>
 			<h1 class="mui-title">首页</h1>
-			<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" onclick="openIsLogin('views/message.html')"><i class="UnreadMessage"></i></a>
+			<a class="mui-icon iconfont icon-xiaoxi mui-icon-right-nav mui-pull-right" id="message"><i class="UnreadMessage"></i></a>
 		</header>
 
 		<div class="mui-content">
@@ -149,6 +148,12 @@
 					}
 				},true)
 			}
+			document.getElementById('menu').addEventListener('tap',function(){
+				openIsLogin('views/menu.html');
+			});
+			document.getElementById('message').addEventListener('tap',function(){
+				openIsLogin('views/message.html');
+			});
 		</script>
 
 	</body>

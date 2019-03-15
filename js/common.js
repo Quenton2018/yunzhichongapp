@@ -532,6 +532,9 @@ var enableRefresh = function(){
 			w.close();
 		}
 	};
+	window.addEventListener("tap", function(e) {
+		e.target.className.indexOf("mui-back") > -1 && mui.back();
+    })
 	// 处理点击事件
 	var openw = null;
 	/**
