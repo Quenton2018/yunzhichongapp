@@ -621,7 +621,7 @@ function postJSON(url, data, callback,isIcon){
 						}        		
 		            }else if(xhr.status == 0){
 						callback({code:408,msg:"服务请求超时，请稍后再试！"});
-					} else {
+					}else {
 	            		toast("系统服务繁忙，请稍后再试！");
 	            		console.log(url + "接口请求失败 :" + responseText)
 		            }
