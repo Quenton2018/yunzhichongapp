@@ -63,7 +63,11 @@
 				<li class="charge-list" onclick="openWebview('chargeDetail.html?orderNo={{item.sn}}')">
 					<p class="list-time"><i></i>{{item.createDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</p>
 					{{if item.status == 2 && !item.successFlag}}
-						<p class="list-desc fail">充电失败，退款已返回至您的钱包</p>
+						{{if item.amount}}
+							<p class="list-desc fail">充电失败，退款已返回至您的钱包</p>
+						{{else}}
+							<p class="list-desc fail">充电失败</p>
+						{{/if}}
 					{{else}}
 						<p class="list-desc">充电成功，已充时长{{item.remainder}}分钟</p>
 					{{/if}}
