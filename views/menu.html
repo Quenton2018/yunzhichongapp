@@ -152,9 +152,9 @@
 	            var mobile = userinfo.mobile;
 	            var headImage = userinfo.headImage;
 	            var nickname = userinfo.nickname;
-				var money = userinfo.money;
+				var totalMoney = userinfo.totalMoney;
 				var elePayIce = userinfo.elePayIce == null ? 0 : userinfo.elePayIce;
-				var totalMoney = money + elePayIce; 
+				var money = totalMoney + elePayIce; 
 	            var points = userinfo.points;
 	            if(vaildeParam(headImage)){
 	                $("#userAvator").attr("src",headImage);               
@@ -166,8 +166,8 @@
 					var tel = mobile.replace(/(\d{3})\d*(\d{4})/,'$1****$2');
 	                $("#mobile").text(tel);
 	            }
-	            if(vaildeParam(totalMoney)){
-	                $("#money").text(totalMoney);
+	            if(vaildeParam(money)){
+	                $("#money").text(money);
 	            }
 	            if(vaildeParam(points)){
 	                $("#points").text(points);

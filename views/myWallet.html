@@ -94,11 +94,11 @@
 	        var userinfo = plusUtils.Storage.getItem("userinfo");	        
 	        if(vaildeParam(userinfo)){
 	        	userinfo = JSON.parse(userinfo);
-	            var money = userinfo.money;
+	            var totalMoney = userinfo.totalMoney;
 				var elePayIce = userinfo.elePayIce == null ? 0 : userinfo.elePayIce;
-				var totalMoney = money + elePayIce; 
-	            if(vaildeParam(totalMoney)){
-	                $("#money").text(totalMoney);
+				var money = totalMoney + elePayIce; 
+	            if(vaildeParam(money)){
+	                $("#money").text(money);
 	            }
 	        }else{
 	            clearLogin();
