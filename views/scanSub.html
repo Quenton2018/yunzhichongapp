@@ -60,7 +60,8 @@
 		mui.plusReady(function() {
 			ws = plus.webview.currentWebview();
 			$('.'+ws.formpage).show().siblings().hide();
-			scanBarcode = plus.webview.getWebviewById('scanBarcode.html'); 
+			scanBarcode = plus.webview.getWebviewById('scanBarcode.html');
+
 		})
 		var flashFlag = false;
 		function openFlash(that){
@@ -76,6 +77,6 @@
 				$(that).find('.on').show();
 				$(that).find('.off').hide();
 			}
-		}	
+		}
 	</script>
 </html>

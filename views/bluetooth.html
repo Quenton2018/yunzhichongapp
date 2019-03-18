@@ -50,8 +50,9 @@
 			</li>
 		{{/each}}
 	</script>
-	<script type="text/javascript">
+	<script type="text/javascript">		
 		var deviceList = []; // f发现的蓝牙设备列表
+		mui.init();
 		mui.plusReady(function(){
 			switch(plus.os.name) {  
 				case "Android":  
@@ -64,8 +65,7 @@
 					// 其它平台  
 					plus.nativeUI.alert("暂不支持该系统");  
 					break;  
-			} 
-			
+			} 		
 		});
 // 		function bleAndroid(){
 // 			scanBlue(function(res){

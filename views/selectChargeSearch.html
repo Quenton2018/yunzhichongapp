@@ -90,13 +90,12 @@
 		var nearChargingGroupList = null;    //附近的片区		
 		var lastUseChargingGroup = null;	 //最近使用的片区
 		plusUtils.pageReady(function(){
-			plusUtils.locate.getCurrentPosition();
-			geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));		
 			if(mui.os.plus){
 				plus.webview.currentWebview().setStyle({
 					softinputMode: "adjustResize"
 				});
 			}
+			plusUtils.locate.getCurrentPosition();				
 			getChargingGroupNearList();
 		})	
 		//获取定位地址
@@ -109,6 +108,7 @@
 		 * 获取附近的片区
 		 */
 		function getChargingGroupNearList() {
+			geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
 			if(!vaildeParam(geolocationGroup)) {
 				layer.msg("定位失败,请手动输入充电桩地址!");
 			}

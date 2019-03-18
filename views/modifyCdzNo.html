@@ -94,7 +94,7 @@
 						plusUtils.Storage.setItem("chargingGroupId",scanGroup.id);
 						plusUtils.Storage.setItem("addresses",scanGroup.name);
 						plusUtils.Storage.setItem("inputCdzID",cdzID);
-						returnWindow("selectChargeMethod.html");
+						plusUtils.appPage.closeAndRefresh("selectChargeMethod.html");
 					}			
 				} else {
 					layer.open({

@@ -15,108 +15,121 @@
 		<script src="../js/common.js"></script>
 		<style type="text/css">
 			#bcid{width:100%;position:absolute;top:0px;bottom:0;text-align:center;}
-			.tip{color:#FFFFFF;font-weight:bold;}
-			iframe{width: 100%;height: 100%;}
+			.tip{color:#FFFFFF;font-weight:bold;}		
 		</style>
 		<script type="text/javascript">
-			var ws=null,wo=null;
-			var scan=null,domready=false;
+			var ws = null,wo = null;
+			var scan = null;
+			var formpage = '',filters=[],styles={};
 			if(window.plus){
 				plusReady();
 			}else{
 				document.addEventListener('plusready', plusReady, false);
 			}
-			// 监听DOMContentLoaded事件
-			document.addEventListener('DOMContentLoaded', function(){
-				domready=true;
-				plusReady();
-			}, false);
 			// H5 plus事件处理
-			function plusReady(){			
-				if(ws||!window.plus||!domready){
-					return;
-				}
-				var formpage = plusUtils.appPage.getParam("formpage");
-				mui.init({  
-			        subpages: [{  
-		                url: 'scanSub.html',  
-		                id: 'scanSub.html',  
-		                styles: {  
-		                    top: 0,  
-		                    bottom: 0,  
-		                    background: 'transparent'  
-		                },
-		                extras:{
-		                	formpage:formpage
-		                }
-		            }]  
-			    });
-				var typeArr = new Array();
-				typeArr.push(plus.barcode.QR);
-				typeArr.push(plus.barcode.EAN13);
-				typeArr.push(plus.barcode.EAN8);
-				typeArr.push(plus.barcode.CODE39);
-				typeArr.push(plus.barcode.CODE93);
-				typeArr.push(plus.barcode.CODE128);	
-				var styles = {frameColor: "#F87C1A",scanbarColor: "#F87C1A"};
-				
+			function plusReady(){
+				formpage = plusUtils.appPage.getParam("formpage");
+				filters = [plus.barcode.QR,plus.barcode.EAN13,plus.barcode.EAN8];
+				styles = {frameColor: "#F87C1A",scanbarColor: "#F87C1A"};
 				// 获取窗口对象
 				ws = plus.webview.currentWebview();
 				wo = ws.opener();
-				// 开始扫描
-				ws.addEventListener('show', function(){
-					scan=new plus.barcode.Barcode('bcid',typeArr,styles);
-				    scan.onmarked=onmarked;
-				    scan.start({conserve:true,filename:'_doc/barcode/',vibrate:true,sound:'default'});
-				}, false);
-				// 显示页面
-			    ws.show('slide-in-bottom');
+				createSubview();
+				openScan();
+				//如果没有权限，则申请  			
+			}			
+			function openScan(){
+				try{
+					// 开始扫描
+					ws.addEventListener('show', function(){
+						scan = new plus.barcode.Barcode('bcid',filters,styles);
+					    scan.onmarked = onmarked;
+					    scan.start({conserve: false});
+					}, false);
+					// 显示页面
+					ws.show('slide-in-bottom');
+				}catch(e){
+					if (!checkPermission()) {  
+						openCamera();
+					} else { //如果拥有权限，那么干点啥吧^_^  
+						
+					}
+				}							
 			}
-							
 			// 二维码扫描成功
 			function onmarked(type, result, file){
 			    switch(type){
 			    	case plus.barcode.QR:
-			    		type = 'QR';
-			    		break;
+			    	type = 'QR';
+			    	break;
 			    	case plus.barcode.EAN13:
-			    		type = 'EAN13';
-			    		break;
+			    	type = 'EAN13';
+			    	break;
 			    	case plus.barcode.EAN8:
-			    		type = 'EAN8';
-			    		break;
-			    	case plus.barcode.AZTEC:
-			    		type = 'AZTEC';
-			    		break;
-			    	case plus.barcode.DATAMATRIX:
-			    		type = 'DATAMATRIX';
-			    		break;
-			    	case plus.barcode.UPCA:
-			    		type = 'UPCA';
-			    		break;
-			    	case plus.barcode.UPCE:
-			    		type = 'UPCE';
-			    		break;
-		    		case plus.barcode.CODABAR:
-			    		type = 'CODABAR';
-			    		break;
-		    		case plus.barcode.CODE39:
-			    		type = 'CODE39';
-			    		break;
-		    		case plus.barcode.CODE93:
-			    		type = 'CODE93';
-			    		break;
-		    		case plus.barcode.CODE128:
-			    		type = 'CODE128';
-			    		break;
+			    	type = 'EAN8';
+			    	break;
 			    	default:
-			    		type = '其它'+type;
+			    	type = '其它'+type;
 			    	break;
 			    }
-			    result = result.replace(/\n/g, '');
+			    result = result.replace(/\n/g, '');		
 			    wo.evalJS("scaned('"+ type +"','"+ result +"','"+ file +"');");
-			    back();
+				scan.close();
+			    mui.back();
 			}
+			var subView = null;
+			function createSubview(){
+				subView = plus.webview.create("scanSub.html","scanSub",{  
+					top:0,  
+					bottom:0,  
+					background: 'transparent'  
+				},{
+					formpage:formpage
+				});  
+				ws.append(subView);   
+			}
+			function checkPermission(){
+				var CAMERA_P = plus.navigator.checkPermission("CAMERA");
+				console.log(CAMERA_P)
+				switch(CAMERA_P){
+					case 'authorized':
+						console.log('已开启拍照权限');
+						return true;
+						break;
+					case 'denied':
+						console.error('拍照失败，请确保是否开启拍照权限');
+						return false;
+						break;
+					case 'undetermined':
+						console.error('拍照失败，请确保是否开启拍照权限');
+						return false;
+						break;
+					case 'unknown':
+						console.error('拍照失败，请确保是否开启拍照权限');
+						return false;
+						break;
+					default:
+						console.error('拍照失败，请确保是否开启拍照权限');
+						return false;
+						break;
+				}
+			}			
+			function openCamera(){
+				var msg = "开启相机权限才能扫描哟";
+				mui.alert(msg,"开启相机权限","去开启",function(){		
+					if (mui.os.ios) {
+						plus.runtime.openURL("app-settings:CAMERA");
+					} else {
+						var packageName = "io.dcloud.yunzhichongbusiness";
+						var Uri = plus.android.importClass("android.net.Uri");  
+						var Settings = plus.android.importClass("android.provider.Settings");  
+						var context = plus.android.runtimeMainActivity();  			
+						var packageURI = Uri.parse("package:" + packageName);  
+						var intent = plus.android.newObject("android.content.Intent", Settings.ACTION_SEARCH_SETTINGS, packageURI);  
+						context.startActivity(intent); 
+					}
+				})
+			};
 			var bFlash = false;
 			//开启手电筒
 			function switchFlash(){

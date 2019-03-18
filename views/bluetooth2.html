@@ -27,7 +27,8 @@
 				d||(bds=[],deviceId=null,document.getElementById('deivce').value='');
 				s||(bss=[],serviceId=null,document.getElementById('service').value='');
 				bscs=[],bscws=[],characteristicId=null,wcharacteristicId=null,document.getElementById('characteristic').value='',document.getElementById('wcharacteristic').value='';
-			}			
+			}
+			mui.init();
 			// 页面初始化操作 
 			mui.plusReady(function(){
 				console.log(plus.bluetooth)

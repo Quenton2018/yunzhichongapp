@@ -121,7 +121,7 @@ plusUtils.locate = {
  */
 plusUtils.Storage = {
 	getItem:function(key){
-		if(mui.os.plus){
+		if(window.plus){
 			return plus.storage.getItem(key);
 		}else{
 			return localStorage.getItem(key);
@@ -285,7 +285,7 @@ plusUtils.appPage = {
 	//获取页面参数
 	getParam: function(name) {
 		var ws = plus.webview.currentWebview();
-		if(mui.os.plus) {
+		if(window.plus) {
 			if(ws.params)
 				return ws.params[name] || null;
 			else
@@ -510,10 +510,10 @@ var enableRefresh = function(){
 	// DOMContentLoaded事件处理
 	var domready = false;
 	document.addEventListener('DOMContentLoaded',function(){
-		if(!mui.os.plus){
-			w.uuid = plusUtils.Storage.getItem("uuid");
-			console.log("###uuid##"+uuid);
-		}
+// 		if(!mui.os.plus){
+// 			w.uuid = plusUtils.Storage.getItem("uuid");
+// 			console.log("###uuid##"+uuid);
+// 		}
 		domready = true;
 		document.body.onselectstart=shield;
 	},false);
@@ -568,6 +568,30 @@ var enableRefresh = function(){
 			return openw;
 		}else{
 			w.location.href = id;
+		}
+		return null;
+	};
+	/**
+	 * 创建新窗口（无原始标题栏），
+	 * @param {URIString} id : 要打开页面url
+	 * @param {JSON} ws : Webview窗口属性
+	 */
+	w.createWithoutTitle=function(id, ws){
+		if(openw){//避免多次打开同一个页面
+			return null;
+		}
+		if(w.plus){
+			ws=ws||{};
+			ws.scrollIndicator||(ws.scrollIndicator='none');
+			ws.scalable||(ws.scalable=false);
+			ws.backButtonAutoControl||(ws.backButtonAutoControl='close');
+			openw = plus.webview.create(id, id, ws);
+			openw.addEventListener('close', function(){
+				openw=null;
+			}, false);
+			return openw;
+		}else{
+			w.open(id);
 		}
 		return null;
 	};

@@ -1,6 +1,6 @@
+body{height: auto;overflow: hidden;}
 .mui-plus .header-immersed{display:none;}
 .mui-plus .header-immersed .mui-content{padding:0;margin:0;}
 .mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
 .mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
 .mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
-body{height: auto;overflow: hidden;}
