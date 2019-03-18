@@ -35,8 +35,11 @@
 				ws = plus.webview.currentWebview();
 				wo = ws.opener();
 				createSubview();
-				openScan();
-				//如果没有权限，则申请  			
+				//如果没有权限，则申请  	
+				if (!checkPermission()) {  
+					openCamera();
+				} 
+				openScan();		
 			}			
 			function openScan(){
 				try{
@@ -49,11 +52,7 @@
 					// 显示页面
 					ws.show('slide-in-bottom');
 				}catch(e){
-					if (!checkPermission()) {  
-						openCamera();
-					} else { //如果拥有权限，那么干点啥吧^_^  
-						
-					}
+					
 				}							
 			}
 			// 二维码扫描成功
@@ -102,14 +101,14 @@
 						break;
 					case 'undetermined':
 						console.error('拍照失败，请确保是否开启拍照权限');
-						return false;
+						return true;
 						break;
 					case 'unknown':
 						console.error('拍照失败，请确保是否开启拍照权限');
 						return false;
 						break;
 					default:
-						console.error('拍照失败，请确保是否开启拍照权限');
+						layer.msg('系统不支持相机权限');
 						return false;
 						break;
 				}

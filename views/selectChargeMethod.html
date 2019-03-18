@@ -20,7 +20,7 @@
 			body{width:100%;height:auto;overflow-y:auto;min-height: 100%;}
 			.mui-bar .mui-title{margin: 0 20px;}
 			.mui-content{background: none;overflow: auto;}
-			.mui-main{margin-top: 20px;}
+			.mui-warpper{margin-top: 20px;}
 			.myContent{margin:0 10px;padding-bottom:5px;background: #fff;border-radius: 10px;}
 			.swiper-slide{text-align:center;font-size:1.2rem;color:#C5C4C4;vertical-align:middle;line-height:50px;height:50px;font-weight:600;}
 			.swiper-slide-active{color:#F17746;font-size:2rem;}
@@ -111,7 +111,7 @@
 	</header>
 
 	<div class="mui-content">
-		<div class="mui-main">
+		<div class="mui-warpper">
 			<div class="myContent box1">
 				<div class="h2-title"><span>①</span> 选择桩号</div>
 				<div class="selectZhuangHao" style="padding: 0;position: relative">
@@ -481,7 +481,7 @@
 			}
 			$('#footer').find('.left').hide();
 		} else {
-			$(".mui-main").height("auto");
+			$(".mui-warpper").height("auto");
 			$('#footer').find('.left').show();
 			$('#chargingPriceDesc').html('');
 		}
@@ -497,7 +497,7 @@
 			h3 = $('.chargingPriceDesc').outerHeight();
 		var Height = h1 + h2 + h3 + 20 + 60;
 		if(state == '1' || state == '2') {
-			$(".mui-main").height(Height);
+			$(".mui-warpper").height(Height);
 		}
 	}
 	$("#submitBtn").click(function() {
@@ -544,12 +544,16 @@
 	//下发充电
 	function shargeSubmitResponse(res) {
 		if("0" == res.code) {
-			setLoadingSuccess();
-			var msg = '充电成功';
-			if(res.givePoints > 0) {
-				msg += " , 充电结束可获得云钻";
-			}
-			layer.msg(msg);
+			setLoadingSuccess();	
+			if(res.remark){
+				layer.msg(remark);
+			}else{
+				var msg = '充电成功';
+				if(res.givePoints > 0) {
+					msg += " , 充电结束可获得云钻";
+				}
+				layer.msg(msg);
+			}		
 			setTimeout(function() {
 				initLoadingSuccess();
 				openWebview('chargeing.html',false,true,{'orderNo':res.data.sn});
@@ -613,7 +617,7 @@
 		openWebview('selectChargeSearch.html',true,true);
 	}
 	// 打开自定义扫描界面
-	mui('body').on('click',"#openBarcode",function(){
+	mui('body').on('tap',"#openBarcode",function(){
 		openWebview('scanBarcode.html',false,true,{formpage:'cdzno'});
 	})
 	/**

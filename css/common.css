@@ -184,6 +184,7 @@ textarea{overflow:auto;resize:vertical}
 .button-waring{color:#666;background-color:#ebebeb;border-color:#e0e0e0;}
 .button-select{font-size:14px;background-color:#CCCCCC;border:0;-webkit-border-radius:2px;border-radius:2px;}
 
+
 .header-immersed{box-shadow:none;background-image:-moz-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-webkit-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-ms-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);}
 .header-immersed .mui-title,.header-immersed .mui-icon{color:#fff;}
 .header-immersed.mui-bar-nav{height:64px;padding-top:20px;}
@@ -192,7 +193,7 @@ textarea{overflow:auto;resize:vertical}
 .iphonex .header-immersed.mui-bar-nav{height:84px!important;padding-top:40px!important;}
 .iphonex .header-immersed.mui-bar-nav ~ .mui-content{padding-top:84px;}
 .iphonex .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{padding-top:84px;}
-
+.mui-main{padding-top: 64px;}
 
 .btn-submit{background-image:-moz-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-webkit-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);background-image:-ms-linear-gradient(135deg,rgb(240,130,0) 0%,rgb(255,117,70) 100%);height:50px;line-height:50px;font-size:16px;color:#FFFFFF;text-align:center;box-shadow:none;}
 .left{float:left;}

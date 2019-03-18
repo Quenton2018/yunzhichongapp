@@ -476,7 +476,7 @@ var enableRefresh = function(){
 		plus.key.addEventListener('backbutton',function(){
 			back();
 		},false);	
-		 checkVersion();
+		// checkVersion();
 	}
 	if(w.plus){
 		plusReady();
