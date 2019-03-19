@@ -10,6 +10,7 @@
 		<link rel="shortcut icon" href="../favicon.ico">
 		<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
 	    <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/plus.css" type="text/css" charset="utf-8"/>
 	    <script src="../js/jquery-3.3.1.min.js"></script>
 	    <script src="../js/mui.min.js"></script>
 	    <script src="../plugins/layer/layer.js"></script>
@@ -17,19 +18,12 @@
 	    <script src="../js/base.js"></script>
 	    <script src="../js/common.js"></script>  
 		<style>
-			body{overflow: hidden;height: auto;}
-			.mui-plus .header-immersed{display:none;}
-			.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
-			.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
-			.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
-			.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
-			.feedback body{background-color:#EFEFF4;}
+			body{background-color:#EFEFF4;}
 			.feedback input,
-			.feedback textarea{border:none!important;margin-bottom: 0;}
+			.feedback textarea{border:none!important;margin-bottom: 0;font-size:14px;}
 			.feedback textarea{height:100px;margin-bottom:0!important;padding-bottom:0!important;}
 			.feedback .row{width:100%;background-color:#fff;}
 			.feedback p{padding: 10px;margin-bottom: 0;}
-			input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{font-size:14px;}
 			.feedback .hidden{display:none;}
 			.feedback .image-list{width:100%;background-size:cover;padding: 15px 15px 0;;overflow:hidden;}
 			.feedback .image-item{width:82px;height:82px;background-size:100% 100%;display:inline-block;position:relative;border-radius:5px;margin-right:15px;margin-bottom:15px;border:solid 1px #e8e8e8;vertical-align:top;}
@@ -215,14 +209,22 @@
 						if (mui.os.ios) {
 							plus.runtime.openURL("app-settings:CAMERA");
 						} else {
-							var packageName = "io.dcloud.yunzhichongbusiness";
-							var Uri = plus.android.importClass("android.net.Uri");  
-							var Settings = plus.android.importClass("android.provider.Settings");  
-							var context = plus.android.runtimeMainActivity();  
-
-							var packageURI = Uri.parse("package:" + packageName);  
-							var intent = plus.android.newObject("android.content.Intent", Settings.ACTION_SEARCH_SETTINGS, packageURI);  
-							context.startActivity(intent); 
+							var main = plus.android.runtimeMainActivity();
+							var Intent = plus.android.importClass("android.content.Intent");
+							var Build = plus.android.importClass("android.os.Build");
+							var Uri = plus.android.importClass("android.net.Uri");
+							var intent = new Intent();
+							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							if (Build.VERSION.SDK_INT >= 9) {
+								intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+								intent.setData(Uri.fromParts("package", main.getPackageName(), null));
+							} else if (Build.VERSION.SDK_INT <= 8) {
+								intent.setAction(Intent.ACTION_VIEW);
+								intent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
+								intent.putExtra("com.android.settings.ApplicationPkgName", main.getPackageName());
+							}
+							main.startActivity(intent);
+							plusUtils.appPage.closeAndBackUrl('setting.html'); 
 						}
 					})
 				};
@@ -235,38 +237,7 @@
 						feedback.uploadImg(self,placeholder,up,closeButton,e);
 					}, function(err) {
 						layer.msg("拍照失败");
-					});
-// 					var CAMERA_P = plus.navigator.checkPermission("CAMERA");
-// 					console.log(CAMERA_P)
-// 					switch(CAMERA_P){
-// 					    case 'authorized':
-// 							console.log('已开启拍照权限');
-// 							var cmr = plus.camera.getCamera();
-// 							var res = cmr.supportedImageResolutions[0];
-// 							var fmt = cmr.supportedImageFormats[0];
-// 							cmr.captureImage(function(e) {
-// 								feedback.uploadImg(self,placeholder,up,closeButton,e);
-// 							}, function(err) {
-// 								layer.msg("拍照失败");
-// 							});
-// 					        break;
-// 					    case 'denied':
-// 							console.error('拍照失败，请确保是否开启拍照权限');
-// 					        feedback.openCamera();
-// 					        break;
-// 					    case 'undetermined':
-// 					        console.error('拍照失败，请确保是否开启拍照权限');
-// 					        feedback.openCamera();
-// 					        break;
-// 					    case 'unknown':
-// 					        console.error('拍照失败，请确保是否开启拍照权限');
-// 					        feedback.openCamera();
-// 					        break;
-// 					    default:
-// 							console.error('拍照失败，请确保是否开启拍照权限');
-// 							feedback.openCamera();
-// 					        break;
-// 					}				
+					});				
 				};
 				/*打开相册*/
 				feedback.galleryImg = function(self,placeholder,up,closeButton){
@@ -383,7 +354,7 @@
 			   });
 			  	//选择快捷输入
 				mui('.mui-popover').on('tap','li',function(e){
-				  	document.getElementById("question").value = document.getElementById("question").value + this.children[0].innerHTML;
+				  	document.getElementById("question").value = this.children[0].innerHTML;
 				  	mui('.mui-popover').popover('toggle')
 				}) 
 			})();

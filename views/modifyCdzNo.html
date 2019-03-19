@@ -41,6 +41,7 @@
 		.ul_keybord .li_clean{float:right;width:22.22%;}
 		.ul_keybord li span{display:block;background-color:#fff;border-radius:4px;box-shadow:2px 2px 2px #888;font-size:18px;line-height:40px;padding-top:2px;color:#000;}
 		.ul_keybord li span:active{background-color:#007AFC;color:#fff;}
+		.ul_keybord li span.icon-del{font-size: 24px;}
     </style>
 </head>
 <body style="background: #EBECEE;">
@@ -85,7 +86,7 @@
                 });
 				return;
 			}
-			if(shellId.length < 8) return;
+			if(shellId.length < 8) return;		
 			postJSON(API_URL.ApiChargingInfoByShellId, {'shellId': shellId}, function(res) {
 				if('0' == res.code) {
 					var cdzID = res.data.id;
@@ -94,7 +95,7 @@
 						plusUtils.Storage.setItem("chargingGroupId",scanGroup.id);
 						plusUtils.Storage.setItem("addresses",scanGroup.name);
 						plusUtils.Storage.setItem("inputCdzID",cdzID);
-						plusUtils.appPage.closeAndRefresh("selectChargeMethod.html");
+						plusUtils.appPage.closeAndRefresh("selectChargeMethod.html");					
 					}			
 				} else {
 					layer.open({
@@ -105,12 +106,12 @@
 				}
 			})
 		});
-		var keyNums = new Array("0","1","2","3","4","5","6","7","8","9","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","OK","Z","X","C","V","B","N","M","Del");
+		var keyNums = new Array("0","1","2","3","4","5","6","7","8","9","Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","OK","Z","X","C","V","B","N","M","");
 		var next = 0;
 		function showKeybord() {
 		    var sss = "";
 		    for (var i = 0; i < keyNums.length; i++) {
-		        sss = sss + '<li class="ikey ikey' + i + ' ' + (i > 9 ? "li_zm" : "li_num") + ' ' + (i > 28 ? "li_w" : "") + '" ><span onclick="choosekey(this,' + i + ');">' + keyNums[i] + '</span></li>'
+		        sss = sss + '<li class="ikey ikey' + i + ' ' + (i > 9 ? "li_zm" : "li_num") + ' ' + (i > 28 ? "li_w" : "") + '" ><span class="'+(i==(keyNums.length-1) ?"iconfont icon-del":"")+'" onclick="choosekey(this,' + i + ');">' + keyNums[i] + '</span></li>'
 		    }
 		    layer.open({
                 type: 1,
@@ -137,12 +138,12 @@
 		            next = 0;
 		        }
 		        getpai();
-		        console.log(next);
+		        // console.log(next);
 		    } else {
 		        if (next > 7) {
 		            return
 		        }
-		        console.log(next);
+		        // console.log(next);
 		        for (var i = 0; i < $(".input_pp").length; i++) {
 		            if (next == 0 & jj < 10 & $(".input_pp:eq(" + next + ")").hasClass("input_zim")) {
 		                layer.open({

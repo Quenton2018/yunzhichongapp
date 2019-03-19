@@ -10,6 +10,7 @@
 	<link rel="shortcut icon" href="../favicon.ico">
 	<link rel="stylesheet" href="../css/mui.min.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	<link rel="stylesheet" href="../css/plus.css" type="text/css" charset="utf-8"/>
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/mui.min.js"></script>
     <script src="../plugins/layer/layer.js"></script>
@@ -17,11 +18,6 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
-		.mui-plus .header-immersed{display:none;}
-		.mui-plus .header-immersed .mui-content{padding:0;margin:0;}
-		.mui-plus .header-immersed.mui-bar-nav{height:0;padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content{padding-top:0;}
-		.mui-plus .header-immersed.mui-bar-nav ~ .mui-content .mui-pull-top-pocket{top:0;}
 		.article{padding: 20px;}
 		.article img{width: 100%;margin: 0 auto;}
 		.article h2{text-align: center;color: #333;font-weight: 500;}
@@ -55,7 +51,7 @@
 			}
         	postJSON(API_URL.ApiArticleContentBYID,params,function(res){
 				if("0" == res.code){
-					if(null!=res.data){
+					if(res.data){
 						var content = res.data.content;
 						var title = res.data.title;
 						var tmpl = $("#dataTmpl").html();

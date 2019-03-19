@@ -1,3 +1,4 @@
+var debug = false;
 /**
  * plus公共工具类
  * @class plusUtils
@@ -451,6 +452,7 @@ var stopRefresh = function(length,pageSize){
 var enableRefresh = function(){
 	mui('#J_refresh').pullRefresh().refresh(true);
 }
+
 ;(function(w){
 	// 空函数
 	function shield(){
@@ -508,13 +510,11 @@ var enableRefresh = function(){
 		}
 	}
 	// DOMContentLoaded事件处理
-	var domready = false;
 	document.addEventListener('DOMContentLoaded',function(){
-// 		if(!mui.os.plus){
-// 			w.uuid = plusUtils.Storage.getItem("uuid");
-// 			console.log("###uuid##"+uuid);
-// 		}
-		domready = true;
+		if(!mui.os.plus){
+			w.uuid = plusUtils.Storage.getItem("uuid");
+			console.log("###uuid##"+uuid);
+		}
 		document.body.onselectstart=shield;
 	},false);
 	// 处理返回事件
@@ -533,8 +533,8 @@ var enableRefresh = function(){
 		}
 	};
 	window.addEventListener("tap", function(e) {
-		e.target.className.indexOf("mui-back") > -1 && mui.back();
-    })
+		e.target.className && (e.target.className.indexOf("mui-back") > -1) && mui.back();
+    });
 	// 处理点击事件
 	var openw = null;
 	/**
@@ -634,9 +634,9 @@ function postJSON(url, data, callback,isIcon){
 		    switch (xhr.readyState) {
 		        case 4:
 					var responseText = xhr.responseText; 
-		        	console.log("## url: " + url);
-	            	console.log("## params: " + JSON.stringify(data))
-					console.log("## responseText: " + responseText)
+		        	debug && console.log("## url: " + url);
+	            	debug && console.log("## params: " + JSON.stringify(data))
+					debug && console.log("## responseText: " + responseText)
 		            if (xhr.status == 200) {           		           		
 	            	 	var json = JSON.parse(responseText);
 	            	 	try{
@@ -738,8 +738,8 @@ function setLoginData(userinfo) {
 	plusUtils.Storage.setItem("mobile", userinfo.mobile);
 	plusUtils.Storage.setItem("login_date", date);
 	plusUtils.Storage.setItem("userinfo", JSON.stringify(userinfo));
-	console.log("## setLoginData ## 用户登录时间 : " + date);
-	console.log("## setLoginData ## 用户基本信息 : " + JSON.stringify(userinfo))
+	debug && console.log("## setLoginData ## 用户登录时间 : " + date);
+	debug && console.log("## setLoginData ## 用户基本信息 : " + JSON.stringify(userinfo))
 }
 
 /**

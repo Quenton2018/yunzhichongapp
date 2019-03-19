@@ -25,11 +25,26 @@
 				plusReady();
 			}else{
 				document.addEventListener('plusready', plusReady, false);
-			}
+				document.addEventListener("error",function(e){
+					console.log("请求的页面（"+e.href+"）无法打开");
+				},false);
+			}				
 			// H5 plus事件处理
 			function plusReady(){
 				formpage = plusUtils.appPage.getParam("formpage");
-				filters = [plus.barcode.QR,plus.barcode.EAN13,plus.barcode.EAN8];
+				filters = [
+					plus.barcode.QR,
+					plus.barcode.EAN13,
+					plus.barcode.EAN8,
+					plus.barcode.AZTEC,
+					plus.barcode.DATAMATRIX,
+					plus.barcode.UPCA,
+					plus.barcode.UPCE,
+					plus.barcode.CODABAR,
+					plus.barcode.CODE39,
+					plus.barcode.CODE93,
+					plus.barcode.CODE128
+				];
 				styles = {frameColor: "#F87C1A",scanbarColor: "#F87C1A"};
 				// 获取窗口对象
 				ws = plus.webview.currentWebview();
@@ -42,39 +57,59 @@
 				openScan();		
 			}			
 			function openScan(){
-				try{
-					// 开始扫描
-					ws.addEventListener('show', function(){
-						scan = new plus.barcode.Barcode('bcid',filters,styles);
-					    scan.onmarked = onmarked;
-					    scan.start({conserve: false});
-					}, false);
-					// 显示页面
-					ws.show('slide-in-bottom');
-				}catch(e){
-					
-				}							
+				// 显示页面
+				ws.show('slide-in-bottom');
+				// 开始扫描
+				ws.addEventListener('show', function(){					
+					scan = new plus.barcode.Barcode('bcid',filters,styles);
+					scan.onmarked = onmarked;
+					scan.start({conserve: false});													
+				}, false);							
 			}
 			// 二维码扫描成功
 			function onmarked(type, result, file){
 			    switch(type){
 			    	case plus.barcode.QR:
-			    	type = 'QR';
-			    	break;
+			    		type = 'QR';
+			    		break;
 			    	case plus.barcode.EAN13:
-			    	type = 'EAN13';
-			    	break;
+			    		type = 'EAN13';
+			    		break;
 			    	case plus.barcode.EAN8:
-			    	type = 'EAN8';
-			    	break;
+			    		type = 'EAN8';
+			    		break;
+			    	case plus.barcode.AZTEC:
+			    		type = 'AZTEC';
+			    		break;
+			    	case plus.barcode.DATAMATRIX:
+			    		type = 'DATAMATRIX';
+			    		break;
+			    	case plus.barcode.UPCA:
+			    		type = 'UPCA';
+			    		break;
+			    	case plus.barcode.UPCE:
+			    		type = 'UPCE';
+			    		break;
+		    		case plus.barcode.CODABAR:
+			    		type = 'CODABAR';
+			    		break;
+		    		case plus.barcode.CODE39:
+			    		type = 'CODE39';
+			    		break;
+		    		case plus.barcode.CODE93:
+			    		type = 'CODE93';
+			    		break;
+		    		case plus.barcode.CODE128:
+			    		type = 'CODE128';
+			    		break;
 			    	default:
-			    	type = '其它'+type;
+			    		type = '其它'+type;
 			    	break;
 			    }
 			    result = result.replace(/\n/g, '');		
 			    wo.evalJS("scaned('"+ type +"','"+ result +"','"+ file +"');");
 				scan.close();
-			    mui.back();
+			    ws.close();
 			}
 			var subView = null;
 			function createSubview(){
@@ -89,6 +124,7 @@
 			}
 			function checkPermission(){
 				var CAMERA_P = plus.navigator.checkPermission("CAMERA");
+				var IsUndeter = plusUtils.Storage.getItem('IsUndeter') || false;
 				console.log(CAMERA_P)
 				switch(CAMERA_P){
 					case 'authorized':
@@ -101,7 +137,14 @@
 						break;
 					case 'undetermined':
 						console.error('拍照失败，请确保是否开启拍照权限');
-						return true;
+						if(mui.os.ios){
+							return true;
+						}else if(!IsUndeter && mui.os.android){
+							plusUtils.Storage.setItem('IsUndeter','true');
+							return true;
+						}else{
+							return false;
+						}						
 						break;
 					case 'unknown':
 						console.error('拍照失败，请确保是否开启拍照权限');
@@ -119,13 +162,22 @@
 					if (mui.os.ios) {
 						plus.runtime.openURL("app-settings:CAMERA");
 					} else {
-						var packageName = "io.dcloud.yunzhichongbusiness";
-						var Uri = plus.android.importClass("android.net.Uri");  
-						var Settings = plus.android.importClass("android.provider.Settings");  
-						var context = plus.android.runtimeMainActivity();  			
-						var packageURI = Uri.parse("package:" + packageName);  
-						var intent = plus.android.newObject("android.content.Intent", Settings.ACTION_SEARCH_SETTINGS, packageURI);  
-						context.startActivity(intent); 
+						var main = plus.android.runtimeMainActivity();
+						var Intent = plus.android.importClass("android.content.Intent");
+						var Build = plus.android.importClass("android.os.Build");
+						var Uri = plus.android.importClass("android.net.Uri");
+						var intent = new Intent();
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						if (Build.VERSION.SDK_INT >= 9) {
+							intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+							intent.setData(Uri.fromParts("package", main.getPackageName(), null));
+						} else if (Build.VERSION.SDK_INT <= 8) {
+							intent.setAction(Intent.ACTION_VIEW);
+							intent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
+							intent.putExtra("com.android.settings.ApplicationPkgName", main.getPackageName());
+						}
+						main.startActivity(intent);
+						plusUtils.appPage.closeAndBackUrl('selectChargeMethod.html');
 					}
 				})
 			};
@@ -140,7 +192,7 @@
 	<body style="background-color: #000000;">
 		<div id="bcid">
 			<div style="height:40%"></div>
-			<p class="tip">...载入中...</p>
+			<p class="tip">载入中...</p>
 		</div>
 	</body>
 </html>

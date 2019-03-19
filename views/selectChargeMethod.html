@@ -50,11 +50,11 @@
 			.stepBox{padding:20px;}
 			.stepBox .stepItem{width:160px;margin:0 auto;padding:10px 0;position:relative;color:#666;font-size:.8rem;}
 			.stepBox .stepItem span{display:block;position:absolute;height:25px;width:2px;background:#666;left:9px;top:28px;}
-			.stepBox .stepItem:last-child span{display:none;}
 			.stepBox .stepItem i{display:inline-block;margin-right:5px;font-size:20px;vertical-align: top;}
 			.fa-spin{-webkit-animation:fa-spin 2s infinite linear;animation:fa-spin 2s infinite linear;}
 			.stepBox .stepSuccess{color:#009966;}
 			.stepBox .stepSuccess span{background:#009966;}
+			.stepBox .stepItem:last-child span{display:none;}
 			@-webkit-keyframes fa-spin {
 			  0% {
 			    -webkit-transform: rotate(0deg);
@@ -78,8 +78,9 @@
 						
 			.h2-title{line-height: 40px;padding: 0 15px;text-align:left;font-weight:600;color:#454545;letter-spacing:1px;margin:0;}
 			.h2-title span{font-size: 18px;}
+			.chargingNotes{padding:5px 25px 0;margin-bottom: 0;font-size: 13px;}	
 				
-			.chargingPriceDesc{font-size: 13px;color: #333;padding:10px 25px;}
+			.chargingPriceDesc{font-size: 13px;color: #333;padding:5px 25px 0;}
 			.chargingPriceDesc .desc-right span{float: left;width: 50%;display: inline-block;text-align: left;}
 			.chargingPriceDesc .desc-right span:nth-child(even){text-align: right;}
 			
@@ -160,11 +161,12 @@
 
 			<div class="myContent box2" style="margin-top: 15px;">
 				<div class="h2-title"><span>③</span> 选择充电时长</div>
+				
 				<div class="timeBox mui-clearfix" id="TimeList">
 					<span class="item"><b>充满自停</b></span>
 				</div>
 			</div>
-
+			<p class="chargingNotes">注：大功率可能充不到所选小时</p>
 			<div id="chargingPriceDesc" class="chargingPriceDesc">				
 				
 			</div>
@@ -282,7 +284,7 @@
 		checkLogin();
 		plusUtils.locate.getCurrentPosition();
 		geolocationGroup = JSON.parse(plusUtils.Storage.getItem("geolocationGroup"));
-		getChargingGroup();		
+		getChargingGroup();	
 	});
 	document.addEventListener("netchange", function () {
 		getChargingGroup();
@@ -318,9 +320,8 @@
 		groupID = plusUtils.Storage.getItem("chargingGroupId");
 		addresses = plusUtils.Storage.getItem("addresses");
 		inputCdzID = plusUtils.Storage.getItem("inputCdzID");
-		console.log("##groupID:"+groupID)
 		if(vaildeParam(groupID)){
-			console.log("##选中充电桩地址："+addresses+" 片区编号："+groupID)
+			console.log("## 选中充电桩地址：" + addresses + " 片区编号：" + groupID)
 			$addressTitle.text(addresses);
 			getChargingByGroupID(groupID);
 			getChargingGroupPrice(groupID);
@@ -358,7 +359,7 @@
 			layer.msg("没有获取到片区");
 			return;
 		}
-		console.log("##片区id:"+id)
+		console.log("## 片区id:"+id)
 		postJSON(API_URL.ApiGetChargingByGroupID, {"id": id}, function(res) {
 			if("0" == res.code) {
 				var data = res.data;
@@ -386,12 +387,10 @@
 		swiper.update();
 		if(vaildeParam(scanCdzID)) {
 			var index = $(".swiper-slide[data-id='" + scanCdzID + "']").index();
-			console.log("--- slideToLoop --- index:" + index)
 			swiper.slideToLoop(index);
 		};
 		if(vaildeParam(inputCdzID)) {
 			var index = $(".swiper-slide[data-id='" + inputCdzID + "']").index();
-			console.log("--- slideToLoop --- index:" + index)
 			swiper.slideToLoop(index);
 		};
 		changeSelectStake();
@@ -404,7 +403,7 @@
 		if(!vaildeParam(StakeCode)) {
 			return;
 		}
-		console.log("##选中充电桩桩号:" + StakeText);
+		console.log("## 选中充电桩桩号:" + StakeText);
 		getChargingSocketList(StakeCode);
 	}
 	//获取充电桩插座列表
@@ -494,8 +493,9 @@
 		$('#chargingPriceDesc').html(Html);
 		var h1 = $('.box1').outerHeight(),
 			h2 = $('.box2').outerHeight(),
-			h3 = $('.chargingPriceDesc').outerHeight();
-		var Height = h1 + h2 + h3 + 20 + 60;
+			h3 = $('.chargingNotes').outerHeight(),
+			h4 = $('.chargingPriceDesc').outerHeight();
+		var Height = h1 + h2 + h3 + h4 + 20 + 60;
 		if(state == '1' || state == '2') {
 			$(".mui-warpper").height(Height);
 		}
@@ -618,7 +618,12 @@
 	}
 	// 打开自定义扫描界面
 	mui('body').on('tap',"#openBarcode",function(){
-		openWebview('scanBarcode.html',false,true,{formpage:'cdzno'});
+		try{
+			openWebview('scanBarcode.html',false,true,{formpage:'cdzno'});
+		}catch(e){
+			//TODO handle the exception
+			alert('11')
+		}		
 	})
 	/**
 	 * 扫一扫接口
@@ -645,10 +650,11 @@
 				if(vaildeParam(scanGroup)) {
 					$addressTitle.text(scanGroup.name);
 					groupID = scanGroup.id;
+					inputCdzID = null;
 					getChargingByGroupID(groupID);
 					getChargingGroupPrice(groupID);
 					plusUtils.Storage.setItem("chargingGroupId",groupID);
-					plusUtils.Storage.setItem("addresses",scanGroup.name);
+					plusUtils.Storage.setItem("addresses",scanGroup.name);					
 				}			
 			} else {
 				layer.msg(res.msg)
