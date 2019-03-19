@@ -14,7 +14,7 @@
 		<script src="../js/base.js"></script>
 		<script src="../js/common.js"></script>
 		<style type="text/css">
-			#bcid{width:100%;position:absolute;top:0px;bottom:0;text-align:center;}
+			.barcode{width:100%;position:absolute;top:0px;bottom:0;text-align:center;}
 			.tip{color:#FFFFFF;font-weight:bold;}		
 		</style>
 		<script type="text/javascript">
@@ -61,7 +61,7 @@
 				ws.show('slide-in-bottom');
 				// 开始扫描
 				ws.addEventListener('show', function(){					
-					scan = new plus.barcode.Barcode('bcid',filters,styles);
+					scan = new plus.barcode.Barcode('barcode',filters,styles);
 					scan.onmarked = onmarked;
 					scan.start({conserve: false});													
 				}, false);							
@@ -157,7 +157,7 @@
 				}
 			}			
 			function openCamera(){
-				var msg = "开启相机权限才能扫描哟";
+				var msg = "请在应用权限里设置允许使用相机权限";
 				mui.alert(msg,"开启相机权限","去开启",function(){		
 					if (mui.os.ios) {
 						plus.runtime.openURL("app-settings:CAMERA");
@@ -168,10 +168,10 @@
 						var Uri = plus.android.importClass("android.net.Uri");
 						var intent = new Intent();
 						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						if (Build.VERSION.SDK_INT >= 9) {
+						if (Build.VERSION.SDK_INT >= 9) {//系统8.0以上的
 							intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
 							intent.setData(Uri.fromParts("package", main.getPackageName(), null));
-						} else if (Build.VERSION.SDK_INT <= 8) {
+						} else if (Build.VERSION.SDK_INT <= 8) {//系统8.0以下的
 							intent.setAction(Intent.ACTION_VIEW);
 							intent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
 							intent.putExtra("com.android.settings.ApplicationPkgName", main.getPackageName());
@@ -189,8 +189,8 @@
 			}
 		</script>
 	</head>
-	<body style="background-color: #000000;">
-		<div id="bcid">
+	<body style="background-color: #000;">
+		<div id="barcode" class="barcode">
 			<div style="height:40%"></div>
 			<p class="tip">载入中...</p>
 		</div>
