@@ -20,8 +20,9 @@
     <script src="../js/common.js"></script>     
     <style type="text/css">
 			.yzc-main{margin: 0 20px;}
-			.yzc-search{margin: 20px auto 0px;}
-			.yzc-search input{height: 40px;font-size: 15px;text-align: left;margin-bottom:5px;}
+			.yzc-search{margin: 20px auto 0px;position: relative;}
+			.icon-search{position: absolute;font-size: 24px;top: 10px;left: 4px;color: #AFAFAF;}
+			.yzc-search input{height: 40px;font-size: 15px;text-align: left;margin-bottom:5px;padding-left: 28px;}
 			.mui-search .mui-placeholder{line-height: 40px;font-size:15px;text-align: left;}
 			.mui-search .mui-placeholder .mui-icon{margin:10px 5px 0 5px;float:left;color:#a0a0a0;}	
 			.yzc-dw-text{border-bottom: 1px solid #C4C4C4;overflow: hidden;}
@@ -47,7 +48,7 @@
 			<div class="search-box">
 				<form id="searchForm">
 					<div class="mui-input-row mui-search yzc-search">
-						<i class="iconfont"></i>
+						<i class="iconfont icon-search"></i>
 						<input id="search" type="text" class="mui-input-clear" placeholder="请输入您要搜索的充电桩地址">
 					</div>
 				</form>		
@@ -91,9 +92,9 @@
 		var lastUseChargingGroup = null;	 //最近使用的片区
 		plusUtils.pageReady(function(){
 			if(mui.os.plus){
-				plus.webview.currentWebview().setStyle({
-					softinputMode: "adjustResize"
-				});
+// 				plus.webview.currentWebview().setStyle({
+// 					softinputMode: "adjustResize"
+// 				});
 			}
 			plusUtils.locate.getCurrentPosition();				
 			getChargingGroupNearList();

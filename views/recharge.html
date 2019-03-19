@@ -17,11 +17,12 @@
     <script src="../js/base.js"></script>
     <script src="../js/common.js"></script>   
     <style type="text/css">
-    	.h2{font-size: 16px;padding-left: 25px;color: #333;font-weight: bold;}
+		.banner img{width: 100%;}
+    	.h2{font-size: 16px;padding-left: 25px;color: #333;font-weight: bold;padding-top: 20px;}
 		.list-group-item{text-align:left;}
 		.list-group-item span{display:inline-block;width:70px;}
 		.list-group-item:last-child{border-bottom-right-radius:0rem;border-bottom-left-radius:0rem;}
-		.moneyBox{width:90%;margin:0 auto;margin-bottom:2rem;}
+		.moneyBox{width:90%;margin:0 auto;}
 		.moneyBox .item{float:left;width:50%;text-align:center;}
 		.moneyBox .item .itemInner{background:#EDEDED;border-radius:5px;overflow:hidden;margin:5px;padding:10px 0;}
 		.moneyBox .item.selected .itemInner{background:#F88E36;color:#fff;}
@@ -47,7 +48,10 @@
 	</header>
 	
 	<div class="mui-content" style="background: #fff;">
-		<div class="myContent" style="padding-top: 60px">
+		<div class="myContent">
+			<div class="banner">
+				<img src="http://image.jx9n.com/c5WiJjfYp8yNHpiwEh4Y_1552982494761.png">
+			</div>
 			<h2 class="h2">充值金额</h2>
 			<div class="moneyBox mui-clearfix" id="moneyBox">
 				<div class="item selected" data-money="10">
@@ -74,7 +78,6 @@
 							<i class="iconfont icon-uncheck selectedIcon"></i>
 							<i class="iconfont icon-check-more selectedIcon"></i>
 						</div>	
-						<!-- <p class="rmake">随机优惠金额</p> -->
 					</li>
 				</ul>
 			</div>
@@ -92,6 +95,7 @@
         var WXPAYSERVER= API_URL.ApiPayWx;
         plusUtils.pageReady(function() {
             getMoneyList();
+			getRechargeChannels();
 			if(mui.os.plus){
 				// 获取支付通道
 				plus.payment.getChannels(function(channels){
@@ -132,9 +136,13 @@
 				}else{
 					layer.msg(res.msg);
 				}
-			})
-			
-		}		
+			})		
+		}
+		function getRechargeChannels(){
+// 			postJSON(API_URL.getRechargeChannels,{},function(res){
+// 				console.log(res)
+// 			})
+		};		
 		/**
 		 * 选择钱点击按钮
 		 */

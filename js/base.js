@@ -1,8 +1,8 @@
 var apiHost = "http://api.jx9n.com";
 // apiHost = "http://39.106.62.16:8181";
-//if(!mui.os.plus){
-//	apiHost = "http://192.168.2.129:3000"
-//}
+// if(!mui.os.plus){
+// 	apiHost = "http://192.168.2.129:3000"
+// }
 var appVersion = "v3.2.0"; //app当前版本
 
 var API_URL = {};
@@ -61,6 +61,7 @@ API_URL.ApiUserSignIsSignToday = apiHost + "/api/userSign/isSignToday";//用户�
 
 API_URL.AppVersionGetNewest = apiHost + "/api/AppVersion/getNewest";
 
+API_URL.getRechargeChannels = apiHost + '/api/recharge/getRechargeChannels';
 API_URL.ApiPayAlipay = apiHost + '/api/pay/alipay'; //支付宝支付
 API_URL.ApiPayWx = apiHost + '/api/pay/wxpay'; //微信支付
 

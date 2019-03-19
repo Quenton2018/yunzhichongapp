@@ -571,30 +571,6 @@ var enableRefresh = function(){
 		}
 		return null;
 	};
-	/**
-	 * 创建新窗口（无原始标题栏），
-	 * @param {URIString} id : 要打开页面url
-	 * @param {JSON} ws : Webview窗口属性
-	 */
-	w.createWithoutTitle=function(id, ws){
-		if(openw){//避免多次打开同一个页面
-			return null;
-		}
-		if(w.plus){
-			ws=ws||{};
-			ws.scrollIndicator||(ws.scrollIndicator='none');
-			ws.scalable||(ws.scalable=false);
-			ws.backButtonAutoControl||(ws.backButtonAutoControl='close');
-			openw = plus.webview.create(id, id, ws);
-			openw.addEventListener('close', function(){
-				openw=null;
-			}, false);
-			return openw;
-		}else{
-			w.open(id);
-		}
-		return null;
-	};
 })(window);
 
 /**
@@ -617,110 +593,90 @@ function vaildeParam(param) {
 }
 /**
  * 发送跨域请求
- * @param {Object} url 接口地址
- * @param {Object} data 参数连接的方式
- * @param {Object} callback 回调函数
+ * @param {Object}  url 接口地址
+ * @param {Object}  data    参数连接的方式
+ * @param {Object}  success 回调函数
  * @param {Boolean} isIcon  选填（是否显示loging）
  */
-function postJSON(url, data, callback,isIcon){
-	if(navigator.plus){	
-		if (plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
-			toast("网络异常，请检查网络设置！");
-			return false;
-		}
-		!isIcon && showLoading("正在加载..."); 
-		var xhr = new plus.net.XMLHttpRequest();	
-		xhr.onreadystatechange = function () {
-		    switch (xhr.readyState) {
-		        case 4:
-					var responseText = xhr.responseText; 
-		        	debug && console.log("## url: " + url);
-	            	debug && console.log("## params: " + JSON.stringify(data))
-					debug && console.log("## responseText: " + responseText)
-		            if (xhr.status == 200) {           		           		
-	            	 	var json = JSON.parse(responseText);
-	            	 	try{
-							callback(json);
-						}catch(e){						
-							toast("页面异常，请稍后再试！");
-							!isIcon &&  hideLoading();
-							console.error(e)
-						}        		
-		            }else if(xhr.status == 0){
-						callback({code:408,msg:"服务请求超时，请稍后再试！"});
-					}else {
-	            		toast("系统服务繁忙，请稍后再试！");
-	            		console.log(url + "接口请求失败 :" + responseText)
-		            }
-		            !isIcon &&  hideLoading();
-		            break;
-		        default :
-		            break;
-		    }
-	    }
-		xhr.timeout = 15000; 
-		xhr.open("POST", url);
-		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-		xhr.send(jsonToParams(data));
-	}else{
-		postAjax(url, data, callback,true);
-	}	
-}
-function postAjax(url, data, callback,isIcon){
-	url += "?"+jsonToParams(data);
-	if(!isIcon){
-		showLoading("数据加载中..."); 
+function postJSON(url, data, success, isIcon){
+	if (mui.os.plus && plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+		toast("网络异常，请检查网络设置！");
+		return false;
 	}
-	var xhr = new XMLHttpRequest();	
+	// url += "?"+ $.param(data);
+	!isIcon && showLoading("正在加载...");
+	mui.ajax({
+		url :url,
+		data:data,
+		headers:{
+			'appVersion':appVersion
+		},
+		dataType:'json',//服务器返回json格式数据
+		type:'post',//HTTP请求类型
+		timeout:10000,//超时时间设置为10秒；
+		success:function(res){
+			var responseText = JSON.stringify(res);
+			!isIcon && hideLoading();
+			success && success(res);		
+			debug && console.log("## url: " + url);
+			debug && console.log("## params: " + JSON.stringify(data));
+			debug && console.log("## responseText: " + responseText);
+		},
+		error:function(res){
+			console.log(res);
+			!isIcon &&  hideLoading();
+			toast("系统服务繁忙，请稍后再试！");			
+		}
+	});
+}
+function plusAjax(url, data, success, isIcon){
+	if (mui.os.plus && plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+		toast("网络异常，请检查网络设置！");
+		return false;
+	}
+	!isIcon && showLoading("正在加载..."); 
+	var xhr = new plus.net.XMLHttpRequest();	
 	xhr.onreadystatechange = function () {
-	    switch ( xhr.readyState ) {
-	        case 4:       	
-	            if ( xhr.status == 200 ) {
-            		var responseText = xhr.responseText;
-            		console.log("## postJSON ## url : "+url)
-            	 	var json = JSON.parse(responseText);
-            	 	try{
-						callback(json);
+		switch (xhr.readyState) {
+			case 4:
+				var responseText = xhr.responseText; 
+				debug && console.log("## url: " + url);
+				debug && console.log("## params: " + JSON.stringify(data))
+				debug && console.log("## responseText: " + responseText)
+				if (xhr.status == 200) {           		           		
+					var json = JSON.parse(responseText);
+					try{
+						success && success(json);
 					}catch(e){						
 						toast("页面异常，请稍后再试！");
-							!isIcon &&  hideLoading();
+						!isIcon &&  hideLoading();
 						console.error(e)
 					}        		
-	            } else {
-            		toast("系统服务异常，请稍后再试！");
-            		console.log(url+"接口请求失败 :"+xhr.responseText)
-	            }
-		            !isIcon &&  hideLoading();
-	            break;
-	        default :
-	            break;
-	    }
-    }
-	xhr.open("POST", url);
-	xhr.send(null);
-}
-// 格式化 post 传递的数据
-function jsonToParams(data) {
-	if(typeof data != "object") {
-		alert("输入的参数必须是对象");
-		return;
+				}else if(xhr.status == 0){
+					success && success({code:408,msg:"服务请求超时，请稍后再试！"});
+				}else {
+					toast("系统服务繁忙，请稍后再试！");
+					console.log(url + "接口请求失败 :" + responseText)
+				}
+				!isIcon &&  hideLoading();
+				break;
+			default :
+				break;
+		}
 	}
-	var tempArr = ["appVersion=" + appVersion];
-    for (var i in data) {
-        var key = encodeURIComponent(i);
-        var value = encodeURIComponent(data[i]);
-        tempArr.push(key + '=' + value);
-    }
-    return tempArr.join('&');
+	xhr.timeout = 15000; 
+	xhr.open("POST", url);
+	xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xhr.send($.param(data));
 }
 function showLoading(msg){  
-    plus.nativeUI.showWaiting(msg,{  
+	mui.os.plus && plus.nativeUI.showWaiting(msg,{  
         padding:'20px',
         background:"rgba(0,0,0,.5)"
-    });  
+    }); 	 
 }  
 function hideLoading(){  
-    plus.nativeUI.closeWaiting();  
+	mui.os.plus && plus.nativeUI.closeWaiting();  
 }
 function toast(msg){
 	$(".mui-toast-container").remove();
