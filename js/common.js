@@ -466,14 +466,6 @@ var enableRefresh = function(){
 	function plusReady(){
 		w.uuid = plusUtils.Storage.getItem("uuid");
 		console.log("## uuid ## "+uuid);
-		if(plus.navigator.isImmersedStatusbar()){
-			var barHeight = plus.device.model == 'iPhoneX' ? 44 : Math.round(plus.navigator.getStatusbarHeight());
-			if(plus.device.model == 'iPhoneX'){
-				document.documentElement.classList.add("iphonex");								
-			}else{
-				document.documentElement.classList.remove("iphonex");
-			}
-		}
 		// Android处理返回键
 		plus.key.addEventListener('backbutton',function(){
 			back();
@@ -533,7 +525,8 @@ var enableRefresh = function(){
 		}
 	};
 	window.addEventListener("tap", function(e) {
-		e.target.className && (e.target.className.indexOf("mui-back") > -1) && mui.back();
+		console.log(e.target.className)
+		e.target.className && (e.target.className.indexOf("mui-go-back") > -1) && mui.back();
     });
 	// 处理点击事件
 	var openw = null;
@@ -603,7 +596,7 @@ function postJSON(url, data, success, isIcon){
 		toast("网络异常，请检查网络设置！");
 		return false;
 	}
-	// url += "?"+ $.param(data);
+	// !mui.os.plus && (url += "?"+ $.param(data));
 	!isIcon && showLoading("正在加载...");
 	mui.ajax({
 		url :url,
@@ -625,7 +618,7 @@ function postJSON(url, data, success, isIcon){
 		error:function(res){
 			console.log(res);
 			!isIcon &&  hideLoading();
-			toast("系统服务繁忙，请稍后再试！");			
+			success && success({code:408,msg:"系统服务繁忙，请稍后再试！"});	
 		}
 	});
 }

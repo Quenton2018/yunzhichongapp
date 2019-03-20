@@ -95,7 +95,7 @@
                     "weixin" : {
                         "appid" : "wx55cdec5c462c13af",
                         "appsecret" : "0d47df340f75baf8950db58bb39afa58",
-                        "description" : "可选，微信分享"
+                        "description" : "微信分享"
                     }
                 },
                 "payment" : {
@@ -117,25 +117,25 @@
                 "devices" : "iphone", /*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
                 "frameworks" : [], /*调用Native.js调用原生Objective-c API需要引用的FrameWork，如需调用GameCenter，则添加"GameKit.framework"*/
                 "plistcmds" : [
-                    "Set :NSContactsUsageDescription 说明读取用户通讯录的原因",
-                    "Set :NSMicrophoneUsageDescription 说明使用麦克风的原因",
-                    "Set :NSPhotoLibraryUsageDescription 读取用户相册用来上传用户头像",
-                    "Set :NSCameraUsageDescription 使用用户相机来上传用户头像",
-                    "Set :NSPhotoLibraryAddUsageDescription 使用用户相机来上传用户头像",
+                    "Set :NSContactsUsageDescription 是否允许此App访问你的通讯录",
+                    "Set :NSMicrophoneUsageDescription 是否允许此App使用你的麦克风",
+                    "Set :NSPhotoLibraryUsageDescription 读取用户相册用来上传图片",
+                    "Set :NSCameraUsageDescription 使用用户相机来扫描二维码或拍照功能",
+                    "Set :NSPhotoLibraryAddUsageDescription 使用用户相机来上传图片",
                     "Set :NSLocationAlwaysUsageDescription 持续获取用户地理位置用于获取用户附近的充电桩片区",
                     "Set :NSLocationWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区",
                     "Set :NSLocationAlwaysAndWhenInUseUsageDescription 使用用户地理位置用于获取用户附近的充电桩片区",
-					"Set :NSBluetoothPeripheralUsageDescription 使用蓝牙连接充电桩设备进行通讯"
+                    "Set :NSBluetoothPeripheralUsageDescription 使用蓝牙连接充电桩设备进行通讯"
                 ],
                 "privacyDescription" : {
-                    "NSCameraUsageDescription" : "使用用户相机来上传用户头像",
+                    "NSCameraUsageDescription" : "使用用户相机来扫描二维码或拍照功能",
                     "NSLocationAlwaysUsageDescription" : "持续获取用户地理位置用于获取用户附近的充电桩片区",
                     "NSLocationAlwaysAndWhenInUseUsageDescription" : "使用用户地理位置用于获取用户附近的充电桩片区",
                     "NSLocationWhenInUseUsageDescription" : "使用用户地理位置用于获取用户附近的充电桩片区",
-                    "NSPhotoLibraryUsageDescription" : "读取用户相册用来上传用户头像",
-                    "NSPhotoLibraryAddUsageDescription" : "使用用户相机来上传用户头像",
-                    "NSMicrophoneUsageDescription" : "说明使用麦克风的原因",
-                    "NSContactsUsageDescription" : "说明读取用户通讯录的原因",
+                    "NSPhotoLibraryUsageDescription" : "读取用户相册用来上传图片",
+                    "NSPhotoLibraryAddUsageDescription" : "使用用户相机来上传图片",
+                    "NSMicrophoneUsageDescription" : "是否允许此App使用你的麦克风",
+                    "NSContactsUsageDescription" : "是否允许此App访问你的通讯录",
                     "NSBluetoothPeripheralUsageDescription" : "使用蓝牙连接充电桩设备进行通讯"
                 }
             },

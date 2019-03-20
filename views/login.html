@@ -82,6 +82,7 @@
 			plus.key.addEventListener("backbutton",function(){
 				plus.runtime.quit();
 	        });
+			plusUtils.Storage.setItem('FileRequest', "true");
 			clientInfo = plus.device.uuid || null;
 		});
 		var usermobile = getQueryString('mobile');
@@ -202,7 +203,7 @@
                 if("0" == res.code){
                     layer.msg("登录成功，正在跳转...");
                     setLoginData(res.data);
-                    setTimeout(function(){
+                    setTimeout(function(){						
                         openWebview('../index.html');
                     },2000);
                 }else{
