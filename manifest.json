@@ -110,7 +110,7 @@
                 }
             },
             "apple" : {
-                "appid" : "", /*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+                "appid" : "com.dream.zncd.intelligentcharge", /*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
                 "mobileprovision" : "", /*iOS应用打包配置文件*/
                 "password" : "", /*iOS应用打包个人证书导入密码*/
                 "p12" : "", /*iOS应用打包个人证书，打包配置文件关联的个人证书*/

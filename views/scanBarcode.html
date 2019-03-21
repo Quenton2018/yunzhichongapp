@@ -20,6 +20,7 @@
 		<script type="text/javascript">
 			var ws = null,wo = null;
 			var scan = null;
+			var t = null;
 			var formpage = '',filters=[],styles={};
 			var IsPermission = false;
 			mui.init({
@@ -67,28 +68,11 @@
 				// 显示页面
 				ws.show('slide-in-bottom');
 				// 开始扫描
-				if(mui.os.ios){
-					ws.addEventListener('show', function(){
-						scan = new plus.barcode.Barcode('barcode',filters,styles);
-						scan.onmarked = onmarked;
-						scan.start();
-					}, false);
-				}else{
-					setTimeout(function(){  
-						startRecognize();  
-						scan.start();  
-					},200);
-// 					ws.addEventListener('show', function(){
-// 						console.log(IsPermission)
-// 						if (IsPermission) { 
-// 							scan = new plus.barcode.Barcode('barcode',filters,styles);
-// 							scan.onmarked = onmarked;
-// 							scan.start();
-// 						}else{
-// 							$(".tip").text("相机未设置权限");
-// 						}													
-// 					}, false);
-				}						
+				ws.addEventListener('show', function(){
+					scan = new plus.barcode.Barcode('barcode',filters,styles);
+					scan.onmarked = onmarked;
+					scan.start();
+				}, false);				
 			}
 			// 创建扫描控件
 			function startRecognize() {

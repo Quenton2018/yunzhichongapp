@@ -179,7 +179,8 @@ plusUtils.Share = {
 	 * @param {plus.share.ShareService} s  
 	 */   
     shareMessage:function(msg, s, callback) {  
-        s.send(msg,function() {
+        s.send(msg,function(e) {
+			console.log(e)
 			toast("分享成功");
             console.log("分享到\"" + s.description + "\"成功！ ");
 			callback && callback(true);
@@ -328,6 +329,19 @@ plusUtils.appPage = {
 			var ws = plus.webview.currentWebview();
 			//plus.webview.close(ws);
 			setTimeout(function(){
+				ws.close("none");
+			},1500);
+			openWebview(url);
+		}else{
+			window.location.href = url;
+		}
+	},
+	closeAndRefreshUrl: function(url) {
+		if(mui.os.plus){
+			var ws = plus.webview.currentWebview();
+			var wo = ws.opener();
+			setTimeout(function(){
+				wo.evalJS("dataRefresh()");
 				ws.close("none");
 			},1500);
 			openWebview(url);
@@ -501,6 +515,9 @@ var enableRefresh = function(){
 			}
 		}
 	}
+	document.addEventListener("tap", function(e) {
+		e.target.className && (e.target.className.indexOf("mui-go-back") > -1) && mui.back();
+	});
 	// DOMContentLoaded事件处理
 	document.addEventListener('DOMContentLoaded',function(){
 		if(!mui.os.plus){
@@ -524,10 +541,6 @@ var enableRefresh = function(){
 			w.close();
 		}
 	};
-	window.addEventListener("tap", function(e) {
-		console.log(e.target.className)
-		e.target.className && (e.target.className.indexOf("mui-go-back") > -1) && mui.back();
-    });
 	// 处理点击事件
 	var openw = null;
 	/**
@@ -709,9 +722,7 @@ function loginOut(){
 		if (event.index == 0) return;
 		clearLogin();
         layer.msg("退出登录成功");
-        setTimeout(function(){
-            openWebview('login.html','登录',false);
-        },1000);
+        openWebview('login.html','登录',false);
 	}, 'div');
 }
 
