@@ -71,6 +71,10 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var clientInfo;
+		mui.plusReady(function(){
+			clientInfo = plus.push.getClientInfo().clientid || null;
+		});
 		var isLock = false; //是否锁定
         var time = 60; //倒计时
         var timeInterval; //定时器
@@ -138,7 +142,6 @@
                 layer.msg("验证码不能为空");
                 return;
             }       
-            var clientInfo = plus.push.getClientInfo().clientid;
             var params = {
                 "clientInfo":clientInfo,
                 "mobile": mobile,

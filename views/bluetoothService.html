@@ -29,7 +29,6 @@
 	<header class="header header-immersed mui-bar mui-bar-nav">
 		<a class="mui-go-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     	<h1 class="mui-title">蓝牙设备列表</h1>
-		<a class="mui-btn-link mui-icon-right-nav mui-pull-right">断开蓝牙连接</a>
 	</header>
 	<div class="mui-content">
 		<ul class="mui-table-view" id="itemList">
@@ -41,6 +40,7 @@
 			<li class="mui-table-view-cell" onclick="openService('{{item.deviceId}}','{{item.name}}')">
 				<a class="mui-navigate-right">
 					<p class="list-name">{{item.name}}</p>
+					<p class="list-deviceId">{{item.deviceId}}</p>	
 					{{if item.advertisServiceUUIDs}}
 						<p class="list-desc">[{{item.RSSI}}db]，可连接，{{item.advertisServiceUUIDs.length}}个服务</p>
 					{{else}}
@@ -56,7 +56,7 @@
 		mui.plusReady(function(){
 			switch(plus.os.name) {  
 				case "Android":  
-					bleIOS();  
+					bleAndroid();  
 					break;  
 				case "iOS":  
 					bleIOS();    
@@ -67,196 +67,104 @@
 					break;  
 			} 		
 		});
-// 		function bleAndroid(){
-// 			scanBlue(function(res){
-// 				console.log(JSON.stringify(res))
-// 				console.log(res.name)
-// 			}) 			
-// 		}
-// 		function scanBlue(callback){
-// 			//获取android应用Activity对象  
-// 			var main = plus.android.runtimeMainActivity();  
-// 			//过滤器  
-// 			var IntentFilter = plus.android.importClass('android.content.IntentFilter');  
-// 			//蓝牙设备  
-// 			var BluetoothDevice = plus.android.importClass("android.bluetooth.BluetoothDevice");  
-// 			//蓝牙适配器  
-// 			var BluetoothAdapter = plus.android.importClass("android.bluetooth.BluetoothAdapter");  
-// 			
-// 			var filter = new IntentFilter();  
-// 			var BDevice = new BluetoothDevice();  
-// 			//蓝牙本地适配器  
-// 			var BAdapter = BluetoothAdapter.getDefaultAdapter();  
-// 			
-// 			// 判断是否开启蓝牙  
-// 			if(!BAdapter.isEnabled()) {  
-// 				BAdapter.enable(); //启动蓝牙  
-// 			}  
-// 			BAdapter.startDiscovery(); //开启搜索  
-// 			
-// 			var receiver = plus.android.implements('io.dcloud.android.content.BroadcastReceiver', {  
-// 				onReceive: function(context, intent) { //回调  
-// 					try {                 
-// 						plus.android.importClass(intent); //通过intent实例引入intent类  
-// 						if(intent.getAction() == "android.bluetooth.adapter.action.DISCOVERY_FINISHED") {  
-// 							main.unregisterReceiver(receiver); //取消监听     
-// 						} else {  
-// 							//从Intent中获取设备对象  
-// 							BDevice = intent.getParcelableExtra(BluetoothDevice);  
-// 			
-// 							if(BDevice == null) {  
-// 								main.unregisterReceiver(receiver); //取消监听  
-// 								return;  
-// 							}  
-// 							console.log(JSON.stringify(BDevice))
-// 							// var name = BDevice.getAddress() + BDevice.getName();  
-// 							// if(deviceList.indexOf(name) == -1){     //去重  
-// 								deviceList.push({
-// 									"name":BDevice.getName(),
-// 									"address":BDevice.getAddress(),
-// 									"rssi":BDevice.getRssi()
-// 								});   								   
-// 							// }
-// 							callback(deviceList);							
-// 						}  
-// 					} catch(e) {  
-// 						console.error(e);  
-// 					}  
-// 				}  
-// 			});  
-// 			
-// 			//main.unregisterReceiver(receiver); //取消监听，这一步可以不需要  
-// 			
-// 			filter.addAction(BDevice.ACTION_FOUND);  
-// 			filter.addAction(BAdapter.ACTION_DISCOVERY_STARTED);  
-// 			filter.addAction(BAdapter.ACTION_DISCOVERY_FINISHED);  
-// 			filter.addAction(BAdapter.ACTION_STATE_CHANGED);  
-// 			main.registerReceiver(receiver, filter); //注册监听
-// 		}
-		function bleIOS(){
+		var main,BluetoothAdapter,BAdapter;
+		function bleAndroid(){
+			main = plus.android.runtimeMainActivity();  
+			BluetoothAdapter = plus.android.importClass("android.bluetooth.BluetoothAdapter"); 
+ 			BAdapter = BluetoothAdapter.getDefaultAdapter(); 
+			if(!BAdapter.isEnabled()) {  
+                BAdapter.enable(); //启动蓝牙  
+            }
+			openBluetoothAdapter(); //开启搜索
+		}
+		function bleIOS(){		
+			openBluetoothAdapter(); //开启搜索
+		}
+		function openBluetoothAdapter(){
 			//开启蓝牙
 			plus.bluetooth.openBluetoothAdapter({
 				success:function(e){
 					console.log('open success: '+JSON.stringify(e));
-					//开始搜索蓝牙设备
-					plus.bluetooth.startBluetoothDevicesDiscovery({
-						interval:0,
-						success: function(e){
-							console.log('开始搜索成功!'+JSON.stringify(e));
-						},
-						fail: function(e){
-							console.log('开始搜索失败! '+JSON.stringify(e));
-						}
-					});
+					startBluetoothDiscovery();
 				},
 				fail:function(e){
 					console.log('open failed: '+JSON.stringify(e));
 				}
 			});
-			plus.bluetooth.onBLEConnectionStateChange(function(e){
-				console.log('监听蓝牙适配器状态变化事件: '+JSON.stringify(e));
-// 				if(deviceId == e.deviceId){	// 更新连接状态
-// 					bconnect = e.connected;
-// 				}
-			});
-			//  监听搜索到新设备 
-			onBluetoothDeviceFound();		
 		}
-		plusRefresh(function(){
-// 			plus.bluetooth.stopBluetoothDevicesDiscovery({
-// 				success:function(e){
-// 					console.log('停止设备搜索成功: '+JSON.stringify(e));
-// 					plus.bluetooth.startBluetoothDevicesDiscovery({
-// 						success: function(e){
-// 							console.log('开始搜索成功!'+JSON.stringify(e));
-// 						},
-// 						fail: function(e){
-// 							console.log('开始搜索失败! '+JSON.stringify(e));
-// 						}
-// 					});
-// 				},
-// 				fail:function(e){
-// 					console.log('start discovery failed: '+JSON.stringify(e));
-// 				}
-// 			});
-			loadData();		
-		});
-		function onBluetoothDeviceFound(){
+		//开始搜索蓝牙设备
+		function startBluetoothDiscovery(){								
+			plus.bluetooth.startBluetoothDevicesDiscovery({
+				interval:0,
+				success: function(e){
+					console.log('开始搜索成功!'+JSON.stringify(e));	
+					//  监听搜索到新设备 
+					getBlueList();
+				},
+				fail: function(e){
+					console.log('开始搜索失败! '+JSON.stringify(e));
+				}
+			});
+		}
+		function stopBluetoothDiscovery(){								
+			plus.bluetooth.stopBluetoothDevicesDiscovery({
+				interval:0,
+				success: function(e){
+					console.log('停止搜索成功!'+JSON.stringify(e));	
+				},
+				fail: function(e){
+					console.log('停止搜索失败! '+JSON.stringify(e));
+				}
+			});
+		}
+		//  监听搜索到新设备 
+		function getBlueList(){	
 			plus.bluetooth.onBluetoothDeviceFound(function(e){
-				var devices = e.devices;
-				console.log('发现设备: ' + JSON.stringify(e));
+				var devices = e.devices;		
 				for(var i in devices){
 					var device = devices[i];
-					console.log("device"+JSON.stringify(device))
-					if(device.deviceId){
+					console.log('发现设备: ' + JSON.stringify(device));
+					if(device.deviceId && device.name){
 						deviceList.push(device);
 					}					
-				}
+				}			
 				plusUtils.Storage.setItem('deviceList',JSON.stringify(deviceList));
-				var deviceJSON = JSON.parse(plusUtils.Storage.getItem('deviceList'));
-				console.log("蓝牙设备列表："+JSON.stringify(deviceJSON));
+				loadData();	
+			});		
+		}
+		plusRefresh(function(){
+			if( mui.os.android && !BAdapter.isEnabled()) {  
+			    BAdapter.enable(); //启动蓝牙
+				startDiscovery(); //开启搜索
+			}else{
+				loadData();
+			}				
+		});
+		function loadData(){		
+			var deviceJSON = JSON.parse(plusUtils.Storage.getItem('deviceList'));
+			if(vaildeParam(deviceJSON)){
 				var itemHtml = '';
 				var data = {'list':deviceJSON};
 				var itemHtml = template('listTmpl', data);
 				$("#itemList").html(itemHtml);
-			});
-			loadData();	
-		}
-		mui('.mui-btn-link').on('tap',function(){
-			layer.msg('11');
-			closeConnection();
-		});
-		// 断开蓝牙设备
-		function closeConnection(){
-			layer.msg('11');
-// 			var deviceId = plusUtils.Storage.getItem('deviceId');
-// 			plus.bluetooth.closeBLEConnection({
-// 				deviceId:deviceId,
-// 				success:function(e){
-// 					console.log('close success: '+JSON.stringify(e));
-// 				},
-// 				fail:function(e){
-// 					console.log('close failed: '+JSON.stringify(e));
-// 				}
-// 			});
-		}
-		function loadData(){
-			var deviceJSON = JSON.parse(plusUtils.Storage.getItem('deviceList'));
-			var itemHtml = '';
-			var data = {'list':deviceJSON};
-			var itemHtml = template('listTmpl', data);
-			$("#itemList").html(itemHtml);
+			}else{
+				layer.msg("正在搜索设备");
+			}		
 		}
 		function openService(deviceId,name){
 			plusUtils.Storage.setItem('deviceId',deviceId);
-			// openWebview('bluetoothService.html',false,true);
+			plusUtils.Storage.setItem('name',name);
 			plus.bluetooth.createBLEConnection({
 				deviceId:deviceId,
 				success:function(e){				
 					layer.msg('设备：'+name+'--连接成功');
-					openWebview('bluetoothService.html');
-					// getServices(deviceId);
+					stopBluetoothDiscovery();
+					openWebview('bluetooth.html');
 				},
 				fail:function(e){
 					layer.msg('连接失败: '+JSON.stringify(e));
 				}
 			});			
-		}
-		// 获取蓝牙设备的所有服务
-		function getServices(deviceId){
-			plus.bluetooth.getBLEDeviceServices({
-				deviceId:deviceId,
-				success:function(e){
-					var services = e.services;
-					console.log('get services success: '+services.length);
-					for(var i in services){
-						console.log(i+': '+JSON.stringify(services[i]));
-					}
-				},
-				fail:function(e){
-					console.log('get services failed: '+JSON.stringify(e));
-				}
-			});
 		}
 	</script>
 </body>

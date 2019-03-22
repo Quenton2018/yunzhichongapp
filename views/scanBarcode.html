@@ -15,18 +15,20 @@
 		<script src="../js/common.js"></script>
 		<style type="text/css">
 			.barcode{width:100%;position:absolute;top:0px;bottom:0;text-align:center;}
-			.tip{color:#FFFFFF;font-weight:bold;}		
+			.tip{color:#fff;font-weight:bold;}		
 		</style>
 		<script type="text/javascript">
 			var ws = null,wo = null;
 			var scan = null;
 			var t = null;
-			var formpage = '',filters=[],styles={};
+			var formpage = '',filters=[],styles={};					
 			var IsPermission = false;
+			var FileRequest;
 			mui.init({
 				beforeback: function() {
 					if(scan){
 						scan.close();
+						// mui.os.android && FileRequest && wo && wo.reload();
 					}
 				}
 			})
@@ -65,22 +67,22 @@
 				openScan(IsPermission);		
 			}
 			function openScan(IsPermission){
-				// 显示页面
-				ws.show('slide-in-bottom');
 				// 开始扫描
 				ws.addEventListener('show', function(){
 					scan = new plus.barcode.Barcode('barcode',filters,styles);
 					scan.onmarked = onmarked;
 					scan.start();
-				}, false);				
+				}, false);
+				// 显示页面
+				ws.show('slide-in-bottom');				
 			}
 			// 创建扫描控件
-			function startRecognize() {
-				if(!scan){
-					scan = new plus.barcode.Barcode('barcode',filters,styles);
-					scan.onmarked = onmarked;
-				}
-			}
+// 			function startRecognize() {
+// 				if(!scan){
+// 					scan = new plus.barcode.Barcode('barcode',filters,styles);
+// 					scan.onmarked = onmarked;
+// 				}
+// 			}
 			// 二维码扫描成功
 			function onmarked(type, result, file){
 			    switch(type){
@@ -139,8 +141,7 @@
 			}
 			function checkPermission(){
 				var CAMERA_P = plus.navigator.checkPermission("CAMERA");
-				var FileRequest = plusUtils.Storage.getItem('FileRequest'); //第一次请求
-				console.log(CAMERA_P)
+				FileRequest = plusUtils.Storage.getItem('FileRequest'); //第一次请求
 				switch(CAMERA_P){
 					case 'authorized':
 						console.log('已开启拍照权限');

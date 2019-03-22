@@ -28,7 +28,7 @@
         img{width:100%;}
 	</style>
 </head>
-<body style="background: #fff;">
+<body>
     <header class="header header-immersed mui-bar mui-bar-nav">
 		<a class="mui-go-back mui-icon mui-icon-left-nav mui-pull-left"></a>
     	<h1 class="mui-title">商品详情</h1>
@@ -121,14 +121,14 @@
             postJSON(API_URL.ApiMemberInfo,{"uuid":uuid},function(res){
                 if("0" == res.code){
                     var points = res.data.points;
-                    var productPoints =  $("#yunzuang").text();
+                    var productPoints = $("#yunzuang").text();
                     var totalMoney = res.data.totalMoney;
-                    var duihuanyue =  $("#duihuanyue").text();
-                    var points1 =   parseFloat(points);
+                    var duihuanyue = $("#duihuanyue").text();
+                    var points1 = parseFloat(points);
                     var productPoints1 = parseFloat(productPoints);
-                    var totalMoney1 =   parseFloat(totalMoney);
-                    var duihuanyue1 =    parseFloat(duihuanyue);
-                    if( (points1 > productPoints1) && (totalMoney1>duihuanyue1)  ){
+                    var totalMoney1 = parseFloat(totalMoney);
+                    var duihuanyue1 = parseFloat(duihuanyue);
+                    if( (points1 >= productPoints1) && (totalMoney1 >= duihuanyue1)){
                         openWebview("mallAddress.html",true);
                     }else{
                         layer.msg("您的云钻或余额不足,无法兑换");

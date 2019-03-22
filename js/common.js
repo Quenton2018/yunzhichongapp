@@ -479,7 +479,7 @@ var enableRefresh = function(){
 	var ws = null,as = 'pop-in';
 	function plusReady(){
 		w.uuid = plusUtils.Storage.getItem("uuid");
-		console.log("## uuid ## "+uuid);
+		debug && console.log("## uuid ## "+uuid);
 		// Android处理返回键
 		plus.key.addEventListener('backbutton',function(){
 			back();
@@ -491,7 +491,21 @@ var enableRefresh = function(){
 	}else{
 		document.addEventListener('plusready',plusReady,false);
 	}
-	window.onload = function(){
+	document.addEventListener("tap", function(e) {
+		e.target.className && (e.target.className.indexOf("mui-go-back") > -1) && mui.back();
+	});
+	window.ontouchmove = function(e){//滑动就隐藏
+	    mui.os.ios && $('input').blur();
+	};
+	// DOMContentLoaded事件处理
+	document.addEventListener('DOMContentLoaded',function(){
+		if(!mui.os.plus){
+			w.uuid = plusUtils.Storage.getItem("uuid");
+			debug && console.log("###uuid##"+uuid);
+		}
+		document.body.onselectstart = shield;
+	},false);
+	window.onload = function (){		
 		var immersed = 0;
 		var topoffset = 44;
 		var ms=(/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
@@ -515,17 +529,6 @@ var enableRefresh = function(){
 			}
 		}
 	}
-	document.addEventListener("tap", function(e) {
-		e.target.className && (e.target.className.indexOf("mui-go-back") > -1) && mui.back();
-	});
-	// DOMContentLoaded事件处理
-	document.addEventListener('DOMContentLoaded',function(){
-		if(!mui.os.plus){
-			w.uuid = plusUtils.Storage.getItem("uuid");
-			console.log("###uuid##"+uuid);
-		}
-		document.body.onselectstart=shield;
-	},false);
 	// 处理返回事件
 	w.back = function(hide){
 		if(w.plus){
@@ -609,13 +612,32 @@ function postJSON(url, data, success, isIcon){
 		toast("网络异常，请检查网络设置！");
 		return false;
 	}
+	//获取经纬度
+	var geolocationGroup = plusUtils.Storage.getItem("geolocationGroup"),geolocationJSON;
+		geolocationGroup && (geolocationJSON = JSON.parse(geolocationGroup));
+	var	deviceId = mui.os.plus ? plus.device.uuid : '';
+	var	pushId	 = mui.os.plus ? plus.push.getClientInfo().clientid : '';
+	var	deviceType = mui.os.plus ? plus.device.model : '';
+	var platform = mui.os.ios ? 'ios' : 'android';
+	var headerNames = {
+		'accessToken':'',
+		'version':appVersion,
+		'userId':uuid,
+		"longitude":geolocationJSON && geolocationJSON.longitude,
+		"latitude":geolocationJSON && geolocationJSON.latitude,   
+		'deviceId':deviceId,
+		'pushId':pushId,
+		'deviceType':deviceType,
+		'platform':platform
+	}
+	console.log("## headers: " + JSON.stringify(headerNames));
 	// !mui.os.plus && (url += "?"+ $.param(data));
 	!isIcon && showLoading("正在加载...");
 	mui.ajax({
 		url :url,
 		data:data,
 		headers:{
-			'appVersion':appVersion
+			headerNames:headerNames		
 		},
 		dataType:'json',//服务器返回json格式数据
 		type:'post',//HTTP请求类型
@@ -630,7 +652,7 @@ function postJSON(url, data, success, isIcon){
 		},
 		error:function(res){
 			console.log(res);
-			!isIcon &&  hideLoading();
+			!isIcon && hideLoading();
 			success && success({code:408,msg:"系统服务繁忙，请稍后再试！"});	
 		}
 	});
@@ -809,16 +831,13 @@ function formatMsgTime (timespan) {
  * @param {Object} callback
  */
 function loadImage(url, callback) {
-	console.log("## loadImage ## url:" + url)
 	var img = new Image(); //创建一个Image对象，实现图片的预下载
 	img.src = url;
 	if(img.complete) { // 如果图片已经存在于浏览器缓存，直接调用回调函数
-		console.log("## loadImage ## complete")
 		callback.call(img);
 		return; // 直接返回，不用再处理onload事件
 	}
 	img.onload = function() { //图片下载完毕时异步调用callback函数。
-		console.log("## loadImage ## onload")
 		callback.call(img); //将回调函数的this替换为Image对象
 	};
 }
