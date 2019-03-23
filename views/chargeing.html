@@ -247,8 +247,8 @@
 			}
 			postJSON(API_URL.TrunOffCharge,params,function(res){
 				if ("0" == res.code) {
-					window.clearInterval(t);				
-					plusUtils.appPage.closeAndRefreshUrl("chargeDetail.html?orderNo="+orderNo);
+					window.clearInterval(t);				        			
+					plusUtils.appPage.closeAndBackUrl("chargeDetail.html?orderNo="+orderNo);										
 				} else {
 	        		layer.msg(res.msg);
 	        	}

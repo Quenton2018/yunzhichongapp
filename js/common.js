@@ -1,4 +1,4 @@
-var debug = false;
+var debug = true;
 /**
  * plus公共工具类
  * @class plusUtils
@@ -162,7 +162,7 @@ plusUtils.Share = {
 	init:function(){
 		var slef = this;
 		// 更新分享服务  
-	    plus.share.getServices(function(s) {  
+	    mui.os.plus && plus.share.getServices(function(s) {  
 	        slef.shares = {};  
 	        for(var i in s) {  
 	            var t = s[i];  
@@ -630,11 +630,12 @@ function postJSON(url, data, success, isIcon){
 		'deviceType':deviceType,
 		'platform':platform
 	}
-	console.log("## headers: " + JSON.stringify(headerNames));
+	debug && console.log("## url: " + url);
+	// debug && console.log("## headers: " + JSON.stringify(headerNames));
+	debug && console.log("## params: " + JSON.stringify(data));
 	// !mui.os.plus && (url += "?"+ $.param(data));
 	!isIcon && showLoading("正在加载...");
-	mui.ajax({
-		url :url,
+	mui.ajax(url,{
 		data:data,
 		headers:{
 			headerNames:headerNames		
@@ -645,13 +646,11 @@ function postJSON(url, data, success, isIcon){
 		success:function(res){
 			var responseText = JSON.stringify(res);
 			!isIcon && hideLoading();
-			success && success(res);		
-			debug && console.log("## url: " + url);
-			debug && console.log("## params: " + JSON.stringify(data));
+			success && success(res);				
 			debug && console.log("## responseText: " + responseText);
 		},
-		error:function(res){
-			console.log(res);
+		error:function(xhr,type,errorThrown){
+			debug && console.log(url + "接口请求失败 :" + xhr.responseText);
 			!isIcon && hideLoading();
 			success && success({code:408,msg:"系统服务繁忙，请稍后再试！"});	
 		}

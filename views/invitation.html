@@ -89,9 +89,14 @@
 		</ul>
 	</div>
 	
-	<script src="../js/qrcode.min.js"></script>
+	<script src="../js/jquery.qrcode.min.js"></script>
 	<script type="text/javascript">
 		var shareUrl = null;
+		mui.init({
+			gestureConfig:{
+				longtap:true
+			}
+		});
 		plusUtils.pageReady(function() {
 			getInvitationStatistics();
 			plusUtils.Share.init();
@@ -99,13 +104,40 @@
         	shareUrl = PAGE_URL.INVITATION+"?mobile="+mobile;
 			document.getElementById("inviteBtn").addEventListener("tap", function() {
 	            mui("#popover").popover('toggle');
-	        });	        
+	        });
+			mui('body').on('longtap', '.qrcodeBox', function() {  
+				var actionList = {title:'操作',cancel:"取消",buttons:[{title:"保存图片到相册"}]};   
+                //弹出actionSheet选项  
+                plus.nativeUI.actionSheet(actionList,function(e){  
+					if(e.index==1){ 						
+						var ws = plus.webview.currentWebview();
+						var bitmap = new plus.nativeObj.Bitmap('qrcode');   
+						ws.draw(bitmap,function(){ 	 
+							bitmap.save("_doc/yzc_invition.png", {overwrite: true}, function (e) {
+								// console.log(JSON.stringify(e))
+								//保存到相册  
+								plus.gallery.save(e.target, function () {
+									bitmap.clear(); 
+									layer.msg("图片已保存到相册");  
+								}, function () {
+									bitmap.clear(); 
+									layer.msg("图片保存失败");  
+								});  
+							}, function () {  
+								layer.msg("图片保存失败");  
+							});  
+						}, function () {  
+							layer.msg("图片保存失败");  
+						});  
+					}
+				});
+			});  
 		});	
 		// 微信分享
 		function shareAction(index){
 			plusUtils.Share.appshare({
 				type:'web',
-				thumbs:['_www/img/logo.png'],
+				thumbs:['../img/logo.png'],
 				href:shareUrl,
 				title:'云智充智能共享充电桩',
 				content:'云智充欢迎您加入，安全充电，即停即充，共享充电，引导智能小区新潮流。'
@@ -113,26 +145,22 @@
 				mui("#popover").popover('toggle');
 			});	  
 		}
-		function randomString(e) {    
-			e = e || 32;
-			var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
-			a = t.length,
-			n = "";
-			for (i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
-			return n
-		}
 		$("#showQrcode").click(function () {
-            var id = 'Qrcode_' + randomString(20);
+			mui("#popover").popover('toggle');
             layer.open({
-                title: '扫一扫',
-                content: '<div class="qrcodeBox" style="width: 200px;height: 200px" id="'+id+'"></div>',
+                title: '长按保存图片',
+                content: '<div class="qrcodeBox" style="width: 200px;height: 200px" id="qrcodeCanvas"></div>',
                 btn:{}
             });
-            var qrcode = new QRCode(document.getElementById(id), {
-                width : 200,
-                height : 200
-            });
-            qrcode.makeCode(shareUrl);
+			$("#qrcodeCanvas").qrcode({
+				render : "canvas",    //设置渲染方式，有table和canvas，使用canvas方式渲染性能相对来说比较好
+				text : shareUrl,    //扫描二维码后显示的内容,可以直接填一个网址，扫描二维码后自动跳向该链接
+				width : 200,               //二维码的宽度
+				height : 200,              //二维码的高度
+				background : "#fff",       //二维码的后景色
+				foreground : "#000",       //二维码的前景色
+				src: '../img/logo.png'     //二维码中间的图片
+			});
         });
 		/**
      	* 获取邀请统计数据

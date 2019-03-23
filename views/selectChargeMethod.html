@@ -350,7 +350,7 @@
 						guide();
 					}
 				}
-			})
+			},true)
 		}
 	}
 	//根据片区id获取充电桩桩号
@@ -629,14 +629,14 @@
 	function scaned(type, result, file) {
 		if(!vaildeParam(result)) {
 			return;
-		}
-		if(type == 'QR'){
-			result = getQueryString("shell");
-			if(!vaildeParam(result)){
-				layer.msg("请扫描充电桩二维码下的条形码");
-				return;
-			}
-		}
+		}	
+// 		if(type == 'QR' && result.indexOf("?shell=") != -1){
+// 			result = result.split("=")[1];
+// 			if(!vaildeParam(result)){
+// 				layer.msg("请扫描充电桩二维码下的条形码");
+// 				return;
+// 			}
+// 		}
 		postJSON(API_URL.ApiChargingInfoByShellId, {'shellId': result}, function(res) {
 			if('0' == res.code) {
 				scanCdzID = res.data.id;

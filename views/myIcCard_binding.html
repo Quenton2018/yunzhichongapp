@@ -52,6 +52,7 @@
 	<script type="text/javascript">
 		mui.init();
 		plusUtils.pageReady(function(){
+
 			mui("body").on("tap","#submitBtn",function(){
 				doHandle();
 			});
@@ -72,8 +73,8 @@
 				}, function(res) {
 					if (res.code == '0') {
 						layer.msg('绑定成功',{time:1000},function(){
-							plusUtils.appPage.openerEvalJS();
-				        	back();
+							plusUtils.appPage.closeOpener();
+							plusUtils.appPage.closeAndBackUrl("myIcCard.html");
 						});
 					} else {
 						layer.msg(res.msg);

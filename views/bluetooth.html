@@ -48,8 +48,8 @@
 			<button class="mui-btn mui-btn-primary right" onclick="getCharacteristics()">获取服务中所有特征值</button>
 		</div>
 		<div class="mui-row">
-			<input type="text" class="write-input mui-input-clear" placeholder="请输入发送数据">
-			<button class="mui-btn mui-btn-primary right" onclick="writeCharacteristics()">写入数据</button>
+			<input type="text" class="write-input mui-input-clear" placeholder="请输入发送数据" value="123456789">
+			<!-- <button class="mui-btn mui-btn-primary right" onclick="writeCharacteristics()">写入数据</button> -->
 		</div>		
 		<div class="mui-row">	
 			<div class="read-main">
@@ -62,8 +62,12 @@
 	</div>
 	<script type="text/javascript">
 		var deviceId = 'D9:09:A7:5A:45:90';
-		var name = '蓝牙测试';
 		// var deviceId = 'D49A570D-44F6-EC37-71B1-5F52A07866BB';
+		var serviceId = '00001800-0000-1000-8000-00805F9B34FB';
+		var characteristicId = '0000FFF1-0000-1000-8000-00805F9B34FB'; // write notify
+		// characteristicId = '0000FFF3-0000-1000-8000-00805F9B34FB'; // write read
+		var name = '蓝牙测试';
+
 		mui.init({
 			beforeback: function() {
 				if(deviceId){			
@@ -85,7 +89,6 @@
 				success:function(e){
 					console.log('打开蓝牙成功: '+JSON.stringify(e));
 					getServices();
-					getCharacteristics();
 				},
 				fail:function(e){
 					console.log('打开蓝牙失败: '+JSON.stringify(e));
@@ -110,40 +113,46 @@
 				deviceId:deviceId,
 				success:function(e){
 					var services = e.services;
-					console.log('get services success: '+services.length);
+					console.log('获取蓝牙服务 success: ' + services.length);
 					for(var i in services){
-						console.log(i+': '+JSON.stringify(services[i]));					
-						getCharacteristics(services[i].uuid);
+						var servicesList = services[i];
+						console.log(i + ': ' + JSON.stringify(servicesList));
+						serviceId = servicesList.uuid;
+						getCharacteristics();
 					}
 				},
 				fail:function(e){
-					console.log('get services failed: '+JSON.stringify(e));
+					console.log('获取蓝牙服务 failed: '+JSON.stringify(e));
 				}
 			});
 		}
-		
-		// var serviceId = '00001800-0000-1000-8000-00805F9B34FB';
-		
+			
 		// 获取蓝牙设备指定服务中所有特征值
-		function getCharacteristics(serviceId){
+		function getCharacteristics(){
+			console.log("deviceId:" + deviceId + " serviceId:" + serviceId)
 			plus.bluetooth.getBLEDeviceCharacteristics({
 				deviceId:deviceId,
 				serviceId:serviceId,
 				success:function(e){
 					var characteristics = e.characteristics;
-					console.log('get characteristics success: '+characteristics.length);
+					console.log('获取蓝牙特征值 success');
 					for(var i in characteristics){
-						console.log(i+': '+JSON.stringify(characteristics[i]));
+						var characteristicsList = characteristics[i];
+						console.log(i + ': ' + JSON.stringify(characteristicsList));
+						if(characteristicsList.properties.write && characteristicsList.properties.notify){
+							characteristicId = characteristicsList.uuid;
+							console.log("characteristicId:"+characteristicId);
+							writeCharacteristics();
+							startCharacteristicsNotify();
+						}
 					}
 				},
 				fail:function(e){
-					console.log('get characteristics failed: '+JSON.stringify(e));
+					console.log('获取蓝牙特征值 failed: '+JSON.stringify(e));
 				}
 			});
 		}
-		
-		var characteristicId = '0000FFF1-0000-1000-8000-00805F9B34FB'; // write notify
-		// characteristicId = '0000FFF3-0000-1000-8000-00805F9B34FB'; // write read
+	
 // 		var value = new ArrayBuffer(8);
 // 		var iv = new Int32Array(value);
 // 		iv[0] = 120, iv[1] = 100;	
@@ -155,14 +164,16 @@
 			}
 			return buf
 		}
+		
 		// 写入低功耗蓝牙设备的特征值
 		function writeCharacteristics(){
-			var write = $(".write-input").val();
+			var writeVal = $(".write-input").val();
+			console.log("写入参数 deviceId: " + deviceId + " serviceId: "+serviceId+" characteristicId:" + characteristicId + " value:"+writeVal);
 			plus.bluetooth.writeBLECharacteristicValue({
 				deviceId:deviceId,
 				serviceId:serviceId,
 				characteristicId:characteristicId,
-				value:str2ab(write),
+				value:str2ab(writeVal),
 				success:function(e){
 					console.log('写入成功: '+JSON.stringify(e));
 				},
@@ -191,7 +202,7 @@
 		function startCharacteristicsNotify(){
 			// 监听低功耗蓝牙设备的特征值变化 
 			plus.bluetooth.onBLECharacteristicValueChange(function(e){
-				log('监听低功耗蓝牙设备的特征值变化: '+JSON.stringify(e));
+				console.log('监听低功耗蓝牙设备的特征值变化: '+JSON.stringify(e));
 				/* var value = buffer2hex(e.value);
 				console.log('value(hex) = '+value); */
 				if(characteristicId == e.characteristicId){

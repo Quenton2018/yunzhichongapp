@@ -20,9 +20,10 @@
     <style type="text/css">
 		.user-list{padding: 20px;border-bottom: 1px solid #eee;position: relative;}
 		.list-laber{font-size: 16px;color: #333;margin: 0;}
-    	.navigate{position: absolute;right: 24px;top: 20px;font-size: 15px;color: #999;}
     	.btn-submit{margin: 30px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
-    </style>
+		.navigate{position: absolute;right: 40px;top: 20px;font-size: 15px;color: #999;}
+		.navigate.mui-navigate-right:after, .mui-push-right:after{right: -20px;}
+	</style>
 </head>
 <body style="background: #F2F2F2;">
 	<header class="header header-immersed mui-bar mui-bar-nav">
@@ -52,6 +53,10 @@
 				<p class="list-laber">意见反馈</p>
 				<span class="mui-navigate-right"></span>
 			</li>
+			<li class="user-list" onclick="switchEnv()">
+				<p class="list-laber">环境切换</p>
+				<span class="navigate mui-navigate-right"></span>
+			</li>
 		</ul>
 	</div>
 	<div class="btn-submit" onclick="loginOut()">
@@ -59,6 +64,40 @@
 	</div>
 	<script type="text/javascript">
 		mui.init();
+		plusUtils.pageReady(function(){
+			var env = localStorage.getItem("env") || "prod";	
+			switch (env) {
+			    case "prod":
+			        $('.navigate').text('正式环境prod');
+			        break;
+			    case "dev":
+			        $('.navigate').text('开发环境dev');
+			        break;
+				case "test":
+				    $('.navigate').text('本地环境test');
+				    break;
+			    default:
+			}
+		})
+		function switchEnv(){
+			var actionList = {title:'操作',cancel:"取消",buttons:[{title:"正式环境prod"},{title:"开发环境dev"},{title:"本地环境test"}]};   
+			//弹出actionSheet选项  
+			plus.nativeUI.actionSheet(actionList,function(e){
+				if(e.index == 1){ 						
+					localStorage.setItem("env","prod");			
+				}else if(e.index == 2){
+					localStorage.setItem("env","dev");
+				}else if(e.index == 3){
+					localStorage.setItem("env","test");				
+				}else{
+					return false;
+				}
+				layer.msg("正在环境切换")
+				setTimeout(function(){
+					plus.runtime.restart();
+				},1000)
+			});
+		}
 	</script>
 </body>
 </html>

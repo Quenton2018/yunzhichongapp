@@ -51,7 +51,7 @@
 		{{/each}}
 	</script>
 	<script type="text/javascript">		
-		var deviceList = []; // f发现的蓝牙设备列表
+		var deviceList = []; // 发现的蓝牙设备列表
 		mui.init();
 		mui.plusReady(function(){
 			switch(plus.os.name) {  
@@ -81,7 +81,7 @@
 			openBluetoothAdapter(); //开启搜索
 		}
 		function openBluetoothAdapter(){
-			//开启蓝牙
+			//蓝牙初始化
 			plus.bluetooth.openBluetoothAdapter({
 				success:function(e){
 					console.log('open success: '+JSON.stringify(e));
@@ -132,6 +132,7 @@
 				loadData();	
 			});		
 		}
+		// 下拉刷新
 		plusRefresh(function(){
 			if( mui.os.android && !BAdapter.isEnabled()) {  
 			    BAdapter.enable(); //启动蓝牙

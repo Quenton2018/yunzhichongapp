@@ -1,8 +1,18 @@
-var apiHost = "http://api.jx9n.com";
-// apiHost = "http://39.106.62.16:8181";
-// !mui.os.plus && (apiHost = "http://192.168.2.129:3000");
+// var env = "prod";
+var env = localStorage.getItem("env") || "prod";
+switch (env) {
+    case "prod":
+        var apiHost = "http://api.jx9n.com";
+        break;
+    case "dev":
+        var apiHost = "http://39.106.62.16:8181";
+        break;
+	case "test":
+	    var apiHost = "http://39.106.62.16:8181";
+	    break;
+    default:
+}
 var appVersion = "v3.2.0"; //app当前版本
-
 var API_URL = {};
 API_URL.ApiSmsSendCode = apiHost + "/api/sms/sendCode"; //发送短信接口
 API_URL.ApiMemberRegister = apiHost + "/api/member/register"; //注册接口
