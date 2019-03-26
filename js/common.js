@@ -358,7 +358,7 @@ plusUtils.appPage = {
 			var ws = plus.webview.currentWebview();
 			var wo = ws.opener();
 			do {
-				if (wo.getURL().endsWith(url)) {
+				if (wo.getURL().indexOf(url) > -1) {
 					break;
 				}	
 				var temp = wo.opener();
@@ -630,10 +630,7 @@ function postJSON(url, data, success, isIcon){
 		'deviceType':deviceType,
 		'platform':platform
 	}
-	debug && console.log("## url: " + url);
 	// debug && console.log("## headers: " + JSON.stringify(headerNames));
-	debug && console.log("## params: " + JSON.stringify(data));
-	// !mui.os.plus && (url += "?"+ $.param(data));
 	!isIcon && showLoading("正在加载...");
 	mui.ajax(url,{
 		data:data,
@@ -646,10 +643,14 @@ function postJSON(url, data, success, isIcon){
 		success:function(res){
 			var responseText = JSON.stringify(res);
 			!isIcon && hideLoading();
-			success && success(res);				
+			success && success(res);
+			debug && console.log("## url: " + url);
+			debug && console.log("## params: " + JSON.stringify(data));
 			debug && console.log("## responseText: " + responseText);
 		},
 		error:function(xhr,type,errorThrown){
+			debug && console.log("## url: " + url);
+			debug && console.log("## params: " + JSON.stringify(data));
 			debug && console.log(url + "接口请求失败 :" + xhr.responseText);
 			!isIcon && hideLoading();
 			success && success({code:408,msg:"系统服务繁忙，请稍后再试！"});	

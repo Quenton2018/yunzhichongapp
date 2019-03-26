@@ -8,7 +8,7 @@ switch (env) {
         var apiHost = "http://39.106.62.16:8181";
         break;
 	case "test":
-	    var apiHost = "http://39.106.62.16:8181";
+	    var apiHost = "http://192.168.2.102:8181";
 	    break;
     default:
 }

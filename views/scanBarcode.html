@@ -13,6 +13,7 @@
 		<script src="../js/fastclick.js"></script>
 		<script src="../js/base.js"></script>
 		<script src="../js/common.js"></script>
+		<script src="../plugins/layer/layer.js"></script>
 		<style type="text/css">
 			.barcode{width:100%;position:absolute;top:0px;bottom:0;text-align:center;}
 			.tip{color:#fff;font-weight:bold;}		
@@ -142,8 +143,13 @@
 			function checkPermission(){
 				var CAMERA_P = plus.navigator.checkPermission("CAMERA");
 				FileRequest = plusUtils.Storage.getItem('FileRequest'); //第一次请求
+				console.log(CAMERA_P)
 				switch(CAMERA_P){
 					case 'authorized':
+						console.log('已开启拍照权限');
+						return true;
+						break;
+					case 'notdeny':
 						console.log('已开启拍照权限');
 						return true;
 						break;
@@ -167,7 +173,7 @@
 						return false;
 						break;
 					default:
-						layer.msg('系统不支持相机权限');
+						console.error('系统不支持相机权限');
 						return false;
 						break;
 				}

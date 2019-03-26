@@ -493,9 +493,8 @@
 		$('#chargingPriceDesc').html(Html);
 		var h1 = $('.box1').outerHeight(),
 			h2 = $('.box2').outerHeight(),
-			h3 = $('.chargingNotes').outerHeight(),
-			h4 = $('.chargingPriceDesc').outerHeight();
-		var Height = h1 + h2 + h3 + h4 + 20 + 60;
+			h3 = $('.chargingPriceDesc').outerHeight();
+		var Height = parseInt(h1) + parseInt(h2) + parseInt(h3) + 80;
 		if(state == '1' || state == '2') {
 			$(".mui-warpper").height(Height);
 		}
