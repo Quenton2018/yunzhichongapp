@@ -141,9 +141,9 @@
 						console.log(i + ': ' + JSON.stringify(characteristicsList));
 						if(characteristicsList.properties.write && characteristicsList.properties.notify){
 							characteristicId = characteristicsList.uuid;
-							console.log("characteristicId:"+characteristicId);
-							writeCharacteristics();
+							console.log("characteristicId:"+characteristicId);							
 							startCharacteristicsNotify();
+							writeCharacteristics();
 						}
 					}
 				},
