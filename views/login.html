@@ -83,7 +83,7 @@
 				plus.runtime.quit();
 	        });
 			plusUtils.Storage.setItem('FileRequest', "true");
-			clientInfo = plus.device.uuid || null;
+			clientInfo = plus.push.getClientInfo().clientid || null;
 		});
 		var usermobile = getQueryString('mobile');
 		if(usermobile){

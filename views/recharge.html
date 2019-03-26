@@ -15,11 +15,12 @@
     <script src="../plugins/layer/layer.js"></script>
     <script src="../js/fastclick.js"></script>
     <script src="../js/base.js"></script>
-    <script src="../js/common.js"></script>   
+    <script src="../js/common.js"></script> 
+	  <script src="../js/artTemplate.min.js"></script>
     <style type="text/css">
 		.myContent{padding-bottom: 1px;}
 		.banner img{width: 100%;}
-    	.h2{font-size: 16px;padding-left: 25px;color: #333;font-weight: bold;padding-top: 20px;}
+    	.h2{font-size: 16px;padding-left: 25px;color: #333;font-weight: bold;padding-top: 15px;}
 		.list-group-item{text-align:left;}
 		.list-group-item span{display:inline-block;width:70px;}
 		.list-group-item:last-child{border-bottom-right-radius:0rem;border-bottom-left-radius:0rem;}
@@ -38,8 +39,11 @@
 		.payType .selectedIcon{position:absolute;right:10px;color:#F68D41;font-size: 24px;}
 		.list-group{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;padding-left:0;margin-bottom:0;}
 		.list-group-item{border:none;position:relative;display:block;text-align:left;padding: 10px 25px;background-color:#fff;}
-		.rmake{display: inline-block;background: #FF5455;color: #fff;border-radius: 15px;font-size: 11px;padding: 0 10px;margin:0 0 0 30px;}
-		.btn-submit{margin: 20px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+		.rmake{display: inline-block;background: #FF5455;color: #fff;border-radius: 15px;font-size: 11px;padding: 0 8px;margin:0 0 0 26px;}
+		.btn-submit{margin: 15px 20px 30px;border-radius: 50px;background:linear-gradient(86deg,rgba(255,156,44,1),rgba(255,109,34,1));}
+		.icon-weixin{font-size:22px;color: #52B547;}
+		.icon-zhifubao{font-size:22px;color: #1DA4E6;}
+		.icon{vertical-align: top;margin-right: 6px;}
 	</style>
 </head>
 <body>
@@ -51,7 +55,7 @@
 	<div class="mui-content" style="background: #fff;">
 		<div class="myContent">
 			<div class="banner">
-				<img src="http://image.jx9n.com/CfZZFhWXFQdshZrzbrii_1553070822709.png">
+				<img class="bannerimg">
 			</div>
 			<h2 class="h2">充值金额</h2>
 			<div class="moneyBox mui-clearfix" id="moneyBox">
@@ -64,22 +68,8 @@
 			</div>						
 			<h2 class="h2">选择支付方式</h2>
 			<div class="payType">
-				<ul class="list-group">
-					<li class="list-group-item selected" data-type='alipay'>
-						<div class="pay-way">
-							<i class="iconfont icon-zhifubao" style="font-size:22px;color: #1DA4E6;"></i> 支付宝
-							<i class="iconfont icon-uncheck selectedIcon"></i>
-							<i class="iconfont icon-check-more selectedIcon"></i>
-						</div>			
-						<p class="rmake">随机优惠金额</p>
-					</li>
-					<li class="list-group-item" data-type='wxpay'>
-						<div class="pay-way">
-							<i class="iconfont icon-weixin" style="font-size:22px;color: #52B547;"></i> 微信支付
-							<i class="iconfont icon-uncheck selectedIcon"></i>
-							<i class="iconfont icon-check-more selectedIcon"></i>
-						</div>	
-					</li>
+				<ul class="list-group" id="itemList">
+					
 				</ul>
 			</div>
 			<div class="btn-submit rechargeSubmitBtn" id="submitBtn">
@@ -87,6 +77,18 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/html" id="listTmpl">
+		{{each list as item index}}
+			<li class="list-group-item {{if index==0}}selected{{/if}}" data-type='{{item.category}}'>
+				<div class="pay-way">					
+					<img class="icon" src="{{item.icon}}" width="20" height="20">{{item.name}}
+					<i class="iconfont icon-uncheck selectedIcon"></i>
+					<i class="iconfont icon-check-more selectedIcon"></i>
+				</div>			
+				<p class="rmake">{{item.remark}}</p>
+			</li>
+		{{/each}}
+	</script>
 	<script type="application/javascript">
         var wxChannel = null; // 微信支付
         var aliChannel = null; // 支付宝支付
@@ -133,32 +135,35 @@
 					});
 					
 					$("#moneyBox").html(html)
-					bindSelectMoney();
 				}else{
 					layer.msg(res.msg);
 				}
 			})		
 		}
 		function getRechargeChannels(){
-// 			postJSON(API_URL.getRechargeChannels,{},function(res){
-// 				console.log(res)
-// 			})
+			postJSON(API_URL.getRechargeChannels,{},function(res){
+				var list = res.data;
+				var itemHtml = '';
+				var data = {'list':list};
+				var itemHtml = template('listTmpl', data);
+				$("#itemList").append(itemHtml);
+				if(res.data[0] && res.data[0].banner){
+					var bannerimg = res.data[0].banner;
+					$(".bannerimg").attr('src',bannerimg);
+				}			
+			})
 		};		
 		/**
 		 * 选择钱点击按钮
 		 */
-		function bindSelectMoney(){
-			$("#moneyBox .item").bind('click',function(){
-				$("#moneyBox .item").removeClass('selected');
-				$(this).addClass('selected');
-			})
-		}		
+		$("body").on('click',"#moneyBox .item",function(){
+			$(this).addClass('selected').siblings().removeClass('selected');
+		})		
 		/**
 		 * 选择支付方式事件
 		 */
-		$(".list-group-item").on('click',function(){
-			$(".payType .list-group-item").removeClass("selected");
-			$(this).addClass("selected");
+		$("body").on('click',".list-group-item",function(){
+			$(this).addClass("selected").siblings().removeClass('selected');
 		})		
 		$(".rechargeSubmitBtn").click(function(){	
 			var uuid = plusUtils.Storage.getItem("uuid");
