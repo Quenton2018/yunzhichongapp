@@ -639,14 +639,14 @@ function postJSON(url, data, success, isIcon){
 		},
 		dataType:'json',//服务器返回json格式数据
 		type:'post',//HTTP请求类型
-		timeout:10000,//超时时间设置为10秒；
+		timeout:15000,//超时时间设置为10秒；
 		success:function(res){
 			var responseText = JSON.stringify(res);
 			!isIcon && hideLoading();
-			success && success(res);
 			debug && console.log("## url: " + url);
 			debug && console.log("## params: " + JSON.stringify(data));
 			debug && console.log("## responseText: " + responseText);
+			success && success(res);
 		},
 		error:function(xhr,type,errorThrown){
 			debug && console.log("## url: " + url);

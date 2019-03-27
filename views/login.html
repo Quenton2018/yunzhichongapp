@@ -126,8 +126,10 @@
                 if("0" == res.code){
                 	$(this).text(time);
             		showTime();
+					isLock = false;
                     layer.msg("发送成功");
                 }else{
+					isLock = false;
                     layer.msg(res.msg);
                 }
             },true)
